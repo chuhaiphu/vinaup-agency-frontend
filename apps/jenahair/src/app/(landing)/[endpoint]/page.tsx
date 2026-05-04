@@ -3,7 +3,7 @@ import {
   getPageByEndpointActionPublic,
 } from '@/actions/page-action';
 import { getAppConfigActionPublic } from '@/actions/app-config-action';
-import DynamicEndpointPageContent from '@/components/mains/landing-page/dynamic-endpoint-page-content/dynamic-endpoint-page-content';
+import DynamicEndpointPageContent from '@/components/landing/page/dynamic-endpoint-page-content/dynamic-endpoint-page-content';
 import notFound from '../not-found';
 
 export async function generateStaticParams() {

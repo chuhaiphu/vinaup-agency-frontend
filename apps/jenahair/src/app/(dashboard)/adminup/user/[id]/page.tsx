@@ -1,4 +1,4 @@
-import AdminUserDetailPageContent from '@/components/mains/admin-user/admin-user-detail-page-content/admin-user-detail-page-content';
+import AdminUserDetailPageContent from '@/components/admin/user/admin-user-detail-page-content/admin-user-detail-page-content';
 import { Suspense } from 'react';
 
 export default async function AdminUserDetailPage({

@@ -1,4 +1,4 @@
-import AdminDiaryCategoryDetailPageContent from '@/components/mains/admin-diary/admin-diary-category-detail-page-content/admin-diary-category-detail-page-content';
+import AdminDiaryCategoryDetailPageContent from '@/components/admin/diary/admin-diary-category-detail-page-content/admin-diary-category-detail-page-content';
 import {
   getAllDiaryCategoriesActionPrivate,
   getAvailableSortOrdersActionPrivate,

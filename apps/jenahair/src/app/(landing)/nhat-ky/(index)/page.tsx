@@ -1,11 +1,11 @@
 import { getAllDiariesActionPublic } from '@/actions/diary-action';
-import DiaryGrid from '@/components/grids/diary-grid/diary-grid';
-import DiaryCategoryTags from '@/components/primitives/diary-category-tags/diary-category-tags';
+import DiaryGrid from '@/components/landing/diary/diary-grid/diary-grid';
+import DiaryCategoryTags from '@/components/landing/diary/diary-category-tags/diary-category-tags';
 import { Stack, Box, Container } from '@mantine/core';
 import classes from './page.module.scss';
 import { Suspense } from 'react';
-import DiaryGridSkeleton from '@/components/grids/diary-grid/diary-grid-skeleton';
-import DiaryCategoryTagsSkeleton from '@/components/primitives/diary-category-tags/diary-category-tags-skeleton';
+import DiaryGridSkeleton from '@/components/landing/diary/diary-grid/diary-grid-skeleton';
+import DiaryCategoryTagsSkeleton from '@/components/landing/diary/diary-category-tags/diary-category-tags-skeleton';
 
 export type DiaryCategoryPageQueryParams = {
   q?: string;

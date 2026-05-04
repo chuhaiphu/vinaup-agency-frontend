@@ -1,6 +1,4 @@
 import slugify from 'slugify';
-import { getTourByEndpointActionPublic } from '@/actions/tour-action';
-import { getTourCategoryByEndpointActionPublic } from '@/actions/tour-category-action';
 import { getPageByEndpointActionPublic } from '@/actions/page-action';
 import { getBlogCategoryByEndpointActionPublic } from '@/actions/blog-category-action';
 import { getBlogByEndpointActionPublic } from '@/actions/blog-action';
@@ -27,8 +25,6 @@ export const sanitizeEndpoint = (input: string): string => {
 };
 
 export type EndpointModel =
-  | 'tour'
-  | 'tour-category'
   | 'blog'
   | 'blog-category'
   | 'diary'
@@ -40,11 +36,6 @@ type EndpointChecker = (
 ) => Promise<ActionResponse<{ id: string } | null>>;
 
 const checkersByModel: Record<EndpointModel, EndpointChecker[]> = {
-  tour: [getTourByEndpointActionPublic, getTourCategoryByEndpointActionPublic],
-  'tour-category': [
-    getTourByEndpointActionPublic,
-    getTourCategoryByEndpointActionPublic,
-  ],
   blog: [getBlogByEndpointActionPublic, getBlogCategoryByEndpointActionPublic],
   'blog-category': [
     getBlogByEndpointActionPublic,

@@ -4,9 +4,9 @@ import classes from './layout.module.scss';
 import { getAppConfigActionPublic } from '@/actions/app-config-action';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
-import LandingHeader from '@/components/headers/landing-header/landing-header';
-import { MaintenanceGuard } from '@/components/guards/maintenance-guard';
-import { SalonLandingFooter } from '@/components/primitives/salon-landing-footer/salon-landing-footer';
+import LandingHeader from '@/components/landing/layout/landing-header/landing-header';
+import { MaintenanceGuard } from '@/components/landing/primitives/maintenance-guard/maintenance-guard';
+import { SalonLandingFooter } from '@/components/landing/layout/salon-landing-footer/salon-landing-footer';
 import { ScrollToTop } from '@vinaup/ui/landing';
 
 export async function generateMetadata(): Promise<Metadata> {

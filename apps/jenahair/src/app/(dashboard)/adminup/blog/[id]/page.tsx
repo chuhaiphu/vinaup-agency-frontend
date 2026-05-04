@@ -1,4 +1,4 @@
-import AdminBlogDetailPageContent from '@/components/mains/admin-blog/admin-blog-detail-page-content/admin-blog-detail-page-content';
+import AdminBlogDetailPageContent from '@/components/admin/blogs/admin-blog-detail-page-content/admin-blog-detail-page-content';
 import { getBlogByIdActionPrivate } from '@/actions/blog-action';
 import { getAllBlogCategoriesActionPrivate } from '@/actions/blog-category-action';
 import { Suspense } from 'react';

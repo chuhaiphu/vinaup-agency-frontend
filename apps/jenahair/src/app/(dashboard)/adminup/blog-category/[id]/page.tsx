@@ -1,4 +1,4 @@
-import AdminBlogCategoryDetailPageContent from '@/components/mains/admin-blog/admin-blog-category-detail-page-content/admin-blog-category-detail-page-content';
+import AdminBlogCategoryDetailPageContent from '@/components/admin/blogs/admin-blog-category-detail-page-content/admin-blog-category-detail-page-content';
 import {
   getAllBlogCategoriesActionPrivate,
   getAvailableSortOrdersActionPrivate,

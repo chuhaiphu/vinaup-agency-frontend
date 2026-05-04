@@ -1,6 +1,6 @@
 import { Group, Text } from '@mantine/core';
-import UsersTable from '@/components/tables/users-table/users-table';
-import UsersTableSkeleton from '@/components/tables/users-table/users-table-skeleton';
+import UsersTable from '@/components/admin/user/users-table/users-table';
+import UsersTableSkeleton from '@/components/admin/user/users-table/users-table-skeleton';
 import { getAllUsersActionPrivate } from '@/actions/user-action';
 import { Suspense } from 'react';
 import classes from './page.module.scss';

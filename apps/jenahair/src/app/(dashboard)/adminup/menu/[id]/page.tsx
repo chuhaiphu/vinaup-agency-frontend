@@ -1,4 +1,4 @@
-import AdminMenuDetailPageContent from '@/components/mains/admin-menu/admin-menu-detail-page-content/admin-menu-detail-page-content';
+import AdminMenuDetailPageContent from '@/components/admin/menu/admin-menu-detail-page-content/admin-menu-detail-page-content';
 import {
   getAllMenusActionPrivate,
   getAvailableSortOrdersActionPrivate,

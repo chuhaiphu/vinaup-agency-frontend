@@ -1,10 +1,10 @@
 import { Group, Text } from '@mantine/core';
-import DiariesTable from '@/components/tables/diaries-table/diaries-table';
+import DiariesTable from '@/components/admin/diary/diaries-table/diaries-table';
 import { getAllDiariesActionPrivate } from '@/actions/diary-action';
 import classes from './page.module.scss';
-import CreateDiaryAction from '@/components/mains/admin-diary/create-diary-action/create-diary-action';
+import CreateDiaryAction from '@/components/admin/diary/create-diary-action/create-diary-action';
 import { Suspense } from 'react';
-import DiariesTableSkeleton from '@/components/tables/diaries-table/diaries-table-skeleton';
+import DiariesTableSkeleton from '@/components/admin/diary/diaries-table/diaries-table-skeleton';
 
 export default async function AdminDiaryPage() {
   const diariesDataPromise = getAllDiariesActionPrivate().then((res) => {

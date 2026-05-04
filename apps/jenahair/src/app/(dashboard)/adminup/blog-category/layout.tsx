@@ -1,10 +1,10 @@
 import { Grid, GridCol, Group, Text } from '@mantine/core';
-import BlogCategoryNav from '@/components/sidebars/blog-category-nav/blog-category-nav';
-import CreateBlogCategoryAction from '@/components/mains/admin-blog/create-blog-category-action/create-blog-category-action';
+import BlogCategoryNav from '@/components/landing/layout/blog-category-nav/blog-category-nav';
+import CreateBlogCategoryAction from '@/components/admin/blogs/create-blog-category-action/create-blog-category-action';
 import classes from './layout.module.scss';
 import { getAllBlogCategoriesActionPrivate } from '@/actions/blog-category-action';
 import { Suspense } from 'react';
-import BlogCategoryNavSkeleton from '@/components/sidebars/blog-category-nav/blog-category-nav-skeleton';
+import BlogCategoryNavSkeleton from '@/components/landing/layout/blog-category-nav/blog-category-nav-skeleton';
 export default async function AdminBlogCategoryLayout({
   children,
 }: {

@@ -1,4 +1,4 @@
-import AdminDiaryDetailPageContent from '@/components/mains/admin-diary/admin-diary-detail-page-content/admin-diary-detail-page-content';
+import AdminDiaryDetailPageContent from '@/components/admin/diary/admin-diary-detail-page-content/admin-diary-detail-page-content';
 import { getDiaryByIdActionPrivate } from '@/actions/diary-action';
 import { getAllDiaryCategoriesActionPrivate } from '@/actions/diary-category-action';
 import { Suspense } from 'react';

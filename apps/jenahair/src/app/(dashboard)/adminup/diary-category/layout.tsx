@@ -1,10 +1,10 @@
 import { Grid, GridCol, Group, Text } from '@mantine/core';
-import DiaryCategoryNav from '@/components/sidebars/diary-category-nav/diary-category-nav';
-import CreateDiaryCategoryAction from '@/components/mains/admin-diary/create-diary-category-action/create-diary-category-action';
+import DiaryCategoryNav from '@/components/landing/layout/diary-category-nav/diary-category-nav';
+import CreateDiaryCategoryAction from '@/components/admin/diary/create-diary-category-action/create-diary-category-action';
 import classes from './layout.module.scss';
 import { getAllDiaryCategoriesActionPrivate } from '@/actions/diary-category-action';
 import { Suspense } from 'react';
-import DiaryCategoryNavSkeleton from '@/components/sidebars/diary-category-nav/diary-category-nav-skeleton';
+import DiaryCategoryNavSkeleton from '@/components/landing/layout/diary-category-nav/diary-category-nav-skeleton';
 export default async function AdminDiaryCategoryLayout({
   children,
 }: {

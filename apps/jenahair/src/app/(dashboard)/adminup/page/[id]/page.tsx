@@ -1,4 +1,4 @@
-import AdminPageDetailPageContent from '@/components/mains/admin-page-page/admin-page-detail-page-content/admin-page-detail-page-content';
+import AdminPageDetailPageContent from '@/components/admin/page/admin-page-detail-page-content/admin-page-detail-page-content';
 import { getPageByIdActionPrivate } from '@/actions/page-action';
 import { Suspense } from 'react';
 

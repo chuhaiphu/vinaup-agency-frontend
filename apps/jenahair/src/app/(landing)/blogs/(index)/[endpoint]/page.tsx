@@ -1,7 +1,7 @@
-import LandingBlogDetailPageContent from '@/components/mains/landing-blog/landing-blog-detail-page-content/landing-blog-detail-page-content';
-import LandingBlogDetailSkeleton from '@/components/mains/landing-blog/landing-blog-detail-page-content/landing-blog-detail-skeleton';
-import LandingBlogCategoryPageContent from '@/components/mains/landing-blog/landing-blog-category-page/landing-blog-category-page-content';
-import LandingBlogCategoryPageContentSkeleton from '@/components/mains/landing-blog/landing-blog-category-page/landing-blog-category-page-content-skeleton';
+import LandingBlogDetailPageContent from '@/components/landing/blogs/landing-blog-detail-page-content/landing-blog-detail-page-content';
+import LandingBlogDetailSkeleton from '@/components/landing/blogs/landing-blog-detail-page-content/landing-blog-detail-skeleton';
+import LandingBlogCategoryPageContent from '@/components/landing/blogs/landing-blog-category-page/landing-blog-category-page-content';
+import LandingBlogCategoryPageContentSkeleton from '@/components/landing/blogs/landing-blog-category-page/landing-blog-category-page-content-skeleton';
 import {
   getAllBlogsActionPublic,
   getBlogByEndpointActionPublic,

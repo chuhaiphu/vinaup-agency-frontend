@@ -1,11 +1,11 @@
 import { getAllBlogsActionPublic } from '@/actions/blog-action';
-import BlogGrid from '@/components/grids/blog-grid/blog-grid';
-import BlogCategoryTags from '@/components/primitives/blog-category-tags/blog-category-tags';
+import BlogGrid from '@/components/landing/blogs/blog-grid/blog-grid';
+import BlogCategoryTags from '@/components/landing/blogs/blog-category-tags/blog-category-tags';
 import { Stack, Box, Container } from '@mantine/core';
 import classes from './page.module.scss';
 import { Suspense } from 'react';
-import BlogGridSkeleton from '@/components/grids/blog-grid/blog-grid-skeleton';
-import BlogCategoryTagsSkeleton from '@/components/primitives/blog-category-tags/blog-category-tags-skeleton';
+import BlogGridSkeleton from '@/components/landing/blogs/blog-grid/blog-grid-skeleton';
+import BlogCategoryTagsSkeleton from '@/components/landing/blogs/blog-category-tags/blog-category-tags-skeleton';
 export type BlogIndexPageQueryParams = {
   q?: string;
   destinations?: string;

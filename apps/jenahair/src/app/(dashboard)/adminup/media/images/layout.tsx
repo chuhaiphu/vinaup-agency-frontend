@@ -1,4 +1,4 @@
-import MediaAvailableImagesSection from "@/components/primitives/media-available-images-section/media-available-images-section";
+import MediaAvailableImagesSection from "@/components/admin/media/media-available-images-section/media-available-images-section";
 import { Grid, GridCol } from "@mantine/core";
 
 export default function AdminMediaImagesLayout({ children }: { children: React.ReactNode }) {

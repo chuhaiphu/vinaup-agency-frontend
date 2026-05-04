@@ -1,7 +1,7 @@
-import LandingDiaryDetailPageContent from '@/components/mains/landing-diary/landing-diary-detail-page-content/landing-diary-detail-page-content';
-import LandingDiaryDetailPageContentSkeleton from '@/components/mains/landing-diary/landing-diary-detail-page-content/landing-diary-detail-page-content-skeleton';
-import LandingDiaryCategoryPageContent from '@/components/mains/landing-diary/landing-diary-category-page/landing-diary-category-page-content';
-import LandingDiaryCategoryPageContentSkeleton from '@/components/mains/landing-diary/landing-diary-category-page/landing-diary-category-page-content-skeleton';
+import LandingDiaryDetailPageContent from '@/components/landing/diary/landing-diary-detail-page-content/landing-diary-detail-page-content';
+import LandingDiaryDetailPageContentSkeleton from '@/components/landing/diary/landing-diary-detail-page-content/landing-diary-detail-page-content-skeleton';
+import LandingDiaryCategoryPageContent from '@/components/landing/diary/landing-diary-category-page/landing-diary-category-page-content';
+import LandingDiaryCategoryPageContentSkeleton from '@/components/landing/diary/landing-diary-category-page/landing-diary-category-page-content-skeleton';
 import {
   getAllDiariesActionPublic,
   getDiaryByEndpointActionPublic,
