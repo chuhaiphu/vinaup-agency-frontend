@@ -32,10 +32,7 @@ import {
 import { MAX_IMAGE_COUNT_ALLOWED, PAGE_TYPES } from '@/constants';
 import { FaCaretDown } from 'react-icons/fa6';
 import { GrTrash } from 'react-icons/gr';
-import UploadIconV2 from '@/components/icons/vinaup-upload-icon-v2.svg';
-import UploadIconV3 from '@/components/icons/vinaup-upload-icon-v3.svg';
-import PenIcon from '@/components/icons/vinaup-pen-icon.svg';
-import AddNewIcon from '@/components/icons/vinaup-add-new-icon.svg';
+import { VinaupUploadIconV2 as UploadIconV2, VinaupUploadIconV3 as UploadIconV3, VinaupPenIcon as PenIcon, VinaupAddNewIcon as AddNewIcon } from '@vinaup/ui/cores';
 import { sanitizeEndpoint } from '@/utils/function-helpers';
 import { useRouter } from 'next/navigation';
 import { Route } from 'next';

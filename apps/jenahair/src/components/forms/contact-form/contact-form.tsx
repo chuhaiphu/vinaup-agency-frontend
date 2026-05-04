@@ -13,7 +13,7 @@ import {
 } from '@mantine/core';
 import { useState, useRef, ReactNode } from 'react';
 import { ReCaptchaEnterprise, ReCaptchaEnterpriseHandle } from '@vinaup/ui/landing';
-import SubmitFormIcon from '@/components/icons/submit-form-icon.svg';
+import { SubmitFormIcon } from '@vinaup/ui/cores';
 import classes from './contact-form.module.scss';
 
 interface ContactFormProps {

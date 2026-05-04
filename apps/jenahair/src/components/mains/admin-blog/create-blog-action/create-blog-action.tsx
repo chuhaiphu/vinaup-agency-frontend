@@ -2,7 +2,7 @@
 
 import { ActionIcon, Group, UnstyledButton } from '@mantine/core';
 import { useRouter } from 'next/navigation';
-import AddNewIcon from '@/components/icons/vinaup-add-new-icon.svg';
+import { VinaupAddNewIcon as AddNewIcon } from '@vinaup/ui/cores';
 import { createBlogActionPrivate } from '@/actions/blog-action';
 import { Route } from 'next';
 import { generateUniqueEndpoint } from '@/utils/function-helpers';

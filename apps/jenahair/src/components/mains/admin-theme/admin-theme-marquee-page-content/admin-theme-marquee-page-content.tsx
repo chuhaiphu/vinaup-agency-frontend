@@ -21,7 +21,7 @@ import {
   IMarqueeSlidesResponse,
 } from '@/interfaces/theme-config-interface';
 import UploadImageSection from '@/components/primitives/upload-image-section/upload-image-section';
-import AddNewIcon from '@/components/icons/vinaup-add-new-icon.svg';
+import { VinaupAddNewIcon as AddNewIcon } from '@vinaup/ui/cores';
 import classes from './admin-theme-marquee-page-content.module.scss';
 
 interface AdminThemeBannerSliderPageContentProps {

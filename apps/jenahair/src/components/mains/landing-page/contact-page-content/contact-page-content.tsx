@@ -4,7 +4,7 @@ import { IAppConfigResponse } from '@/interfaces/app-config-interface';
 import { Grid, GridCol, Stack, Text, Group } from '@mantine/core';
 import { FaEnvelope, FaClock } from 'react-icons/fa';
 import { VinaupLocationIcon as LocationIcon } from '@vinaup/ui/cores';
-import WhatsappIcon from '@/components/icons/whatsapp-icon.svg';
+import { WhatsappIcon } from '@vinaup/ui/cores';
 import ContactForm from '@/components/forms/contact-form/contact-form';
 import { submitCustomerContactActionPublic } from '@/actions/customer-contact-action';
 import classes from './contact-page-content.module.scss';

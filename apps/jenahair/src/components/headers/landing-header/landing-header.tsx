@@ -6,7 +6,7 @@ import { getAllPagesPublicActionPublic } from '@/actions/page-action';
 import type { IMenuResponse } from '@/interfaces/menu-interface';
 import { TreeManager } from '@vinaup/utils/tree-manager';
 import { JenhairIcon, VinaupFacebookIcon, VinaupGoogleMapIcon, VinaupInstagramIcon, VinaupTiktokIcon } from '@vinaup/ui/cores';
-import WhatsappIcon from '@vinaup/ui/cores/icons/whatsapp-icon.svg';
+import { WhatsappIcon } from '@vinaup/ui/cores';
 import {
   StickyHeader,
   Sidebar,

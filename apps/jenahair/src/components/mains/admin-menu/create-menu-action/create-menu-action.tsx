@@ -2,7 +2,7 @@
 
 import { ActionIcon, Group, UnstyledButton } from '@mantine/core';
 import { useRouter } from 'next/navigation';
-import AddNewIcon from '@/components/icons/vinaup-add-new-icon.svg';
+import { VinaupAddNewIcon as AddNewIcon } from '@vinaup/ui/cores';
 import { createMenuActionPrivate } from '@/actions/menu-action';
 import { Route } from 'next';
 import { useState } from 'react';

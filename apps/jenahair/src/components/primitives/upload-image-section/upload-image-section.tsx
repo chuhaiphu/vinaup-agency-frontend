@@ -1,7 +1,7 @@
 'use client';
 
 import { ActionIcon, Image, Loader } from '@mantine/core';
-import UploadIconV1 from '@/components/icons/vinaup-upload-icon-v1.svg';
+import { VinaupUploadIconV1 as UploadIconV1 } from '@vinaup/ui/cores';
 import { HiOutlineTrash } from "react-icons/hi";
 import { useState } from 'react';
 import classes from './upload-image-section.module.scss';
