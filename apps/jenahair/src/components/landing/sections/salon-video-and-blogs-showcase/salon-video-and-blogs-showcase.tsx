@@ -1,7 +1,7 @@
 // import { Suspense } from 'react';
 import { Container, Grid, GridCol, Stack, Group } from '@mantine/core';
 import Link from 'next/link';
-import { VinaupGlobalIcon, VinaupGridListIcon } from '@vinaup/ui/cores';
+import { VinaupGlobalIcon } from '@vinaup/ui/cores';
 import classes from './salon-video-and-blogs-showcase.module.scss';
 import { BlogsColumn } from './blogs-column';
 import { VideoSectionShowcase } from './video-section-showcase';

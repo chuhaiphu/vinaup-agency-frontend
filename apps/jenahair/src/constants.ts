@@ -118,3 +118,4 @@ if (!process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) {
   throw new Error('Missing NEXT_PUBLIC_RECAPTCHA_SITE_KEY env variable');
 }
 export const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+export const MAX_MARQUEE_SLIDE_COUNT = 17;

@@ -10,8 +10,8 @@ declare module '*.css' {
 }
 
 declare module '*.scss' {
-  const content: void;
-  export default content;
+  const classes: { [key: string]: string };
+  export default classes;
 }
 
 declare module '*.module.css' {

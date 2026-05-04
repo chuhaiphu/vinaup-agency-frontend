@@ -12,7 +12,7 @@ export interface HeroSlide {
   image: string;
   alt: string;
   title?: string;
-  description?: string;
+  subTitle?: string;
 }
 
 interface HeroCarouselProps {
@@ -80,15 +80,15 @@ export function HeroCarousel({
               style={{ objectFit: 'cover' }}
               className={classes.slideImage}
             />
-            {(slide.title || slide.description) && (
+            {(slide.title || slide.subTitle) && (
               <div className={classes.slideTextOverlay}>
                 <div className={classes.textContainer}>
                   {slide.title && (
                     <p className={classes.slideTitle}>{slide.title}</p>
                   )}
-                  {slide.description && (
-                    <p className={classes.slideDescription}>
-                      {slide.description}
+                  {slide.subTitle && (
+                    <p className={classes.slidesubTitle}>
+                      {slide.subTitle}
                     </p>
                   )}
                 </div>

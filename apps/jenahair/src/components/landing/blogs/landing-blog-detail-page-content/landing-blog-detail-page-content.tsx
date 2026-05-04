@@ -3,6 +3,7 @@ import IncrementView from '@/components/landing/primitives/increment-view/increm
 import { Container, Group, Stack, Text } from '@mantine/core';
 import {
   VinaupLocationIcon as LocationIcon,
+  VinaupGlobalIcon,
   VinaupGridListIcon,
 } from '@vinaup/ui/cores';
 import Link from 'next/link';
@@ -15,7 +16,6 @@ import {
 } from '@vinaup/ui/landing';
 import { notFound } from 'next/navigation';
 import { FaRegCopy, FaRegEye } from 'react-icons/fa';
-import { IoIosPricetag } from 'react-icons/io';
 import LikeBlogButton from './like-blog-button';
 import classes from './landing-blog-detail-page-content.module.scss';
 
@@ -99,7 +99,7 @@ export default async function LandingBlogDetailPageContent({
 
     return (
       <Group gap={4}>
-        {categoryEntries.map((cat) => (
+        {categoryEntries.map((cat, index) => (
           <Link
             key={cat.id}
             href={`/blogs/${cat.endpoint}` as Route}
@@ -107,7 +107,9 @@ export default async function LandingBlogDetailPageContent({
             style={{ textDecoration: 'none' }}
           >
             <Text fz={18} c={'white'}>
-              {cat.title}
+              {cat.title} {
+                index !== categoryEntries.length - 1 ? '; ' : ''
+              }
             </Text>
           </Link>
         ))}
@@ -188,7 +190,7 @@ export default async function LandingBlogDetailPageContent({
               align={'center'}
               classNames={{ root: classes.blogCategories }}
             >
-              <IoIosPricetag size={24} color="var(--vinaup-amber)" />
+              <VinaupGlobalIcon size={24} fill="var(--vinaup-amber)" />
               {renderBlogCategories()}
             </Group>
             <Group classNames={{ root: classes.blogActionGroup }}>

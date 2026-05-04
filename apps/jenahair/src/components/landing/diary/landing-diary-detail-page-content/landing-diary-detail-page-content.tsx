@@ -3,6 +3,7 @@
   import { Container, Group, Stack, Text } from '@mantine/core';
   import {
     VinaupLocationIcon as LocationIcon,
+    VinaupGlobalIcon,
     VinaupGridListIcon,
   } from '@vinaup/ui/cores';
   import Link from 'next/link';
@@ -15,7 +16,6 @@
   } from '@vinaup/ui/landing';
   import { notFound } from 'next/navigation';
   import { FaRegCopy, FaRegEye } from 'react-icons/fa';
-  import { IoIosPricetag } from 'react-icons/io';
   import LikeDiaryButton from './like-diary-button';
   import classes from './landing-diary-detail-page-content.module.scss';
 
@@ -99,7 +99,7 @@
 
       return (
         <Group gap={4}>
-          {categoryEntries.map((cat) => (
+          {categoryEntries.map((cat, index) => (
             <Link
               key={cat.id}
               href={`/nhat-ky/${cat.endpoint}` as Route}
@@ -107,7 +107,9 @@
               style={{ textDecoration: 'none' }}
             >
               <Text fz={18} c={'white'}>
-                {cat.title}
+                {cat.title} {
+                  index !== categoryEntries.length - 1 ? '; ' : ''
+                }
               </Text>
             </Link>
           ))}
@@ -185,7 +187,7 @@
           <Container size={'lg'} className={classes.diaryDetailInfoContainer}>
             <Group justify="space-between">
               <Group gap={12} align={'center'}>
-                <IoIosPricetag size={24} color="var(--vinaup-amber)" />
+                <VinaupGlobalIcon size={24} fill="var(--vinaup-amber)" />
                 {renderDiaryCategories()}
               </Group>
               <Group>{renderDiaryAction()}</Group>

@@ -23,6 +23,7 @@ import {
 import UploadImageSection from '@/components/admin/media/upload-image-section/upload-image-section';
 import { VinaupAddNewIcon as AddNewIcon } from '@vinaup/ui/cores';
 import classes from './admin-theme-marquee-page-content.module.scss';
+import { MAX_MARQUEE_SLIDE_COUNT } from '@/constants';
 
 interface AdminThemeBannerSliderPageContentProps {
   marqueePromise: Promise<ActionResponse<IMarqueeSlidesResponse>>;
@@ -54,7 +55,7 @@ function AdminThemeBannerSliderPageContentInner({
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
 
   const handleAddSlide = () => {
-    if (slides.length >= 6) return;
+    if (slides.length >= MAX_MARQUEE_SLIDE_COUNT) return;
     const newSlide: IMarqueeSlide = {
       id: generateId(),
       title: '',
@@ -128,7 +129,7 @@ function AdminThemeBannerSliderPageContentInner({
               <ActionIcon
                 variant="transparent"
                 onClick={handleAddSlide}
-                disabled={slides.length >= 6}
+                disabled={slides.length >= MAX_MARQUEE_SLIDE_COUNT}
                 size={32}
               >
                 <AddNewIcon width={24} height={24} />

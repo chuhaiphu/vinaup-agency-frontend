@@ -10,7 +10,7 @@ declare module '*.css' {
 }
 
 declare module '*.scss' {
-  const content: void;
+  const classes: { [key: string]: string };
   export default content;
 }
 
