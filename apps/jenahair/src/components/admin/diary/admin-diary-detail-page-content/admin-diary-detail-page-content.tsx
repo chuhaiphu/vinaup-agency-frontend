@@ -29,8 +29,8 @@ import {
 import { IDiaryResponse } from '@/interfaces/diary-interface';
 import {
   generateUniqueEndpoint,
-  stripHtmlAndTruncate,
-} from '@/utils/function-helpers';
+} from '@/utils/generate-unique-endpoint';
+import { generateStrippedHtml } from '@vinaup/utils';
 import { MAX_IMAGE_COUNT_ALLOWED, VN_PROVINCES } from '@/constants';
 import { FaCaretDown, FaCheck } from 'react-icons/fa6';
 import { GrTrash } from 'react-icons/gr';
@@ -41,7 +41,7 @@ import {
   createDiaryCategoryDiaryActionPrivate,
   deleteDiaryCategoryDiaryActionPrivate,
 } from '@/actions/diary-category-diary-action';
-import { TreeManager } from '@vinaup/utils/tree-manager';
+import { TreeManager } from '../../../../../../../packages/utils/src/classes/tree-manager';
 import { Route } from 'next';
 import dayjs from 'dayjs';
 import { ActionResponse } from '@/interfaces/_base-interface';
@@ -297,8 +297,8 @@ function AdminDiaryDetailPageContentInner({
     setVideoUrl(newVideoUrl);
   };
 
-  const seoTitle = title ? stripHtmlAndTruncate(title, 100) : '';
-  const seoContent = content ? stripHtmlAndTruncate(content, 300) : '';
+  const seoTitle = title ? generateStrippedHtml(title, 100) : '';
+  const seoContent = content ? generateStrippedHtml(content, 300) : '';
 
   const handleCopyLink = () => {
     const link = `https://jenahair.com/nhat-ky/${currentDiaryData.endpoint}`;

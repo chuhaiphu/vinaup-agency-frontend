@@ -27,13 +27,12 @@ import {
 import { IPageResponse } from '@/interfaces/page-interface';
 import {
   generateUniqueEndpoint,
-  stripHtmlAndTruncate,
-} from '@/utils/function-helpers';
+} from '@/utils/generate-unique-endpoint';
+import { generateStrippedHtml, generateSanitizedEndpoint } from '@vinaup/utils';
 import { MAX_IMAGE_COUNT_ALLOWED, PAGE_TYPES } from '@/constants';
 import { FaCaretDown } from 'react-icons/fa6';
 import { GrTrash } from 'react-icons/gr';
 import { VinaupUploadIconV2 as UploadIconV2, VinaupUploadIconV3 as UploadIconV3, VinaupPenIcon as PenIcon, VinaupAddNewIcon as AddNewIcon } from '@vinaup/ui/cores';
-import { sanitizeEndpoint } from '@/utils/function-helpers';
 import { useRouter } from 'next/navigation';
 import { Route } from 'next';
 import dayjs from 'dayjs';
@@ -268,8 +267,8 @@ function AdminPageDetailPageContentInner({
   };
 
   // Generate SEO title and description
-  const seoTitle = title ? stripHtmlAndTruncate(title, 100) : '';
-  const seoContent = content ? stripHtmlAndTruncate(content, 300) : '';
+  const seoTitle = title ? generateStrippedHtml(title, 100) : '';
+  const seoContent = content ? generateStrippedHtml(content, 300) : '';
 
   const handleCopyLink = () => {
     const link = `https://jenahair.com/${endpoint}`;
@@ -419,7 +418,7 @@ function AdminPageDetailPageContentInner({
                         variant="unstyled"
                         value={endpoint}
                         onChange={(e) => {
-                          const sanitized = sanitizeEndpoint(e.target.value);
+                          const sanitized = generateSanitizedEndpoint(e.target.value);
                           handleUpdateEndpoint(sanitized);
                         }}
                       />

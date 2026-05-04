@@ -4,7 +4,7 @@ import { getAllBlogsActionPublic } from '@/actions/blog-action';
 import { getAllDiariesActionPublic } from '@/actions/diary-action';
 import { getAllPagesPublicActionPublic } from '@/actions/page-action';
 import type { IMenuResponse } from '@/interfaces/menu-interface';
-import { TreeManager } from '@vinaup/utils/tree-manager';
+import { TreeManager } from '../../../../../../../packages/utils/src/classes/tree-manager';
 import { JenhairIcon, VinaupFacebookIcon, VinaupGoogleMapIcon, VinaupInstagramIcon, VinaupTiktokIcon } from '@vinaup/ui/cores';
 import { WhatsappIcon } from '@vinaup/ui/cores';
 import {
@@ -12,7 +12,7 @@ import {
   Sidebar,
   type SidebarNavLink,
 } from '@vinaup/ui/landing';
-import { isExternalEndpoint, parseEndpoint } from '@vinaup/utils';
+import { validateExternalEndpoint, generateParsedEndpoint } from '@vinaup/utils';
 import { StickyHeaderContent } from './sticky-header-content';
 import BlogsDiariesSpotlightSearchContent from './blogs-diaries-spotlight-search-content';
 
@@ -46,12 +46,12 @@ function buildNavLinks(flatMenus: IMenuResponse[]): SidebarNavLink[] {
   if (!root?.children?.length) return [];
 
   function toNavLink(menu: IMenuResponse): SidebarNavLink {
-    const href = parseEndpoint(menu.customUrl);
+    const href = generateParsedEndpoint(menu.customUrl);
     return {
       id: menu.id,
       label: menu.title,
       href,
-      external: isExternalEndpoint(href),
+      external: validateExternalEndpoint(href),
       children: menu.children?.length ? menu.children.map(toNavLink) : undefined,
     };
   }

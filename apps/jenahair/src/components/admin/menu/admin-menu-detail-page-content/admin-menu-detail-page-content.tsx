@@ -23,7 +23,7 @@ import {
 import { IMenuResponse } from '@/interfaces/menu-interface';
 import { FaCaretDown } from 'react-icons/fa6';
 import { GrTrash } from 'react-icons/gr';
-import { TreeManager } from '@vinaup/utils/tree-manager';
+import { TreeManager } from '../../../../../../../packages/utils/src/classes/tree-manager';
 import { useRouter } from 'next/navigation';
 import { ActionResponse } from '@/interfaces/_base-interface';
 

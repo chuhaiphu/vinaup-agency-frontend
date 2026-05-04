@@ -22,7 +22,7 @@ import { TbUpload, TbPhoto } from 'react-icons/tb';
 import { HiOutlineX } from 'react-icons/hi';
 import { useState, useEffect } from 'react';
 import { notifications } from '@mantine/notifications';
-import { cx, validateImageFile, formatFileSize } from '@vinaup/utils';
+import { generateClassName, validateImageFile, generateFormattedFileSize } from '@vinaup/utils';
 import defaultClasses from './media-upload.module.scss';
 import type { ICreateMedia, MediaUploadHandlers } from '../_types';
 
@@ -259,7 +259,7 @@ export function MediaUpload({
           <Text
             fw={500}
             classNames={{
-              root: cx(
+              root: generateClassName(
                 defaultClasses.sectionTitleRoot,
                 classNames?.sectionTitle?.root
               ),
@@ -285,7 +285,7 @@ export function MediaUpload({
                     }}
                   >
                     <div
-                      className={cx(
+                      className={generateClassName(
                         defaultClasses.imageContainer,
                         classNames?.imageContainer
                       )}
@@ -295,7 +295,7 @@ export function MediaUpload({
                         alt={item.file.name}
                         fit="cover"
                         classNames={{
-                          root: cx(
+                          root: generateClassName(
                             defaultClasses.itemImageRoot,
                             classNames?.itemImage?.root
                           ),
@@ -303,7 +303,7 @@ export function MediaUpload({
                       />
                       {item.status === 'uploading' && (
                         <div
-                          className={cx(
+                          className={generateClassName(
                             defaultClasses.uploadingOverlay,
                             classNames?.uploadingOverlay
                           )}
@@ -313,7 +313,7 @@ export function MediaUpload({
                       )}
                       {item.status === 'success' && (
                         <div
-                          className={cx(
+                          className={generateClassName(
                             defaultClasses.statusBadge,
                             defaultClasses.statusBadgeSuccess,
                             classNames?.statusBadge,
@@ -327,7 +327,7 @@ export function MediaUpload({
                       )}
                       {item.status === 'error' && (
                         <div
-                          className={cx(
+                          className={generateClassName(
                             defaultClasses.statusBadge,
                             defaultClasses.statusBadgeError,
                             classNames?.statusBadge,
@@ -364,13 +364,13 @@ export function MediaUpload({
                           root: classNames?.itemFilesize?.root,
                         }}
                       >
-                        {formatFileSize(item.file.size)}
+                        {generateFormattedFileSize(item.file.size)}
                       </Text>
                       {item.status === 'success' && item.url && (
                         <UnstyledButton
                           onClick={() => handleCopyLink(item.url!)}
                           classNames={{
-                            root: cx(
+                            root: generateClassName(
                               defaultClasses.copyButtonRoot,
                               classNames?.copyButton?.root
                             ),

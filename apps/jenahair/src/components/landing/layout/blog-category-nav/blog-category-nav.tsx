@@ -6,7 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { Route } from 'next';
 import classes from './blog-category-nav.module.scss';
 import { IBlogCategoryResponse } from '@/interfaces/blog-category-interface';
-import { TreeManager } from '@vinaup/utils/tree-manager';
+import { TreeManager } from '../../../../../../../packages/utils/src/classes/tree-manager';
 import { ActionResponse } from '@/interfaces/_base-interface';
 
 interface BlogCategoryNavProps {

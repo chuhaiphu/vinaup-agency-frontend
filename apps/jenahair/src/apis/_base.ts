@@ -1,6 +1,6 @@
 import { HttpResponse } from '@/interfaces/_base-interface';
-import { ApiError } from '@vinaup/utils/api-error';
-import { parseSetCookie } from '@/utils/function-helpers';
+import { ApiError } from '../../../../packages/utils/src/classes/api-error';
+import { generateParsedCookie } from '@vinaup/utils';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
@@ -69,7 +69,7 @@ export async function apiPrivate<T>(
     // FormData response will return back cookies with empty value
     // So we need to check the cookie value is not empty, otherwise the cookies will be accidentally removed
     const rawSetCookie = response.headers.getSetCookie();
-    const parsedCookie = parseSetCookie(rawSetCookie[0]);
+    const parsedCookie = generateParsedCookie(rawSetCookie[0]);
 
     // Set cookies for auth endpoints
     if (endpoint === '/auth/logout') {

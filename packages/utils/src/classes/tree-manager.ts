@@ -5,6 +5,15 @@ interface TreeNode {
   sortOrder: number;
 }
 
+/**
+ * Builds and traverses a tree structure from a flat list of nodes.
+ *
+ * @param T - Node type that extends TreeNode (must have id, parent, children, sortOrder)
+ *
+ * @example
+ * const manager = new TreeManager(flatList)
+ * const root = manager.getRoot()
+ */
 export class TreeManager<T extends TreeNode> {
   private root: T;
   private nodeMap = new Map<string, T>();
@@ -16,26 +25,19 @@ export class TreeManager<T extends TreeNode> {
   private buildTree(flatList: T[]): T {
     let root: T | undefined;
 
-    // clone each item in the flat list to the node map
-    // each node has its own id and empty children array
     for (const item of flatList) {
       this.nodeMap.set(item.id, { ...item, children: [] });
     }
-    // iterate through the flat list to build the tree
     for (const item of flatList) {
-      // get the current node
       const node = this.nodeMap.get(item.id);
       if (!node) continue;
-      // get its parent node
       if (item.parent?.id) {
         const parent = this.nodeMap.get(item.parent.id);
         if (parent) {
           parent?.children?.push(node);
           parent?.children?.sort((a, b) => a.sortOrder - b.sortOrder);
         }
-      }
-      // if the node has no parent, it is the root node
-      else {
+      } else {
         root = node;
       }
     }
@@ -53,9 +55,14 @@ export class TreeManager<T extends TreeNode> {
     }
   }
 
+  /**
+   * Returns all nodes as a flat list via depth-first traversal.
+   *
+   * @param startNodeId - Optional node id to start traversal from; defaults to root
+   * @returns Flat array of nodes in traversal order
+   * @example manager.toFlatList() // [root, child1, grandchild1, child2]
+   */
   toFlatList(startNodeId?: string): T[] {
-    // if startNodeId is provided, start from the node with the given id
-    // otherwise, start from the root node
     const startNode = startNodeId ? this.getNodeById(startNodeId) : this.root;
     if (!startNode) return [];
     const result: T[] = [];
@@ -63,6 +70,12 @@ export class TreeManager<T extends TreeNode> {
     return result;
   }
 
+  /**
+   * Returns all nodes except the root as a flat list.
+   *
+   * @returns Flat array of non-root nodes in traversal order
+   * @example manager.toFlatListWithoutRoot() // [child1, grandchild1, child2]
+   */
   toFlatListWithoutRoot(): T[] {
     const result: T[] = [];
     for (const child of this.root.children ?? []) {
@@ -71,6 +84,13 @@ export class TreeManager<T extends TreeNode> {
     return result;
   }
 
+  /**
+   * Collects all descendant ids of the given nodes into a Set.
+   *
+   * @param nodes - Array of nodes to collect ids from (including their descendants)
+   * @returns Set of string ids
+   * @example manager.toIds([nodeA]) // Set { 'a', 'a-child-1', 'a-child-2' }
+   */
   toIds(nodes: T[]): Set<string> {
     const result = new Set<string>();
     for (const node of nodes) {
@@ -79,14 +99,34 @@ export class TreeManager<T extends TreeNode> {
     return result;
   }
 
+  /**
+   * Returns the root node of the tree.
+   *
+   * @returns The root node
+   * @example manager.getRoot() // { id: 'root', children: [...] }
+   */
   getRoot(): T {
     return this.root;
   }
 
+  /**
+   * Finds a node by its id.
+   *
+   * @param id - The node's unique identifier
+   * @returns The matching node, or null if not found
+   * @example manager.getNodeById('abc') // T | null
+   */
   getNodeById(id: string): T | null {
     return this.nodeMap.get(id) ?? null;
   }
 
+  /**
+   * Returns sibling nodes of the given node (same parent, excluding itself).
+   *
+   * @param id - The node's unique identifier
+   * @returns Array of sibling nodes, empty if the node has no parent
+   * @example manager.getSiblings('b') // [siblingC, siblingD]
+   */
   getSiblings(id: string): T[] {
     const node = this.getNodeById(id);
     if (!node || !node.parent) return [];

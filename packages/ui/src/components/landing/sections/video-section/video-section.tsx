@@ -1,6 +1,6 @@
 'use client';
 
-import { getEmbeddedVideoUrl } from '@vinaup/utils';
+import { generateEmbededUrl } from '@vinaup/utils';
 import classes from './video-section.module.scss';
 import { ActionIcon } from '@mantine/core';
 import { useState } from 'react';
@@ -21,7 +21,7 @@ export function VideoSection({
 }: VideoPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const embedUrl = getEmbeddedVideoUrl(url);
+  const embedUrl = generateEmbededUrl(url);
 
   if (!embedUrl) {
     return null;

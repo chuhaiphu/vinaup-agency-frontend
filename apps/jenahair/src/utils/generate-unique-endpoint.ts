@@ -6,24 +6,6 @@ import { getDiaryByEndpointActionPublic } from '@/actions/diary-action';
 import { getDiaryCategoryByEndpointActionPublic } from '@/actions/diary-category-action';
 import { ActionResponse } from '@/interfaces/_base-interface';
 
-export * from '@vinaup/utils';
-
-export const validateImageFile = (file: File) => {
-  const validTypes = ['image/png', 'image/jpeg', 'image/jpg'];
-  return validTypes.includes(file.type);
-};
-
-/**
- * Sanitize endpoint string to only allow URL-safe characters
- */
-export const sanitizeEndpoint = (input: string): string => {
-  return input
-    .toLowerCase()
-    .replace(/[^a-z0-9-]/g, '')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '');
-};
-
 export type EndpointModel =
   | 'blog'
   | 'blog-category'

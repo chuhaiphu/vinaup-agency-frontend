@@ -2,7 +2,7 @@
 
 import { Modal, Tabs, Button, Stack, Text, Flex } from '@mantine/core';
 import { useState, useEffect } from 'react';
-import { cx } from '@vinaup/utils';
+import { generateClassName } from '@vinaup/utils';
 import { MediaGrid } from '../media-grid/media-grid';
 import { MediaUpload } from '../media-upload/media-upload';
 import defaultClasses from './media-modal.module.scss';
@@ -94,7 +94,7 @@ export function MediaModal({
           <Tabs.Tab value="upload">Upload</Tabs.Tab>
         </Tabs.List>
 
-        <Tabs.Panel value="library" className={cx(defaultClasses.tabPanel, classNames?.tabs?.panel)}>
+        <Tabs.Panel value="library" className={generateClassName(defaultClasses.tabPanel, classNames?.tabs?.panel)}>
           {images.length === 0 ? (
             <Stack align="center" justify="center" h={300}>
               <Text c="dimmed">No images found</Text>
@@ -111,7 +111,7 @@ export function MediaModal({
           )}
         </Tabs.Panel>
 
-        <Tabs.Panel value="upload" className={cx(defaultClasses.tabPanel, classNames?.tabs?.panel)}>
+        <Tabs.Panel value="upload" className={generateClassName(defaultClasses.tabPanel, classNames?.tabs?.panel)}>
           <MediaUpload
             onUpload={onUpload}
             onSave={onSave}
@@ -123,7 +123,7 @@ export function MediaModal({
         </Tabs.Panel>
       </Tabs>
 
-      <Flex className={cx(defaultClasses.footer, classNames?.footer?.root)} justify="flex-end" gap="sm">
+      <Flex className={generateClassName(defaultClasses.footer, classNames?.footer?.root)} justify="flex-end" gap="sm">
         <Button variant="default" onClick={onClose}>
           {cancelLabel}
         </Button>

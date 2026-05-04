@@ -23,11 +23,11 @@ import {
   updateBlogCategoryActionPrivate,
 } from '@/actions/blog-category-action';
 import { IBlogCategoryResponse } from '@/interfaces/blog-category-interface';
-import { generateUniqueEndpoint } from '@/utils/function-helpers';
+import { generateUniqueEndpoint } from '@/utils/generate-unique-endpoint';
 import { FaCaretDown } from 'react-icons/fa6';
 import { GrTrash } from 'react-icons/gr';
 import { VinaupUploadIconV2 as UploadIconV2, VinaupUploadIconV3 as UploadIconV3, VinaupPenIcon as PenIcon } from '@vinaup/ui/cores';
-import { TreeManager } from '@vinaup/utils/tree-manager';
+import { TreeManager } from '../../../../../../../packages/utils/src/classes/tree-manager';
 import { useRouter } from 'next/navigation';
 import { ActionResponse } from '@/interfaces/_base-interface';
 

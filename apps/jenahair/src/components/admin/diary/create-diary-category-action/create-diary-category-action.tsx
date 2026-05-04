@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { VinaupAddNewIcon as AddNewIcon } from '@vinaup/ui/cores';
 import { createDiaryCategoryActionPrivate } from '@/actions/diary-category-action';
 import { Route } from 'next';
-import { generateUniqueEndpoint } from '@/utils/function-helpers';
+import { generateUniqueEndpoint } from '@/utils/generate-unique-endpoint';
 import { useState } from 'react';
 import { notifications } from '@mantine/notifications';
 

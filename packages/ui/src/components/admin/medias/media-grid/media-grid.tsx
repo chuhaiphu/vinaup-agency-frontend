@@ -2,7 +2,7 @@
 import { Grid, GridCol, Group, Image, Paper, Stack, Text, TextInput, Select, Pagination } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
-import { cx } from '@vinaup/utils';
+import { generateClassName } from '@vinaup/utils';
 import defaultClasses from './media-grid.module.scss';
 import type { IMedia } from '../_types';
 
@@ -125,7 +125,7 @@ export function MediaGrid({
                 radius="md"
                 onClick={() => onImageClick(image.id)}
                 classNames={{
-                  root: cx(
+                  root: generateClassName(
                     defaultClasses.itemPaperRoot,
                     classNames?.itemPaper?.root,
                     isSelected ? defaultClasses.selectedPaper : undefined,
@@ -136,16 +136,16 @@ export function MediaGrid({
                 <Stack
                   gap={6}
                   classNames={{
-                    root: cx(defaultClasses.imageStackRoot, classNames?.itemStack?.root)
+                    root: generateClassName(defaultClasses.imageStackRoot, classNames?.itemStack?.root)
                   }}
                 >
-                  <div className={cx(defaultClasses.imageContainer, classNames?.imageContainer)}>
+                  <div className={generateClassName(defaultClasses.imageContainer, classNames?.imageContainer)}>
                     <Image
                       src={image.url}
                       alt={image.title || image.name}
                       fit="cover"
                       classNames={{
-                        root: cx(defaultClasses.itemImageRoot, classNames?.itemImage?.root)
+                        root: generateClassName(defaultClasses.itemImageRoot, classNames?.itemImage?.root)
                       }}
                     />
                   </div>
@@ -155,7 +155,7 @@ export function MediaGrid({
                     lineClamp={1}
                     title={image.title ?? image.name}
                     classNames={{
-                      root: cx(defaultClasses.itemTextRoot, classNames?.itemText?.root)
+                      root: generateClassName(defaultClasses.itemTextRoot, classNames?.itemText?.root)
                     }}
                   >
                     {image.title ?? image.name}
