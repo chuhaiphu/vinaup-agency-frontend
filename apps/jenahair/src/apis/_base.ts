@@ -85,8 +85,11 @@ export async function apiPrivate<T>(
         expires: parsedCookie.options.expires,
       });
     }
-    if (response.status === 401 && endpoint !== '/auth/local') {
-      redirect('/login?invalid=1');
+    if (response.status === 401) {
+      // If the user is performing an login request and gets 401, do not need to redirect to login page
+      if (endpoint !== '/auth/local') {
+        redirect('/login?invalid=1');
+      }
     }
 
 

@@ -7,6 +7,7 @@ import { useRef } from 'react';
 import classes from './hero-carousel.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Route } from 'next';
 
 export interface HeroSlide {
   id: string | number;
@@ -94,7 +95,7 @@ export function HeroCarousel({
           return (
             <CarouselSlide key={slide.id} className={classes.slide}>
               {slide.href ? (
-                <Link href={slide.href} target="_blank" className={classes.slideLink}>
+                <Link href={slide.href as Route} target="_blank" className={classes.slideLink}>
                   {slideContent}
                 </Link>
               ) : slideContent}
