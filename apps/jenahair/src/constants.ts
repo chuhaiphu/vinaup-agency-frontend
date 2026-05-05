@@ -119,3 +119,4 @@ if (!process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) {
 }
 export const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 export const MAX_MARQUEE_SLIDE_COUNT = 17;
+export const MAX_CAROUSEL_SLIDE_COUNT = 6;

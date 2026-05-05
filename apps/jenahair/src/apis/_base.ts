@@ -41,7 +41,6 @@ export async function apiPrivate<T>(
   options: RequestInit = {}
 ): Promise<HttpResponse<T>> {
   const url = `${API_URL}${endpoint}`;
-
   // take the cookie from browser storage and set it to the request headers
   // because api calls from Next.js server, not from the browser
   const cookieStore = await cookies();
@@ -86,10 +85,10 @@ export async function apiPrivate<T>(
         expires: parsedCookie.options.expires,
       });
     }
-
-    if (response.status === 401) {
+    if (response.status === 401 && endpoint !== '/auth/local') {
       redirect('/login?invalid=1');
     }
+
 
     const httpResponse: HttpResponse<T> = await response.json();
     return httpResponse;

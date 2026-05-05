@@ -1,11 +1,12 @@
 'use client';
 
 import { Carousel, CarouselSlide } from '@mantine/carousel';
-import { Box, Container } from '@mantine/core';
+import { Box, rgba } from '@mantine/core';
 import Autoplay from 'embla-carousel-autoplay';
 import { useRef } from 'react';
 import classes from './hero-carousel.module.scss';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export interface HeroSlide {
   id: string | number;
@@ -13,13 +14,13 @@ export interface HeroSlide {
   alt: string;
   title?: string;
   subTitle?: string;
+  href?: string;
 }
 
 interface HeroCarouselProps {
   children?: React.ReactNode;
   data: HeroSlide[];
   height?: string | number;
-  overlayOpacity?: number;
   borderRadius?: string | number;
 }
 
@@ -27,8 +28,7 @@ export function HeroCarousel({
   children,
   data,
   height = '75vh',
-  overlayOpacity = 0.6,
-  borderRadius = '0',
+  borderRadius = '1rem',
 }: HeroCarouselProps) {
   const autoplay = useRef(
     Autoplay({
@@ -42,13 +42,8 @@ export function HeroCarousel({
   return (
     <Box
       className={classes.carouselWrapper}
-      style={
-        {
-          '--carousel-height': height,
-          '--carousel-overlay-opacity': overlayOpacity,
-          '--carousel-border-radius': typeof borderRadius === 'number' ? `${borderRadius}px` : borderRadius,
-        } as React.CSSProperties
-      }
+      h={height}
+      bdrs={borderRadius}
     >
       <Carousel
         height="100%"
@@ -68,34 +63,44 @@ export function HeroCarousel({
           indicator: classes.indicatorDot,
         }}
       >
-        {data.map((slide, index) => (
-          <CarouselSlide key={slide.id} className={classes.slide}>
-            <Image
-              src={slide.image}
-              alt={slide.alt}
-              fill
-              priority={index === 0}
-              fetchPriority={index === 0 ? 'high' : 'auto'}
-              sizes="100vw"
-              style={{ objectFit: 'cover' }}
-              className={classes.slideImage}
-            />
-            {(slide.title || slide.subTitle) && (
-              <div className={classes.slideTextOverlay}>
-                <div className={classes.textContainer}>
-                  {slide.title && (
-                    <p className={classes.slideTitle}>{slide.title}</p>
-                  )}
-                  {slide.subTitle && (
-                    <p className={classes.slidesubTitle}>
-                      {slide.subTitle}
-                    </p>
-                  )}
+        {data.map((slide, index) => {
+          const slideContent = (
+            <>
+              <Image
+                src={slide.image}
+                alt={slide.alt}
+                fill
+                priority={index === 0}
+                fetchPriority={index === 0 ? 'high' : 'auto'}
+                loading='eager'
+                sizes="100vw"
+                style={{ objectFit: 'cover' }}
+                className={classes.slideImage}
+              />
+              {(slide.title || slide.subTitle) && (
+                <div className={classes.slideTextOverlay}>
+                  <div className={classes.textContainer}>
+                    {slide.title && (
+                      <p className={classes.slideTitle}>{slide.title}</p>
+                    )}
+                    {slide.subTitle && (
+                      <p className={classes.slideSubTitle}>{slide.subTitle}</p>
+                    )}
+                  </div>
                 </div>
-              </div>
-            )}
-          </CarouselSlide>
-        ))}
+              )}
+            </>
+          );
+          return (
+            <CarouselSlide key={slide.id} className={classes.slide}>
+              {slide.href ? (
+                <Link href={slide.href} target="_blank" className={classes.slideLink}>
+                  {slideContent}
+                </Link>
+              ) : slideContent}
+            </CarouselSlide>
+          );
+        })}
       </Carousel>
       <div className={classes.contentOverlay}>{children}</div>
     </Box>

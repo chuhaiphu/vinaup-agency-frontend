@@ -3,6 +3,8 @@ import {
   IUpdateThemeConfigSocialLinks,
   IMarqueeSlidesResponse,
   IUpdateThemeConfigMarquee,
+  ICarouselSlidesResponse,
+  IUpdateThemeConfigCarousel,
 } from '@/interfaces/theme-config-interface';
 import { apiPrivate, apiPublic } from './_base';
 
@@ -16,6 +18,12 @@ export async function getThemeConfigApiPublic() {
 
 export async function getMarqueeApiPublic() {
   return apiPublic<IMarqueeSlidesResponse>('/theme-config/marquee', {
+    method: 'GET',
+  });
+}
+
+export async function getCarouselApiPublic() {
+  return apiPublic<ICarouselSlidesResponse>('/theme-config/carousel', {
     method: 'GET',
   });
 }
@@ -45,6 +53,19 @@ export async function getMarqueeAdminApiPrivate() {
 
 export async function updateMarqueeApiPrivate(data: IUpdateThemeConfigMarquee) {
   return apiPrivate<IMarqueeSlidesResponse>('/theme-config/admin/marquee', {
+    method: 'PUT',
+    body: JSON.stringify(data),
+  });
+}
+
+export async function getCarouselAdminApiPrivate() {
+  return apiPrivate<ICarouselSlidesResponse>('/theme-config/admin/carousel', {
+    method: 'GET',
+  });
+}
+
+export async function updateCarouselApiPrivate(data: IUpdateThemeConfigCarousel) {
+  return apiPrivate<ICarouselSlidesResponse>('/theme-config/admin/carousel', {
     method: 'PUT',
     body: JSON.stringify(data),
   });

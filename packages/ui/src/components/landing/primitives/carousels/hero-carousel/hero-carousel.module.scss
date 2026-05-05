@@ -2,16 +2,11 @@
   position: relative;
   width: 100%;
   overflow: hidden;
-  height: 60vh; // 60% chiều cao viewport trên mobile
+  height: 60vh;
   min-height: 320px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-  border-radius: var(--carousel-border-radius, 0);
+  // border-radius: 1rem;
   overflow: hidden;
-
-  @media (min-width: 768px) {
-    height: var(--carousel-height,
-        75vh); // Sử dụng biến CSS để linh hoạt điều chỉnh chiều cao trên desktop, mặc định là 80vh)
-  }
 }
 
 .carouselRoot,
@@ -23,16 +18,17 @@
   height: 100%;
   position: relative;
 
-  transform: translateZ(0); // Ép dùng GPU cho từng tấm ảnh
   will-change: transform;
-  backface-visibility: hidden; // Ẩn mặt sau, giúp render 3D (lướt) mượt hơn trên mobile đời cũ
 
   &::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, var(--carousel-overlay-opacity, 0.6)); // Sử dụng biến CSS để điều chỉnh độ mờ của lớp phủ, mặc định là 0.6
+    background: rgba(0, 0, 0, 0.3);
     z-index: 1;
+    // pointer-events: none; to prevent this overlay from blocking interactions with the content 
+    // (e.g buttons, links) on top of it
+    pointer-events: none;
   }
 }
 
@@ -80,6 +76,13 @@
   }
 }
 
+.slideLink {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
 .slideTextOverlay {
   position: absolute;
   inset: 0;
@@ -113,7 +116,7 @@
   }
 }
 
-.slideDescription {
+.slideSubTitle {
   font-size: 1.25rem;
   max-width: 600px;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);

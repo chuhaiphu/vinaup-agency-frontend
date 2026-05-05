@@ -9,6 +9,9 @@ import {
   getMarqueeApiPublic,
   getMarqueeAdminApiPrivate,
   updateMarqueeApiPrivate,
+  getCarouselApiPublic,
+  getCarouselAdminApiPrivate,
+  updateCarouselApiPrivate,
 } from '@/apis/theme-config-apis';
 import { ActionResponse } from '@/interfaces/_base-interface';
 import {
@@ -16,6 +19,8 @@ import {
   IUpdateThemeConfigSocialLinks,
   IMarqueeSlidesResponse,
   IUpdateThemeConfigMarquee,
+  ICarouselSlidesResponse,
+  IUpdateThemeConfigCarousel,
 } from '@/interfaces/theme-config-interface';
 
 export async function getThemeConfigActionPublic(): Promise<
@@ -66,6 +71,33 @@ export async function updateMarqueeActionPrivate(
   input: IUpdateThemeConfigMarquee
 ): Promise<ActionResponse<IMarqueeSlidesResponse>> {
   const result = await executeApi(async () => updateMarqueeApiPrivate(input));
+
+  if (result.success) {
+    updateTag('theme-config');
+  }
+
+  return result;
+}
+
+export async function getCarouselActionPublic(): Promise<
+  ActionResponse<ICarouselSlidesResponse>
+> {
+  'use cache';
+  cacheLife('default');
+  cacheTag('theme-config');
+  return executeApi(async () => getCarouselApiPublic());
+}
+
+export async function getCarouselAdminActionPrivate(): Promise<
+  ActionResponse<ICarouselSlidesResponse>
+> {
+  return executeApi(async () => getCarouselAdminApiPrivate());
+}
+
+export async function updateCarouselActionPrivate(
+  input: IUpdateThemeConfigCarousel
+): Promise<ActionResponse<ICarouselSlidesResponse>> {
+  const result = await executeApi(async () => updateCarouselApiPrivate(input));
 
   if (result.success) {
     updateTag('theme-config');

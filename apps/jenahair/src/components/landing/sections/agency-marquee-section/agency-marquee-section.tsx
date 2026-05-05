@@ -1,9 +1,9 @@
 import { AutoScrollCarousel } from '@vinaup/ui/landing';
 import { getMarqueeActionPublic } from '@/actions/theme-config-action';
-import classes from './marquee-slider.module.scss';
+import classes from './agency-marquee-section.module.scss';
 import Image from 'next/image';
 
-export async function MarqueeSlider() {
+export async function AgencyMarqueeSection() {
   'use cache';
   const result = await getMarqueeActionPublic();
   const slides = result.data?.value ?? [];

@@ -25,7 +25,7 @@ import { VinaupAddNewIcon as AddNewIcon } from '@vinaup/ui/cores';
 import classes from './admin-theme-marquee-page-content.module.scss';
 import { MAX_MARQUEE_SLIDE_COUNT } from '@/constants';
 
-interface AdminThemeBannerSliderPageContentProps {
+interface AdminThemeMarqueePageContentProps {
   marqueePromise: Promise<ActionResponse<IMarqueeSlidesResponse>>;
 }
 
@@ -33,16 +33,16 @@ function generateId() {
   return `slide-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
 }
 
-export default function AdminThemeBannerSliderPageContent({
+export default function AdminThemeMarqueePageContent({
   marqueePromise,
-}: AdminThemeBannerSliderPageContentProps) {
+}: AdminThemeMarqueePageContentProps) {
   const result = use(marqueePromise);
   const initialSlides: IMarqueeSlide[] = result.data?.value ?? [];
 
-  return <AdminThemeBannerSliderPageContentInner initialSlides={initialSlides} />;
+  return <AdminThemeMarqueePageContentInner initialSlides={initialSlides} />;
 }
 
-function AdminThemeBannerSliderPageContentInner({
+function AdminThemeMarqueePageContentInner({
   initialSlides,
 }: {
   initialSlides: IMarqueeSlide[];
@@ -122,7 +122,7 @@ function AdminThemeBannerSliderPageContentInner({
 
   return (
     <>
-      <div className={classes.bannerSliderPageRoot}>
+      <div className={classes.marqueePageRoot}>
         <Paper radius={'md'} shadow="xs" classNames={{ root: classes.paperBlock }}>
           <Stack p={'sm'} gap={'md'}>
             <Group justify="space-between">

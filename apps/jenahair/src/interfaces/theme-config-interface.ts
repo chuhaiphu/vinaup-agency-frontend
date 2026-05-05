@@ -30,3 +30,17 @@ export type IMarqueeSlidesResponse = IGlobalSettingResponse<IMarqueeSlide[]>;
 export interface IUpdateThemeConfigMarquee {
   value: IMarqueeSlide[];
 }
+
+export interface ICarouselSlide {
+  id: string | number;
+  imageUrl: string;
+  href?: string;
+  title?: string;
+  subTitle?: string;
+}
+
+export type ICarouselSlidesResponse = IGlobalSettingResponse<ICarouselSlide[]>;
+
+export interface IUpdateThemeConfigCarousel {
+  value: ICarouselSlide[];
+}
