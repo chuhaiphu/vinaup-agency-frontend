@@ -1,5 +1,5 @@
 {
-  "name": "vinaup-monorepo",
+  "name": "vinaup-agency-frontend",
   "private": true,
   "workspaces": [
     "apps/*",

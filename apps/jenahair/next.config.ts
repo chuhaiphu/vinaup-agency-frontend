@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   output: 'standalone',
   reactCompiler: true,
+  deploymentId: process.env.VERSION,
   devIndicators: {
     position: 'bottom-right',
   },

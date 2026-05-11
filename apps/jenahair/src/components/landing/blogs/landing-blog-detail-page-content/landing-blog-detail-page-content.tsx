@@ -3,8 +3,8 @@ import IncrementView from '@/components/landing/primitives/increment-view/increm
 import { Container, Group, Stack, Text } from '@mantine/core';
 import {
   VinaupLocationIcon as LocationIcon,
-  VinaupGlobalIcon,
   VinaupGridListIcon,
+  VinaupPriceTagIcon,
 } from '@vinaup/ui/cores';
 import Link from 'next/link';
 import { Route } from 'next';
@@ -104,9 +104,9 @@ export default async function LandingBlogDetailPageContent({
             key={cat.id}
             href={`/blogs/${cat.endpoint}` as Route}
             prefetch
-            style={{ textDecoration: 'none' }}
+            className={classes.blogCategoryLink}
           >
-            <Text fz={18} c={'white'}>
+            <Text fz={18} className={classes.blogCategoryText}>
               {cat.title} {
                 index !== categoryEntries.length - 1 ? '; ' : ''
               }
@@ -190,7 +190,7 @@ export default async function LandingBlogDetailPageContent({
               align={'center'}
               classNames={{ root: classes.blogCategories }}
             >
-              <VinaupGlobalIcon size={24} fill="var(--vinaup-amber)" />
+              <VinaupPriceTagIcon width={24} height={24}/>
               {renderBlogCategories()}
             </Group>
             <Group classNames={{ root: classes.blogActionGroup }}>

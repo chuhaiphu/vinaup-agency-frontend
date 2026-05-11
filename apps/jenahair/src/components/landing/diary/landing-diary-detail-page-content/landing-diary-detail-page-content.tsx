@@ -3,8 +3,8 @@
   import { Container, Group, Stack, Text } from '@mantine/core';
   import {
     VinaupLocationIcon as LocationIcon,
-    VinaupGlobalIcon,
     VinaupGridListIcon,
+    VinaupPriceTagIcon,
   } from '@vinaup/ui/cores';
   import Link from 'next/link';
   import { Route } from 'next';
@@ -104,9 +104,9 @@
               key={cat.id}
               href={`/nhat-ky/${cat.endpoint}` as Route}
               prefetch
-              style={{ textDecoration: 'none' }}
+              className={classes.diaryCategoryLink}
             >
-              <Text fz={18} c={'white'}>
+              <Text fz={18} className={classes.diaryCategoryText}>
                 {cat.title} {
                   index !== categoryEntries.length - 1 ? '; ' : ''
                 }
@@ -187,7 +187,7 @@
           <Container size={'lg'} className={classes.diaryDetailInfoContainer}>
             <Group justify="space-between">
               <Group gap={12} align={'center'}>
-                <VinaupGlobalIcon size={24} fill="var(--vinaup-amber)" />
+                <VinaupPriceTagIcon width={24} height={24} />
                 {renderDiaryCategories()}
               </Group>
               <Group>{renderDiaryAction()}</Group>
