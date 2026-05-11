@@ -10,7 +10,7 @@ import {
   getAllDiaryCategoriesActionPublic,
   getDiaryCategoryByEndpointActionPublic,
 } from '@/actions/diary-category-action';
-import type { Metadata } from 'next';
+import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
@@ -39,12 +39,12 @@ export async function generateStaticParams() {
   return params.length > 0 ? params : [{ endpoint: DIARY_ENDPOINT_PLACEHOLDER }];
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ endpoint: string }>;
-}): Promise<Metadata> {
+export async function generateMetadata(
+  { params }: { params: Promise<{ endpoint: string }> },
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
   const { endpoint } = await params;
+  const resolvedParent = await parent;
 
   const diaryResponse = await getDiaryByEndpointActionPublic(endpoint);
   if (diaryResponse.success && diaryResponse.data) {
@@ -54,12 +54,14 @@ export async function generateMetadata({
       : 'Khám phá các mẹo chăm sóc tóc, cảm hứng tạo kiểu và chia sẻ từ Jena Hair';
 
     return {
-      title: `${diary.title} | Jena Hair`,
+      title: diary.title,
       description,
       openGraph: {
+        ...resolvedParent.openGraph,
+        url: `https://jenahair.com/nhat-ky/${endpoint}`,
         title: diary.title,
         description,
-        images: diary.mainImageUrl ? [diary.mainImageUrl] : ['/images/group1.png'],
+        images: diary.mainImageUrl ? [diary.mainImageUrl] : [],
       },
       alternates: {
         canonical: `https://jenahair.com/nhat-ky/${endpoint}`,
@@ -75,9 +77,11 @@ export async function generateMetadata({
       : 'Khám phá các mẹo chăm sóc tóc, cảm hứng tạo kiểu và chia sẻ từ Jena Hair';
 
     return {
-      title: `${category.title} | Jena Hair`,
+      title: category.title,
       description,
       openGraph: {
+        ...resolvedParent.openGraph,
+        url: `https://jenahair.com/nhat-ky/${endpoint}`,
         title: category.title,
         description,
         images: category.mainImageUrl ? [category.mainImageUrl] : [],
@@ -88,9 +92,7 @@ export async function generateMetadata({
     };
   }
 
-  return {
-    title: 'Diary Not Found',
-  };
+  return { title: 'Diary Not Found' };
 }
 
 type DiaryEndpointPageProps = {
