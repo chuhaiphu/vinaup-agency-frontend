@@ -7,7 +7,7 @@ on:
 
 env:
   DOCKER_IMAGE: ${{ vars.DOCKER_IMAGE }}
-  DOCKER_CONTAINER_NAME: jenahair.com-fe
+  DOCKER_CONTAINER_NAME: jenahair-web-app
   API_URL: ${{ vars.API_URL }}
   NEXT_PUBLIC_RECAPTCHA_SITE_KEY: ${{ secrets.RECAPTCHA_SITE_KEY }}
 

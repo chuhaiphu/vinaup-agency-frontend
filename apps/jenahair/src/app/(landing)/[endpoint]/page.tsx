@@ -6,18 +6,20 @@ import { getAppConfigActionPublic } from '@/actions/app-config-action';
 import DynamicEndpointPageContent from '@/components/landing/page/dynamic-endpoint-page-content/dynamic-endpoint-page-content';
 import notFound from '../not-found';
 
+const PAGE_ENDPOINT_PLACEHOLDER = '__placeholder__';
+
 export async function generateStaticParams() {
   const pagesResponse = await getAllPagesPublicActionPublic();
 
   if (!pagesResponse.success || !pagesResponse.data) {
-    return [];
+    return [{ endpoint: PAGE_ENDPOINT_PLACEHOLDER }];
   }
 
   const pagesParams = pagesResponse.data.map((page) => ({
     endpoint: page.endpoint,
   }));
 
-  return pagesParams;
+  return pagesParams.length > 0 ? pagesParams : [{ endpoint: PAGE_ENDPOINT_PLACEHOLDER }];
 }
 
 export async function generateMetadata({
@@ -57,6 +59,10 @@ export default async function DynamicEndpointPage({
 }) {
   'use cache';
   const { endpoint } = await params;
+
+  if (endpoint === PAGE_ENDPOINT_PLACEHOLDER) {
+    notFound();
+  }
 
   const [pageResponse, allPagesResponse, appConfigResponse] = await Promise.all([
     getPageByEndpointActionPublic(endpoint),

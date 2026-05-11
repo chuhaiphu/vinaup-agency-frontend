@@ -14,7 +14,7 @@ COPY apps/the-local-travel/package.json ./apps/the-local-travel/
 COPY packages/ui/package.json ./packages/ui/
 COPY packages/utils/package.json ./packages/utils/
 
-RUN npm ci --legacy-peer-deps
+RUN npm ci
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -35,7 +35,7 @@ ENV API_URL=$API_URL
 ENV NEXT_PUBLIC_RECAPTCHA_SITE_KEY=$NEXT_PUBLIC_RECAPTCHA_SITE_KEY
 
 # Build the jenahair app (assumes "build" script is configured correctly inside apps/jenahair)
-RUN npm run build --workspace=jenahair.com
+RUN npm run build --workspace=apps/jenahair
 
 # Production image, copy all the files and run next
 FROM base AS runner
