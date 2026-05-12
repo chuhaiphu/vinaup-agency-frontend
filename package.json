@@ -10,6 +10,9 @@
     "dev:tlt": "npm run dev --workspace=apps/the-local-travel",
     "build:jenahair": "npm run build --workspace=apps/jenahair",
     "start:jenahair": "npm run start --workspace=apps/jenahair",
+    "dev:vitinhnet": "npm run dev --workspace=apps/vitinhnet",
+    "build:vitinhnet": "npm run build --workspace=apps/vitinhnet",
+    "start:vitinhnet": "npm run start --workspace=apps/vitinhnet",
     "typecheck": "npm run typecheck --workspaces --if-present"
   },
   "engines": {
