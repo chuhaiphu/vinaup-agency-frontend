@@ -54,7 +54,7 @@ export default function LandingHeader() {
                                     input: classes.searchInput,
                                     section: classes.searchSection,
                                 }}
-                                placeholder="Tìm mua máy tính cũ // Bạn cần cấu hình gì ??"
+                                placeholder="Tìm mua máy tính cũ // Bạn cần cấu hình gì?"
                                 radius="xl"
                                 rightSectionWidth={40}
                                 rightSection={
@@ -66,11 +66,11 @@ export default function LandingHeader() {
 
                             {/* Icons Area */}
                             <Group gap="md" wrap="nowrap" className={classes.iconGroup}>
-                                <ActionIcon size="lg" w="auto" variant="transparent" className={`${classes.actionIcon} ${classes.hideOnMobile}`}>
+                                <ActionIcon size="lg" w="auto" variant="transparent" className={`${classes.actionIcon}`}>
                                     <VinaupMessengerIcon size={28} />
                                 </ActionIcon>
 
-                                <ActionIcon size="lg" w="auto" variant="transparent" className={`${classes.actionIcon} ${classes.hideOnMobile}`}>
+                                <ActionIcon size="lg" w="auto" variant="transparent" className={`${classes.actionIcon}`}>
                                     <VinaupZaloRectangleIcon size={28} />
                                 </ActionIcon>
 
@@ -80,7 +80,7 @@ export default function LandingHeader() {
                                     </ActionIcon>
                                 </Indicator>
 
-                                <ActionIcon size="lg" variant="transparent" className={`${classes.actionIcon} ${classes.hideOnMobile}`}>
+                                <ActionIcon size="lg" variant="transparent" className={`${classes.actionIcon}`}>
                                     <VinaupUserIcon size={28} />
                                 </ActionIcon>
 

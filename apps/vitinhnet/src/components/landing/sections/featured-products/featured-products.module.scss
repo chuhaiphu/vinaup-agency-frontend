@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 1rem;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -36,7 +36,7 @@
 
 .productCard {
   background-color: white;
-  border-radius: 16px;
+  border-radius: 12px;
   border: none;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   overflow: hidden;
@@ -45,6 +45,7 @@
   flex-direction: column;
   position: relative;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  padding: 12px;
 
   &:hover {
     transform: translateY(-4px);
@@ -67,12 +68,10 @@
 
 .imageWrapper {
   background-color: white;
-  padding: 12px;
   text-align: center;
 }
 
 .productInfo {
-  padding: 12px;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -107,7 +106,6 @@
   justify-content: space-between;
   align-items: center;
   margin-top: auto;
-  padding-top: 8px;
 }
 
 .warranty {

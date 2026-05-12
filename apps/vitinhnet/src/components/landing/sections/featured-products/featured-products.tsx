@@ -1,15 +1,15 @@
 'use client';
 
-import { Container, Title, Group, Button, Box, Image, Text, ActionIcon } from '@mantine/core';
-import { Carousel } from '@mantine/carousel';
-import { BsCartPlus } from 'react-icons/bs';
-import { TbWorld } from 'react-icons/tb';
+import { Container, Title, Group, Button, Box } from '@mantine/core';
+import { GridCarousel } from '@vinaup/ui/landing';
+import { ProductCard, type Product } from './product-card';
 import classes from './featured-products.module.scss';
 import '@mantine/carousel/styles.css';
+import { VinaupGlobalIcon } from '@vinaup/ui/cores';
 
 const categories = ['Laptop HP', 'Máy tính bàn HP', 'Laptop Dell', 'Tất cả'];
 
-const defaultProducts = Array(6).fill(null).map((_, index) => ({
+const defaultProducts: Product[] = Array(6).fill(null).map((_, index) => ({
     id: index.toString(),
     title: 'Dell Latitude 5420 i5 1145G7 8G 256G 14" A1...',
     image: 'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?q=80&w=2664&auto=format&fit=crop',
@@ -22,7 +22,7 @@ const defaultProducts = Array(6).fill(null).map((_, index) => ({
 export function FeaturedProducts() {
     return (
         <Box className={classes.section}>
-            <Container size="xl" w="100%" pt={"3rem"}>
+            <Container size="xl" w="100%" pt={"2rem"}>
                 {/* Header */}
                 <div className={classes.header}>
                     <Title className={classes.title}>Laptop Dell</Title>
@@ -39,54 +39,24 @@ export function FeaturedProducts() {
                                 {cat}
                             </Button>
                         ))}
-                        <ActionIcon variant="default" size="lg" radius="xl">
-                            <TbWorld size={20} color="#051b2c" />
-                        </ActionIcon>
+                        <VinaupGlobalIcon size={28} fill="#051b2c" />
                     </Group>
                 </div>
 
                 {/* Carousel */}
-                <Carousel
-                    withIndicators={false}
-                    height="100%"
-                    slideSize={{ base: '100%', sm: '50%', md: '33.333333%', lg: '20%' }}
-                    slideGap="md"
-                    emblaOptions={{ loop: true, align: 'start' }}
-                >
-                    {defaultProducts.map((product) => (
-                        <Carousel.Slide key={product.id}>
-                            <div className={classes.productCard}>
-                                {product.isTrending && <div className={classes.badge}>Bán chạy</div>}
-
-                                <div className={classes.imageWrapper}>
-                                    <Image
-                                        src={product.image}
-                                        alt={product.title}
-                                        h={140}
-                                        fit="contain"
-                                        fallbackSrc="https://placehold.co/400x300?text=Product"
-                                    />
-                                </div>
-
-                                <div className={classes.productInfo}>
-                                    <Text className={classes.productTitle}>{product.title}</Text>
-
-                                    <div>
-                                        <Text className={classes.oldPrice}>{product.oldPrice}</Text>
-                                        <Text className={classes.newPrice}>{product.newPrice}</Text>
-                                    </div>
-
-                                    <div className={classes.footer}>
-                                        <Text className={classes.warranty}>{product.warranty}</Text>
-                                        <ActionIcon className={classes.cartButton}>
-                                            <BsCartPlus size={18} />
-                                        </ActionIcon>
-                                    </div>
-                                </div>
-                            </div>
-                        </Carousel.Slide>
-                    ))}
-                </Carousel>
+                <GridCarousel
+                    items={defaultProducts}
+                    slideSize={{ base: '50%', sm: '33.333333%', md: '25%', lg: '20%' }}
+                    carouselProps={{
+                        withIndicators: false,
+                        height: "100%",
+                        slideGap: { base: '10px', sm: '15px', md: '20px' },
+                        emblaOptions: { loop: false, align: 'start' },
+                    }}
+                    renderItem={(product) => (
+                        <ProductCard product={product} />
+                    )}
+                />
             </Container>
         </Box>
     );
