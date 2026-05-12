@@ -1,0 +1,132 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
+
+.title {
+  color: #D14D54;
+  font-weight: 700;
+  font-size: 2.25rem;
+  margin: 0;
+}
+
+.categoryPill {
+  border-radius: 30px;
+  border-color: #e0e0e0;
+  color: #333;
+  background-color: white;
+  
+  &[data-active='true'] {
+    border-color: #e0e0e0;
+    color: #333;
+  }
+
+  &:hover {
+    background-color: #f1f3f5;
+  }
+}
+
+.productCard {
+  background-color: white;
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background-color: #D14D54;
+  color: white;
+  border-radius: 8px;
+  font-size: 12px;
+  padding: 4px 12px;
+  font-weight: 500;
+  z-index: 10;
+}
+
+.imageWrapper {
+  background-color: white;
+  padding: 12px;
+  text-align: center;
+}
+
+.productInfo {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.productTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.oldPrice {
+  text-decoration: line-through;
+  color: #888;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.newPrice {
+  color: #D14D54;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.warranty {
+  font-size: 14px;
+  color: #333;
+}
+
+.cartButton {
+  background-color: #051b2c;
+  color: white;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+
+  &:hover {
+    background-color: #082944;
+  }
+}

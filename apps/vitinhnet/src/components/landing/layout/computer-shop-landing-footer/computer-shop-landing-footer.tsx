@@ -1,0 +1,1 @@
+export function ComputerShopLandingFooter() { return <footer>Đây là footer</footer>; }

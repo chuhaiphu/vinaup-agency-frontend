@@ -1,0 +1,160 @@
+.header {
+    background-color: var(--vinaup-soft-gray);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.topSection {
+    border-bottom: 1px solid #E9ECEF;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.topContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 80px;
+
+    @media (max-width: 768px) {
+        flex-wrap: wrap;
+        padding: 12px 0;
+        gap: 0.5rem;
+    }
+}
+
+.logoSection {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+
+    @media (max-width: 425px) {
+        order: 1;
+    }
+}
+
+.logoDesktop {
+    display: block;
+
+    @media (max-width: 525px) {
+        width: 180px;
+        height: 40px;
+    }
+
+    @media (max-width: 485px) {
+        display: none !important;
+    }
+}
+
+.logoMobile {
+    display: none;
+
+    @media (max-width: 485px) {
+        display: block !important;
+    }
+}
+
+.iconGroup {
+    flex-shrink: 0;
+
+    @media (max-width: 425px) {
+        order: 2;
+        gap: 8px;
+    }
+}
+
+.actionIcon {
+    @media (max-width: 425px) {
+        transform: scale(0.85);
+    }
+}
+
+.searchBarWrapper {
+    flex: 1;
+    max-width: 600px;
+    margin: 0 24px;
+
+    @media (max-width: 768px) {
+        order: 3;
+        flex: 1 1 100%;
+        max-width: 100%;
+        margin: 0;
+    }
+
+    .searchInput {
+        background-color: #FFFFFF;
+        border: 1.5px solid var(--vinaup-navy-dark);
+        color: var(--vinaup-navy-dark);
+        height: 40px;
+        padding-left: 20px;
+        padding-right: 50px;
+        transition: border-color 0.2s ease;
+        outline: none;
+
+        &::placeholder {
+            color: var(--vinaup-navy-dark);
+            opacity: 0.7;
+        }
+    }
+
+    .searchSection {
+        justify-content: flex-end;
+        right: -1.5px;
+    }
+
+    .searchButton {
+        background-color: var(--vinaup-navy-dark);
+        color: #ffffff;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin: 0;
+
+        &:hover {
+            background-color: var(--vinaup-blue-dark);
+        }
+    }
+}
+
+.navSection {
+    background-color: var(--vinaup-soft-gray);
+    transition: all 0.3s ease;
+    transform-origin: top;
+    overflow: hidden;
+
+    @media (max-width: 768px) {
+        display: none !important;
+    }
+}
+
+.navLinks {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 0.5rem 0;
+    overflow-x: auto;
+    white-space: nowrap;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    scrollbar-width: none;
+
+    @media (max-width: 900px) {
+        gap: 1.5rem;
+    }
+}
+
+.navLink {
+    font-weight: 600;
+    font-size: clamp(0.8rem, 1.25vw, 1.125rem);
+    color: var(--vinaup-blue-link);
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+        color: var(--vinaup-soft-crimson);
+    }
+}
