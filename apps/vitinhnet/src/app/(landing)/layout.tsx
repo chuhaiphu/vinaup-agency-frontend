@@ -43,7 +43,6 @@ export default async function LandingLayout({
       <LandingHeader />
       {children}
       <ComputerShopLandingFooter />
-      <div style={{ height: '1000px' }} /> {/* Spacer để tránh footer che nội dung khi scroll */}
       <ScrollToTop />
     </main>
   );

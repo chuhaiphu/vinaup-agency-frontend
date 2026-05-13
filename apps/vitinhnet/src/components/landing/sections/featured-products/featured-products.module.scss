@@ -12,7 +12,7 @@
 }
 
 .title {
-  color: #D14D54;
+  color: var(--vinaup-soft-crimson);
   font-weight: 700;
   font-size: 2.25rem;
   margin: 0;
@@ -23,7 +23,7 @@
   border-color: #e0e0e0;
   color: #333;
   background-color: white;
-  
+
   &[data-active='true'] {
     border-color: #e0e0e0;
     color: #333;
@@ -57,7 +57,7 @@
   position: absolute;
   top: 12px;
   right: 12px;
-  background-color: #D14D54;
+  background-color: var(--vinaup-soft-crimson);
   color: white;
   border-radius: 8px;
   font-size: 12px;
@@ -96,7 +96,7 @@
 }
 
 .newPrice {
-  color: #D14D54;
+  color: var(--vinaup-soft-crimson);
   font-weight: 700;
   font-size: 20px;
 }
@@ -114,7 +114,7 @@
 }
 
 .cartButton {
-  background-color: #051b2c;
+  background-color: var(--vinaup-blue-dark);
   color: white;
   border-radius: 50%;
   width: 44px;
@@ -125,6 +125,6 @@
   padding: 0;
 
   &:hover {
-    background-color: #082944;
+    filter: brightness(90%);
   }
 }

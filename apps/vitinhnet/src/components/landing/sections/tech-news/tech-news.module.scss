@@ -1,0 +1,129 @@
+.section {
+  // Add padding or background if needed
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
+
+.title {
+  color: var(--vinaup-soft-crimson);
+  font-weight: 700;
+  font-size: 2.25rem;
+  margin: 0;
+}
+
+.marqueeWrapper {
+  margin: 0 -1rem;
+}
+
+.newsCardWrapper {
+  width: 480px;
+  margin-right: 20px;   
+  height: 100%;
+  
+  @media (max-width: 500px) {
+    width: 340px;
+    margin-right: 12px;
+  }
+}
+
+.categoryPill {
+  border-radius: 30px;
+  border-color: #e0e0e0;
+  color: #333;
+  background-color: white;
+
+  &:hover {
+    background-color: #f1f3f5;
+  }
+}
+
+.newsCard {
+  background-color: white;
+  border-radius: 8px;
+  border: 1px solid #eaeaea;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  padding: 12px;
+  gap: 20px;
+
+  @media (max-width: 500px) {
+    gap: 12px;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  }
+}
+
+.imageWrapper {
+  flex-shrink: 0;
+  width: 180px;
+  border-radius: 6px;
+  overflow: hidden;
+  
+  @media (max-width: 500px) {
+    width: 120px;
+  }
+}
+
+.cardContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: 4px;
+}
+
+.cardTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+  line-height: 1.5;
+  display: -webkit-box;
+  overflow: hidden;
+
+  @media (max-width: 500px) {
+    font-size: 1rem;
+  }
+}
+
+.metaInfo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: auto;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #666;
+  font-size: 1rem;
+}
+
+.heartIcon {
+  color: var(--vinaup-soft-crimson);
+}
+
+.eyeIcon {
+  color: var(--vinaup-soft-crimson);
+}

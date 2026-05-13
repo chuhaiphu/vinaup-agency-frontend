@@ -6,7 +6,7 @@
   height: 100%;
   flex-grow: 1;
 
-  @media (max-width: 768px) {
+  @media (max-width: 992px) {
     height: auto;
     aspect-ratio: 16 / 9;
   }

@@ -1,4 +1,4 @@
-import { Image, Text, ActionIcon } from '@mantine/core';
+import { Image, Text, ActionIcon, AspectRatio } from '@mantine/core';
 import { BsCartPlus } from 'react-icons/bs';
 import classes from './featured-products.module.scss';
 
@@ -18,13 +18,14 @@ export function ProductCard({ product }: { product: Product }) {
             {product.isTrending && <div className={classes.badge}>Bán chạy</div>}
 
             <div className={classes.imageWrapper}>
-                <Image
-                    src={product.image}
-                    alt={product.title}
-                    h={140}
-                    fit="contain"
-                    fallbackSrc="https://placehold.co/400x300?text=Product"
-                />
+                <AspectRatio ratio={1 / 1}>
+                    <Image
+                        src={product.image}
+                        alt={product.title}
+                        fit="contain"
+                        fallbackSrc="https://placehold.co/400x300?text=Product"
+                    />
+                </AspectRatio>
             </div>
 
             <div className={classes.productInfo}>
@@ -38,7 +39,7 @@ export function ProductCard({ product }: { product: Product }) {
                 <div className={classes.footer}>
                     <Text className={classes.warranty}>{product.warranty}</Text>
                     <ActionIcon className={classes.cartButton}>
-                        <BsCartPlus size={18} />
+                        <BsCartPlus size={24} />
                     </ActionIcon>
                 </div>
             </div>

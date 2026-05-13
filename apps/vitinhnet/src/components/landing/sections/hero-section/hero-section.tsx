@@ -1,6 +1,6 @@
 'use client';
 
-import { Container, Grid, Title, Text, Button, Group, Box } from '@mantine/core';
+import { Container, Grid, Title, Text, Button, Group, Box, GridCol } from '@mantine/core';
 import { HeroCarousel } from '@vinaup/ui/landing';
 import classes from './hero-section.module.scss';
 import { DellLogoIcon, HpLogoIcon } from '@vinaup/ui/cores';
@@ -49,7 +49,7 @@ export function HeroSection() {
       <Container size="xl" w="100%">
         <Grid align="stretch" gap={20}>
           {/* Left Content */}
-          <Grid.Col span={{ base: 12, md: 4 }}>
+          <GridCol span={{ base: 12, md: 4 }} order={{ base: 2, md: 1 }}>
             <div className={classes.contentWrapper}>
               <div>
                 <Title className={classes.title}>Máy tính cũ<br />giá rẻ</Title>
@@ -74,10 +74,10 @@ export function HeroSection() {
                 </Group>
               </div>
             </div>
-          </Grid.Col>
+          </GridCol>
 
           {/* Right Content */}
-          <Grid.Col span={{ base: 12, md: 8 }}>
+          <GridCol span={{ base: 12, md: 8 }} order={{ base: 1, md: 2 }}>
             <HeroCarousel
               data={slides.map((slide) => ({
                 id: slide.id,
@@ -87,10 +87,10 @@ export function HeroSection() {
                 subTitle: slide.subTitle,
                 href: slide.href,
               }))}
-              height="55vh"
               overlayOpacity={0.2}
+              ratio={3 / 2}
             />
-          </Grid.Col>
+          </GridCol>
         </Grid>
       </Container>
     </Box>

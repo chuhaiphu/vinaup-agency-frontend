@@ -1,7 +1,7 @@
 'use client';
 
 import { Carousel, CarouselSlide } from '@mantine/carousel';
-import { Box, rgba } from '@mantine/core';
+import { Box, rgba, AspectRatio } from '@mantine/core';
 import Autoplay from 'embla-carousel-autoplay';
 import { useRef } from 'react';
 import classes from './hero-carousel.module.scss';
@@ -22,6 +22,7 @@ interface HeroCarouselProps {
   children?: React.ReactNode;
   data: HeroSlide[];
   height?: string | number;
+  ratio?: number;
   borderRadius?: string | number;
   overlayOpacity?: number;
 }
@@ -29,7 +30,8 @@ interface HeroCarouselProps {
 export function HeroCarousel({
   children,
   data,
-  height = '75vh',
+  height,
+  ratio = 4 / 3,
   borderRadius = '1rem',
   overlayOpacity = 0.3,
 }: HeroCarouselProps) {
@@ -43,13 +45,14 @@ export function HeroCarousel({
   );
 
   return (
-    <Box
-      className={classes.carouselWrapper}
-      h={height}
-      bdrs={borderRadius}
-      style={{ '--overlay-opacity': overlayOpacity } as React.CSSProperties}
-    >
-      <Carousel
+    <AspectRatio ratio={ratio}>
+      <Box
+        className={classes.carouselWrapper}
+        h={height || '100%'}
+        bdrs={borderRadius}
+        style={{ '--overlay-opacity': overlayOpacity } as React.CSSProperties}
+      >
+        <Carousel
         height="100%"
         withControls={false}
         withIndicators
@@ -107,6 +110,7 @@ export function HeroCarousel({
         })}
       </Carousel>
       <div className={classes.contentOverlay}>{children}</div>
-    </Box>
+      </Box>
+    </AspectRatio>
   );
 }

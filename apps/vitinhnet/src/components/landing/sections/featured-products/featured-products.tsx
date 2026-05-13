@@ -12,7 +12,7 @@ const categories = ['Laptop HP', 'Máy tính bàn HP', 'Laptop Dell', 'Tất c�
 const defaultProducts: Product[] = Array(6).fill(null).map((_, index) => ({
     id: index.toString(),
     title: 'Dell Latitude 5420 i5 1145G7 8G 256G 14" A1...',
-    image: 'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?q=80&w=2664&auto=format&fit=crop',
+    image: 'dell_3f2b91da99f7492ab27a0850bf13ccc5.png',
     oldPrice: '10.800.000đ',
     newPrice: '9.800.000đ',
     warranty: 'Bảo hành 6 tháng',

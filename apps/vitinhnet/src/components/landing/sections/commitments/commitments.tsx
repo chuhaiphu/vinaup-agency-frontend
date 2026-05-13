@@ -1,6 +1,6 @@
 'use client';
 
-import { Container, Grid, Title, Text, Box, Timeline } from '@mantine/core';
+import { Container, Grid, Title, Text, Box, Timeline, GridCol } from '@mantine/core';
 import { FaHandshake, FaShieldAlt, FaTruck } from 'react-icons/fa';
 import { VideoSection } from '@vinaup/ui/landing';
 import classes from './commitments.module.scss';
@@ -9,15 +9,23 @@ export function Commitments() {
   return (
     <Box className={classes.section}>
       <Container size="xl" w="100%">
-        <Grid gap="xl" align="stretch">
+        <Grid gap={"20px"} align="stretch">
           {/* Left Column: Cam Kết */}
-          <Grid.Col span={{ base: 12, md: 6 }}>
+          <GridCol span={{ base: 12, md: 6 }}>
             <div className={classes.contentWrapper}>
               <Title className={classes.title}>Vi Tính Net cam kết</Title>
 
-              <Timeline active={3} bulletSize={40} lineWidth={2} color="var(--brand-red, #d32f2f)">
+              <Timeline
+                active={3}
+                bulletSize={64}
+                lineWidth={4}
+                classNames={{
+                  itemBullet: classes.itemBullet,
+                  item: classes.item
+                }}
+              >
                 <Timeline.Item
-                  bullet={<FaHandshake size={20} />}
+                  bullet={<FaHandshake size={28} />}
                   title={<Text className={classes.itemTitle}>Đối Tác Tin Cậy</Text>}
                 >
                   <Text className={classes.itemDesc}>
@@ -26,7 +34,7 @@ export function Commitments() {
                 </Timeline.Item>
 
                 <Timeline.Item
-                  bullet={<FaShieldAlt size={20} />}
+                  bullet={<FaShieldAlt size={28} />}
                   title={<Text className={classes.itemTitle}>Cam Kết Chính Hãng</Text>}
                 >
                   <Text className={classes.itemDesc}>
@@ -35,7 +43,7 @@ export function Commitments() {
                 </Timeline.Item>
 
                 <Timeline.Item
-                  bullet={<FaTruck size={20} />}
+                  bullet={<FaTruck size={28} />}
                   title={<Text className={classes.itemTitle}>Dịch Vụ Tận Tâm</Text>}
                 >
                   <Text className={classes.itemDesc}>
@@ -44,17 +52,17 @@ export function Commitments() {
                 </Timeline.Item>
               </Timeline>
             </div>
-          </Grid.Col>
+          </GridCol>
 
           {/* Right Column: Video */}
-          <Grid.Col span={{ base: 12, md: 6 }}>
+          <GridCol span={{ base: 12, md: 6 }}>
             <div className={classes.videoWrapper}>
               <VideoSection
                 url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-                thumbnailUrl="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&q=80&w=1600"
+                height="100%"
               />
             </div>
-          </Grid.Col>
+          </GridCol>
         </Grid>
       </Container>
     </Box>

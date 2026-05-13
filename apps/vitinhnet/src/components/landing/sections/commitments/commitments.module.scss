@@ -1,6 +1,6 @@
 .section {
-  padding: 4rem 0;
-  background-color: var(--vinaup-white, #ffffff);
+  padding: 2rem 0;
+  background-color: #ffffff;
 }
 
 .contentWrapper {
@@ -11,7 +11,7 @@
 }
 
 .title {
-  color: #c94f53; // Màu đỏ giống thiết kế
+  color: var(--vinaup-soft-crimson);
   font-size: 2.25rem;
   font-weight: 700;
   margin-bottom: 2rem;
@@ -20,8 +20,8 @@
 .itemTitle {
   color: #333;
   font-weight: 700;
-  font-size: 1.125rem;
-  margin-bottom: 0.25rem;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
 }
 
 .itemDesc {
@@ -32,31 +32,58 @@
 
 .videoWrapper {
   height: 100%;
-  min-height: 300px;
   border-radius: 12px;
   overflow: hidden;
   display: flex;
-  
-  // Đảm bảo video component bên trong giãn đầy chiều cao
+  min-height: 100%; /* Đảm bảo nó dãn full chiều cao */
+
+  /* Nếu wrapper bên trong không tự dãn, ép style cho nó */
   & > div {
     flex: 1;
-    height: 100% !important;
+    height: 100%;
+    min-height: 100%;
 
     iframe {
       height: 100%;
-      min-height: 300px;
+      min-height: 100%;
+      aspect-ratio: auto;
+    }
+  }
+
+  @media (max-width: 768px) {
+    min-height: auto;
+    aspect-ratio: 16 / 9;
+
+    & > div iframe {
+      min-height: auto;
     }
   }
 }
 
-// Chỉnh lại màu timeline custom một chút để chuẩn design
-:global(.mantine-Timeline-itemBullet[data-with-child]) {
-  background-color: #c94f53;
-  border-color: #c94f53;
+.itemBullet {
+  background-color: var(--vinaup-soft-crimson);
+  border-color: var(--vinaup-soft-crimson);
   color: white;
 }
 
-:global(.mantine-Timeline-item) {
-  padding-left: 1.5rem;
-  padding-bottom: 2rem;
+.item {
+  padding-left: 1rem !important;
+  padding-bottom: 1rem;
+
+  @media (max-width: 500px) {
+    padding-left: 0.5rem !important;
+    padding-bottom: 0rem;
+  }
+
+  &::before {
+    border-left-color: var(--vinaup-soft-crimson);
+  }
+
+  &:nth-child(2) {
+    padding-bottom: 0rem;
+  }
+
+  &:last-of-type {
+    padding-bottom: 0;
+  }
 }

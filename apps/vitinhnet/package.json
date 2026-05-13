@@ -22,6 +22,7 @@
     "@monaco-editor/react": "^4.7.0",
     "@react-email/components": "^1.0.6",
     "@react-email/render": "^2.0.4",
+    "@tabler/icons-react": "^3.44.0",
     "@tiptap/extension-highlight": "^3.13.0",
     "@tiptap/extension-link": "^3.13.0",
     "@tiptap/extension-placeholder": "^3.13.0",

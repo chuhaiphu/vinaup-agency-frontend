@@ -47,10 +47,10 @@
 
   // Hover/Focus vào BẤT KỲ nút nào đều sáng màu xanh
   &:hover {
-    background-color: var(--brand-green);
-    border-color: var(--brand-green);
+    background-color: var(--brand-primary);
+    border-color: var(--brand-primary);
     color: var(--vinaup-white);
-    box-shadow: 0 0.25rem 0.5rem rgba(11, 77, 50, 0.3); // Glow xanh nhẹ
+    box-shadow: 0 0.25rem 0.5rem color-mix(in srgb, var(--brand-primary) 30%, transparent);
   }
 
   // Bỏ viền mặc định của trình duyệt khi focus
