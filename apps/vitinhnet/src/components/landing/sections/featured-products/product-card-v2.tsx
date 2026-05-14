@@ -1,6 +1,8 @@
-import { Image, Text, ActionIcon, AspectRatio } from '@mantine/core';
-import { BsCartPlus } from 'react-icons/bs';
-import classes from './product-card.module.scss';
+'use client';
+
+import { Image, Text, AspectRatio } from '@mantine/core';
+import { BsPlusCircle } from 'react-icons/bs';
+import classes from './product-card-v2.module.scss';
 
 export interface Product {
     id: string;
@@ -12,7 +14,7 @@ export interface Product {
     isTrending: boolean;
 }
 
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCardV2({ product }: { product: Product }) {
     return (
         <div className={classes.productCard}>
             {product.isTrending && <div className={classes.badge}>Bán chạy</div>}
@@ -29,18 +31,16 @@ export function ProductCard({ product }: { product: Product }) {
             </div>
 
             <div className={classes.productInfo}>
-                <Text className={classes.productTitle}>{product.title}</Text>
+                <Text className={classes.productTitle} lineClamp={2}>{product.title}</Text>
 
-                <div className={classes.footer}>
-                    <div>
-                        <Text className={classes.oldPrice}>{product.oldPrice}</Text>
-                        <Text className={classes.newPrice}>{product.newPrice}</Text>
-                        <Text className={classes.warranty}>{product.warranty}</Text>
+                <div className={classes.metaContainer}>
+                    <Text className={classes.newPrice}>{product.newPrice}</Text>
+                    <Text className={classes.oldPrice}>{product.oldPrice}</Text>
+                    <Text className={classes.warranty}>{product.warranty}</Text>
+                    <div className={classes.compare}>
+                        <BsPlusCircle size={16} />
+                        <span>So sánh</span>
                     </div>
-
-                    <ActionIcon className={classes.cartButton}>
-                        <BsCartPlus size={24} />
-                    </ActionIcon>
                 </div>
             </div>
         </div>

@@ -1,25 +1,58 @@
 'use client';
 
-import { Container, Title, Group, Button, Box } from '@mantine/core';
+import { useRef, useState, useEffect } from 'react';
+import { Container, Title, Button, Box, ActionIcon } from '@mantine/core';
+import { IconChevronRight, IconChevronLeft } from '@tabler/icons-react';
 import { GridCarousel } from '@vinaup/ui/landing';
-import { ProductCard, type Product } from './product-card';
 import classes from './featured-products.module.scss';
 import '@mantine/carousel/styles.css';
 import { VinaupGlobalIcon } from '@vinaup/ui/cores';
+import { Product, ProductCardV2 } from '@/components/landing/sections/featured-products/product-card-v2';
 
-const categories = ['Laptop HP', 'Máy tính bàn HP', 'Laptop Dell', 'Tất cả'];
+
+const categories = ['Laptop HP', 'Máy tính bàn HP', 'Laptop Dell', 'Máy tính bàn Dell', 'Laptop Lenovo'];
 
 const defaultProducts: Product[] = Array(6).fill(null).map((_, index) => ({
     id: index.toString(),
-    title: 'Dell Latitude 5420 i5 1145G7 8G 256G 14" A1...',
-    image: 'dell_3f2b91da99f7492ab27a0850bf13ccc5.png',
-    oldPrice: '10.800.000đ',
-    newPrice: '9.800.000đ',
+    title: 'Dell Latitude 5420 i5 1145G7 8G 256G 14" A1',
+    image: '810030053934__20205__66764.png',
+    oldPrice: '24.800.000đ',
+    newPrice: '22.800.000đ',
     warranty: 'Bảo hành 6 tháng',
     isTrending: true,
 }));
 
 export function FeaturedProducts() {
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const [showLeftArrow, setShowLeftArrow] = useState(false);
+    const [showRightArrow, setShowRightArrow] = useState(false);
+
+    const updateArrows = () => {
+        if (scrollRef.current) {
+            const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+            setShowLeftArrow(scrollLeft > 0);
+            setShowRightArrow(scrollLeft < scrollWidth - clientWidth - 1);
+        }
+    };
+
+    useEffect(() => {
+        updateArrows();
+        window.addEventListener('resize', updateArrows);
+        return () => window.removeEventListener('resize', updateArrows);
+    }, []);
+
+    const handleScrollLeft = () => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollBy({ left: -150, behavior: 'smooth' });
+        }
+    };
+
+    const handleScrollRight = () => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollBy({ left: 150, behavior: 'smooth' });
+        }
+    };
+
     return (
         <Box className={classes.section}>
             <Container size="xl" w="100%" pt={"2rem"}>
@@ -27,26 +60,62 @@ export function FeaturedProducts() {
                 <div className={classes.header}>
                     <Title className={classes.title}>Laptop Dell</Title>
 
-                    <Group gap="sm">
-                        {categories.map((cat, idx) => (
-                            <Button
-                                key={idx}
-                                variant="default"
-                                size="sm"
-                                className={classes.categoryPill}
-                                data-active={cat === 'Laptop Dell'}
-                            >
-                                {cat}
-                            </Button>
-                        ))}
-                        <VinaupGlobalIcon size={28} fill="#051b2c" />
-                    </Group>
+                    <div className={classes.rightSection}>
+                        <div className={classes.scrollWrapper}>
+                            {showLeftArrow && (
+                                <ActionIcon 
+                                    variant="subtle" 
+                                    className={classes.scrollButton} 
+                                    onClick={handleScrollLeft}
+                                    size={30}
+                                >
+                                    <IconChevronLeft size={18} />
+                                </ActionIcon>
+                            )}
+                            <div className={classes.scrollContainer} ref={scrollRef} onScroll={updateArrows}>
+                                {categories.map((cat, idx) => (
+                                    <Button
+                                        key={idx}
+                                        variant="default"
+                                        size="sm"
+                                        className={classes.categoryPill}
+                                        data-active={cat === 'Laptop Dell'}
+                                    >
+                                        {cat}
+                                    </Button>
+                                ))}
+                            </div>
+                            {showRightArrow && (
+                                <ActionIcon 
+                                    variant="subtle" 
+                                    className={classes.scrollButton} 
+                                    onClick={handleScrollRight}
+                                    size={30}
+                                >
+                                    <IconChevronRight size={18} />
+                                </ActionIcon>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className={classes.fixedActionGroup}>
+                        <Button
+                            variant="default"
+                            size="sm"
+                            className={classes.categoryPill}
+                        >
+                            Tất cả
+                        </Button>
+                        <div className={classes.globalIcon}>
+                            <VinaupGlobalIcon size={28} fill="#051b2c" />
+                        </div>
+                    </div>
                 </div>
 
                 {/* Carousel */}
                 <GridCarousel
                     items={defaultProducts}
-                    slideSize={{ base: '50%', sm: '33.333333%', md: '25%', lg: '20%' }}
+                    slideSize={{ base: '50%', xs: '33.333333%', sm: '33.333333%', md: '25%', lg: '20%' }}
                     carouselProps={{
                         withIndicators: false,
                         height: "100%",
@@ -54,7 +123,7 @@ export function FeaturedProducts() {
                         emblaOptions: { loop: false, align: 'start' },
                     }}
                     renderItem={(product) => (
-                        <ProductCard product={product} />
+                        <ProductCardV2 product={product} />
                     )}
                 />
             </Container>
