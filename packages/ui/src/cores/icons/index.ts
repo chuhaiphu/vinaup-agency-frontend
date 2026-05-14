@@ -35,3 +35,6 @@ export { default as VinaupCartIcon } from './vinaup-cart-icon';
 export { default as VinaupUserIcon } from './vinaup-user-icon';
 export { default as HpLogoIcon } from './hp-logo-icon';
 export { default as DellLogoIcon } from './dell-logo-icon';
+export { default as VinaupPhoneIcon } from './vinaup-phone-icon';
+export { default as VinaupMessageIcon } from './vinaup-message-icon';
+export { default as VinaupTimeIcon } from './vinaup-time-icon';

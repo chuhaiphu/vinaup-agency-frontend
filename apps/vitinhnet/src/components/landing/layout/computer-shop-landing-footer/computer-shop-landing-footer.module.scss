@@ -9,6 +9,19 @@
     border-radius: 12px;
     padding: 1rem;
     margin-bottom: 2rem;
+
+    @media (max-width: 48rem) {
+        padding: 0.75rem;
+    }
+}
+
+.tagGroup {
+    gap: 1rem;
+    justify-content: center;
+
+    @media (max-width: 48rem) {
+        gap: 0.5rem;
+    }
 }
 
 .tagButton {
@@ -16,6 +29,15 @@
     color: white;
     border-radius: 8px;
     font-weight: normal;
+    font-size: 1rem;
+    height: 2.625rem;
+    padding: 0 1.125rem;
+
+    @media (max-width: 48rem) {
+        font-size: 0.75rem;
+        height: 2rem;
+        padding: 0 0.75rem;
+    }
 
     &:hover {
         background-color: var(--brand-primary);
@@ -30,19 +52,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.brandName {
-    font-size: 3rem;
-    font-weight: bold;
-    color: white;
-    letter-spacing: -1px;
-    display: flex;
-    align-items: center;
-
-    .highlight {
-        color: var(--vinaup-soft-crimson);
-    }
 }
 
 .subLinks {
@@ -67,7 +76,7 @@
     align-items: flex-start;
     gap: 0.75rem;
     margin-bottom: 1rem;
-    font-size: 1rem;
+    font-size: clamp(1rem, 2vw, 1.125rem);
     color: white;
 }
 

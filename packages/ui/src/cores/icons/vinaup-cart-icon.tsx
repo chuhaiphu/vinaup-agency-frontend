@@ -1,7 +1,7 @@
 import * as React from "react"
 
 export default function VinaupCartIcon({
-    fill = "#1864AB",
+    fill = "#01233A",
     size = 30,
     className,
 }: {

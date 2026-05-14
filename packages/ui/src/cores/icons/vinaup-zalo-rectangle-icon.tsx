@@ -1,7 +1,7 @@
 ﻿import * as React from "react"
 
 export default function VinaupZaloRectangleIcon({
-    fill = "#1864AB",
+    fill = "#0E54C9",
     size = 30,
     className,
 }: {

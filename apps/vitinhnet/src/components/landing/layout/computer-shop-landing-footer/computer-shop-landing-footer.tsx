@@ -1,8 +1,7 @@
 'use client';
 
 import { Container, Grid, Group, Stack, Text, Box, Button, Image, GridCol } from '@mantine/core';
-import { IconMapPin, IconPhone, IconMessageCircle, IconClock } from '@tabler/icons-react';
-import { VinaupGoogleMapIcon, VinaupInstagramIcon, VinaupFacebookIcon, VinaupTiktokIcon } from '@vinaup/ui/cores';
+import { VinaupGoogleMapIcon, VinaupInstagramIcon, VinaupFacebookIcon, VinaupTiktokIcon, VinaupLocationIcon, VinaupPhoneIcon, VinaupMessageIcon, VinaupTimeIcon } from '@vinaup/ui/cores';
 import classes from './computer-shop-landing-footer.module.scss';
 import Link from 'next/link';
 
@@ -17,13 +16,12 @@ export function ComputerShopLandingFooter() {
         <Box component="footer" className={classes.footer}>
             <Container size="xl">
                 {/* Tags Section */}
-                <Box className={classes.tagsWrapper} visibleFrom="xs">
-                    <Group gap="md" justify="center">
+                <Box className={classes.tagsWrapper}>
+                    <Group className={classes.tagGroup}>
                         {tags.map((tag, index) => (
                             <Button
                                 key={index}
                                 className={classes.tagButton}
-                                size="md"
                                 radius="md"
                             >
                                 {tag}
@@ -52,20 +50,20 @@ export function ComputerShopLandingFooter() {
                     <GridCol span={{ base: 12, md: 7 }}>
                         <Stack gap="xs">
                             <div className={classes.contactItem}>
-                                <IconMapPin size={20} className={classes.contactIcon} />
-                                <Text>19/6/24 Hoàng Xuân Nhị, P. Phú Trung (Gần ngã 4 Lạc Long Quân - Âu Cơ)</Text>
+                                <VinaupLocationIcon size={20} className={classes.contactIcon} fill="#f5f5f5" />
+                                <span>19/6/24 Hoàng Xuân Nhị, P. Phú Trung (Gần ngã 4 Lạc Long Quân - Âu Cơ)</span>
                             </div>
                             <div className={classes.contactItem}>
-                                <IconPhone size={20} className={classes.contactIcon} />
-                                <Text>Bán hàng & CSKH: 0907 111 106 (Ms An)</Text>
+                                <VinaupPhoneIcon size={20} className={classes.contactIcon} fill="#f5f5f5" />
+                                <span>Bán hàng & CSKH: 0907 111 106 (Ms An)</span>
                             </div>
                             <div className={classes.contactItem}>
-                                <IconMessageCircle size={20} className={classes.contactIcon} />
-                                <Text>Đặt hàng online Zalo : 0907 111 106 (Ms An)</Text>
+                                <VinaupMessageIcon size={20} className={classes.contactIcon} fill="#f5f5f5" />
+                                <span>Đặt hàng online Zalo : 0907 111 106 (Ms An)</span>
                             </div>
                             <div className={classes.contactItem}>
-                                <IconClock size={20} className={classes.contactIcon} />
-                                <Text>Thời gian hoạt động : Từ 09h - 18h (T2 - T7)</Text>
+                                <VinaupTimeIcon size={20} className={classes.contactIcon} fill="#f5f5f5" />
+                                <span>Thời gian hoạt động : Từ 09h - 18h (T2 - T7)</span>
                             </div>
                         </Stack>
                     </GridCol>
