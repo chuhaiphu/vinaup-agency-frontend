@@ -22,7 +22,7 @@ export function TechNews() {
                 <div className={classes.header}>
                     <Title className={classes.title}>Tin công nghệ</Title>
 
-                    <Group gap={"sm"}>
+                    <Group gap={"0.5rem"}>
                         <Button
                             variant="default"
                             size="sm"
