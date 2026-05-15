@@ -2,6 +2,7 @@
 
 import { Image, Text, AspectRatio } from '@mantine/core';
 import { BsPlusCircle } from 'react-icons/bs';
+import { VinaupHeartIcon } from '@vinaup/ui/cores';
 import classes from './product-card-v2.module.scss';
 
 export interface Product {
@@ -10,7 +11,6 @@ export interface Product {
     image: string;
     oldPrice: string;
     newPrice: string;
-    warranty: string;
     isTrending: boolean;
 }
 
@@ -36,7 +36,7 @@ export function ProductCardV2({ product }: { product: Product }) {
                 <div className={classes.metaContainer}>
                     <Text className={classes.newPrice}>{product.newPrice}</Text>
                     <Text className={classes.oldPrice}>{product.oldPrice}</Text>
-                    <Text className={classes.warranty}>{product.warranty}</Text>
+                    <span className={classes.favorited}><VinaupHeartIcon fill="#C44C50" size={16} />Yêu thích</span>
                     <div className={classes.compare}>
                         <BsPlusCircle size={16} />
                         <span>So sánh</span>

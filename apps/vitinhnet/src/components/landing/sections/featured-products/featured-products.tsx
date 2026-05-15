@@ -6,7 +6,7 @@ import { IconChevronRight, IconChevronLeft } from '@tabler/icons-react';
 import { GridCarousel } from '@vinaup/ui/landing';
 import classes from './featured-products.module.scss';
 import '@mantine/carousel/styles.css';
-import { VinaupGlobalIcon } from '@vinaup/ui/cores';
+import { VinaupGlobalIcon, VinaupHeartIcon } from '@vinaup/ui/cores';
 import { Product, ProductCardV2 } from '@/components/landing/sections/featured-products/product-card-v2';
 
 
@@ -15,10 +15,9 @@ const categories = ['Laptop HP', 'Máy tính bàn HP', 'Laptop Dell', 'Máy tín
 const defaultProducts: Product[] = Array(6).fill(null).map((_, index) => ({
     id: index.toString(),
     title: 'Dell Latitude 5420 i5 1145G7 8G 256G 14" A1',
-    image: '810030053934__20205__66764.png',
+    image: '1751241600_Dell5490(1).jpg',
     oldPrice: '24.800.000đ',
     newPrice: '22.800.000đ',
-    warranty: 'Bảo hành 6 tháng',
     isTrending: true,
 }));
 
@@ -123,7 +122,9 @@ export function FeaturedProducts() {
                         emblaOptions: { loop: false, align: 'start' },
                     }}
                     renderItem={(product) => (
-                        <ProductCardV2 product={product} />
+                        <ProductCardV2 
+                            product={product}
+                        />
                     )}
                 />
             </Container>
