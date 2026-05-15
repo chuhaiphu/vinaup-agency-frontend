@@ -119,7 +119,7 @@ export function FeaturedProducts() {
                         withIndicators: false,
                         height: "100%",
                         slideGap: { base: '10px', sm: '15px', md: '20px' },
-                        emblaOptions: { loop: false, align: 'start' },
+                        emblaOptions: { loop: false, align: 'start', watchDrag: false },
                     }}
                     renderItem={(product) => (
                         <ProductCardV2 
