@@ -48,7 +48,7 @@ export function ComputerShopLandingFooter() {
                     </GridCol>
 
                     <GridCol span={{ base: 12, md: 7 }}>
-                        <Stack gap="xs">
+                        <Stack gap={"1rem"}>
                             <div className={classes.contactItem}>
                                 <VinaupLocationIcon size={20} className={classes.contactIcon} fill="#f5f5f5" />
                                 <span>19/6/24 Hoàng Xuân Nhị, P. Phú Trung (Gần ngã 4 Lạc Long Quân - Âu Cơ)</span>
