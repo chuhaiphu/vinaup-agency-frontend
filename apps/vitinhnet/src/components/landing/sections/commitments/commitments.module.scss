@@ -1,0 +1,88 @@
+.section {
+  padding: 2rem 0;
+  background-color: #ffffff;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.title {
+  color: var(--vinaup-soft-crimson);
+  font-size: clamp(1.75rem, 5vw, 2.25rem); 
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+.itemTitle {
+  color: #333;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.itemDesc {
+  color: #555;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.videoWrapper {
+  height: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  min-height: 100%; /* Đảm bảo nó dãn full chiều cao */
+
+  /* Nếu wrapper bên trong không tự dãn, ép style cho nó */
+  & > div {
+    flex: 1;
+    height: 100%;
+    min-height: 100%;
+
+    iframe {
+      height: 100%;
+      min-height: 100%;
+      aspect-ratio: auto;
+    }
+  }
+
+  @media (max-width: 768px) {
+    min-height: auto;
+    aspect-ratio: 16 / 9;
+
+    & > div iframe {
+      min-height: auto;
+    }
+  }
+}
+
+.itemBullet {
+  background-color: var(--vinaup-soft-crimson);
+  border-color: var(--vinaup-soft-crimson);
+  color: white;
+}
+
+.item {
+  padding-left: 1rem !important;
+  padding-bottom: 1rem;
+
+  @media (max-width: 500px) {
+    padding-left: 0.5rem !important;
+    padding-bottom: 0rem;
+  }
+
+  &::before {
+    border-left-color: var(--vinaup-soft-crimson);
+  }
+
+  &:nth-child(2) {
+    padding-bottom: 0rem;
+  }
+
+  &:last-of-type {
+    padding-bottom: 0;
+  }
+}

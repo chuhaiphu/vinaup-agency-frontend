@@ -1,8 +1,8 @@
 import * as React from "react"
 
 export default function MenuSquareIcon({
-    fill = "#F16406",
-    size = 42,
+    fill = "#01233A",
+    size = 30,
     className,
 }: {
     fill?: string;

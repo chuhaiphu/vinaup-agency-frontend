@@ -31,7 +31,9 @@ export default async function BlogsIndexPage({
 }: {
   searchParams: Promise<BlogIndexPageQueryParams>;
 }) {
+
   return (
+    
     <div className={classes.pageWrapper}>
       {/* --- 1. ORANGE HEADER --- */}
       <Box className={classes.orangeHeader}>

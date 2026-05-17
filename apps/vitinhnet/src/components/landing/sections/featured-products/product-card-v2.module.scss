@@ -1,0 +1,107 @@
+.productCard {
+    background-color: white;
+    border-radius: 0.75rem;
+    border: none;
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+        transform: translateY(-0.25rem);
+        box-shadow: 0 0.625rem 1.25rem rgba(0, 0, 0, 0.12);
+    }
+}
+
+.badge {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background-color: var(--vinaup-soft-crimson);
+    color: white;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    font-weight: 500;
+    z-index: 10;
+}
+
+.imageWrapper {
+    background-color: white;
+    text-align: center;
+}
+
+.productInfo {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 0.75rem;
+}
+
+.productTitle {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--vinaup-black);
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.metaContainer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 0.75rem;
+    row-gap: 0.5rem;
+    margin-top: auto;
+}
+
+.oldPrice {
+    text-decoration: line-through;
+    color: #888;
+    font-size: 0.875rem;
+    white-space: nowrap;
+
+    @media (max-width: 472px) {
+        order: -1;
+    }
+}
+
+.newPrice {
+    color: var(--vinaup-soft-crimson);
+    font-weight: 700;
+    font-size: 1.125rem;
+    white-space: nowrap;
+}
+
+.favorited {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 1rem;
+    color: var(--vinaup-black);
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.compare {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--vinaup-blue-link);
+    cursor: pointer;
+    line-height: 1;
+    white-space: nowrap;
+
+    span {
+        display: block;
+        padding-bottom: 2px;
+    }
+}
