@@ -34,7 +34,7 @@ export function NewsCard({ item }: { item: NewsItem }) {
                         <span>{item.likes.toString().padStart(2, '0')}</span>
                     </div>
                     <div className={classes.metaItem}>
-                        <VinaupEyeIcon size={18} className={classes.eyeIcon} stroke={"var(--vinaup-soft-crimson)"} />
+                        <VinaupEyeIcon size={18} className={classes.eyeIcon} fill={"var(--vinaup-soft-crimson)"} stroke={"var(--vinaup-soft-crimson)"} />
                         <span>{item.views.toString().padStart(2, '0')}</span>
                     </div>
                 </div>

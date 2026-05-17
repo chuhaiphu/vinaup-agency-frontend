@@ -17,7 +17,7 @@ export function Commitments() {
 
               <Timeline
                 active={3}
-                bulletSize={64}
+                bulletSize={40}
                 lineWidth={4}
                 classNames={{
                   itemBullet: classes.itemBullet,
@@ -25,7 +25,7 @@ export function Commitments() {
                 }}
               >
                 <Timeline.Item
-                  bullet={<FaHandshake size={28} />}
+                  bullet={<FaHandshake size={20} />}
                   title={<Text className={classes.itemTitle}>Đối Tác Tin Cậy</Text>}
                 >
                   <Text className={classes.itemDesc}>
@@ -34,7 +34,7 @@ export function Commitments() {
                 </Timeline.Item>
 
                 <Timeline.Item
-                  bullet={<FaShieldAlt size={28} />}
+                  bullet={<FaShieldAlt size={20} />}
                   title={<Text className={classes.itemTitle}>Cam Kết Chính Hãng</Text>}
                 >
                   <Text className={classes.itemDesc}>
@@ -43,7 +43,7 @@ export function Commitments() {
                 </Timeline.Item>
 
                 <Timeline.Item
-                  bullet={<FaTruck size={28} />}
+                  bullet={<FaTruck size={20} />}
                   title={<Text className={classes.itemTitle}>Dịch Vụ Tận Tâm</Text>}
                 >
                   <Text className={classes.itemDesc}>

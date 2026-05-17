@@ -6,7 +6,7 @@ import { IconChevronRight, IconChevronLeft } from '@tabler/icons-react';
 import { GridCarousel } from '@vinaup/ui/landing';
 import classes from './featured-products.module.scss';
 import '@mantine/carousel/styles.css';
-import { VinaupGlobalIcon, VinaupHeartIcon } from '@vinaup/ui/cores';
+import { VinaupGlobalIcon } from '@vinaup/ui/cores';
 import { Product, ProductCardV2 } from '@/components/landing/sections/featured-products/product-card-v2';
 
 
@@ -62,9 +62,9 @@ export function FeaturedProducts() {
                     <div className={classes.rightSection}>
                         <div className={classes.scrollWrapper}>
                             {showLeftArrow && (
-                                <ActionIcon 
-                                    variant="subtle" 
-                                    className={classes.scrollButton} 
+                                <ActionIcon
+                                    variant="subtle"
+                                    className={classes.scrollButton}
                                     onClick={handleScrollLeft}
                                     size={30}
                                 >
@@ -85,9 +85,9 @@ export function FeaturedProducts() {
                                 ))}
                             </div>
                             {showRightArrow && (
-                                <ActionIcon 
-                                    variant="subtle" 
-                                    className={classes.scrollButton} 
+                                <ActionIcon
+                                    variant="subtle"
+                                    className={classes.scrollButton}
                                     onClick={handleScrollRight}
                                     size={30}
                                 >
@@ -122,7 +122,7 @@ export function FeaturedProducts() {
                         emblaOptions: { loop: false, align: 'start', watchDrag: false },
                     }}
                     renderItem={(product) => (
-                        <ProductCardV2 
+                        <ProductCardV2
                             product={product}
                         />
                     )}
