@@ -9,7 +9,7 @@ import {
 
 export async function uploadImageActionPrivate(
   file: File,
-  folder: string
+  folder?: string
 ): Promise<ActionResponse<string>> {
   // Upload via backend API
   const result = await executeApi(

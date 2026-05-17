@@ -10,53 +10,36 @@ import { SalonLandingFooter } from '@/components/landing/layout/salon-landing-fo
 import { ScrollToTop } from '@vinaup/ui/landing';
 
 export async function generateMetadata(): Promise<Metadata> {
-  try {
-    const configResponse = await getAppConfigActionPublic();
-    const config = configResponse.data;
+  const configResponse = await getAppConfigActionPublic();
+  const config = configResponse.data;
 
-    return {
-      title: config?.websiteTitle,
-      description: config?.websiteDescription,
-      icons: {
-        icon: config?.faviconUrl || '/favicon.ico',
-      },
-      openGraph: {
-        title: config?.websiteTitle || '',
-        description: config?.websiteDescription || '',
-        url: 'https://jenahair.com',
-        siteName: config?.websiteTitle || '',
-        locale: 'vi_VN',
-        type: 'website',
-        images: ['/images/group1.png'],
-      },
-      alternates: {
-        canonical: 'https://jenahair.com',
-      },
-    };
-  } catch {
-    // Fallback to default metadata if config not found
-    return {
-      title: 'Jena Hair',
-      description:
-        'Jena Hair - Salon tóc cao cấp tại Việt Nam. Dịch vụ tạo kiểu, phục hồi và chăm sóc tóc chuyên nghiệp.',
-      icons: {
-        icon: '/favicon.ico',
-      },
-      openGraph: {
-        title: 'Jena Hair',
-        description:
-          'Jena Hair - Salon tóc cao cấp tại Việt Nam. Dịch vụ tạo kiểu, phục hồi và chăm sóc tóc chuyên nghiệp.',
-        url: 'https://jenahair.com',
-        siteName: 'Jena Hair',
-        locale: 'vi_VN',
-        type: 'website',
-        images: ['/images/group1.png'],
-      },
-      alternates: {
-        canonical: 'https://jenahair.com',
-      },
-    };
-  }
+  const websiteTitle = config?.websiteTitle
+    || 'Jena Hair';
+  const description = config?.websiteDescription
+    || 'Salon tóc cao cấp tại Việt Nam.';
+
+  return {
+    title: {
+      default: websiteTitle,
+      template: `%s`,
+    },
+    description,
+    applicationName: websiteTitle,
+    icons: {
+      icon: config?.faviconUrl || '/favicon.ico',
+    },
+    openGraph: {
+      url: 'https://jenahair.com',
+      type: 'website',
+      locale: 'vi_VN',
+      siteName: websiteTitle,
+      title: websiteTitle,
+      description,
+    },
+    alternates: {
+      canonical: 'https://jenahair.com',
+    },
+  };
 }
 
 export default async function LandingLayout({
@@ -64,8 +47,22 @@ export default async function LandingLayout({
 }: {
   children: React.ReactNode;
 }) {
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Jena Hair',
+    url: 'https://jenahair.com/',
+  };
+
   return (
     <main className={classes.landingLayout}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
+        }}
+      />
       <Suspense fallback={null}>
         <MaintenanceGuard />
       </Suspense>

@@ -2,10 +2,12 @@ import React from 'react';
 
 export default function VinaupEyeIcon({
     stroke = "#FCBE11",
+    fill = "#FCBE11",
     size = 17,
     className,
 }: {
     stroke?: string;
+    fill?: string;
     size?: number;
     className?: string;
 }) {
@@ -25,7 +27,7 @@ export default function VinaupEyeIcon({
             />
             <path
                 d="M10.8647 12C13.0738 12 14.8647 10.2091 14.8647 8C14.8647 5.79086 13.0738 4 10.8647 4C8.65555 4 6.86469 5.79086 6.86469 8C6.86469 10.2091 8.65555 12 10.8647 12Z"
-                fill={stroke}
+                fill={fill}
             />
         </svg>
     );

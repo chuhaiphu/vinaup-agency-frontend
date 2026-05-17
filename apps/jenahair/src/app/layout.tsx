@@ -11,22 +11,6 @@ import { inter } from './font';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://jenahair.com'),
-  title: {
-    default: 'Jena Hair',
-    template: '%s | Jena Hair',
-  },
-  description:
-    'Jena Hair - Salon tóc cao cấp tại Việt Nam. Dịch vụ tạo kiểu, phục hồi và chăm sóc tóc chuyên nghiệp.',
-  applicationName: 'Jena Hair',
-  openGraph: {
-    siteName: 'Jena Hair',
-    type: 'website',
-    locale: 'vi_VN',
-    images: ['/images/group1.png'],
-  },
-  alternates: {
-    canonical: 'https://jenahair.com',
-  },
 };
 
 export default function RootLayout({

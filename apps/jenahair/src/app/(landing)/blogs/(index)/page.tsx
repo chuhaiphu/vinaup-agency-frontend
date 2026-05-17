@@ -6,6 +6,9 @@ import classes from './page.module.scss';
 import { Suspense } from 'react';
 import BlogGridSkeleton from '@/components/landing/blogs/blog-grid/blog-grid-skeleton';
 import BlogCategoryTagsSkeleton from '@/components/landing/blogs/blog-category-tags/blog-category-tags-skeleton';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = { title: 'Blog' };
 export type BlogIndexPageQueryParams = {
   q?: string;
   destinations?: string;

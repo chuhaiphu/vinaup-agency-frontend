@@ -21,7 +21,17 @@
     margin-bottom: 1rem;
 
     .diaryDetailInfoContainer {
-      // padding: 0;
+      .diaryCategoryLink {
+        text-decoration: none;
+        .diaryCategoryText {
+          color: white;
+        }
+        &:hover {
+          .diaryCategoryText {
+            color: var(--vinaup-amber);
+          }
+        }
+      }
     }
   }
 

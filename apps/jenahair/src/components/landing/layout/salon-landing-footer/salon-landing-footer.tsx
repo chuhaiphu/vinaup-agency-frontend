@@ -59,7 +59,6 @@ export function SalonLandingFooter() {
         <div className={classes.copyright}>
           <Text
             size="md"
-            style={{ color: 'inherit' }}
             className={classes.copyrightText}
           >
             Jenahair © 2026 by{' '}

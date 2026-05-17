@@ -10,7 +10,7 @@ import {
   getAllBlogCategoriesActionPublic,
   getBlogCategoryByEndpointActionPublic,
 } from '@/actions/blog-category-action';
-import type { Metadata } from 'next';
+import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
@@ -39,12 +39,12 @@ export async function generateStaticParams() {
   return params.length > 0 ? params : [{ endpoint: BLOG_ENDPOINT_PLACEHOLDER }];
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ endpoint: string }>;
-}): Promise<Metadata> {
+export async function generateMetadata(
+  { params }: { params: Promise<{ endpoint: string }> },
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
   const { endpoint } = await params;
+  const resolvedParent = await parent;
 
   const blogResponse = await getBlogByEndpointActionPublic(endpoint);
   if (blogResponse.success && blogResponse.data) {
@@ -54,12 +54,14 @@ export async function generateMetadata({
       : 'Khám phá các mẹo chăm sóc tóc, cảm hứng tạo kiểu và chia sẻ từ Jena Hair';
 
     return {
-      title: `${blog.title} | Jena Hair`,
+      title: blog.title,
       description,
       openGraph: {
+        ...resolvedParent.openGraph,
+        url: `https://jenahair.com/blogs/${endpoint}`,
         title: blog.title,
         description,
-        images: blog.mainImageUrl ? [blog.mainImageUrl] : ['/images/group1.png'],
+        images: blog.mainImageUrl ? [blog.mainImageUrl] : [],
       },
       alternates: {
         canonical: `https://jenahair.com/blogs/${endpoint}`,
@@ -75,9 +77,11 @@ export async function generateMetadata({
       : 'Khám phá các mẹo chăm sóc tóc, cảm hứng tạo kiểu và chia sẻ từ Jena Hair';
 
     return {
-      title: `${category.title} | Jena Hair`,
+      title: category.title,
       description,
       openGraph: {
+        ...resolvedParent.openGraph,
+        url: `https://jenahair.com/blogs/${endpoint}`,
         title: category.title,
         description,
         images: category.mainImageUrl ? [category.mainImageUrl] : [],
@@ -88,9 +92,7 @@ export async function generateMetadata({
     };
   }
 
-  return {
-    title: 'Blog Not Found',
-  };
+  return { title: 'Blog Not Found' };
 }
 
 type BlogEndpointPageProps = {
