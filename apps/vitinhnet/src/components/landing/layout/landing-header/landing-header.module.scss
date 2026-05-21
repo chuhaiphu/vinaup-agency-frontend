@@ -6,7 +6,10 @@
 }
 
 .topSection {
-    border-bottom: 1px solid #E9ECEF;
+    transition: all 0.3s ease;
+}
+
+.scrolled {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -104,7 +107,7 @@
     }
 
     .searchButton {
-        background-color: var(--vinaup-navy-dark);
+        background-color: var(--vinaup-blue-link);
         color: #ffffff;
         width: 2.5rem;
         height: 2.5rem;
@@ -121,7 +124,10 @@
     background-color: var(--vinaup-soft-gray);
     transition: all 0.3s ease;
     transform-origin: top;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    position: relative;
+    z-index: 10;
 
     @media (max-width: 48rem) {
         display: none !important;
@@ -132,7 +138,7 @@
     display: flex;
     justify-content: center;
     gap: 2rem;
-    padding: 0.5rem 0;
+    padding-bottom: 0.5rem;
     overflow-x: auto;
     white-space: nowrap;
 

@@ -7,9 +7,10 @@ import { IoSearch } from 'react-icons/io5';
 import classes from './landing-header.module.scss';
 import { MenuSquareIcon, VinaupCartIcon, VinaupMessengerIcon, VinaupUserIcon, VinaupZaloRectangleIcon } from '@vinaup/ui/cores';
 import { Route } from 'next';
+import { useEffect, useState } from 'react';
 
 const NAV_LINKS = [
-    { label: 'Laptop nhập khẩu', href: '/laptop' },
+    { label: 'Laptop nhập khẩu', href: '/laptop-nhap-khau' },
     { label: 'Máy tính đồng bộ', href: '/may-tinh-dong-bo' },
     { label: 'Màn hình máy tính', href: '/man-hinh' },
     { label: 'Máy in', href: '/may-in' },
@@ -18,12 +19,29 @@ const NAV_LINKS = [
 ];
 
 export default function LandingHeader() {
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 10) {
+                setIsScrolled(true);
+            } else {
+                setIsScrolled(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
     return (
         <>
             <Box component="header" className={classes.header}>
-                <div className={classes.topSection}>
+                <div className={`${classes.topSection} ${isScrolled ? classes.scrolled : ''}`}>
                     <Container size="xl" h="100%">
-                        <div className={classes.topContainer}>
+                        <div className={classes.topContainer} >
 
                             {/* Logo */}
                             <Link href="/" className={classes.logoSection} aria-label="Vi Tinh Net - Trang chủ" title="Về trang chủ">
@@ -67,25 +85,25 @@ export default function LandingHeader() {
                             {/* Icons Area */}
                             <Group gap="md" wrap="nowrap" className={classes.iconGroup}>
                                 <ActionIcon size="lg" w="auto" variant="transparent" className={`${classes.actionIcon}`}>
-                                    <VinaupMessengerIcon size={28} />
+                                    <VinaupMessengerIcon size={28} fill='var(--vinaup-blue-link)' />
                                 </ActionIcon>
 
                                 <ActionIcon size="lg" w="auto" variant="transparent" className={`${classes.actionIcon}`}>
-                                    <VinaupZaloRectangleIcon size={28} />
+                                    <VinaupZaloRectangleIcon size={28} fill='var(--vinaup-blue-link)' />
                                 </ActionIcon>
 
                                 <Indicator inline label="2" size={16} color="red" offset={4}>
                                     <ActionIcon size="lg" variant="transparent" className={classes.actionIcon}>
-                                        <VinaupCartIcon size={28} />
+                                        <VinaupCartIcon size={28} fill='var(--vinaup-blue-link)' />
                                     </ActionIcon>
                                 </Indicator>
 
                                 <ActionIcon size="lg" variant="transparent" className={`${classes.actionIcon}`}>
-                                    <VinaupUserIcon size={28} />
+                                    <VinaupUserIcon size={28} fill='var(--vinaup-blue-link)' />
                                 </ActionIcon>
 
                                 <ActionIcon size="lg" variant="transparent" className={classes.actionIcon}>
-                                    <MenuSquareIcon size={28} />
+                                    <MenuSquareIcon size={28} fill='var(--vinaup-blue-link)' />
                                 </ActionIcon>
                             </Group>
                         </div>
