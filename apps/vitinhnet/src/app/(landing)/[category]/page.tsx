@@ -1,4 +1,5 @@
-import { Container, Title, Box, Group } from '@mantine/core';
+import { Suspense } from 'react';
+import { Container, Title, Box, Group, Loader, Center } from '@mantine/core';
 import { ProductCardV2, Product } from '@/components/landing/sections/featured-products/product-card-v2';
 import classes from './page.module.scss';
 import { CategoryControls } from './category-controls';
@@ -25,14 +26,15 @@ const CATEGORY_MAP: Record<string, string> = {
     'pcnet': 'PCNet Máy Tính Net',
 };
 
-export default async function CategoryPage(
-    props: {
-        params: Promise<{ category: string }>;
-        searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-    }
-) {
-    const resolvedParams = await props.params;
-    const resolvedSearchParams = await props.searchParams;
+async function CategoryPageWrapper({ 
+    paramsPromise,
+    searchParamsPromise 
+}: { 
+    paramsPromise: Promise<{ category: string }>;
+    searchParamsPromise: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+    const resolvedParams = await paramsPromise;
+    const resolvedSearchParams = await searchParamsPromise;
 
     const formatCategoryName = (slug: string) => {
         return CATEGORY_MAP[slug] || slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
@@ -99,5 +101,18 @@ export default async function CategoryPage(
                 </Container>
             </Box>
         </Box>
+    );
+}
+
+export default function CategoryPage(
+    props: {
+        params: Promise<{ category: string }>;
+        searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+    }
+) {
+    return (
+        <Suspense fallback={<Center py="3rem"><Loader color="red" /></Center>}>
+            <CategoryPageWrapper paramsPromise={props.params} searchParamsPromise={props.searchParams} />
+        </Suspense>
     );
 }
