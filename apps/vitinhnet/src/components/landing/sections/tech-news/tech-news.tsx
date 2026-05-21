@@ -5,6 +5,8 @@ import Marquee from 'react-fast-marquee';
 import { NewsCard, type NewsItem } from './news-card';
 import classes from './tech-news.module.scss';
 import { VinaupGlobalIcon } from '@vinaup/ui/cores';
+import Link from 'next/link';
+import { Route } from 'next';
 
 const defaultNews: NewsItem[] = Array(6).fill(null).map((_, index) => ({
     id: index.toString(),
@@ -24,6 +26,8 @@ export function TechNews() {
 
                     <Group gap={"0.5rem"}>
                         <Button
+                            component={Link}
+                            href={"/tin-cong-nghe" as Route}
                             variant="default"
                             size="sm"
                             className={classes.categoryPill}

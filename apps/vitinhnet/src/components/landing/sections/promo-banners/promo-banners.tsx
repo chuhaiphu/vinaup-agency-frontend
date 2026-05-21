@@ -11,7 +11,7 @@ export function PromoBanners() {
               radius="md"
               fallbackSrc="https://placehold.co/600x400?text=Banner+1"
               alt="Promo Banner 1"
-              style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.25)' }}
+              style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.25)', cursor: 'pointer' }}
             />
           </AspectRatio>
 
@@ -23,7 +23,7 @@ export function PromoBanners() {
               radius="md"
               fallbackSrc="https://placehold.co/600x400?text=Banner+2"
               alt="Promo Banner 2"
-              style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.25)' }}
+              style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.25)', cursor: 'pointer' }}
             />
           </AspectRatio>
         </GridCol>
