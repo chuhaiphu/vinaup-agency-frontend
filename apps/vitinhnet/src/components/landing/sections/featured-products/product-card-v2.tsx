@@ -34,12 +34,21 @@ export function ProductCardV2({ product }: { product: Product }) {
                 <Text className={classes.productTitle} lineClamp={2}>{product.title}</Text>
 
                 <div className={classes.metaContainer}>
-                    <Text className={classes.newPrice}>{product.newPrice}</Text>
-                    <Text className={classes.oldPrice}>{product.oldPrice}</Text>
-                    <span className={classes.favorited}><VinaupHeartIcon fill="#C44C50" size={16} />Yêu thích</span>
-                    <div className={classes.compare}>
-                        <BsPlusCircle size={16} />
-                        <span>So sánh</span>
+                    {/* Hàng 1: Giá mới và Icon Trái tim */}
+                    <div className={classes.priceRow}>
+                        <Text className={classes.newPrice}>{product.newPrice}</Text>
+                        <span className={classes.favorited}>
+                            <VinaupHeartIcon fill="#C44C50" size={18} />
+                        </span>
+                    </div>
+
+                    {/* Hàng 2: Giá cũ (Giảm giá) và So sánh */}
+                    <div className={classes.actionRow}>
+                        <Text className={classes.oldPrice}>{product.oldPrice}</Text>
+                        <div className={classes.compare}>
+                            <BsPlusCircle size={16} />
+                            <span>So sánh</span>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -8,9 +8,21 @@ import classes from './featured-products.module.scss';
 import '@mantine/carousel/styles.css';
 import { VinaupGlobalIcon } from '@vinaup/ui/cores';
 import { Product, ProductCardV2 } from '@/components/landing/sections/featured-products/product-card-v2';
+import Link from 'next/link';
+import { Route } from 'next';
 
 
-const categories = ['Laptop HP', 'Máy tính bàn HP', 'Laptop Dell', 'Máy tính bàn Dell', 'Laptop Lenovo'];
+const categories = [
+    { label: 'Laptop HP', slug: 'laptop-hp' },
+    { label: 'Laptop Dell', slug: 'laptop-dell' },
+    { label: 'Laptop Lenovo', slug: 'laptop-lenovo' },
+    { label: 'Laptop HP', slug: 'laptop-hp' },
+    { label: 'Laptop Dell', slug: 'laptop-dell' },
+    { label: 'Laptop Lenovo', slug: 'laptop-lenovo' },
+    { label: 'Laptop HP', slug: 'laptop-hp' },
+    { label: 'Laptop Dell', slug: 'laptop-dell' },
+    { label: 'Laptop Lenovo', slug: 'laptop-lenovo' }
+];
 
 const defaultProducts: Product[] = Array(6).fill(null).map((_, index) => ({
     id: index.toString(),
@@ -57,7 +69,7 @@ export function FeaturedProducts() {
             <Container size="xl" w="100%" pt={"2rem"}>
                 {/* Header */}
                 <div className={classes.header}>
-                    <Title className={classes.title}>Laptop Dell</Title>
+                    <Title className={classes.title}>Laptop Nhập Khẩu</Title>
 
                     <div className={classes.rightSection}>
                         <div className={classes.scrollWrapper}>
@@ -73,15 +85,20 @@ export function FeaturedProducts() {
                             )}
                             <div className={classes.scrollContainer} ref={scrollRef} onScroll={updateArrows}>
                                 {categories.map((cat, idx) => (
-                                    <Button
+                                    <Link
                                         key={idx}
-                                        variant="default"
-                                        size="sm"
-                                        className={classes.categoryPill}
-                                        data-active={cat === 'Laptop Dell'}
+                                        href={`/laptop-nhap-khau/${cat.slug}` as Route}
+                                        style={{ textDecoration: 'none' }}
                                     >
-                                        {cat}
-                                    </Button>
+                                        <Button
+                                            variant="default"
+                                            size="sm"
+                                            className={classes.categoryPill}
+                                            data-active={cat.label === 'Laptop Dell'}
+                                        >
+                                            {cat.label}
+                                        </Button>
+                                    </Link>
                                 ))}
                             </div>
                             {showRightArrow && (
@@ -99,6 +116,8 @@ export function FeaturedProducts() {
 
                     <div className={classes.fixedActionGroup}>
                         <Button
+                            component={Link}
+                            href={"laptop-nhap-khau" as Route}
                             variant="default"
                             size="sm"
                             className={classes.categoryPill}
