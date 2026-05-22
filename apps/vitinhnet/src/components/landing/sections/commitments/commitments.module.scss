@@ -12,20 +12,24 @@
 
 .title {
   color: var(--vinaup-soft-crimson);
-  font-size: clamp(1.75rem, 5vw, 2.25rem); 
+  font-size: clamp(1.5rem, 5vw, 2.25rem);
   font-weight: 700;
   margin-bottom: 2rem;
+
+  @media (max-width: 48rem) {
+    margin-bottom: 1rem;
+  }
 }
 
 .itemTitle {
   color: #333;
   font-weight: 700;
-  font-size: 1.25rem;
+  font-size: clamp(1rem, 3vw, 1.25rem);
 }
 
 .itemDesc {
   color: #555;
-  font-size: 1rem;
+  font-size: clamp(0.875rem, 2.5vw, 1rem);
   line-height: 1.5;
 }
 

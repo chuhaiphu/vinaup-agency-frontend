@@ -7,9 +7,9 @@ import classes from './commitments.module.scss';
 
 export function Commitments() {
   return (
-    <Box className={classes.section}>
+    <Box className={classes.section} py={{ base: '1rem', sm: '2rem' }}>
       <Container size="xl" w="100%">
-        <Grid gap={"20px"} align="stretch">
+        <Grid gap={{ base: '1rem', sm: '1.25rem' }} align="stretch">
           {/* Left Column: Cam Kết */}
           <GridCol span={{ base: 12, md: 6 }}>
             <div className={classes.contentWrapper}>
