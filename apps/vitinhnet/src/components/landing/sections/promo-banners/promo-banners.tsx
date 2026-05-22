@@ -2,8 +2,8 @@ import { Container, Grid, Image, GridCol, AspectRatio } from '@mantine/core';
 
 export function PromoBanners() {
   return (
-    <Container size="xl" w="100%" mt={"2rem"}>
-      <Grid gap={20}>
+    <Container size="xl" w="100%" mt={{ base: '1rem', sm: '2rem' }}>
+      <Grid gap={{ base: 10, sm: 20 }}>
         <GridCol span={{ base: 12, sm: 6 }}>
           <AspectRatio ratio={3 / 1}>
             <Image

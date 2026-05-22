@@ -19,7 +19,7 @@ const defaultNews: NewsItem[] = Array(6).fill(null).map((_, index) => ({
 export function TechNews() {
     return (
         <Box className={classes.section}>
-            <Container size="xl" w="100%" pt="2rem">
+            <Container size="xl" w="100%" pt={{ base: '1rem', sm: '2rem' }}>
                 {/* Header */}
                 <div className={classes.header}>
                     <Title className={classes.title}>Tin công nghệ</Title>
@@ -40,7 +40,7 @@ export function TechNews() {
             </Container>
 
             {/* Marquee Carousel */}
-            <Box className={classes.marqueeWrapper} pb="2rem">
+            <Box className={classes.marqueeWrapper} pb={{ base: '1rem', sm: '2rem' }}>
                 <Marquee
                     speed={40}
                     pauseOnHover={true}
