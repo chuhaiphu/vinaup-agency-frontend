@@ -59,7 +59,7 @@ export function HeroSection() {
               </div>
 
               <div>
-                <Group mt="xl" gap="md">
+                <Group mt={{ base: '1.5rem', sm: 'xl' }} gap="md">
                   <Button size="lg" radius="md" className={classes.btnPrimary}>
                     Liên hệ
                   </Button>
@@ -68,7 +68,7 @@ export function HeroSection() {
                   </Button>
                 </Group>
 
-                <Group gap="xl" className={classes.brandLogos}>
+                <Group gap="xl" mt={{ base: '1.5rem', sm: 'xl' }} className={classes.brandLogos}>
                   <HpLogoIcon size={66} fill="white" />
                   <DellLogoIcon size={66} fill="white" />
                 </Group>
