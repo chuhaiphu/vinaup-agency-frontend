@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
-import { ActionIcon } from '@mantine/core';
+import { ActionIcon, Button } from '@mantine/core';
 import { IconChevronRight, IconChevronLeft, IconFilter } from '@tabler/icons-react';
 import Link from 'next/link';
 import { Route } from 'next';
@@ -63,12 +63,19 @@ export function CategoryControls({ categorySlug, subCategories }: CategoryContro
                         <IconChevronLeft size={18} />
                     </ActionIcon>
                 )}
-                
+
                 <div className={classes.subCategoriesWrapper} ref={scrollRef} onScroll={updateArrows}>
                     {subCategories.map((sub, idx) => (
-                        <Link href={`/${categorySlug}` as Route} key={idx} className={classes.subCategoryPill}>
+                        <Button
+                            component={Link}
+                            href={`/${categorySlug}` as Route}
+                            key={idx}
+                            variant="default"
+                            size="sm"
+                            className={classes.subCategoryPill}
+                        >
                             {sub}
-                        </Link>
+                        </Button>
                     ))}
                 </div>
 
@@ -85,9 +92,14 @@ export function CategoryControls({ categorySlug, subCategories }: CategoryContro
             </div>
 
             <div className={classes.filterWrapper}>
-                <div className={classes.filterBox}>
-                    <IconFilter size={18} stroke={1.5} /> Bộ lọc
-                </div>
+                <Button
+                    variant="default"
+                    size="sm"
+                    className={classes.filterButton}
+                    leftSection={<IconFilter size={18} stroke={1.5} />}
+                >
+                    Bộ lọc
+                </Button>
             </div>
         </div>
     );

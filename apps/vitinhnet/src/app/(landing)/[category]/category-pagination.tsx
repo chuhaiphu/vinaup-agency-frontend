@@ -3,6 +3,7 @@
 import { Pagination } from '@mantine/core';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import type { Route } from 'next';
+import classes from './category-pagination.module.scss';
 
 interface CategoryPaginationProps {
     totalPages: number;
@@ -29,6 +30,9 @@ export function CategoryPagination({ totalPages, currentPage }: CategoryPaginati
             onChange={handlePageChange}
             color="var(--vinaup-blue-link)"
             boundaries={1}
+            classNames={{
+                control: classes.control,
+            }}
         />
     );
 }

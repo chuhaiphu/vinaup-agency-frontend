@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { Container, Title, Box, Group, Loader, Center } from '@mantine/core';
+import { Container, Title, Box, Group, Loader, Center, SimpleGrid } from '@mantine/core';
 import { ProductCardV2, Product } from '@/components/landing/sections/featured-products/product-card-v2';
 import classes from './page.module.scss';
 import { CategoryControls } from './category-controls';
@@ -26,10 +26,10 @@ const CATEGORY_MAP: Record<string, string> = {
     'pcnet': 'PCNet Máy Tính Net',
 };
 
-async function CategoryPageWrapper({ 
+async function CategoryPageWrapper({
     paramsPromise,
-    searchParamsPromise 
-}: { 
+    searchParamsPromise
+}: {
     paramsPromise: Promise<{ category: string }>;
     searchParamsPromise: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
@@ -60,39 +60,37 @@ async function CategoryPageWrapper({
 
     return (
         <Box className={classes.mainWrapper}>
-            <Container size="xl" py={"2rem"}>
+            <Container size="xl" py={{ base: '1rem', md: '2rem' }}>
 
                 {/* HEADER SECTION */}
                 <div className={classes.headerContainer}>
                     <Title className={classes.categoryTitle}>{categoryName}</Title>
                     <CategoryControls
                         categorySlug={resolvedParams.category}
-                        subCategories={['Laptop HP', 'Laptop Lenovo', 'Laptop Dell', 'Laptop Asus', 'Laptop Acer', 'MacBook', 'Lenovo Thinkpad', 'Laptop HP', 'Laptop Lenovo', 'Laptop Dell']}
+                        subCategories={['Tất cả', 'Laptop HP', 'Laptop Lenovo', 'Laptop Dell', 'Laptop Asus', 'Laptop Acer', 'MacBook', 'Lenovo Thinkpad', 'Laptop HP', 'Laptop Lenovo', 'Laptop Dell']}
                     />
                 </div>
 
                 {/* PRODUCT GRID */}
-                <div className={classes.productGrid}>
+                <SimpleGrid cols={{ base: 2, sm: 3, md: 4, lg: 5 }} spacing={{ base: '10px', sm: '15px', md: '20px' }}>
                     {currentProducts.map((product, idx) => (
-                        <div key={idx} className={classes.gridItem}>
-                            <ProductCardV2 product={product} />
-                        </div>
+                        <ProductCardV2 key={idx} product={product} />
                     ))}
-                </div>
+                </SimpleGrid>
 
                 {/* PAGINATION */}
-                <Group justify="center" mt="2rem">
+                <Group justify="center" mt={{ base: '1rem', md: '2rem' }}>
                     <CategoryPagination totalPages={totalPages} currentPage={currentPage} />
                 </Group>
             </Container>
 
             {/* SEO Content Section */}
             <Box className={classes.seoSection}>
-                <Container size="lg" mb="2rem">
+                <Container size="lg" mb={{ base: '1rem', md: '2rem' }}>
                     <SeoArticle contentHtml={SEO_ARTICLE_MOCK_HTML} />
                 </Container>
 
-                <Container size="lg" mb="2rem">
+                <Container size="lg" mb={{ base: '1rem', md: '2rem' }}>
                     <VideoSection
                         url="https://www.youtube.com/watch?v=LXb3EKWsInQ"
                         title="Vitinhnet PC Video"
