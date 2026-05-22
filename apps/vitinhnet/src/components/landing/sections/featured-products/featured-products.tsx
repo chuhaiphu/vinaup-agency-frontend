@@ -66,7 +66,7 @@ export function FeaturedProducts() {
 
     return (
         <Box className={classes.section}>
-            <Container size="xl" w="100%" pt={"2rem"}>
+            <Container size="xl" w="100%" pt={{ base: '1rem', sm: '2rem' }}>
                 {/* Header */}
                 <div className={classes.header}>
                     <Title className={classes.title}>Laptop Nhập Khẩu</Title>
@@ -84,6 +84,19 @@ export function FeaturedProducts() {
                                 </ActionIcon>
                             )}
                             <div className={classes.scrollContainer} ref={scrollRef} onScroll={updateArrows}>
+                                <Link
+                                    href={"laptop-nhap-khau" as Route}
+                                    style={{ textDecoration: 'none' }}
+                                    className={classes.mobileAllBtn}
+                                >
+                                    <Button
+                                        variant="default"
+                                        size="sm"
+                                        className={classes.categoryPill}
+                                    >
+                                        Tất cả
+                                    </Button>
+                                </Link>
                                 {categories.map((cat, idx) => (
                                     <Link
                                         key={idx}
@@ -94,7 +107,6 @@ export function FeaturedProducts() {
                                             variant="default"
                                             size="sm"
                                             className={classes.categoryPill}
-                                            data-active={cat.label === 'Laptop Dell'}
                                         >
                                             {cat.label}
                                         </Button>
@@ -120,7 +132,7 @@ export function FeaturedProducts() {
                             href={"laptop-nhap-khau" as Route}
                             variant="default"
                             size="sm"
-                            className={classes.categoryPill}
+                            className={`${classes.categoryPill} ${classes.desktopAllBtn}`}
                         >
                             Tất cả
                         </Button>

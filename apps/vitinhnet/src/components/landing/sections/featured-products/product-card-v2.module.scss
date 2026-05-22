@@ -40,6 +40,10 @@
     flex-direction: column;
     flex: 1;
     padding: 0.75rem;
+
+    @media (max-width: 48rem) {
+        padding: 0.5rem;
+    }
 }
 
 .productTitle {
@@ -91,7 +95,7 @@
 .oldPrice {
     text-decoration: line-through;
     color: #888;
-    font-size: 0.875rem;
+    font-size: clamp(0.8rem, 2vw, 0.875rem);
     white-space: nowrap;
 }
 
@@ -99,7 +103,7 @@
     display: flex;
     align-items: center;
     gap: 0.25rem;
-    font-size: 0.875rem;
+    font-size: clamp(0.8rem, 2vw, 0.875rem);
     font-weight: 500;
     color: var(--vinaup-blue-link);
     cursor: pointer;
