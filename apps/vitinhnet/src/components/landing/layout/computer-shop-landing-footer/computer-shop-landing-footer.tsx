@@ -31,7 +31,7 @@ export function ComputerShopLandingFooter() {
                 </Box>
 
                 {/* Primary Info Section */}
-                <Grid className={classes.infoSection} align="center" gap={{ base: 40, md: 50 }}>
+                <Grid className={classes.infoSection} align="center" gap={'2rem'}>
                     <GridCol span={{ base: 12, md: 5 }}>
                         <div className={classes.logoWrapper}>
                             <Image
@@ -73,9 +73,9 @@ export function ComputerShopLandingFooter() {
             {/* Bottom Bar Section */}
             <div className={classes.bottomBar}>
                 <Container size="xl" h="100%">
-                    <Group justify="space-between" align="center" h="100%">
+                    <Group gap="0.25rem" justify="space-between" align="center" h="100%" className={classes.bottomContent}>
                         <Text size="lg">Vi tính Net © 2026 by VinaUp</Text>
-                        <Group gap={20} className={classes.socialIcons}>
+                        <Group className={classes.socialIcons}>
                             <Link href="#" className={classes.socialIcon} aria-label="Google Maps">
                                 <VinaupGoogleMapIcon size={34} fill="currentColor" />
                             </Link>
