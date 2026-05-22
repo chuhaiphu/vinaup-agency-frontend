@@ -16,6 +16,7 @@
         @media (max-width: 48rem) {
             max-height: 0;
             opacity: 0;
+            transform: scaleY(0);
             margin-top: -0.5rem;
             pointer-events: none;
         }
@@ -32,6 +33,7 @@
     justify-content: space-between;
     width: 100%;
     min-height: 5rem;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
     @media (max-width: 48rem) {
         flex-wrap: wrap;
@@ -98,9 +100,10 @@
         max-width: 100%;
         margin: 0;
         opacity: 1;
+        transform: scaleY(1);
         transform-origin: top;
-        max-height: 3rem;
-        transition: max-height 0.3s ease, opacity 0.2s ease, transform 0.3s ease, margin 0.3s ease;
+        max-height: 3.5rem;
+        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .searchInput {
