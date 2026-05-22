@@ -11,6 +11,19 @@
 
 .scrolled {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    .searchBarWrapper {
+        @media (max-width: 48rem) {
+            max-height: 0;
+            opacity: 0;
+            margin-top: -0.5rem;
+            pointer-events: none;
+        }
+    }
+
+    .topContainer {
+        gap: 0;
+    }
 }
 
 .topContainer {
@@ -22,8 +35,9 @@
 
     @media (max-width: 48rem) {
         flex-wrap: wrap;
-        padding: 0.75rem 0;
+        padding: 0.5rem 0;
         gap: 0.5rem;
+        min-height: auto;
     }
 }
 
@@ -83,6 +97,10 @@
         flex: 1 1 100%;
         max-width: 100%;
         margin: 0;
+        opacity: 1;
+        transform-origin: top;
+        max-height: 3rem;
+        transition: max-height 0.3s ease, opacity 0.2s ease, transform 0.3s ease, margin 0.3s ease;
     }
 
     .searchInput {
