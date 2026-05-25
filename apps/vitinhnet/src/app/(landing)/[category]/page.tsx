@@ -14,7 +14,7 @@ const MOCK_PRODUCTS: Product[] = Array(90).fill(null).map((_, index) => ({
     image: '1751241600_Dell5490(1).jpg',
     oldPrice: '24.800.000đ',
     newPrice: '22.800.000đ',
-    isTrending: true,
+    discountPercent: '-16%',
 }));
 
 const CATEGORY_MAP: Record<string, string> = {

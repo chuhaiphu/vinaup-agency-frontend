@@ -11,13 +11,13 @@ export interface Product {
     image: string;
     oldPrice: string;
     newPrice: string;
-    isTrending: boolean;
+    discountPercent?: string;
 }
 
 export function ProductCardV2({ product }: { product: Product }) {
     return (
         <div className={classes.productCard}>
-            {product.isTrending && <div className={classes.badge}>Bán chạy</div>}
+            {product.discountPercent && <div className={classes.badge}>{product.discountPercent}</div>}
 
             <div className={classes.imageWrapper}>
                 <AspectRatio ratio={1 / 1}>

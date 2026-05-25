@@ -11,7 +11,6 @@ import { Product, ProductCardV2 } from '@/components/landing/sections/featured-p
 import Link from 'next/link';
 import { Route } from 'next';
 
-
 const categories = [
     { label: 'Laptop HP', slug: 'laptop-hp' },
     { label: 'Laptop Dell', slug: 'laptop-dell' },
@@ -30,7 +29,7 @@ const defaultProducts: Product[] = Array(6).fill(null).map((_, index) => ({
     image: '1751241600_Dell5490(1).jpg',
     oldPrice: '24.800.000đ',
     newPrice: '22.800.000đ',
-    isTrending: true,
+    discountPercent: '-16%'
 }));
 
 export function FeaturedProducts() {
