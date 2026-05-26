@@ -34,3 +34,7 @@ export { default as DellLogoIcon } from './dell-logo-icon';
 export { default as VinaupPhoneIcon } from './vinaup-phone-icon';
 export { default as VinaupMessageIcon } from './vinaup-message-icon';
 export { default as VinaupTimeIcon } from './vinaup-time-icon';
+export { default as VinaupEarthIcon } from './vinaup-earth-icon';
+export { default as VinaupCartPlusIcon } from './vinaup-cart-plus-icon';
+export { default as VinaupCopyIcon } from './vinaup-copy-icon';
+export { default as VinaupPlusIcon } from './vinaup-plus-icon';

@@ -4,6 +4,8 @@ import { Image, Text, AspectRatio } from '@mantine/core';
 import { BsPlusCircle } from 'react-icons/bs';
 import { VinaupHeartIcon } from '@vinaup/ui/cores';
 import classes from './product-card-v2.module.scss';
+import Link from 'next/link';
+import { Route } from 'next';
 
 export interface Product {
     id: string;
@@ -12,14 +14,18 @@ export interface Product {
     oldPrice: string;
     newPrice: string;
     discountPercent?: string;
+    slug?: string;
 }
 
 export function ProductCardV2({ product }: { product: Product }) {
+    const productSlug = product.slug || product.id;
+    const productUrl = `/san-pham/${productSlug}` as Route;
+
     return (
         <div className={classes.productCard}>
             {product.discountPercent && <div className={classes.badge}>{product.discountPercent}</div>}
 
-            <div className={classes.imageWrapper}>
+            <Link href={productUrl} className={classes.imageWrapper} style={{ display: 'block' }}>
                 <AspectRatio ratio={1 / 1}>
                     <Image
                         src={product.image}
@@ -28,10 +34,12 @@ export function ProductCardV2({ product }: { product: Product }) {
                         fallbackSrc="https://placehold.co/400x300?text=Product"
                     />
                 </AspectRatio>
-            </div>
+            </Link>
 
             <div className={classes.productInfo}>
-                <Text className={classes.productTitle} lineClamp={2}>{product.title}</Text>
+                <Link href={productUrl} style={{ textDecoration: 'none' }}>
+                    <Text className={classes.productTitle} lineClamp={2}>{product.title}</Text>
+                </Link>
 
                 <div className={classes.metaContainer}>
                     {/* Hàng 1: Giá mới và Icon Trái tim */}

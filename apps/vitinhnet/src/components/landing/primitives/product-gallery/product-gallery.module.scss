@@ -1,0 +1,78 @@
+.gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.mainImageWrapper {
+    position: relative;
+    width: 100%;
+    border: 1px solid #ebebeb;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.mainImageContainer {
+    position: relative;
+    width: 100%;
+}
+
+.carouselControl {
+    background-color: white;
+    border: 1px solid #ebebeb;
+    color: #333;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+        background-color: #f8f9fa;
+    }
+}
+
+.imageCounter {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    background: rgba(0, 0, 0, 0.4);
+    color: white;
+    z-index: 10;
+}
+
+.thumbnails {
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    justify-content: center;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    @media (max-width: 48rem) {
+        justify-content: flex-start;
+    }
+}
+
+.thumbnail {
+    position: relative;
+    flex-shrink: 0;
+    width: 70px;
+    height: 70px;
+    border: 2px solid #ebebeb;
+    border-radius: 4px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.2s ease;
+
+    &:hover {
+        border-color: #ccc;
+    }
+}
+
+.activeThumbnail {
+    border-color: var(--vinaup-soft-crimson);
+}

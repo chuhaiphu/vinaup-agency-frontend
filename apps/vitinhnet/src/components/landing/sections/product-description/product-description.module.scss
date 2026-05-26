@@ -1,0 +1,31 @@
+.card {
+    background-color: var(--mantine-color-white);
+    border-radius: 8px;
+    padding: 1rem;
+    border: 1px solid #ebebeb;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.categoryTag {
+    color: var(--mantine-color-gray-7);
+}
+
+.sectionTitle {
+    color: var(--vinaup-soft-crimson);
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.subTitle {
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 20px;
+    margin-bottom: 12px;
+}
+
+.videoWrapper {
+    margin-top: 24px;
+    border-radius: 12px;
+    overflow: hidden;
+}

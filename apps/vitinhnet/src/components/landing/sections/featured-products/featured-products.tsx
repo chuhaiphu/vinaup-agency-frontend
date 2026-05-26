@@ -1,8 +1,6 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
-import { Container, Title, Button, Box, ActionIcon } from '@mantine/core';
-import { IconChevronRight, IconChevronLeft } from '@tabler/icons-react';
+import { Container, Title, Button, Box } from '@mantine/core';
 import { GridCarousel } from '@vinaup/ui/landing';
 import classes from './featured-products.module.scss';
 import '@mantine/carousel/styles.css';
@@ -10,6 +8,7 @@ import { VinaupGlobalIcon } from '@vinaup/ui/cores';
 import { Product, ProductCardV2 } from '@/components/landing/sections/featured-products/product-card-v2';
 import Link from 'next/link';
 import { Route } from 'next';
+import { CategoryScroll, CategoryScrollItem } from '@/components/landing/primitives/category-scroll/category-scroll';
 
 const categories = [
     { label: 'Laptop HP', slug: 'laptop-hp' },
@@ -33,35 +32,13 @@ const defaultProducts: Product[] = Array(6).fill(null).map((_, index) => ({
 }));
 
 export function FeaturedProducts() {
-    const scrollRef = useRef<HTMLDivElement>(null);
-    const [showLeftArrow, setShowLeftArrow] = useState(false);
-    const [showRightArrow, setShowRightArrow] = useState(false);
-
-    const updateArrows = () => {
-        if (scrollRef.current) {
-            const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-            setShowLeftArrow(scrollLeft > 0);
-            setShowRightArrow(scrollLeft < scrollWidth - clientWidth - 1);
-        }
-    };
-
-    useEffect(() => {
-        updateArrows();
-        window.addEventListener('resize', updateArrows);
-        return () => window.removeEventListener('resize', updateArrows);
-    }, []);
-
-    const handleScrollLeft = () => {
-        if (scrollRef.current) {
-            scrollRef.current.scrollBy({ left: -150, behavior: 'smooth' });
-        }
-    };
-
-    const handleScrollRight = () => {
-        if (scrollRef.current) {
-            scrollRef.current.scrollBy({ left: 150, behavior: 'smooth' });
-        }
-    };
+    const scrollItems: CategoryScrollItem[] = [
+        { label: 'Tất cả', href: 'laptop-nhap-khau', className: classes.mobileAllBtn },
+        ...categories.map(cat => ({
+            label: cat.label,
+            href: `/laptop-nhap-khau/${cat.slug}`,
+        }))
+    ];
 
     return (
         <Box className={classes.section}>
@@ -71,58 +48,13 @@ export function FeaturedProducts() {
                     <Title className={classes.title}>Laptop Nhập Khẩu</Title>
 
                     <div className={classes.rightSection}>
-                        <div className={classes.scrollWrapper}>
-                            {showLeftArrow && (
-                                <ActionIcon
-                                    variant="subtle"
-                                    className={classes.scrollButton}
-                                    onClick={handleScrollLeft}
-                                    size={30}
-                                >
-                                    <IconChevronLeft size={18} />
-                                </ActionIcon>
-                            )}
-                            <div className={classes.scrollContainer} ref={scrollRef} onScroll={updateArrows}>
-                                <Link
-                                    href={"laptop-nhap-khau" as Route}
-                                    style={{ textDecoration: 'none' }}
-                                    className={classes.mobileAllBtn}
-                                >
-                                    <Button
-                                        variant="default"
-                                        size="sm"
-                                        className={classes.categoryPill}
-                                    >
-                                        Tất cả
-                                    </Button>
-                                </Link>
-                                {categories.map((cat, idx) => (
-                                    <Link
-                                        key={idx}
-                                        href={`/laptop-nhap-khau/${cat.slug}` as Route}
-                                        style={{ textDecoration: 'none' }}
-                                    >
-                                        <Button
-                                            variant="default"
-                                            size="sm"
-                                            className={classes.categoryPill}
-                                        >
-                                            {cat.label}
-                                        </Button>
-                                    </Link>
-                                ))}
-                            </div>
-                            {showRightArrow && (
-                                <ActionIcon
-                                    variant="subtle"
-                                    className={classes.scrollButton}
-                                    onClick={handleScrollRight}
-                                    size={30}
-                                >
-                                    <IconChevronRight size={18} />
-                                </ActionIcon>
-                            )}
-                        </div>
+                        <CategoryScroll
+                            items={scrollItems}
+                            scrollStep={150}
+                            containerClassName={classes.scrollContainer}
+                            itemClassName={classes.categoryPill}
+                            wrapperClassName={classes.scrollWrapper}
+                        />
                     </div>
 
                     <div className={classes.fixedActionGroup}>

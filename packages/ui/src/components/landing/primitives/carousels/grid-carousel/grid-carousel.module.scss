@@ -18,6 +18,7 @@
   transform: translateY(-50%);
   padding: 0;
   pointer-events: none;
+  z-index: 10; // Đảm bảo nút được hiển thị trên viewport
 
   // Desktop (Màn hình rộng): Đẩy 2 nút ra 2 bên lề
   width: calc(100% + 6rem);
