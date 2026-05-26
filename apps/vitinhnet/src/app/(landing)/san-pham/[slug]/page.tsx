@@ -4,6 +4,10 @@ import { ProductDetail } from '@/components/landing/sections/product-detail/prod
 import { ProductDescription } from '@/components/landing/sections/product-description/product-description';
 import { ViewedProducts } from '@/components/landing/sections/viewed-products/viewed-products';
 
+export function generateStaticParams() {
+    return [{ slug: 'placeholder-product' }];
+}
+
 export default function ProductDetailPage(
     props: {
         params: Promise<{ slug: string }>;
