@@ -95,10 +95,10 @@ export function ProductDetail() {
                                     <VinaupEyeIcon size={16} stroke="currentColor" fill="currentColor" /> <Text size="md">01</Text>
                                 </Group>
                                 <Group gap={8} className={classes.actionItem}>
-                                    <VinaupCopyIcon size={16} fill="currentColor" /> <Text size="md">Copy</Text>
+                                    <VinaupHeartIcon size={16} stroke="currentColor" fill="none" /> <Text size="md">01</Text>
                                 </Group>
                                 <Group gap={8} className={classes.actionItem}>
-                                    <VinaupHeartIcon size={16} stroke="currentColor" fill="none" /> <Text size="md">Yêu thích</Text>
+                                    <VinaupCopyIcon size={16} fill="currentColor" /> <Text size="md">Copy</Text>
                                 </Group>
                                 <Group gap={8} className={classes.actionItem}>
                                     <VinaupPlusIcon size={18} stroke="currentColor" /> <Text size="md">So sánh</Text>

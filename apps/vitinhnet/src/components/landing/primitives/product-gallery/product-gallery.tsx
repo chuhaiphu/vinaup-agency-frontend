@@ -59,16 +59,35 @@ export function ProductGallery({ images }: ProductGalleryProps) {
                 </Badge>
             </div>
 
-            <div className={classes.thumbnails}>
-                {images.map((img, idx) => (
-                    <div
-                        key={`${img}-${idx}`}
-                        className={`${classes.thumbnail} ${currentImageIndex === idx ? classes.activeThumbnail : ''}`}
-                        onClick={() => handleThumbnailClick(idx)}
-                    >
-                        <Image src={img} alt={`Thumbnail ${idx}`} fill style={{ objectFit: 'cover' }} />
-                    </div>
-                ))}
+            <div className={classes.thumbnailsWrapper}>
+                <Carousel
+                    className={classes.thumbnailCarousel}
+                    slideSize="70px"
+                    slideGap="0.75rem"
+                    emblaOptions={{
+                        dragFree: false,
+                        containScroll: 'keepSnaps',
+                        align: 'start',
+                    }}
+                    withControls={true}
+                    withIndicators={false}
+                    classNames={{
+                        control: classes.thumbnailControl,
+                    }}
+                    previousControlIcon={<IconChevronLeft size={16} />}
+                    nextControlIcon={<IconChevronRight size={16} />}
+                >
+                    {images.map((img, idx) => (
+                        <CarouselSlide key={`thumb-${img}-${idx}`}>
+                            <div
+                                className={`${classes.thumbnail} ${currentImageIndex === idx ? classes.activeThumbnail : ''}`}
+                                onClick={() => handleThumbnailClick(idx)}
+                            >
+                                <Image src={img} alt={`Thumbnail ${idx}`} fill style={{ objectFit: 'cover' }} />
+                            </div>
+                        </CarouselSlide>
+                    ))}
+                </Carousel>
             </div>
         </div>
     );

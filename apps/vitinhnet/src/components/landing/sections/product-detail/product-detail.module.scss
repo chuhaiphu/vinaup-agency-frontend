@@ -4,6 +4,10 @@
     padding: 1.25rem;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     border: 1px solid #ebebeb;
+
+    @media (max-width: 48em) {
+        padding: 0.5rem;
+    }
 }
 
 .breadcrumbLink {

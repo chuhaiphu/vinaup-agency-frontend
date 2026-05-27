@@ -76,3 +76,36 @@
 .activeThumbnail {
     border-color: var(--vinaup-soft-crimson);
 }
+
+.thumbnailsWrapper {
+    width: 100%;
+}
+
+.thumbnailCarousel {
+    width: max-content;
+    max-width: 100%;
+    margin: 0 auto;
+
+    @media (max-width: 48rem) {
+        margin: 0;
+    }
+}
+
+.thumbnailControl {
+    background-color: white;
+    border: 1px solid #ebebeb;
+    color: #333;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+        background-color: #f8f9fa;
+    }
+
+    &[data-inactive] {
+        opacity: 0;
+        cursor: default;
+    }
+}
