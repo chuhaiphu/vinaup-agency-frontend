@@ -1,13 +1,12 @@
 'use client';
 
-import { Container, Title, Button, Box } from '@mantine/core';
+import { Container, Title, Box } from '@mantine/core';
 import { GridCarousel } from '@vinaup/ui/landing';
 import classes from './featured-products.module.scss';
 import '@mantine/carousel/styles.css';
-import { VinaupGlobalIcon } from '@vinaup/ui/cores';
+import { VinaupArrowRightIcon } from '@vinaup/ui/cores';
 import { Product, ProductCardV2 } from '@/components/landing/sections/featured-products/product-card-v2';
 import Link from 'next/link';
-import { Route } from 'next';
 import { CategoryScroll, CategoryScrollItem } from '@/components/landing/primitives/category-scroll/category-scroll';
 
 const categories = [
@@ -32,20 +31,31 @@ const defaultProducts: Product[] = Array(6).fill(null).map((_, index) => ({
 }));
 
 export function FeaturedProducts() {
-    const scrollItems: CategoryScrollItem[] = [
-        { label: 'Tất cả', href: 'laptop-nhap-khau', className: classes.mobileAllBtn },
-        ...categories.map(cat => ({
-            label: cat.label,
-            href: `/laptop-nhap-khau/${cat.slug}`,
-        }))
-    ];
+    const scrollItems: CategoryScrollItem[] = categories.map(cat => ({
+        label: cat.label,
+        href: `/laptop-nhap-khau/${cat.slug}`,
+    }));
 
     return (
         <Box className={classes.section}>
             <Container size="xl" w="100%" pt={{ base: '1rem', sm: '2rem' }}>
                 {/* Header */}
                 <div className={classes.header}>
-                    <Title className={classes.title}>Laptop Nhập Khẩu</Title>
+                    <Link
+                        href="/laptop-nhap-khau"
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                    >
+                        <Title
+                            order={2}
+                            className={classes.titleButton}
+                        >
+                            <div className={classes.titleDecorator} />
+                            <span className={classes.titleText}>Laptop Nhập Khẩu</span>
+                            <div className={classes.titleArrow}>
+                                <VinaupArrowRightIcon size={20} fill="#0E54C9" />
+                            </div>
+                        </Title>
+                    </Link>
 
                     <div className={classes.rightSection}>
                         <CategoryScroll
@@ -55,21 +65,6 @@ export function FeaturedProducts() {
                             itemClassName={classes.categoryPill}
                             wrapperClassName={classes.scrollWrapper}
                         />
-                    </div>
-
-                    <div className={classes.fixedActionGroup}>
-                        <Button
-                            component={Link}
-                            href={"laptop-nhap-khau" as Route}
-                            variant="default"
-                            size="sm"
-                            className={`${classes.categoryPill} ${classes.desktopAllBtn}`}
-                        >
-                            Tất cả
-                        </Button>
-                        <div className={classes.globalIcon}>
-                            <VinaupGlobalIcon size={28} fill="#051b2c" />
-                        </div>
                     </div>
                 </div>
 
