@@ -39,3 +39,14 @@ html {
   font-size: 1rem;
   font-family: var(--font-inter);
 }
+@media (max-width: 48em) {
+  .vinaup-Container-root {
+    padding-inline: 8px !important;
+  }
+}
+
+
+html, body {
+  overflow-x: clip;
+}
+
