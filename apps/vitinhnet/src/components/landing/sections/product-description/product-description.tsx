@@ -1,17 +1,15 @@
-import { Container, Grid, GridCol, Box, Title, Text, List, ListItem, Group, Anchor } from '@mantine/core';
+import { Container, Grid, GridCol, Box, Title, Text, List, ListItem, Group, Stack, AspectRatio, Image } from '@mantine/core';
 import classes from './product-description.module.scss';
 import {
     VinaupPriceTagIcon,
     VinaupLocationIcon,
-    VinaupPhoneIcon,
-    VinaupMessageIcon
+    VinaupArrowRightIcon
 } from '@vinaup/ui/cores';
 import { VideoSection } from '@vinaup/ui/landing';
 
 export function ProductDescription() {
     return (
         <Container size="xl" py={{ base: '1rem', sm: '2rem' }}>
-            {/* Category tag placed above grid so left and right cards align at top */}
             <Group gap="xs" mb="sm" className={classes.categoryTag}>
                 <VinaupPriceTagIcon size={18} fill="var(--vinaup-soft-crimson)" />
                 <Text size="md" tt="uppercase" fw={500}>Tên danh mục A</Text>
@@ -21,9 +19,16 @@ export function ProductDescription() {
                 {/* Left Column */}
                 <GridCol span={{ base: 12, md: 8, lg: 8 }}>
                     <Box className={classes.card} mb={'20px'}>
-                        <Title order={2} className={classes.sectionTitle}>
-                            Thông tin sản phẩm
-                        </Title>
+                        <Group gap="sm" mb="md" align="center" wrap="nowrap">
+                            <VinaupArrowRightIcon size={28} fill="var(--vinaup-blue-link)" />
+                            <Title
+                                order={2}
+                                className={classes.sectionTitle}
+                            >
+                                Thông tin sản phẩm
+                            </Title>
+                        </Group>
+
                         <Text fw={700} mb="1rem" size="md">
                             HP EliteDesk 800 G5 SFF là dòng máy bộ doanh nghiệp cao cấp của HP, cực kỳ phổ biến tại thị trường máy cũ/refurbished Việt Nam nhờ độ bền bỉ vượt trội, hiệu năng ổn định và khả năng nâng cấp linh hoạt.
                         </Text>
@@ -92,9 +97,15 @@ export function ProductDescription() {
                 {/* Right Column */}
                 <GridCol span={{ base: 12, md: 4, lg: 4 }}>
                     <Box className={classes.card} mb={{ base: '16px', md: '20px' }}>
-                        <Title order={2} className={classes.sectionTitle}>
-                            Cấu hình phần cứng
-                        </Title>
+                        <Group gap="sm" mb="md" align="center" wrap="nowrap">
+                            <VinaupArrowRightIcon size={28} fill="var(--vinaup-blue-link)" />
+                            <Title
+                                order={2}
+                                className={classes.sectionTitle}
+                            >
+                                Cấu hình phần cứng
+                            </Title>
+                        </Group>
                         <List spacing="sm" size="md">
                             <ListItem><b>CPU:</b> Intel Core i3-9100</ListItem>
                             <ListItem><b>RAM:</b> 8GB</ListItem>
@@ -105,33 +116,23 @@ export function ProductDescription() {
                         </List>
                     </Box>
 
-                    <Box className={classes.card}>
-                        <Title order={2} className={classes.sectionTitle}>
-                            Tư vấn mua hàng
-                        </Title>
-
-                        <Group gap="xs" mb="xs">
-                            <VinaupPhoneIcon size={20} fill="var(--vinaup-soft-crimson)" />
-                            <Text fw={700} size="md">Điện thoại:</Text>
-                        </Group>
-                        <List withPadding spacing="xs" size="xl" fw={700} listStyleType="disc" mb="xl">
-                            <ListItem>0907 111 106</ListItem>
-                            <ListItem>0907 111 106</ListItem>
-                        </List>
-
-                        <Group gap="xs" mb="xs">
-                            <VinaupMessageIcon size={20} fill="var(--vinaup-soft-crimson)" />
-                            <Text fw={700} size="md">Chat online:</Text>
-                        </Group>
-                        <List withPadding spacing="xs" size="xl" fw={700} listStyleType="disc">
-                            <ListItem>
-                                <Anchor href="#" c="blue.7" fw={700}>Zalo</Anchor>
-                            </ListItem>
-                            <ListItem>
-                                <Anchor href="#" c="blue.7" fw={700}>Messenger</Anchor>
-                            </ListItem>
-                        </List>
-                    </Box>
+                    {/* SỬ DỤNG STACK ĐỂ XẾP DỌC 2 ẢNH VUÔNG */}
+                    <Stack gap={'20px'}>
+                        <AspectRatio ratio={1 / 1}>
+                            <Image
+                                src="/1751241600_Dell5490(1).jpg"
+                                alt="Ảnh mô tả 1"
+                                radius="md"
+                            />
+                        </AspectRatio>
+                        <AspectRatio ratio={1 / 1}>
+                            <Image
+                                src="/1751241600_Dell5490(1).jpg"
+                                alt="Ảnh mô tả 2"
+                                radius="md"
+                            />
+                        </AspectRatio>
+                    </Stack>
                 </GridCol>
             </Grid>
         </Container>
