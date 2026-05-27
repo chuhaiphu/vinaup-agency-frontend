@@ -102,14 +102,53 @@
 }
 
 .filterButton {
-    border-radius: 1.875rem;
+    border-radius: 0.5rem;
     border-color: var(--vinaup-light-gray, #E9ECEF);
     color: #333;
     background-color: white;
     font-weight: 500;
     transition: all 0.2s ease;
+    height: 36px;
 
     &:hover {
         background-color: #f1f3f5;
+    }
+
+    @media (max-width: 48rem) {
+        height: 30px;
+        font-size: 0.75rem;
+    }
+}
+
+.viewAllIconBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 2.5px solid var(--vinaup-blue-link);
+    border-radius: 8px;
+    background-color: white;
+    flex-shrink: 0;
+    text-decoration: none;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background-color: #f1f3f5;
+    }
+
+    @media (max-width: 48rem) {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+.vAllSvg {
+    width: 16px;
+    height: 16px;
+
+    @media (max-width: 48rem) {
+        width: 14px;
+        height: 14px;
     }
 }
