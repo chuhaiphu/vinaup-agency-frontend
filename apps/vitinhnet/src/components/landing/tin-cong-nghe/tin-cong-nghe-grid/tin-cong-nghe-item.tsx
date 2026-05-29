@@ -2,7 +2,7 @@ import { Group } from '@mantine/core';
 import Image from 'next/image';
 import { VinaupHeartIcon, VinaupEyeIcon } from '@vinaup/ui/cores';
 import classes from './tin-cong-nghe-item.module.scss';
-import { ITinCongNghe } from '../mock-data';
+import { ITinCongNghe } from '../../../../mocks/tech-news-data.mock';
 
 export default function TinCongNgheItem({ item }: { item: ITinCongNghe }) {
   return (

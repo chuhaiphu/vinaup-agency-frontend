@@ -1,5 +1,5 @@
 import { Container, Title, Text, Box, Breadcrumbs, Anchor } from '@mantine/core';
-import { MOCK_BLOGS, MOCK_CATEGORIES } from '@/components/landing/tin-cong-nghe/mock-data';
+import { MOCK_BLOGS, MOCK_CATEGORIES } from '@/mocks/tech-news-data.mock';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';

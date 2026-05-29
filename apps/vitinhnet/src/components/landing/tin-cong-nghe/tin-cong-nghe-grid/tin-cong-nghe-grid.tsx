@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Route } from 'next';
 import TinCongNgheItem from './tin-cong-nghe-item';
 import classes from './tin-cong-nghe-grid.module.scss';
-import { ITinCongNghe } from '../mock-data';
+import { ITinCongNghe } from '../../../../mocks/tech-news-data.mock';
 
 export default function TinCongNgheGrid({
     blogs,

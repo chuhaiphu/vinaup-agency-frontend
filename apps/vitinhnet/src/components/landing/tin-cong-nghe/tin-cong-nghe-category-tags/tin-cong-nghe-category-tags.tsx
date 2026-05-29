@@ -1,7 +1,7 @@
 'use client';
 import { Route } from 'next';
 import Link from 'next/link';
-import { MOCK_CATEGORIES } from '../mock-data';
+import { MOCK_CATEGORIES } from '../../../../mocks/tech-news-data.mock';
 import classes from './tin-cong-nghe-category-tags.module.scss';
 import { CategoryScroll, CategoryScrollItem } from '@/components/landing/primitives/category-scroll/category-scroll';
 import { VinaupArrowRightIcon } from '@vinaup/ui/cores';

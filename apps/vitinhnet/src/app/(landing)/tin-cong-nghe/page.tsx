@@ -1,7 +1,7 @@
 import { Container, Stack, Box, Title } from '@mantine/core';
 import TinCongNgheCategoryTags from '@/components/landing/tin-cong-nghe/tin-cong-nghe-category-tags/tin-cong-nghe-category-tags';
 import TinCongNgheGrid from '@/components/landing/tin-cong-nghe/tin-cong-nghe-grid/tin-cong-nghe-grid';
-import { MOCK_BLOGS } from '@/components/landing/tin-cong-nghe/mock-data';
+import { MOCK_BLOGS } from '@/mocks/tech-news-data.mock';
 import classes from './page.module.scss';
 
 export const metadata = { title: 'Tin Công Nghệ | ViTinhNet' };
