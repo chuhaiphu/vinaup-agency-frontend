@@ -8,6 +8,7 @@ import classes from './landing-header.module.scss';
 import { MenuSquareIcon, VinaupCartIcon, VinaupMessengerIcon, VinaupUserIcon, VinaupZaloRectangleIcon } from '@vinaup/ui/cores';
 import { Route } from 'next';
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 const NAV_LINKS = [
     { label: 'Laptop nhập khẩu', href: '/laptop-nhap-khau' },
@@ -19,6 +20,7 @@ const NAV_LINKS = [
 ];
 
 export default function LandingHeader() {
+    const pathname = usePathname();
     const [isScrolled, setIsScrolled] = useState(false);
 
     useEffect(() => {
@@ -48,7 +50,6 @@ export default function LandingHeader() {
                 <div className={`${classes.topSection} ${isScrolled ? classes.scrolled : ''}`}>
                     <Container size="xl" h="100%">
                         <div className={classes.topContainer} >
-
                             {/* Logo */}
                             <Link href="/" className={classes.logoSection} aria-label="Vi Tinh Net - Trang chủ" title="Về trang chủ">
                                 <Image
@@ -70,7 +71,6 @@ export default function LandingHeader() {
                                     priority
                                 />
                             </Link>
-
                             {/* Search Bar */}
                             <TextInput
                                 className={classes.searchBarWrapper}
@@ -87,27 +87,22 @@ export default function LandingHeader() {
                                     </ActionIcon>
                                 }
                             />
-
                             {/* Icons Area */}
                             <Group gap="md" wrap="nowrap" className={classes.iconGroup}>
                                 <ActionIcon size="lg" w="auto" variant="transparent" className={`${classes.actionIcon}`}>
                                     <VinaupMessengerIcon size={28} fill='var(--vinaup-blue-link)' />
                                 </ActionIcon>
-
                                 <ActionIcon size="lg" w="auto" variant="transparent" className={`${classes.actionIcon}`}>
                                     <VinaupZaloRectangleIcon size={28} fill='var(--vinaup-blue-link)' />
                                 </ActionIcon>
-
                                 <Indicator inline label="2" size={16} color="red" offset={4}>
                                     <ActionIcon size="lg" variant="transparent" className={classes.actionIcon}>
                                         <VinaupCartIcon size={28} fill='var(--vinaup-blue-link)' />
                                     </ActionIcon>
                                 </Indicator>
-
                                 <ActionIcon size="lg" variant="transparent" className={`${classes.actionIcon}`}>
                                     <VinaupUserIcon size={28} fill='var(--vinaup-blue-link)' />
                                 </ActionIcon>
-
                                 <ActionIcon size="lg" variant="transparent" className={classes.actionIcon}>
                                     <MenuSquareIcon size={28} fill='var(--vinaup-blue-link)' />
                                 </ActionIcon>
@@ -116,17 +111,19 @@ export default function LandingHeader() {
                     </Container>
                 </div>
             </Box>
-            <nav className={classes.navSection}>
-                <Container size="xl">
-                    <div className={classes.navLinks}>
-                        {NAV_LINKS.map((link) => (
-                            <Link key={link.label} href={link.href as Route} className={classes.navLink}>
-                                {link.label}
-                            </Link>
-                        ))}
-                    </div>
-                </Container>
-            </nav>
+            {pathname === '/' && (
+                <nav className={classes.navSection}>
+                    <Container size="xl">
+                        <div className={classes.navLinks}>
+                            {NAV_LINKS.map((link) => (
+                                <Link key={link.label} href={link.href as Route} className={classes.navLink}>
+                                    {link.label}
+                                </Link>
+                            ))}
+                        </div>
+                    </Container>
+                </nav>
+            )}
         </>
     );
 }

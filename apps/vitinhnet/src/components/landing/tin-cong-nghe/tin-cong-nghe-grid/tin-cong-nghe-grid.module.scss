@@ -8,10 +8,12 @@
   margin-top: 2rem;
 
   @media (max-width: 48rem) {
-      margin-top: 1rem;
+    margin-top: 1rem;
   }
 }
 
 .control {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 40px;
+  width: 40px;
 }
