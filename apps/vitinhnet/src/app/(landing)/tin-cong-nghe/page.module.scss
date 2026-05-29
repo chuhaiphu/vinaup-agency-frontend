@@ -1,0 +1,19 @@
+.pageWrapper {
+  min-height: 100vh;
+  background-color: var(--vinaup-soft-gray, #f9f9f9);
+}
+
+.header {
+  padding: 0;
+}
+
+.h1Title {
+  color: var(--vinaup-soft-crimson, #C44C50);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 5vw, 2.25rem);
+  margin-bottom: 1rem;
+
+  @media (max-width: 48rem) {
+      margin-bottom: 0.5rem;
+  }
+}

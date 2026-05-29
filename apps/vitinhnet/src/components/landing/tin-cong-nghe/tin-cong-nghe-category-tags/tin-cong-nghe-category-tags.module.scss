@@ -1,0 +1,102 @@
+.controlsRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+
+    @media (max-width: 48rem) {
+        flex-wrap: wrap;
+    }
+}
+
+.scrollWrapper {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    flex: 1;
+    min-width: 0;
+
+    @media (max-width: 48rem) {
+        flex: 1 1 100%;
+        order: 1;
+    }
+}
+
+.subCategoriesWrapper {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    @media (max-width: 48rem) {
+        gap: 0.25rem;
+    }
+}
+
+.subCategoryPill {
+    border-radius: 1.875rem;
+    border-color: var(--vinaup-light-gray, #E9ECEF);
+    color: #333;
+    background-color: white;
+    flex-shrink: 0;
+    font-weight: 500;
+    transition: all 0.2s ease;
+
+    &:not([data-variant="filled"]):hover {
+        background-color: #f1f3f5;
+    }
+
+    &[data-variant="filled"] {
+        color: var(--vinaup-blue-link, #0E54C9) !important;
+        border-color: var(--vinaup-light-gray, #E9ECEF) !important;
+        background-color: white !important;
+        
+        &:hover {
+            background-color: #f1f3f5 !important;
+        }
+    }
+}
+
+.viewAllIconBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 2.5px solid #333;
+    border-radius: 8px;
+    background-color: white;
+    flex-shrink: 0;
+    text-decoration: none;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background-color: #f1f3f5;
+    }
+
+    &[data-active='true'] {
+        border-color: var(--vinaup-blue-link, #0E54C9);
+    }
+
+    @media (max-width: 48rem) {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+.vAllSvg {
+    width: 16px;
+    height: 16px;
+
+    @media (max-width: 48rem) {
+        width: 14px;
+        height: 14px;
+    }
+}

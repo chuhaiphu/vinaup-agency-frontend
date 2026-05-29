@@ -1,16 +1,32 @@
-import { Container, Title, Box, Text } from '@mantine/core';
+import { Container, Stack, Box, Title } from '@mantine/core';
+import TinCongNgheCategoryTags from '@/components/landing/tin-cong-nghe/tin-cong-nghe-category-tags/tin-cong-nghe-category-tags';
+import TinCongNgheGrid from '@/components/landing/tin-cong-nghe/tin-cong-nghe-grid/tin-cong-nghe-grid';
+import { MOCK_BLOGS } from '@/components/landing/tin-cong-nghe/mock-data';
+import classes from './page.module.scss';
+
+export const metadata = { title: 'Tin Công Nghệ | ViTinhNet' };
 
 export default function TechNewsPage() {
     return (
-        <Box style={{ minHeight: '60vh', backgroundColor: 'var(--vinaup-soft-gray)', paddingBottom: '3rem' }}>
-            <Container size="xl" pt="2rem">
-                <Title order={1} style={{ color: 'var(--vinaup-soft-crimson)', marginBottom: '1rem' }}>
-                    Tin Công Nghệ
-                </Title>
-                <Text color="var(--vinaup-dark-gray)">
-                    Nội dung trang tin công nghệ đang được cập nhật...
-                </Text>
+        <div className={classes.pageWrapper}>
+            <Container size="xl" pt={{ base: '1rem', md: '2rem' }}>
+                {/* 1. HEADER */}
+                <Box className={classes.header}>
+                    <Title order={2} className={classes.h1Title}>
+                        Tin Công Nghệ
+                    </Title>
+                </Box>
+
+                {/* 2. CATEGORY TAGS */}
+                <Stack gap="sm" mb="1rem">
+                    <TinCongNgheCategoryTags />
+                </Stack>
             </Container>
-        </Box>
+
+            {/* 3. BLOGS GRID */}
+            <Container size="xl" pb={{ base: '1rem', md: '2rem' }}>
+                <TinCongNgheGrid blogs={MOCK_BLOGS} />
+            </Container>
+        </div>
     );
 }

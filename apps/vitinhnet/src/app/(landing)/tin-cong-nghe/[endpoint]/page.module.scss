@@ -1,0 +1,52 @@
+.categoryPageWrapper {
+  min-height: 100vh;
+  background-color: var(--vinaup-soft-gray, #f9f9f9);
+}
+
+.categoryHeader {
+  padding: 0;
+}
+
+.categoryTitle {
+  color: var(--vinaup-soft-crimson, #C44C50);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 5vw, 2.25rem);
+  margin-bottom: 1rem;
+
+  @media (max-width: 48rem) {
+      margin-bottom: 0.5rem;
+  }
+}
+
+.detailPageWrapper {
+  min-height: 100vh;
+  background-color: var(--vinaup-soft-gray, #f9f9f9);
+  padding-bottom: 4rem;
+}
+
+.breadcrumbAnchor {
+  color: var(--vinaup-soft-crimson, #C44C50);
+}
+
+.detailTitle {
+  color: #333;
+}
+
+.detailImageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin-bottom: 2rem;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.detailImage {
+  object-fit: cover;
+}
+
+.detailContent {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: #444;
+}
