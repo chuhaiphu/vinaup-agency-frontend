@@ -7,7 +7,7 @@ import { IoSearch } from 'react-icons/io5';
 import classes from './landing-header.module.scss';
 import { MenuSquareIcon, VinaupCartIcon, VinaupMessengerIcon, VinaupUserIcon, VinaupZaloRectangleIcon } from '@vinaup/ui/cores';
 import { Route } from 'next';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 const NAV_LINKS = [
@@ -19,8 +19,27 @@ const NAV_LINKS = [
     { label: 'PCNet Máy Tính Net', href: '/pcnet' },
 ];
 
-export default function LandingHeader() {
+function NavigationMenu() {
     const pathname = usePathname();
+
+    if (pathname !== '/') return null;
+
+    return (
+        <nav className={classes.navSection}>
+            <Container size="xl">
+                <div className={classes.navLinks}>
+                    {NAV_LINKS.map((link) => (
+                        <Link key={link.label} href={link.href as Route} className={classes.navLink}>
+                            {link.label}
+                        </Link>
+                    ))}
+                </div>
+            </Container>
+        </nav>
+    );
+}
+
+export default function LandingHeader() {
     const [isScrolled, setIsScrolled] = useState(false);
 
     useEffect(() => {
@@ -111,19 +130,9 @@ export default function LandingHeader() {
                     </Container>
                 </div>
             </Box>
-            {pathname === '/' && (
-                <nav className={classes.navSection}>
-                    <Container size="xl">
-                        <div className={classes.navLinks}>
-                            {NAV_LINKS.map((link) => (
-                                <Link key={link.label} href={link.href as Route} className={classes.navLink}>
-                                    {link.label}
-                                </Link>
-                            ))}
-                        </div>
-                    </Container>
-                </nav>
-            )}
+            <Suspense fallback={null}>
+                <NavigationMenu />
+            </Suspense>
         </>
     );
 }
