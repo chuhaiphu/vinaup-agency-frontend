@@ -4,6 +4,7 @@ export interface ITinCongNghe {
   endpoint: string;
   categoryEndpoint: string;
   mainImageUrl: string;
+  galleryImages?: string[];
   likes: number;
   views: number;
   content: string;
@@ -23,9 +24,22 @@ export const MOCK_BLOGS: ITinCongNghe[] = [
     endpoint: "top-5-laptop-van-phong-dang-mua-nhat",
     categoryEndpoint: "tin-tuc-chung",
     mainImageUrl: "/MSI-Gaming-PC_2024-09-30.png",
+    galleryImages: [
+      "/MSI-Gaming-PC_2024-09-30.png",
+      "https://placehold.co/1200x600/1E1E1E/FFF?text=Laptop+Van+Phong+2026",
+      "https://placehold.co/1200x600/C44C50/FFF?text=Top+5+Review"
+    ],
     likes: 45,
     views: 120,
-    content: "<p>Nội dung chi tiết bài viết Top 5 laptop...</p><p>Đang cập nhật thêm...</p>",
+    content: `<p>Nội dung chi tiết bài viết Top 5 laptop văn phòng đáng mua nhất năm 2026. Trong năm nay, hàng loạt các mẫu laptop cho dân văn phòng được ra mắt với thiết kế mỏng nhẹ, pin siêu trâu và tích hợp sức mạnh phần cứng vượt trội.</p>
+<p>Dưới đây là một số dòng máy nổi bật, hiệu năng ấn tượng và tối ưu cho công việc hàng ngày mà bạn không nên bỏ lỡ:</p>
+<h2>1. Laptop Asus HP Envy 2026</h2>
+<p>Được trang bị CPU tiết kiệm điện mới nhất, màn hình OLED độ phân giải cao và khung máy hoàn thiện bằng hợp kim chắc chắn. Nhờ trọng lượng nhẹ, nó cực kỳ tiện lợi để mang đi làm hoặc đi công tác.</p>
+<img src="https://placehold.co/1000x500?text=Laptop+Van+Phong+Mau+1" alt="Laptop Mau 1" style="max-width: 100%; height: auto; border-radius: 12px; margin: 20px 0; object-fit: cover;" />
+<h2>2. Laptop Dell ThinkPad X1 Carbon (Gen 14)</h2>
+<p>Đây là mẫu laptop cực kỳ phù hợp cho giới doanh nhân nhờ thiết kế đẳng cấp, vỏ carbon siêu nhẹ nhưng siêu cứng cáp. Bàn phím hành trình sâu, đem lại cảm giác gõ tốt nhất trên thị trường.</p>
+<img src="https://placehold.co/1000x500?text=Laptop+Van+Phong+Mau+2" alt="Laptop Mau 2" style="max-width: 100%; height: auto; border-radius: 12px; margin: 20px 0; object-fit: cover;" />
+<p>Tóm lại, nếu bạn đang tìm kiếm một chiếc máy vừa mạnh mẽ lại vừa bền bỉ cho công việc văn phòng trong năm 2026, các dòng sản phẩm trên chắc chắn là sự lựa chọn hàng đầu.</p>`,
   },
   {
     id: 2,
@@ -33,9 +47,21 @@ export const MOCK_BLOGS: ITinCongNghe[] = [
     endpoint: "danh-gia-chi-tiet-rtx-5090",
     categoryEndpoint: "danh-gia-san-pham",
     mainImageUrl: "/MSI-Gaming-PC_2024-09-30.png",
+    galleryImages: [
+      "/MSI-Gaming-PC_2024-09-30.png",
+      "https://placehold.co/1200x600/000000/00FF00?text=RTX+5090+Gaming",
+      "https://placehold.co/1200x600/333333/00FF00?text=Max+Settings+4K"
+    ],
     likes: 128,
     views: 890,
-    content: "<p>Nội dung chi tiết bài viết đánh giá RTX 5090...</p>",
+    content: `<p>Trong bài viết này, chúng ta sẽ cùng đi sâu vào đánh giá chi tiết card đồ họa RTX 5090 siêu khủng vừa ra mắt. Hứa hẹn đây sẽ là "cỗ máy cày game" không đối thủ trong thời gian dài.</p>
+<h2>Thông số kỹ thuật cực kì ấn tượng</h2>
+<p>Dòng card mới mang đến mức hiệu năng VRAM và số lượng CUDA cores khổng lồ. Đặc biệt, nó được tích hợp khả năng tối ưu hóa tản nhiệt bằng chất lỏng buồng hơi thế hệ 3.</p>
+<img src="https://placehold.co/1000x500?text=Card+Do+Hoa+NVIDIA" alt="Card Do Hoa" style="max-width: 100%; height: auto; border-radius: 12px; margin: 20px 0; object-fit: cover;" />
+<h2>Hiệu năng thực tế khi chơi Game AAA</h2>
+<p>Test với các tựa game nặng nhất, FPS luôn ổn định ở mức trên 120 cho độ phân giải 4K, ray tracing bật tối đa. Không có hiện tượng drop FPS giật lag ở các khu vực đông hiệu ứng.</p>
+<img src="https://placehold.co/1000x500?text=Test+Game+Hieu+Nang" alt="Test Game" style="max-width: 100%; height: auto; border-radius: 12px; margin: 20px 0; object-fit: cover;" />
+<p>Tổng kết: Đây là mẫu card thuộc phân khúc cao cấp siêu đắt đỏ mới xứng đáng đứng số 1 về giá trị trải nghiệm gaming thời điểm hiện tại.</p>`,
   },
   {
     id: 3,
