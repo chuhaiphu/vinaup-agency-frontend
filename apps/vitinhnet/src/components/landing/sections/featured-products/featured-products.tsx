@@ -52,7 +52,7 @@ export function FeaturedProducts() {
                             <div className={classes.titleDecorator} />
                             <span className={classes.titleText}>Laptop Nhập Khẩu</span>
                             <div className={classes.titleArrow}>
-                                <VinaupArrowRightIcon size={20} fill="#0E54C9" />
+                                <VinaupArrowRightIcon size={18} fill="#0E54C9" className={classes.titleArrowIcon} />
                             </div>
                         </Title>
                     </Link>
