@@ -30,7 +30,7 @@ export const CheckoutForm = ({ form }: CheckoutFormProps) => {
   };
 
   return (
-    <Flex direction="column" gap="md" mt="xl">
+    <Flex direction="column" gap="20px" mt="20px">
       {/* Billing Info */}
       <Paper radius="md" withBorder p={0} className={classes.formSection}>
         <Flex align="center" p={{ base: 8, md: 'md' }} className={classes.formSectionHeader}>

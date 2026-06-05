@@ -18,7 +18,7 @@ export const OrderSummary = ({ form }: OrderSummaryProps) => {
   const totalSelected = getTotalSelectedItems();
   
   return (
-    <Paper radius="md" withBorder p="md" className={classes.stickySummary}>
+    <Paper radius="md" withBorder p={{ base: 8, md: 'md' }} className={classes.stickySummary}>
       <Title order={4} mb="md" className={classes.summaryTitle}>Thông tin đơn hàng</Title>
       
       <Box bg="var(--mantine-color-gray-0)" p="md" mb="md" style={{ borderRadius: 'var(--mantine-radius-sm)' }}>
