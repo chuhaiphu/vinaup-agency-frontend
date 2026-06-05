@@ -1,0 +1,74 @@
+.stickySummary {
+  position: sticky;
+  top: 80px;
+  border: 1px solid var(--vinaup-blue-link);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.discountIconWrapper {
+  border-radius: 4px;
+  display: flex;
+}
+
+.promoInput {
+  border-bottom: 1px solid var(--mantine-color-gray-5);
+  border-radius: 0;
+  padding-bottom: 4px;
+  height: auto;
+  min-height: unset;
+  font-style: italic;
+  font-size: 13px;
+}
+
+.summaryTitle {
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--vinaup-blue-link);
+}
+
+.promoText {
+  color: var(--vinaup-blue-link);
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.summaryLabel {
+  font-size: 14px;
+  color: var(--mantine-color-dimmed);
+}
+
+.summaryValue {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.summaryDiscountValue {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--vinaup-blue-link);
+}
+
+.totalLabel {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.totalValue {
+  font-weight: 700;
+  color: var(--vinaup-soft-crimson);
+  font-size: 20px;
+}
+
+.termsText {
+  font-size: 14px;
+}
+
+.termsLink {
+  font-size: 14px;
+  color: var(--vinaup-blue-link);
+  text-decoration: underline;
+}
+
+.checkoutButton {
+  font-size: 16px;
+}

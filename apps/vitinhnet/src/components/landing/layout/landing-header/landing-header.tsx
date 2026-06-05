@@ -9,6 +9,7 @@ import { MenuSquareIcon, VinaupCartIcon, VinaupMessengerIcon, VinaupUserIcon, Vi
 import { Route } from 'next';
 import { Suspense, useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { useCartStore } from '@/stores/cart-store';
 
 const NAV_LINKS = [
     { label: 'Laptop nhập khẩu', href: '/laptop-nhap-khau' },
@@ -41,6 +42,7 @@ function NavigationMenu() {
 
 export default function LandingHeader() {
     const [isScrolled, setIsScrolled] = useState(false);
+    const { items: cartItems } = useCartStore();
 
     useEffect(() => {
         let ticking = false;
@@ -114,8 +116,8 @@ export default function LandingHeader() {
                                 <ActionIcon size="lg" w="auto" variant="transparent" className={`${classes.actionIcon}`}>
                                     <VinaupZaloRectangleIcon size={28} fill='var(--vinaup-blue-link)' />
                                 </ActionIcon>
-                                <Indicator inline label="2" size={16} color="red" offset={4}>
-                                    <ActionIcon size="lg" variant="transparent" className={classes.actionIcon}>
+                                <Indicator inline label={cartItems.length} size={16} color="red" offset={4} disabled={cartItems.length === 0}>
+                                    <ActionIcon component={Link} href={"/gio-hang" as Route} size="lg" variant="transparent" className={classes.actionIcon}>
                                         <VinaupCartIcon size={28} fill='var(--vinaup-blue-link)' />
                                     </ActionIcon>
                                 </Indicator>

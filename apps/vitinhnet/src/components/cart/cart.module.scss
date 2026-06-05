@@ -1,0 +1,18 @@
+.returnLink {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 500;
+  color: var(--vinaup-blue-link);
+  font-size: 1rem;
+  text-decoration: none;
+  margin-bottom: 1rem;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    margin-bottom: 0.5rem;
+  }
+}

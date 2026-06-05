@@ -1,0 +1,79 @@
+.cartImage {
+    width: 50px;
+    min-width: 30px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid var(--mantine-color-gray-3);
+}
+
+.productName {
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.cartListContainer {
+    border: 1px solid var(--vinaup-blue-link);
+    border-radius: var(--mantine-radius-md);
+    overflow: hidden;
+    margin-bottom: 1rem;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cartItemRow {
+    padding: 1rem;
+
+    @media (max-width: 768px) {
+        padding: 0.5rem;
+    }
+}
+
+.cartListHeader {
+    border-bottom: 1px solid var(--vinaup-blue-link);
+    padding: 0.75rem 1rem;
+
+    @media (max-width: 768px) {
+        padding: 0.5rem;
+    }
+}
+
+.checkboxBody {
+    align-items: center;
+    gap: 1rem;
+}
+
+.checkboxLabel {
+    padding-left: 0;
+}
+
+.cartTitle {
+    font-size: clamp(1.125rem, 2vw, 1.375rem);
+    font-weight: 600;
+    color: var(--vinaup-blue-link);
+}
+
+.priceText {
+    font-weight: 700;
+    color: var(--vinaup-soft-crimson);
+    font-size: 16px;
+    text-align: center;
+    width: 120px;
+
+    @media (max-width: 48rem) {
+        text-align: left;
+        width: auto;
+    }
+}
+
+.quantityText {
+    font-weight: 500;
+    text-align: center;
+    width: 20px;
+}
+
+.quantityControl {
+    border: 1px solid var(--mantine-color-gray-3);
+    border-radius: 4px;
+    padding: 4px 8px;
+}

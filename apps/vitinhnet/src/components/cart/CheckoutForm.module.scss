@@ -1,0 +1,42 @@
+.formSection {
+  border-color: var(--vinaup-blue-link);
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.formSectionHeader {
+  border-bottom: 1px solid var(--vinaup-blue-link);
+}
+
+.checkoutInput {
+  border-bottom: 1px solid var(--mantine-color-gray-5);
+  border-radius: 0;
+  padding: 0 0 4px 0;
+  height: auto;
+  min-height: unset;
+  font-weight: 400;
+  font-size: 1rem;
+  color: var(--mantine-color-dark-4);
+}
+
+.sectionTitle {
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--vinaup-blue-link);
+}
+
+.switchLabel {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.inputLabel {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--vinaup-blue-link);
+}
+
+.dropdownLabel {
+  font-size: 1rem;
+  color: var(--vinaup-blue-link);
+}
