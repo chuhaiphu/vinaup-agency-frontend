@@ -40,8 +40,8 @@ export const CheckoutForm = ({ form }: CheckoutFormProps) => {
         </Flex>
 
         <Flex direction="column" p={{ base: 8, md: 'md' }} gap="xl">
-          <Flex gap="md" align="flex-start">
-            <Box pt={4}>
+          <Flex gap="md" align="center">
+            <Box>
               <VinaupUserIcon size={24} fill="#121212" />
             </Box>
             <Box flex={1}>

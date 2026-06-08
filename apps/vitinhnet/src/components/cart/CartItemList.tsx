@@ -8,6 +8,7 @@ import {
   Text,
   ActionIcon,
   Divider,
+  NumberInput
 } from '@mantine/core';
 import { IconTrash, IconMinus, IconPlus } from '@tabler/icons-react';
 import { VinaupCartIcon } from '@vinaup/ui/cores';
@@ -95,13 +96,34 @@ export const CartItemList = () => {
 
                   <Flex align="center" gap="xs" className={classes.quantityControl}>
                     <VinaupCartIcon size={16} fill="#6D6E72" />
-                    <Text className={classes.quantityText}>{item.quantity}</Text>
-                    <ActionIcon size="sm" variant="transparent" c="var(--vinaup-blue-link)" onClick={() => updateQuantity(item.id, item.quantity - 1)} disabled={item.quantity <= 1}>
-                      <IconMinus size={16} stroke={1.5} />
+                    <NumberInput
+                      value={item.quantity}
+                      onChange={(val) => {
+                        const newQuantity = val === '' ? 1 : Number(val);
+                        if (newQuantity >= 1) {
+                          updateQuantity(item.id, newQuantity);
+                        }
+                      }}
+                      min={1}
+                      max={999}
+                      hideControls
+                      variant="unstyled" 
+                      classNames={{ input: classes.quantityInputText }}
+                    />
+                    <ActionIcon size="sm" variant="transparent" c="var(--vinaup-blue-link)"
+                      onClick={() => {
+                        if (item.quantity <= 1) {
+                          removeItem(item.id);
+                        } else {
+                          updateQuantity(item.id, item.quantity - 1);
+                        }
+                      }}
+                    >
+                      <IconMinus size={16} stroke={3} />
                     </ActionIcon>
                     <Divider orientation="vertical" />
                     <ActionIcon size="sm" variant="transparent" c="var(--vinaup-blue-link)" onClick={() => updateQuantity(item.id, item.quantity + 1)}>
-                      <IconPlus size={16} stroke={1.5} />
+                      <IconPlus size={16} stroke={3} />
                     </ActionIcon>
                   </Flex>
                 </Flex>

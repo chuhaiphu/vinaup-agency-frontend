@@ -16,12 +16,12 @@ export const OrderSummary = ({ form }: OrderSummaryProps) => {
   const { getSubtotal, discount, shippingFee, getTotal, getTotalSelectedItems } = useCartStore();
 
   const totalSelected = getTotalSelectedItems();
-  
+
   return (
     <Paper radius="md" withBorder p={{ base: 8, md: 'md' }} className={classes.stickySummary}>
       <Title order={4} mb="md" className={classes.summaryTitle}>Thông tin đơn hàng</Title>
-      
-      <Box bg="var(--mantine-color-gray-0)" p="md" mb="md" style={{ borderRadius: 'var(--mantine-radius-sm)' }}>
+
+      <Box bg="var(--mantine-color-gray-0)" p="0.5rem" mb="md" style={{ borderRadius: 'var(--mantine-radius-sm)' }}>
         <Flex align="center" gap="xs" mb="xs">
           <Box bg="var(--vinaup-blue-link)" p={2} className={classes.discountIconWrapper}>
             <IconDiscount2 size={16} color="white" />
@@ -40,7 +40,7 @@ export const OrderSummary = ({ form }: OrderSummaryProps) => {
           <Text className={classes.summaryLabel}>Tổng tiền:</Text>
           <Text className={classes.summaryValue}>{getSubtotal().toLocaleString('vi-VN')} đ</Text>
         </Flex>
-        
+
         <Flex justify="space-between">
           <Text className={classes.summaryLabel}>Giảm giá sản phẩm:</Text>
           <Text className={classes.summaryDiscountValue}>-{discount.toLocaleString('vi-VN')} đ</Text>
@@ -70,6 +70,7 @@ export const OrderSummary = ({ form }: OrderSummaryProps) => {
           }
           color="#C44C50"
           {...form.getInputProps('agreeToTerms', { type: 'checkbox' })}
+          styles={{ body: { alignItems: 'center' } }}
         />
       </Box>
 

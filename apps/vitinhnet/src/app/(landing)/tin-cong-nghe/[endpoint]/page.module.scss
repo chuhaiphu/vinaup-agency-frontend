@@ -60,8 +60,8 @@
 }
 
 .detailContent {
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: 1rem;
+  line-height: 1.8;
   color: #000;
   background-color: var(--mantine-color-white);
   border-radius: 8px;
@@ -70,15 +70,17 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 
   h2 {
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 700;
-    margin-top: 20px;
-    margin-bottom: 12px;
+    margin-top: 24px;
+    margin-bottom: 16px;
+    line-height: 1.4;
   }
 
   p {
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 400;
+    line-height: 1.8;
   }
 
   p:first-of-type {
@@ -91,6 +93,8 @@
   }
 
   li {
+    font-size: 1rem;
+    line-height: 1.8;
     margin-bottom: 0.5rem;
   }
 }
