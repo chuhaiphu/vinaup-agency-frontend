@@ -22,7 +22,7 @@ export const OrderSummary = ({ form }: OrderSummaryProps) => {
       <Title order={4} mb="md" className={classes.summaryTitle}>Thông tin đơn hàng</Title>
 
       <Box bg="var(--mantine-color-gray-0)" p="0.5rem" mb="md" style={{ borderRadius: 'var(--mantine-radius-sm)' }}>
-        <Flex align="center" gap="xs" mb="xs">
+        <Flex align="center" gap="xs" mb="4px">
           <Box bg="var(--vinaup-blue-link)" p={2} className={classes.discountIconWrapper}>
             <IconDiscount2 size={16} color="white" />
           </Box>

@@ -55,7 +55,7 @@ export const CheckoutForm = ({ form }: CheckoutFormProps) => {
             </Box>
           </Flex>
 
-          <Flex gap="md" align="flex-start">
+          <Flex gap="md" align="center">
             <Box pt={4}>
               <VinaupLocationIcon size={24} fill="#121212" />
             </Box>
@@ -76,7 +76,7 @@ export const CheckoutForm = ({ form }: CheckoutFormProps) => {
             </Box>
           </Flex>
 
-          <Flex gap="md" align="flex-start">
+          <Flex gap="md" align="center">
             <Box pt={4}>
               <VinaupPhoneIcon size={24} fill="#121212" />
             </Box>
