@@ -20,7 +20,7 @@ export function ProductDescription() {
                 <GridCol span={{ base: 12, md: 8, lg: 8 }}>
                     <Box className={classes.card} mb={'20px'}>
                         <Group gap="sm" mb="md" align="center" wrap="nowrap">
-                            <VinaupArrowRightIcon size={28} fill="var(--vinaup-blue-link)" />
+                            <VinaupArrowRightIcon size={24} fill="var(--vinaup-blue-link)" />
                             <Title
                                 order={2}
                                 className={classes.sectionTitle}
@@ -98,7 +98,7 @@ export function ProductDescription() {
                 <GridCol span={{ base: 12, md: 4, lg: 4 }}>
                     <Box className={classes.card} mb={{ base: '16px', md: '20px' }}>
                         <Group gap="sm" mb="md" align="center" wrap="nowrap">
-                            <VinaupArrowRightIcon size={28} fill="var(--vinaup-blue-link)" />
+                            <VinaupArrowRightIcon size={24} fill="var(--vinaup-blue-link)" />
                             <Title
                                 order={2}
                                 className={classes.sectionTitle}
