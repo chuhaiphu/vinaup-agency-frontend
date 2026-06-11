@@ -16,6 +16,11 @@
   font-weight: 400;
   font-size: 1rem;
   color: var(--mantine-color-dark-4);
+
+  &:focus {
+    outline: none;
+    border-bottom-color: var(--vinaup-blue-link);
+  }
 }
 
 .sectionTitle {

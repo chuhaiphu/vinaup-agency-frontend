@@ -39,3 +39,4 @@ export { default as VinaupCartPlusIcon } from './vinaup-cart-plus-icon';
 export { default as VinaupCopyIcon } from './vinaup-copy-icon';
 export { default as VinaupPlusIcon } from './vinaup-plus-icon';
 export { default as VinaupArrowRightIcon } from './vinaup-arrow-right-icon';
+export { default as VinaupEmailIcon } from './vinaup-email-icon';
