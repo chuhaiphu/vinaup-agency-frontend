@@ -96,7 +96,7 @@ export default function ContactPage() {
                       variant="unstyled"
                       placeholder="Nhập nội dung bạn cần liên hệ..."
                       classNames={{ input: classes.contactInput }}
-                      minRows={4}
+                      minRows={2}
                       autosize
                     />
                   </Box>
