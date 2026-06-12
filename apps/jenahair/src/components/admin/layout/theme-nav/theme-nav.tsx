@@ -3,6 +3,7 @@
 import { Group, Paper, Stack, Text } from '@mantine/core';
 import { Route } from 'next';
 import { usePathname, useRouter } from 'next/navigation';
+
 import classes from './theme-nav.module.scss';
 
 type ThemeNavItem = {

@@ -1,5 +1,6 @@
-import { IDiaryResponse } from '@/interfaces/diary-interface';
 import { OverlayCard } from '@vinaup/ui/landing';
+
+import { DiaryResponse } from '@/interfaces/diary-interfaces';
 
 interface DiaryItemProps {
   item: {
@@ -8,17 +9,14 @@ interface DiaryItemProps {
     mainImageUrl: string | null;
     description: string | null;
     endpoint: string;
-    diaryCategoryDiaries: IDiaryResponse['diaryCategoryDiaries'];
+    diaryCategoryDiaries: DiaryResponse['diaryCategoryDiaries'];
     createdAt: Date;
-    createdBy: IDiaryResponse['createdBy'];
+    createdBy: DiaryResponse['createdBy'];
   };
 }
 
 export default function DiaryItem({ item }: DiaryItemProps) {
   return (
-    <OverlayCard
-      title={item.title}
-      src={item.mainImageUrl || '/images/image-placeholder.png'}
-    />
+    <OverlayCard title={item.title} src={item.mainImageUrl || '/images/image-placeholder.png'} />
   );
 }

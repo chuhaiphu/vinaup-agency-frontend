@@ -1,9 +1,10 @@
 'use client';
 
 import { ActionIcon, Container, Group } from '@mantine/core';
-import Link from 'next/link';
 import { MenuSquareIcon } from '@vinaup/ui/cores';
 import { SidebarControl } from '@vinaup/ui/landing';
+import Link from 'next/link';
+
 import classes from './sticky-header-content.module.scss';
 
 export interface SocialLinkItem {

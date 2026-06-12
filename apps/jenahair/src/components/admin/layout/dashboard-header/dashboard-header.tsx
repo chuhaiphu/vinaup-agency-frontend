@@ -1,12 +1,14 @@
 'use client';
 
 import { Group, Burger, AppShellHeader } from '@mantine/core';
+
 import { UserSection } from '@/components/admin/layout/user-section/user-section';
-import classes from './dashboard-header.module.scss';
-import { IUserResponse } from '@/interfaces/user-interface';
+import { UserResponse } from '@/interfaces/user-interfaces';
 import { useAdminLayoutSiderStore } from '@/libs/zustand/admin-layout-sider-store';
 
-export function DashboardHeader({ userData }: { userData: IUserResponse }) {
+import classes from './dashboard-header.module.scss';
+
+export function DashboardHeader({ userData }: { userData: UserResponse }) {
   const { collapsed, toggle } = useAdminLayoutSiderStore();
 
   return (

@@ -1,18 +1,16 @@
 'use client';
 
 import { useEffect } from 'react';
-import { incrementBlogViewActionPublic } from '@/actions/blog-action';
-import { incrementDiaryViewActionPublic } from '@/actions/diary-action';
+
+import { incrementBlogViewActionPublic } from '@/actions/blog-actions';
+import { incrementDiaryViewActionPublic } from '@/actions/diary-actions';
 
 interface IncrementViewProps {
   blogId?: string;
   diaryId?: string;
 }
 
-export default function IncrementView({
-  blogId,
-  diaryId,
-}: IncrementViewProps) {
+export default function IncrementView({ blogId, diaryId }: IncrementViewProps) {
   useEffect(() => {
     const incrementView = async () => {
       try {

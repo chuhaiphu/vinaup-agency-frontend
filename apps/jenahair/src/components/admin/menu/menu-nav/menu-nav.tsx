@@ -1,16 +1,18 @@
 'use client';
 
-import React, { use, useMemo } from 'react';
 import { Paper, Stack, Group, Text } from '@mantine/core';
-import { useParams, useRouter } from 'next/navigation';
+import { TreeManager } from '@vinaup/utils';
 import { Route } from 'next';
+import { useParams, useRouter } from 'next/navigation';
+import React, { use, useMemo } from 'react';
+
+import { ActionResponse } from '@/interfaces/_base-interfaces';
+import { MenuResponse } from '@/interfaces/menu-interfaces';
+
 import classes from './menu-nav.module.scss';
-import { IMenuResponse } from '@/interfaces/menu-interface';
-import { TreeManager } from '../../../../../../../packages/utils/src/classes/tree-manager';
-import { ActionResponse } from '@/interfaces/_base-interface';
 
 interface MenuNavProps {
-  menusDataPromise: Promise<ActionResponse<IMenuResponse[]>>;
+  menusDataPromise: Promise<ActionResponse<MenuResponse[]>>;
 }
 
 export default function MenuNav({ menusDataPromise }: MenuNavProps) {
@@ -39,10 +41,7 @@ export default function MenuNav({ menusDataPromise }: MenuNavProps) {
     return root.children?.map((child) => renderMenuBar(child, 0));
   };
 
-  const renderMenuBar = (
-    menu: IMenuResponse,
-    depth: number = 0
-  ): React.ReactNode => {
+  const renderMenuBar = (menu: MenuResponse, depth: number = 0): React.ReactNode => {
     return (
       <React.Fragment key={menu.id}>
         <Stack

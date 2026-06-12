@@ -1,31 +1,28 @@
 'use client';
 
-import React, { use, useMemo } from 'react';
 import { Paper, Stack, Group, Text } from '@mantine/core';
-import { useParams, useRouter } from 'next/navigation';
+import { TreeManager } from '@vinaup/utils';
 import { Route } from 'next';
+import { useParams, useRouter } from 'next/navigation';
+import React, { use, useMemo } from 'react';
+
+import { ActionResponse } from '@/interfaces/_base-interfaces';
+import { BlogCategoryResponse } from '@/interfaces/blog-category-interfaces';
+
 import classes from './blog-category-nav.module.scss';
-import { IBlogCategoryResponse } from '@/interfaces/blog-category-interface';
-import { TreeManager } from '../../../../../../../packages/utils/src/classes/tree-manager';
-import { ActionResponse } from '@/interfaces/_base-interface';
 
 interface BlogCategoryNavProps {
-  blogCategoriesDataPromise: Promise<ActionResponse<IBlogCategoryResponse[]>>;
+  blogCategoriesDataPromise: Promise<ActionResponse<BlogCategoryResponse[]>>;
 }
 
-export default function BlogCategoryNav({
-  blogCategoriesDataPromise,
-}: BlogCategoryNavProps) {
+export default function BlogCategoryNav({ blogCategoriesDataPromise }: BlogCategoryNavProps) {
   const router = useRouter();
   const { id } = useParams();
 
   const blogCategoriesData = use(blogCategoriesDataPromise);
 
   const treeManager = useMemo(() => {
-    if (
-      blogCategoriesData.data === undefined ||
-      blogCategoriesData.data?.length === 0
-    ) {
+    if (blogCategoriesData.data === undefined || blogCategoriesData.data?.length === 0) {
       return null;
     }
     return new TreeManager(blogCategoriesData.data);
@@ -44,8 +41,8 @@ export default function BlogCategoryNav({
   };
 
   const renderBlogCategoryBar = (
-    blogCategory: IBlogCategoryResponse,
-    depth: number = 0
+    blogCategory: BlogCategoryResponse,
+    depth: number = 0,
   ): React.ReactNode => {
     return (
       <React.Fragment key={blogCategory.id}>
@@ -66,11 +63,7 @@ export default function BlogCategoryNav({
             </Text>
           </Group>
         </Stack>
-        <>
-          {blogCategory.children?.map((child) =>
-            renderBlogCategoryBar(child, depth + 1)
-          )}
-        </>
+        <>{blogCategory.children?.map((child) => renderBlogCategoryBar(child, depth + 1))}</>
       </React.Fragment>
     );
   };

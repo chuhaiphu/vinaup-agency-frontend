@@ -1,16 +1,23 @@
-import { ICreateMedia, IMediaResponse, IUpdateMedia } from "@/interfaces/media-interface";
-import { apiPrivate } from "./_base";
+import { generateFilterQueryString } from '@vinaup/utils';
 
-export async function createMediaApiPrivate(data: ICreateMedia) {
-  return apiPrivate<IMediaResponse>('/media/admin', {
+import {
+  CreateMediaRequest,
+  MediaResponse,
+  UpdateMediaRequest,
+} from '@/interfaces/media-interfaces';
+
+import { apiPrivate } from './_base';
+
+export async function createMediaApiPrivate(data: CreateMediaRequest) {
+  return apiPrivate<MediaResponse>('/media/admin', {
     method: 'POST',
     body: JSON.stringify(data),
   });
 }
 
 export async function getAllMediaApiPrivate(folder?: string) {
-  const queryString = folder ? `?folder=${encodeURIComponent(folder)}` : '';
-  return apiPrivate<IMediaResponse[]>(`/media/admin${queryString}`, {
+  const queryString = generateFilterQueryString({ folder });
+  return apiPrivate<MediaResponse[]>(`/media/admin${queryString}`, {
     method: 'GET',
   });
 }
@@ -22,13 +29,13 @@ export async function getMediaFoldersApiPrivate() {
 }
 
 export async function getMediaByIdApiPrivate(id: string) {
-  return apiPrivate<IMediaResponse>(`/media/admin/${id}`, {
+  return apiPrivate<MediaResponse>(`/media/admin/${id}`, {
     method: 'GET',
   });
 }
 
-export async function updateMediaApiPrivate(id: string, data: IUpdateMedia) {
-  return apiPrivate<IMediaResponse>(`/media/admin/${id}`, {
+export async function updateMediaApiPrivate(id: string, data: UpdateMediaRequest) {
+  return apiPrivate<MediaResponse>(`/media/admin/${id}`, {
     method: 'PUT',
     body: JSON.stringify(data),
   });

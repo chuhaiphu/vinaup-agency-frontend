@@ -1,31 +1,36 @@
-import { ICreateBlogCategory, IBlogCategoryResponse, IUpdateBlogCategory } from "@/interfaces/blog-category-interface";
-import { apiPrivate, apiPublic } from "./_base";
+import {
+  CreateBlogCategoryRequest,
+  BlogCategoryResponse,
+  UpdateBlogCategoryRequest,
+} from '@/interfaces/blog-category-interfaces';
+
+import { apiPrivate, apiPublic } from './_base';
 
 // ==================== PUBLIC ROUTES ====================
 
 export async function getAllBlogCategoriesApiPublic() {
-  return apiPublic<IBlogCategoryResponse[]>('/blog-categories', {
+  return apiPublic<BlogCategoryResponse[]>('/blog-categories', {
     method: 'GET',
   });
 }
 
 export async function getBlogCategoryByEndpointApiPublic(endpoint: string) {
-  return apiPublic<IBlogCategoryResponse>(`/blog-categories/${endpoint}`, {
+  return apiPublic<BlogCategoryResponse>(`/blog-categories/${endpoint}`, {
     method: 'GET',
   });
 }
 
 // ==================== ADMIN ROUTES ====================
 
-export async function createBlogCategoryApiPrivate(data: ICreateBlogCategory) {
-  return apiPrivate<IBlogCategoryResponse>('/blog-categories/admin', {
+export async function createBlogCategoryApiPrivate(data: CreateBlogCategoryRequest) {
+  return apiPrivate<BlogCategoryResponse>('/blog-categories/admin', {
     method: 'POST',
     body: JSON.stringify(data),
   });
 }
 
 export async function getAllBlogCategoriesAdminApiPrivate() {
-  return apiPrivate<IBlogCategoryResponse[]>('/blog-categories/admin', {
+  return apiPrivate<BlogCategoryResponse[]>('/blog-categories/admin', {
     method: 'GET',
   });
 }
@@ -37,13 +42,13 @@ export async function getAvailableSortOrdersApiPrivate(parentId: string) {
 }
 
 export async function getBlogCategoryByIdApiPrivate(id: string) {
-  return apiPrivate<IBlogCategoryResponse>(`/blog-categories/admin/${id}`, {
+  return apiPrivate<BlogCategoryResponse>(`/blog-categories/admin/${id}`, {
     method: 'GET',
   });
 }
 
-export async function updateBlogCategoryApiPrivate(id: string, data: IUpdateBlogCategory) {
-  return apiPrivate<IBlogCategoryResponse>(`/blog-categories/admin/${id}`, {
+export async function updateBlogCategoryApiPrivate(id: string, data: UpdateBlogCategoryRequest) {
+  return apiPrivate<BlogCategoryResponse>(`/blog-categories/admin/${id}`, {
     method: 'PUT',
     body: JSON.stringify(data),
   });

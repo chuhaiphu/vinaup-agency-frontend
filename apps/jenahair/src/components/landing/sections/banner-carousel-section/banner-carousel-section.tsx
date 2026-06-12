@@ -1,5 +1,6 @@
 import { HeroCarousel } from '@vinaup/ui/landing';
-import { getCarouselActionPublic } from '@/actions/theme-config-action';
+
+import { getCarouselActionPublic } from '@/actions/theme-config-actions';
 
 export async function BannerCarouselSection() {
   'use cache';

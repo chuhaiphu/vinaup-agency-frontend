@@ -1,14 +1,15 @@
 'use client';
 
 import { ActionIcon, Group, UnstyledButton } from '@mantine/core';
-import { useRouter } from 'next/navigation';
-import { VinaupAddNewIcon as AddNewIcon } from '@vinaup/ui/cores';
-import { createBlogActionPrivate } from '@/actions/blog-action';
-import { Route } from 'next';
-import { generateUniqueEndpoint } from '@/utils/generate-unique-endpoint';
-import { useState } from 'react';
 import { notifications } from '@mantine/notifications';
+import { VinaupAddNewIcon as AddNewIcon } from '@vinaup/ui/cores';
+import { Route } from 'next';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
+import { createBlogActionPrivate } from '@/actions/blog-actions';
 import { useAuth } from '@/providers/auth-provider';
+import { generateUniqueEndpoint } from '@/utils/generate-unique-endpoint';
 
 export default function CreateBlogAction() {
   const router = useRouter();
@@ -47,11 +48,7 @@ export default function CreateBlogAction() {
       <UnstyledButton onClick={handleAddNewBlog} fz={'lg'}>
         Add new
       </UnstyledButton>
-      <ActionIcon
-        variant="transparent"
-        onClick={handleAddNewBlog}
-        loading={isCreating}
-      >
+      <ActionIcon variant="transparent" onClick={handleAddNewBlog} loading={isCreating}>
         <AddNewIcon width={32} height={32} />
       </ActionIcon>
     </Group>

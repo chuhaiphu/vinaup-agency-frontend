@@ -1,11 +1,13 @@
 import { Group } from '@mantine/core';
-import classes from './blog-item.module.scss';
-import { IBlogResponse } from '@/interfaces/blog-interface';
-import Image from 'next/image';
 import { VinaupHeartIcon, VinaupEyeIcon } from '@vinaup/ui/cores';
+import Image from 'next/image';
+
+import { BlogResponse } from '@/interfaces/blog-interfaces';
+
+import classes from './blog-item.module.scss';
 
 interface BlogItemProps {
-  item: IBlogResponse;
+  item: BlogResponse;
 }
 
 export default function BlogItem({ item }: BlogItemProps) {
@@ -34,7 +36,7 @@ export default function BlogItem({ item }: BlogItemProps) {
             <span>{item.likes < 10 ? `0${item.likes}` : item.likes}</span>
           </Group>
           <Group gap="0.5rem" align="center">
-            <VinaupEyeIcon stroke="#99AB89" fill='#99AB89' />
+            <VinaupEyeIcon stroke="#99AB89" fill="#99AB89" />
             <span>{item.views < 10 ? `0${item.views}` : item.views}</span>
           </Group>
         </Group>

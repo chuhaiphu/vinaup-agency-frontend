@@ -10,9 +10,9 @@
  * generateSanitizedEndpoint('My Blog Post!!!') // 'my-blog-post'
  */
 export const generateSanitizedEndpoint = (input: string): string => {
-    return input
-        .toLowerCase()
-        .replace(/[^a-z0-9-]/g, '')
-        .replace(/-+/g, '-')
-        .replace(/^-|-$/g, '');
+  return input
+    .toLowerCase()
+    .replace(/[^a-z0-9-]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
 };

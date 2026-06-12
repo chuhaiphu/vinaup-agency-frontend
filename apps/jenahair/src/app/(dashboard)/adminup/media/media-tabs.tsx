@@ -1,8 +1,8 @@
 'use client';
 
 import { Tabs, TabsList, TabsPanel, TabsTab } from '@mantine/core';
-import { useRouter, usePathname } from 'next/navigation';
 import { Route } from 'next';
+import { useRouter, usePathname } from 'next/navigation';
 
 interface MediaTabsProps {
   children: React.ReactNode;
@@ -20,11 +20,7 @@ export default function MediaTabs({ children }: MediaTabsProps) {
   };
 
   return (
-    <Tabs
-      value={activeTab}
-      onChange={handleTabChange}
-      styles={{ tabLabel: { fontSize: '1rem' } }}
-    >
+    <Tabs value={activeTab} onChange={handleTabChange} styles={{ tabLabel: { fontSize: '1rem' } }}>
       <TabsList>
         <TabsTab value="upload">Uploads</TabsTab>
         <TabsTab value="images">Available Images</TabsTab>

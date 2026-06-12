@@ -12,23 +12,25 @@ import {
   Textarea,
   TextInput,
 } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import classes from './admin-section-ui-detail-page-content.module.scss';
 import { JSONEditor } from '@vinaup/ui/admin';
 import { use, useState, useCallback } from 'react';
+import { useDebouncedCallback } from 'use-debounce';
+
 import {
   createSectionUIActionPrivate,
   updateSectionUIActionPrivate,
   deleteSectionUIActionPrivate,
-} from '@/actions/section-ui-action';
-import { getSectionUICredentialsByCodeActionPrivate } from '@/actions/section-ui-action';
-import { ISectionUICredentialsResponse } from '@/interfaces/section-ui-credentials-interface';
-import { IDynamicSectionUIResponse } from '@/interfaces/dynamic-section-ui-interface';
-import { useDebouncedCallback } from 'use-debounce';
-import { useDisclosure } from '@mantine/hooks';
+} from '@/actions/section-ui-actions';
+import { getSectionUICredentialsByCodeActionPrivate } from '@/actions/section-ui-actions';
+import { DynamicSectionUIResponse } from '@/interfaces/dynamic-section-ui-interfaces';
+import { SectionUICredentialsResponse } from '@/interfaces/section-ui-credentials-interfaces';
+
+import classes from './admin-section-ui-detail-page-content.module.scss';
 
 interface AdminSectionUIDetailPageContentProps {
-  existingDynamicSectionUIsPromise: Promise<IDynamicSectionUIResponse[]>;
+  existingDynamicSectionUIsPromise: Promise<DynamicSectionUIResponse[]>;
   usedPositionsPromise: Promise<number[]>;
 }
 
@@ -40,13 +42,12 @@ export default function AdminSectionUIDetailPageContent({
   const usedPositions = use(usedPositionsPromise);
 
   const [mode, setMode] = useState<'list' | 'create' | 'edit'>('list');
-  const [dynamicSectionUI, setDynamicSectionUI] =
-    useState<IDynamicSectionUIResponse | null>(null);
+  const [dynamicSectionUI, setDynamicSectionUI] = useState<DynamicSectionUIResponse | null>(null);
 
   // Template code input
   const [templateCode, setTemplateCode] = useState<string>('');
   const [validatedCredentials, setValidatedCredentials] =
-    useState<ISectionUICredentialsResponse | null>(null);
+    useState<SectionUICredentialsResponse | null>(null);
   const [isValidating, setIsValidating] = useState<boolean>(false);
 
   // Position
@@ -55,8 +56,7 @@ export default function AdminSectionUIDetailPageContent({
   const [propertiesJson, setPropertiesJson] = useState<string>('');
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [guideOpened, { open: openGuide, close: closeGuide }] =
-    useDisclosure(false);
+  const [guideOpened, { open: openGuide, close: closeGuide }] = useDisclosure(false);
 
   // Validate template code
   const handleValidateTemplateCode = async () => {
@@ -70,9 +70,7 @@ export default function AdminSectionUIDetailPageContent({
     }
 
     setIsValidating(true);
-    const response = await getSectionUICredentialsByCodeActionPrivate(
-      templateCode.trim()
-    );
+    const response = await getSectionUICredentialsByCodeActionPrivate(templateCode.trim());
 
     if (response.success && response.data) {
       setValidatedCredentials(response.data);
@@ -93,14 +91,12 @@ export default function AdminSectionUIDetailPageContent({
   };
 
   // Select an existing DynamicSectionUI to edit
-  const handleSelectExisting = useCallback((item: IDynamicSectionUIResponse) => {
+  const handleSelectExisting = useCallback((item: DynamicSectionUIResponse) => {
     setDynamicSectionUI(item);
     setPosition(item.position);
     setTemplateCode(item.sectionUICredentials?.code || '');
     setValidatedCredentials(item.sectionUICredentials || null);
-    setPropertiesJson(
-      item.properties ? JSON.stringify(item.properties, null, 2) : ''
-    );
+    setPropertiesJson(item.properties ? JSON.stringify(item.properties, null, 2) : '');
     setMode('edit');
   }, []);
 
@@ -117,9 +113,7 @@ export default function AdminSectionUIDetailPageContent({
     if (response.success && response.data) {
       setDynamicSectionUI(response.data);
       setPropertiesJson(
-        response.data.properties
-          ? JSON.stringify(response.data.properties, null, 2)
-          : ''
+        response.data.properties ? JSON.stringify(response.data.properties, null, 2) : '',
       );
       notifications.show({
         message: 'Template updated',
@@ -176,9 +170,7 @@ export default function AdminSectionUIDetailPageContent({
     if (response.success && response.data) {
       setDynamicSectionUI(response.data);
       setPropertiesJson(
-        response.data.properties
-          ? JSON.stringify(response.data.properties, null, 2)
-          : ''
+        response.data.properties ? JSON.stringify(response.data.properties, null, 2) : '',
       );
       setMode('edit');
       notifications.show({
@@ -317,9 +309,7 @@ export default function AdminSectionUIDetailPageContent({
                   data={Array.from({ length: 50 }, (_, i) => i + 1).map((pos) => ({
                     value: pos.toString(),
                     label: pos.toString(),
-                    disabled:
-                      usedPositions.includes(pos) &&
-                      pos !== dynamicSectionUI.position,
+                    disabled: usedPositions.includes(pos) && pos !== dynamicSectionUI.position,
                   }))}
                   size="sm"
                   className={classes.positionSelect}
@@ -349,9 +339,7 @@ export default function AdminSectionUIDetailPageContent({
             // List mode - show existing items
             <Stack gap="md">
               <Group justify="space-between">
-                <Text fw={500}>
-                  Existing Items ({existingDynamicSectionUIs.length})
-                </Text>
+                <Text fw={500}>Existing Items ({existingDynamicSectionUIs.length})</Text>
                 <Button size="sm" onClick={handleShowCreateForm}>
                   + Create New
                 </Button>
@@ -472,10 +460,7 @@ export default function AdminSectionUIDetailPageContent({
                     value={templateCode}
                     onChange={(e) => {
                       setTemplateCode(e.currentTarget.value);
-                      if (
-                        e.currentTarget.value !==
-                        dynamicSectionUI.sectionUICredentials?.code
-                      ) {
+                      if (e.currentTarget.value !== dynamicSectionUI.sectionUICredentials?.code) {
                         setValidatedCredentials(null);
                       }
                     }}
@@ -490,8 +475,7 @@ export default function AdminSectionUIDetailPageContent({
                     Validate
                   </Button>
                   {validatedCredentials &&
-                    validatedCredentials.id !==
-                      dynamicSectionUI.sectionUICredentialsId && (
+                    validatedCredentials.id !== dynamicSectionUI.sectionUICredentialsId && (
                       <Button
                         onClick={handleChangeTemplate}
                         loading={isLoading}
@@ -530,12 +514,7 @@ export default function AdminSectionUIDetailPageContent({
               </Stack>
 
               <Group justify="flex-end" mt="md">
-                <Button
-                  color="red"
-                  variant="outline"
-                  onClick={handleDelete}
-                  loading={isLoading}
-                >
+                <Button color="red" variant="outline" onClick={handleDelete} loading={isLoading}>
                   Delete
                 </Button>
               </Group>
@@ -544,16 +523,10 @@ export default function AdminSectionUIDetailPageContent({
         </Stack>
       </Paper>
 
-      <Modal
-        opened={guideOpened}
-        onClose={closeGuide}
-        title="Property Format Guide"
-        size="lg"
-      >
+      <Modal opened={guideOpened} onClose={closeGuide} title="Property Format Guide" size="lg">
         <Stack gap="md">
           <Text size="sm" c="dimmed">
-            Copy the JSON schema below and use it as a template for your properties
-            configuration.
+            Copy the JSON schema below and use it as a template for your properties configuration.
           </Text>
           <Textarea
             readOnly
@@ -571,7 +544,7 @@ export default function AdminSectionUIDetailPageContent({
             onClick={() => {
               if (validatedCredentials) {
                 navigator.clipboard.writeText(
-                  JSON.stringify(validatedCredentials.propertyFormat, null, 2)
+                  JSON.stringify(validatedCredentials.propertyFormat, null, 2),
                 );
                 notifications.show({
                   message: 'Copied to clipboard',

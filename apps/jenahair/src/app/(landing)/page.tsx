@@ -1,11 +1,12 @@
 import { Container, Stack } from '@mantine/core';
-import { BrandIntroduction } from '@/components/landing/sections/brand-introduction/brand-introduction';
+
 import { AgencyMarqueeSection } from '@/components/landing/sections/agency-marquee-section/agency-marquee-section';
-import { SalonServicesBanner } from '@/components/landing/sections/salon-services-banner/salon-services-banner';
-import { SalonDiarySection } from '@/components/landing/sections/salon-diary-section/salon-diary-section';
-import { MOCK_SALON_SERVICES } from '@/mocks/salon-services';
-import { SalonVideoAndBlogsShowcase } from '@/components/landing/sections/salon-video-and-blogs-showcase/salon-video-and-blogs-showcase';
 import { BannerCarouselSection } from '@/components/landing/sections/banner-carousel-section/banner-carousel-section';
+import { BrandIntroduction } from '@/components/landing/sections/brand-introduction/brand-introduction';
+import { SalonDiarySection } from '@/components/landing/sections/salon-diary-section/salon-diary-section';
+import { SalonServicesBanner } from '@/components/landing/sections/salon-services-banner/salon-services-banner';
+import { SalonVideoAndBlogsShowcase } from '@/components/landing/sections/salon-video-and-blogs-showcase/salon-video-and-blogs-showcase';
+import { MOCK_SALON_SERVICES } from '@/mocks/salon-services';
 
 export default function Home() {
   return (

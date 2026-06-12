@@ -1,13 +1,17 @@
-import { redirect } from 'next/navigation';
-import { getAppConfigActionPublic } from '@/actions/app-config-action';
 import { Center } from '@mantine/core';
 import Image from 'next/image';
+import { redirect } from 'next/navigation';
+
+import { getAppConfigActionPublic } from '@/actions/app-config-actions';
+
 import classes from './page.module.scss';
 
 export default async function MaintenancePage() {
-  'use cache'
+  'use cache';
   const appConfigResponse = await getAppConfigActionPublic();
-  const isMaintenanceMode = appConfigResponse.success ? appConfigResponse.data?.maintenanceMode : false;
+  const isMaintenanceMode = appConfigResponse.success
+    ? appConfigResponse.data?.maintenanceMode
+    : false;
 
   if (!isMaintenanceMode) {
     redirect('/');

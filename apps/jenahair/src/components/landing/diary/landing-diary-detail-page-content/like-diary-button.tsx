@@ -1,19 +1,17 @@
 'use client';
 
-import { incrementDiaryLikeActionPublic } from '@/actions/diary-action';
 import { Group, Text, UnstyledButton } from '@mantine/core';
-import { IoHeart } from 'react-icons/io5';
 import { useState } from 'react';
+import { IoHeart } from 'react-icons/io5';
+
+import { incrementDiaryLikeActionPublic } from '@/actions/diary-actions';
 
 type LikeDiaryButtonProps = {
   diaryId: string;
   likes: number;
 };
 
-export default function LikeDiaryButton({
-  diaryId,
-  likes: initialLikes,
-}: LikeDiaryButtonProps) {
+export default function LikeDiaryButton({ diaryId, likes: initialLikes }: LikeDiaryButtonProps) {
   const [likes, setLikes] = useState(initialLikes ?? 0);
   const [isLoading, setIsLoading] = useState(false);
 

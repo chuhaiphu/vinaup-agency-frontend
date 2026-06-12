@@ -1,8 +1,9 @@
 'use client';
 
 import { Tabs, TabsList, TabsPanel, TabsTab } from '@mantine/core';
-import { usePathname, useRouter } from 'next/navigation';
 import { Route } from 'next';
+import { usePathname, useRouter } from 'next/navigation';
+
 import classes from './layout.module.scss';
 
 export default function AdminSettingSmtpLayout({ children }: { children: React.ReactNode }) {

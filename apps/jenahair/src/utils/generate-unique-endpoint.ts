@@ -1,43 +1,28 @@
 import slugify from 'slugify';
-import { getPageByEndpointActionPublic } from '@/actions/page-action';
-import { getBlogCategoryByEndpointActionPublic } from '@/actions/blog-category-action';
-import { getBlogByEndpointActionPublic } from '@/actions/blog-action';
-import { getDiaryByEndpointActionPublic } from '@/actions/diary-action';
-import { getDiaryCategoryByEndpointActionPublic } from '@/actions/diary-category-action';
-import { ActionResponse } from '@/interfaces/_base-interface';
 
-export type EndpointModel =
-  | 'blog'
-  | 'blog-category'
-  | 'diary'
-  | 'diary-category'
-  | 'page';
+import { getBlogByEndpointActionPublic } from '@/actions/blog-actions';
+import { getBlogCategoryByEndpointActionPublic } from '@/actions/blog-category-actions';
+import { getDiaryByEndpointActionPublic } from '@/actions/diary-actions';
+import { getDiaryCategoryByEndpointActionPublic } from '@/actions/diary-category-actions';
+import { getPageByEndpointActionPublic } from '@/actions/page-actions';
+import { ActionResponse } from '@/interfaces/_base-interfaces';
 
-type EndpointChecker = (
-  endpoint: string
-) => Promise<ActionResponse<{ id: string } | null>>;
+export type EndpointModel = 'blog' | 'blog-category' | 'diary' | 'diary-category' | 'page';
+
+type EndpointChecker = (endpoint: string) => Promise<ActionResponse<{ id: string } | null>>;
 
 const checkersByModel: Record<EndpointModel, EndpointChecker[]> = {
   blog: [getBlogByEndpointActionPublic, getBlogCategoryByEndpointActionPublic],
-  'blog-category': [
-    getBlogByEndpointActionPublic,
-    getBlogCategoryByEndpointActionPublic,
-  ],
-  diary: [
-    getDiaryByEndpointActionPublic,
-    getDiaryCategoryByEndpointActionPublic,
-  ],
-  'diary-category': [
-    getDiaryByEndpointActionPublic,
-    getDiaryCategoryByEndpointActionPublic,
-  ],
+  'blog-category': [getBlogByEndpointActionPublic, getBlogCategoryByEndpointActionPublic],
+  diary: [getDiaryByEndpointActionPublic, getDiaryCategoryByEndpointActionPublic],
+  'diary-category': [getDiaryByEndpointActionPublic, getDiaryCategoryByEndpointActionPublic],
   page: [getPageByEndpointActionPublic],
 };
 
 export const generateUniqueEndpoint = async (
   title: string,
   model: EndpointModel,
-  currentModelId?: string
+  currentModelId?: string,
 ): Promise<string> => {
   let slugifiedTitle = '';
   if (!title || title.trim().length === 0) {
@@ -61,7 +46,7 @@ export const generateUniqueEndpoint = async (
   while (!isUnique) {
     const results = await Promise.all(checkers.map((fn) => fn(endpoint)));
     const hasConflict = results.some(
-      (res) => res.success && res.data && res.data.id !== currentModelId
+      (res) => res.success && res.data && res.data.id !== currentModelId,
     );
 
     if (hasConflict) {

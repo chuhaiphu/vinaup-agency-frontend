@@ -1,5 +1,6 @@
-import { getSmtpConfigActionPrivate } from '@/actions/smtp-config-action';
 import { Suspense } from 'react';
+
+import { getSmtpConfigActionPrivate } from '@/actions/smtp-config-actions';
 import SmtpPageContent from '@/components/admin/settings/admin-setting-email-smtp-layout-content/smtp-page-content/smtp-page-content';
 import SmtpPageContentSkeleton from '@/components/admin/settings/admin-setting-email-smtp-layout-content/smtp-page-content/smtp-page-content-skeleton';
 

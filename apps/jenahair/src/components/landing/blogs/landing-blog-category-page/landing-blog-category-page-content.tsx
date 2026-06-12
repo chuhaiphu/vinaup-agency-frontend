@@ -1,16 +1,18 @@
-import { getBlogCategoryBlogsByBlogCategoryIdActionPublic } from '@/actions/blog-category-blog-action';
-import BlogGrid from '@/components/landing/blogs/blog-grid/blog-grid';
-import BlogCategoryTags from '@/components/landing/blogs/blog-category-tags/blog-category-tags';
-import { IBlogCategoryResponse } from '@/interfaces/blog-category-interface';
-import { IBlogResponse } from '@/interfaces/blog-interface';
 import { Box, Container, Stack } from '@mantine/core';
 import { VideoSection } from '@vinaup/ui/landing';
-import classes from './landing-blog-category-page-content.module.scss';
 import { Suspense } from 'react';
+
+import { getBlogCategoryBlogsByBlogCategoryIdActionPublic } from '@/actions/blog-category-blog-actions';
+import BlogCategoryTags from '@/components/landing/blogs/blog-category-tags/blog-category-tags';
 import BlogCategoryTagsSkeleton from '@/components/landing/blogs/blog-category-tags/blog-category-tags-skeleton';
+import BlogGrid from '@/components/landing/blogs/blog-grid/blog-grid';
+import { BlogCategoryResponse } from '@/interfaces/blog-category-interfaces';
+import { BlogResponse } from '@/interfaces/blog-interfaces';
+
+import classes from './landing-blog-category-page-content.module.scss';
 
 type LandingBlogCategoryPageContentProps = {
-  category: IBlogCategoryResponse;
+  category: BlogCategoryResponse;
   searchParams: Promise<{ q?: string; destinations?: string }>;
 };
 
@@ -26,23 +28,21 @@ export default async function LandingBlogCategoryPageContent({
 }: LandingBlogCategoryPageContentProps) {
   const queryParams = await searchParams;
 
-  const blogCategoryBlogsResponse =
-    await getBlogCategoryBlogsByBlogCategoryIdActionPublic(category.id);
+  const blogCategoryBlogsResponse = await getBlogCategoryBlogsByBlogCategoryIdActionPublic(
+    category.id,
+  );
 
-  const blogsInCategory: IBlogResponse[] =
+  const blogsInCategory: BlogResponse[] =
     blogCategoryBlogsResponse.success && blogCategoryBlogsResponse.data
       ? blogCategoryBlogsResponse.data
           .map((bcb) => bcb.blog)
           .filter(
-            (blog): blog is IBlogResponse =>
-              blog !== undefined && blog.visibility === 'public'
+            (blog): blog is BlogResponse => blog !== undefined && blog.visibility === 'public',
           )
       : [];
 
   const sortedBlogs = [...blogsInCategory]
-    .sort(
-      (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-    )
+    .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
     .sort((a, b) => a.sortOrder - b.sortOrder);
 
   const renderVideoSection = () => {
@@ -73,9 +73,7 @@ export default async function LandingBlogCategoryPageContent({
         <Suspense fallback={<BlogCategoryTagsSkeleton />}>
           <BlogCategoryTags activeEndpoint={category.endpoint} />
         </Suspense>
-        <Box mt={'sm'}>
-          {category.videoPosition === 'top' && renderVideoSection()}
-        </Box>
+        <Box mt={'sm'}>{category.videoPosition === 'top' && renderVideoSection()}</Box>
         <Stack gap="sm" mt={'sm'}>
           {!isHtmlDescriptionEmpty(category.description) && (
             <div

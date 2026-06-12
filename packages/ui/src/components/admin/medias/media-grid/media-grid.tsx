@@ -1,15 +1,32 @@
 'use client';
-import { Grid, GridCol, Group, Image, Paper, Stack, Text, TextInput, Select, Pagination } from "@mantine/core";
-import { useEffect, useState } from "react";
-import { IoSearch } from "react-icons/io5";
+import {
+  Grid,
+  GridCol,
+  Group,
+  Image,
+  Paper,
+  Stack,
+  Text,
+  TextInput,
+  Select,
+  Pagination,
+} from '@mantine/core';
+import { useEffect, useState } from 'react';
+import { IoSearch } from 'react-icons/io5';
 import { generateClassName } from '@vinaup/utils';
 import defaultClasses from './media-grid.module.scss';
-import type { IMedia } from '../_types';
+import type { Media } from '../_types';
 
 interface MediaGridClassNames {
   rootStack?: { root?: string };
   filterGroup?: { root?: string };
-  sortSelect?: { root?: string; wrapper?: string; input?: string; section?: string; dropdown?: string };
+  sortSelect?: {
+    root?: string;
+    wrapper?: string;
+    input?: string;
+    section?: string;
+    dropdown?: string;
+  };
   searchInput?: { root?: string; wrapper?: string; input?: string; section?: string };
   grid?: { root?: string; inner?: string; col?: string };
   itemPaper?: { root?: string };
@@ -21,7 +38,7 @@ interface MediaGridClassNames {
 }
 
 export interface MediaGridProps {
-  images: IMedia[];
+  images: Media[];
   selectedImageId?: string | null;
   onImageClick: (imageId: string) => void;
   sortOptions?: { value: string; label: string }[];
@@ -49,9 +66,7 @@ export function MediaGrid({
     let result = [...images];
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
-      result = result.filter((image) =>
-        image.title?.toLowerCase().includes(query)
-      );
+      result = result.filter((image) => image.title?.toLowerCase().includes(query));
     }
     if (sortBy) {
       result.sort((a, b) => {
@@ -72,7 +87,10 @@ export function MediaGrid({
 
   const processedImages = filteredAndSortedImages();
   const totalPages = Math.ceil(processedImages.length / itemsPerPage);
-  const paginatedImages = processedImages.slice(itemsPerPage * (activePage - 1), itemsPerPage * activePage);
+  const paginatedImages = processedImages.slice(
+    itemsPerPage * (activePage - 1),
+    itemsPerPage * activePage,
+  );
 
   useEffect(() => {
     setActivePage(1);
@@ -82,14 +100,14 @@ export function MediaGrid({
     <Stack
       gap="md"
       classNames={{
-        root: classNames?.rootStack?.root
+        root: classNames?.rootStack?.root,
       }}
     >
       <Group
         justify="space-between"
         align="center"
         classNames={{
-          root: classNames?.filterGroup?.root
+          root: classNames?.filterGroup?.root,
         }}
       >
         <Select
@@ -111,10 +129,7 @@ export function MediaGrid({
         />
       </Group>
 
-      <Grid
-        gap={'md'}
-        classNames={classNames?.grid}
-      >
+      <Grid gap={'md'} classNames={classNames?.grid}>
         {paginatedImages.map((image) => {
           const isSelected = selectedImageId === image.id;
           return (
@@ -129,23 +144,34 @@ export function MediaGrid({
                     defaultClasses.itemPaperRoot,
                     classNames?.itemPaper?.root,
                     isSelected ? defaultClasses.selectedPaper : undefined,
-                    isSelected ? classNames?.selectedPaper : undefined
-                  )
+                    isSelected ? classNames?.selectedPaper : undefined,
+                  ),
                 }}
               >
                 <Stack
                   gap={6}
                   classNames={{
-                    root: generateClassName(defaultClasses.imageStackRoot, classNames?.itemStack?.root)
+                    root: generateClassName(
+                      defaultClasses.imageStackRoot,
+                      classNames?.itemStack?.root,
+                    ),
                   }}
                 >
-                  <div className={generateClassName(defaultClasses.imageContainer, classNames?.imageContainer)}>
+                  <div
+                    className={generateClassName(
+                      defaultClasses.imageContainer,
+                      classNames?.imageContainer,
+                    )}
+                  >
                     <Image
                       src={image.url}
                       alt={image.title || image.name}
                       fit="cover"
                       classNames={{
-                        root: generateClassName(defaultClasses.itemImageRoot, classNames?.itemImage?.root)
+                        root: generateClassName(
+                          defaultClasses.itemImageRoot,
+                          classNames?.itemImage?.root,
+                        ),
                       }}
                     />
                   </div>
@@ -155,7 +181,10 @@ export function MediaGrid({
                     lineClamp={1}
                     title={image.title ?? image.name}
                     classNames={{
-                      root: generateClassName(defaultClasses.itemTextRoot, classNames?.itemText?.root)
+                      root: generateClassName(
+                        defaultClasses.itemTextRoot,
+                        classNames?.itemText?.root,
+                      ),
                     }}
                   >
                     {image.title ?? image.name}
@@ -166,11 +195,7 @@ export function MediaGrid({
           );
         })}
       </Grid>
-      <Pagination
-        value={activePage}
-        onChange={setActivePage}
-        total={totalPages}
-      />
+      <Pagination value={activePage} onChange={setActivePage} total={totalPages} />
     </Stack>
   );
 }

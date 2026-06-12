@@ -1,20 +1,22 @@
 'use client';
 
-import { IDiaryResponse } from '@/interfaces/diary-interface';
+import { Carousel, CarouselSlide } from '@mantine/carousel';
 import { Grid, GridCol, Pagination, Text } from '@mantine/core';
+import { Route } from 'next';
 import Link from 'next/link';
 import { useState } from 'react';
-import DiaryItem from './diary-item/diary-item';
+
+import { DiaryResponse } from '@/interfaces/diary-interfaces';
+
 import classes from './diary-grid.module.scss';
-import { Route } from 'next';
-import { Carousel, CarouselSlide } from '@mantine/carousel';
+import DiaryItem from './diary-item/diary-item';
 
 type DiaryGridProps = {
   queryParams?: {
     q?: string;
     destinations?: string;
   };
-  diaries: IDiaryResponse[];
+  diaries: DiaryResponse[];
   pageSize?: number;
   showPagination?: boolean;
 };
@@ -36,8 +38,7 @@ export default function DiaryGrid({
     filteredDiaries = filteredDiaries.filter(
       (diary) =>
         diary.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (diary.description &&
-          diary.description.toLowerCase().includes(searchQuery.toLowerCase()))
+        (diary.description && diary.description.toLowerCase().includes(searchQuery.toLowerCase())),
     );
   }
 
@@ -47,9 +48,9 @@ export default function DiaryGrid({
       filteredDiaries = filteredDiaries.filter((diary) =>
         selectedDestinations.some((dest) =>
           diary.destinations.some((diaryDest) =>
-            diaryDest.toLowerCase().includes(dest.toLowerCase())
-          )
-        )
+            diaryDest.toLowerCase().includes(dest.toLowerCase()),
+          ),
+        ),
       );
     }
   }
@@ -75,7 +76,7 @@ export default function DiaryGrid({
   const start = (page - 1) * pageSize;
   const paginated = filteredDiaries.slice(start, start + pageSize);
 
-  const renderDiaryCard = (item: IDiaryResponse) => (
+  const renderDiaryCard = (item: DiaryResponse) => (
     <Link href={`/nhat-ky/${item.endpoint}` as Route} className={classes.cardLink}>
       <DiaryItem item={item} />
     </Link>
@@ -106,9 +107,7 @@ export default function DiaryGrid({
         }}
       >
         {paginated.map((item) => (
-          <CarouselSlide key={item.id}>
-            {renderDiaryCard(item)}
-          </CarouselSlide>
+          <CarouselSlide key={item.id}>{renderDiaryCard(item)}</CarouselSlide>
         ))}
       </Carousel>
 

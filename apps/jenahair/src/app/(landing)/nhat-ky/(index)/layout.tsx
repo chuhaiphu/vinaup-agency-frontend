@@ -1,7 +1,3 @@
-export default function DiaryIndexLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function DiaryIndexLayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }

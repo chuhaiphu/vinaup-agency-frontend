@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
-import { getThemeConfigAdminActionPrivate } from '@/actions/theme-config-action';
+
+import { getThemeConfigAdminActionPrivate } from '@/actions/theme-config-actions';
 import AdminThemeSocialLinksPageContent from '@/components/admin/theme/admin-theme-social-links-page-content/admin-theme-social-links-page-content';
 
 export default function AdminThemeSocialLinksPage() {

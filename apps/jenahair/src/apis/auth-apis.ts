@@ -1,5 +1,6 @@
-import { IUserResponse } from "@/interfaces/user-interface";
-import { apiPrivate } from "./_base";
+import { UserResponse } from '@/interfaces/user-interfaces';
+
+import { apiPrivate } from './_base';
 
 export interface AuthRequest {
   email: string;
@@ -8,7 +9,7 @@ export interface AuthRequest {
 
 export interface AuthResponse {
   accessToken: string;
-  user: IUserResponse;
+  user: UserResponse;
 }
 
 export async function localSignInApiPrivate(data: AuthRequest) {
@@ -25,7 +26,7 @@ export async function logoutApiPrivate() {
 }
 
 export async function getMeApiPrivate() {
-  return apiPrivate<IUserResponse>('/auth/me', {
+  return apiPrivate<UserResponse>('/auth/me', {
     method: 'GET',
   });
 }

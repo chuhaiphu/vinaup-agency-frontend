@@ -1,4 +1,4 @@
-import { Route } from "next";
+import { Route } from 'next';
 
 export interface NavItemProps {
   key: string;

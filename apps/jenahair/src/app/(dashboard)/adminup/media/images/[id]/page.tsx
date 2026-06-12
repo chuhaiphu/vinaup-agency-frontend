@@ -1,6 +1,7 @@
-import { getMediaByIdActionPrivate } from "@/actions/media-action";
-import { notFound } from "next/navigation";
-import AdminMediaImageDetailSection from "@/components/admin/media/admin-media-image-detail-section/admin-media-image-detail-section";
+import { notFound } from 'next/navigation';
+
+import { getMediaByIdActionPrivate } from '@/actions/media-actions';
+import AdminMediaImageDetailSection from '@/components/admin/media/admin-media-image-detail-section/admin-media-image-detail-section';
 
 export default async function AdminMediaImageDetailPage({
   params,

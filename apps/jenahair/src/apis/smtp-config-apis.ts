@@ -1,14 +1,15 @@
-import { ISmtpConfigResponse, IUpdateSmtpConfig } from "@/interfaces/smtp-config-interface";
-import { apiPrivate } from "./_base";
+import { SmtpConfigResponse, UpdateSmtpConfigRequest } from '@/interfaces/smtp-config-interfaces';
+
+import { apiPrivate } from './_base';
 
 export async function getSmtpConfigApiPrivate() {
-  return apiPrivate<ISmtpConfigResponse>('/smtp-config/admin', {
+  return apiPrivate<SmtpConfigResponse>('/smtp-config/admin', {
     method: 'GET',
   });
 }
 
-export async function updateSmtpConfigApiPrivate(data: IUpdateSmtpConfig) {
-  return apiPrivate<ISmtpConfigResponse>('/smtp-config/admin', {
+export async function updateSmtpConfigApiPrivate(data: UpdateSmtpConfigRequest) {
+  return apiPrivate<SmtpConfigResponse>('/smtp-config/admin', {
     method: 'PUT',
     body: JSON.stringify(data),
   });

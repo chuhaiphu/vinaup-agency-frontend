@@ -1,10 +1,11 @@
-import AdminBlogCategoryDetailPageContent from '@/components/admin/blogs/admin-blog-category-detail-page-content/admin-blog-category-detail-page-content';
+import { Suspense } from 'react';
+
 import {
   getAllBlogCategoriesActionPrivate,
   getAvailableSortOrdersActionPrivate,
   getBlogCategoryByIdActionPrivate,
-} from '@/actions/blog-category-action';
-import { Suspense } from 'react';
+} from '@/actions/blog-category-actions';
+import AdminBlogCategoryDetailPageContent from '@/components/admin/blogs/admin-blog-category-detail-page-content/admin-blog-category-detail-page-content';
 
 export default function AdminBlogCategoryDetailPage({
   params,
@@ -12,11 +13,11 @@ export default function AdminBlogCategoryDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const currentBlogCategoryPromise = params.then((params) =>
-    getBlogCategoryByIdActionPrivate(params.id)
+    getBlogCategoryByIdActionPrivate(params.id),
   );
   const blogCategoriesPromise = getAllBlogCategoriesActionPrivate();
   const availableSortOrdersPromise = currentBlogCategoryPromise.then((res) =>
-    getAvailableSortOrdersActionPrivate(res.data?.parent?.id || '')
+    getAvailableSortOrdersActionPrivate(res.data?.parent?.id || ''),
   );
 
   return (

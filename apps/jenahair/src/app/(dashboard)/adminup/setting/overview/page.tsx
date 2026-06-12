@@ -1,5 +1,6 @@
-import { getAppConfigActionPublic } from '@/actions/app-config-action';
 import { Suspense } from 'react';
+
+import { getAppConfigActionPublic } from '@/actions/app-config-actions';
 import AdminSettingOverviewPageContent from '@/components/admin/settings/admin-setting-overview-page-content/admin-setting-overview-page-content';
 import AdminSettingOverviewPageContentSkeleton from '@/components/admin/settings/admin-setting-overview-page-content/admin-setting-overview-page-content-skeleton';
 

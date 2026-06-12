@@ -1,23 +1,25 @@
-import { getBlogByEndpointActionPublic } from '@/actions/blog-action';
-import IncrementView from '@/components/landing/primitives/increment-view/increment-view';
 import { Container, Group, Stack, Text } from '@mantine/core';
 import {
   VinaupLocationIcon as LocationIcon,
   VinaupGridListIcon,
   VinaupPriceTagIcon,
 } from '@vinaup/ui/cores';
-import Link from 'next/link';
-import { Route } from 'next';
 import {
   CopyToClipboard,
   VideoSection,
   SectionCarousel,
   SectionCarouselSlide,
 } from '@vinaup/ui/landing';
+import { Route } from 'next';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { FaRegCopy, FaRegEye } from 'react-icons/fa';
-import LikeBlogButton from './like-blog-button';
+
+import { getBlogByEndpointActionPublic } from '@/actions/blog-actions';
+import IncrementView from '@/components/landing/primitives/increment-view/increment-view';
+
 import classes from './landing-blog-detail-page-content.module.scss';
+import LikeBlogButton from './like-blog-button';
 
 const BLOG_ENDPOINT_PLACEHOLDER = '__placeholder__';
 
@@ -43,19 +45,16 @@ export default async function LandingBlogDetailPageContent({
   const blogData = blogResponse.data;
   const currentUrl = `https://jenahair.com/blogs/${endpoint}`;
 
-  const additionalImageSlides: SectionCarouselSlide[] =
-    blogData.additionalImageUrls.map((url) => ({ src: url }));
+  const additionalImageSlides: SectionCarouselSlide[] = blogData.additionalImageUrls.map((url) => ({
+    src: url,
+  }));
 
   const renderAdditionalImagesCarousel = () => {
     if (additionalImageSlides.length === 0) return <></>;
     return <SectionCarousel slides={additionalImageSlides} height={480} />;
   };
 
-  const renderVideoSection = (
-    videoUrl?: string,
-    thumbnailUrl?: string,
-    title?: string
-  ) => {
+  const renderVideoSection = (videoUrl?: string, thumbnailUrl?: string, title?: string) => {
     if (!videoUrl) {
       return <></>;
     }
@@ -71,11 +70,7 @@ export default async function LandingBlogDetailPageContent({
   };
 
   const renderHTMLContent = (htmlContent: string | undefined | null) => {
-    if (
-      !htmlContent ||
-      htmlContent.trim() === '' ||
-      htmlContent.trim() === '<p></p>'
-    ) {
+    if (!htmlContent || htmlContent.trim() === '' || htmlContent.trim() === '<p></p>') {
       return <></>;
     }
 
@@ -107,9 +102,7 @@ export default async function LandingBlogDetailPageContent({
             className={classes.blogCategoryLink}
           >
             <Text fz={18} className={classes.blogCategoryText}>
-              {cat.title} {
-                index !== categoryEntries.length - 1 ? '; ' : ''
-              }
+              {cat.title} {index !== categoryEntries.length - 1 ? '; ' : ''}
             </Text>
           </Link>
         ))}
@@ -148,8 +141,7 @@ export default async function LandingBlogDetailPageContent({
   };
 
   const renderDestinationAndCategory = () => {
-    const hasDestinations =
-      blogData.destinations && blogData.destinations.length > 0;
+    const hasDestinations = blogData.destinations && blogData.destinations.length > 0;
 
     if (!hasDestinations) {
       return null;
@@ -185,35 +177,28 @@ export default async function LandingBlogDetailPageContent({
       <section className={classes.blogDetailInfo}>
         <Container size={'lg'} className={classes.blogDetailInfoContainer}>
           <Group justify="space-between">
-            <Group
-              gap={12}
-              align={'center'}
-              classNames={{ root: classes.blogCategories }}
-            >
-              <VinaupPriceTagIcon width={24} height={24}/>
+            <Group gap={12} align={'center'} classNames={{ root: classes.blogCategories }}>
+              <VinaupPriceTagIcon size={24} />
               {renderBlogCategories()}
             </Group>
-            <Group classNames={{ root: classes.blogActionGroup }}>
-              {renderBlogAction()}
-            </Group>
+            <Group classNames={{ root: classes.blogActionGroup }}>{renderBlogAction()}</Group>
           </Group>
         </Container>
       </section>
-      {blogData.additionalImagesPosition === 'top' &&
-        additionalImageSlides.length > 0 && (
-          <section className={classes.blogCarouselSection}>
-            <Container size={'lg'} className={classes.blogCarouselSectionContainer}>
-              {renderAdditionalImagesCarousel()}
-            </Container>
-          </section>
-        )}
+      {blogData.additionalImagesPosition === 'top' && additionalImageSlides.length > 0 && (
+        <section className={classes.blogCarouselSection}>
+          <Container size={'lg'} className={classes.blogCarouselSectionContainer}>
+            {renderAdditionalImagesCarousel()}
+          </Container>
+        </section>
+      )}
       {blogData.videoPosition === 'top' && blogData.videoUrl && (
         <section className={classes.blogVideoSection}>
           <Container size={'lg'} className={classes.blogVideoSectionContainer}>
             {renderVideoSection(
               blogData.videoUrl || undefined,
               blogData.videoThumbnailUrl || undefined,
-              blogData.title || undefined
+              blogData.title || undefined,
             )}
           </Container>
         </section>
@@ -229,19 +214,18 @@ export default async function LandingBlogDetailPageContent({
             {renderVideoSection(
               blogData.videoUrl || undefined,
               blogData.videoThumbnailUrl || undefined,
-              blogData.title || undefined
+              blogData.title || undefined,
             )}
           </Container>
         </section>
       )}
-      {blogData.additionalImagesPosition !== 'top' &&
-        additionalImageSlides.length > 0 && (
-          <section className={classes.blogCarouselSection}>
-            <Container size={'lg'} className={classes.blogCarouselSectionContainer}>
-              {renderAdditionalImagesCarousel()}
-            </Container>
-          </section>
-        )}
+      {blogData.additionalImagesPosition !== 'top' && additionalImageSlides.length > 0 && (
+        <section className={classes.blogCarouselSection}>
+          <Container size={'lg'} className={classes.blogCarouselSectionContainer}>
+            {renderAdditionalImagesCarousel()}
+          </Container>
+        </section>
+      )}
       <section className={classes.blogLocationSection}>
         <Container size={'lg'} className={classes.blogLocationSectionContainer}>
           {renderDestinationAndCategory()}

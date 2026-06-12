@@ -1,17 +1,19 @@
 'use client';
 
-import React, { useMemo } from 'react';
 import { AppShellNavbar, Text, Group } from '@mantine/core';
-import { NavItemProps } from './dashboard-nav/_props';
+import { VinaupHomeIcon as HomeIcon } from '@vinaup/ui/cores';
+import React, { useMemo } from 'react';
+import { GoDot, GoDotFill } from 'react-icons/go';
+
 import { VersionSection } from '@/components/landing/sections/version-section/version-section';
+import { UserResponse } from '@/interfaces/user-interfaces';
+
+import { NavItemProps } from './dashboard-nav/_props';
 import { DashboardNav } from './dashboard-nav/dashboard-nav';
 import classes from './dashboard-sidebar.module.scss';
-import { GoDot, GoDotFill } from 'react-icons/go';
-import { VinaupHomeIcon as HomeIcon } from '@vinaup/ui/cores';
-import { IUserResponse } from '@/interfaces/user-interface';
 
 interface DashboardSidebarProps {
-  userData: IUserResponse;
+  userData: UserResponse;
 }
 
 export default function DashboardSidebar({ userData }: DashboardSidebarProps) {

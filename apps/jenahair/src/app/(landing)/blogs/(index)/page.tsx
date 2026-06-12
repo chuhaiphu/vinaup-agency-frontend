@@ -1,12 +1,14 @@
-import { getAllBlogsActionPublic } from '@/actions/blog-action';
-import BlogGrid from '@/components/landing/blogs/blog-grid/blog-grid';
-import BlogCategoryTags from '@/components/landing/blogs/blog-category-tags/blog-category-tags';
 import { Stack, Box, Container } from '@mantine/core';
-import classes from './page.module.scss';
-import { Suspense } from 'react';
-import BlogGridSkeleton from '@/components/landing/blogs/blog-grid/blog-grid-skeleton';
-import BlogCategoryTagsSkeleton from '@/components/landing/blogs/blog-category-tags/blog-category-tags-skeleton';
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
+
+import { getAllBlogsActionPublic } from '@/actions/blog-actions';
+import BlogCategoryTags from '@/components/landing/blogs/blog-category-tags/blog-category-tags';
+import BlogCategoryTagsSkeleton from '@/components/landing/blogs/blog-category-tags/blog-category-tags-skeleton';
+import BlogGrid from '@/components/landing/blogs/blog-grid/blog-grid';
+import BlogGridSkeleton from '@/components/landing/blogs/blog-grid/blog-grid-skeleton';
+
+import classes from './page.module.scss';
 
 export const metadata: Metadata = { title: 'Blog' };
 export type BlogIndexPageQueryParams = {
@@ -31,9 +33,7 @@ export default async function BlogsIndexPage({
 }: {
   searchParams: Promise<BlogIndexPageQueryParams>;
 }) {
-
   return (
-    
     <div className={classes.pageWrapper}>
       {/* --- 1. ORANGE HEADER --- */}
       <Box className={classes.orangeHeader}>

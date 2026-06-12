@@ -1,44 +1,40 @@
 import {
-  ICreateDiaryCategoryDiary,
-  IDiaryCategoryDiaryResponse,
-  IUpdateDiaryCategoryDiary,
-} from '@/interfaces/diary-category-diary-interface';
+  CreateDiaryCategoryDiaryRequest,
+  DiaryCategoryDiaryResponse,
+  UpdateDiaryCategoryDiaryRequest,
+} from '@/interfaces/diary-category-diary-interfaces';
+
 import { apiPrivate, apiPublic } from './_base';
 
 // Public GET (no auth)
 export async function getAllDiaryCategoryDiariesApiPublic() {
-  return apiPublic<IDiaryCategoryDiaryResponse[]>('/diary-category-diaries', {
+  return apiPublic<DiaryCategoryDiaryResponse[]>('/diary-category-diaries', {
     method: 'GET',
   });
 }
 
 export async function getDiaryCategoryDiaryByIdApiPublic(id: string) {
-  return apiPublic<IDiaryCategoryDiaryResponse>(`/diary-category-diaries/${id}`, {
+  return apiPublic<DiaryCategoryDiaryResponse>(`/diary-category-diaries/${id}`, {
     method: 'GET',
   });
 }
 
 export async function getDiaryCategoryDiariesByDiaryIdApiPublic(diaryId: string) {
-  return apiPublic<IDiaryCategoryDiaryResponse[]>(
-    `/diary-category-diaries/diary/${diaryId}`,
-    { method: 'GET' }
-  );
+  return apiPublic<DiaryCategoryDiaryResponse[]>(`/diary-category-diaries/diary/${diaryId}`, {
+    method: 'GET',
+  });
 }
 
-export async function getDiaryCategoryDiariesByDiaryCategoryIdApiPublic(
-  diaryCategoryId: string
-) {
-  return apiPublic<IDiaryCategoryDiaryResponse[]>(
+export async function getDiaryCategoryDiariesByDiaryCategoryIdApiPublic(diaryCategoryId: string) {
+  return apiPublic<DiaryCategoryDiaryResponse[]>(
     `/diary-category-diaries/category/${diaryCategoryId}`,
-    { method: 'GET' }
+    { method: 'GET' },
   );
 }
 
 // Admin (auth)
-export async function createDiaryCategoryDiaryApiPrivate(
-  data: ICreateDiaryCategoryDiary
-) {
-  return apiPrivate<IDiaryCategoryDiaryResponse>('/diary-category-diaries/admin', {
+export async function createDiaryCategoryDiaryApiPrivate(data: CreateDiaryCategoryDiaryRequest) {
+  return apiPrivate<DiaryCategoryDiaryResponse>('/diary-category-diaries/admin', {
     method: 'POST',
     body: JSON.stringify(data),
   });
@@ -46,9 +42,9 @@ export async function createDiaryCategoryDiaryApiPrivate(
 
 export async function updateDiaryCategoryDiaryApiPrivate(
   id: string,
-  data: IUpdateDiaryCategoryDiary
+  data: UpdateDiaryCategoryDiaryRequest,
 ) {
-  return apiPrivate<IDiaryCategoryDiaryResponse>(`/diary-category-diaries/admin/${id}`, {
+  return apiPrivate<DiaryCategoryDiaryResponse>(`/diary-category-diaries/admin/${id}`, {
     method: 'PUT',
     body: JSON.stringify(data),
   });
@@ -65,7 +61,7 @@ export async function deleteDiaryCategoryDiariesByDiaryIdApiPrivate(diaryId: str
 }
 
 export async function deleteDiaryCategoryDiariesByDiaryCategoryIdApiPrivate(
-  diaryCategoryId: string
+  diaryCategoryId: string,
 ) {
   return apiPrivate<void>(`/diary-category-diaries/admin/category/${diaryCategoryId}`, {
     method: 'DELETE',

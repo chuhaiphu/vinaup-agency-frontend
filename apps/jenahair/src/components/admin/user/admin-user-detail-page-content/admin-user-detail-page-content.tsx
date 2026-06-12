@@ -1,14 +1,18 @@
-import { getUserByIdActionPrivate } from '@/actions/user-action';
 import { Paper, Text } from '@mantine/core';
-import classes from './admin-user-detail-page-content.module.scss';
+
+import { getUserByIdActionPrivate } from '@/actions/user-actions';
 import UserDetailForm from '@/components/admin/user/user-detail-form/user-detail-form';
+
+import classes from './admin-user-detail-page-content.module.scss';
 import UserDetailsBlock from './user-details-block/user-details-block';
 
 interface AdminUserDetailPageContentProps {
   params: Promise<{ id: string }>;
 }
 
-export default async function AdminUserDetailPageContent({ params }: AdminUserDetailPageContentProps) {
+export default async function AdminUserDetailPageContent({
+  params,
+}: AdminUserDetailPageContentProps) {
   const { id } = await params;
   const currentUser = await getUserByIdActionPrivate(id);
 

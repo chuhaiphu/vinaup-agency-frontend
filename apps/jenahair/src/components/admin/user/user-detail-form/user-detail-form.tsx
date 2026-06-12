@@ -4,7 +4,8 @@ import { Button, PasswordInput, Stack } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { useState } from 'react';
-import { updateUserPasswordActionPrivate } from '@/actions/user-action';
+
+import { updateUserPasswordActionPrivate } from '@/actions/user-actions';
 
 interface UserDetailFormProps {
   userId: string;
@@ -87,11 +88,7 @@ export default function UserDetailForm({ userId }: UserDetailFormProps) {
           {...form.getInputProps('confirmPassword')}
         />
 
-        <Button
-          type="submit"
-          loading={isLoading}
-          mt="md"
-        >
+        <Button type="submit" loading={isLoading} mt="md">
           Update Password
         </Button>
       </Stack>

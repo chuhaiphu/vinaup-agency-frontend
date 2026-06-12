@@ -1,21 +1,12 @@
 'use client';
-import {
-  ActionIcon,
-  Group,
-  Image,
-  Paper,
-  Stack,
-  Text,
-  Textarea,
-  Title
-} from "@mantine/core";
-import { useState } from "react";
-import { MdOutlineFileCopy } from "react-icons/md";
-import { GrTrash } from "react-icons/gr";
-import { BsSaveFill } from "react-icons/bs";
+import { ActionIcon, Group, Image, Paper, Stack, Text, Textarea, Title } from '@mantine/core';
+import { useState } from 'react';
+import { MdOutlineFileCopy } from 'react-icons/md';
+import { GrTrash } from 'react-icons/gr';
+import { BsSaveFill } from 'react-icons/bs';
 import { generateClassName } from '@vinaup/utils';
 import defaultClasses from './media-detail.module.scss';
-import type { IMedia, IUpdateMedia } from '../_types';
+import type { Media, UpdateMediaRequest } from '../_types';
 
 interface MediaDetailClassNames {
   paper?: { root?: string };
@@ -34,8 +25,8 @@ interface MediaDetailClassNames {
 }
 
 export interface MediaDetailProps {
-  image: IMedia;
-  onUpdate: (id: string, data: IUpdateMedia) => Promise<void>;
+  image: Media;
+  onUpdate: (id: string, data: UpdateMediaRequest) => Promise<void>;
   onDelete?: (id: string) => void;
   onCopyLink?: (url: string) => void;
   onNotify?: (type: 'success' | 'error', message: string) => void;
@@ -105,14 +96,14 @@ export function MediaDetail({
         radius="md"
         withBorder
         classNames={{
-          root: generateClassName(defaultClasses.paperRoot, classNames?.paper?.root)
+          root: generateClassName(defaultClasses.paperRoot, classNames?.paper?.root),
         }}
       >
         <Stack gap="md">
           <Title
             order={4}
             classNames={{
-              root: generateClassName(defaultClasses.titleRoot, classNames?.title?.root)
+              root: generateClassName(defaultClasses.titleRoot, classNames?.title?.root),
             }}
           >
             Image Details
@@ -133,7 +124,10 @@ export function MediaDetail({
           <Stack
             gap="xs"
             classNames={{
-              root: generateClassName(defaultClasses.fieldsStackRoot, classNames?.fieldsStack?.root)
+              root: generateClassName(
+                defaultClasses.fieldsStackRoot,
+                classNames?.fieldsStack?.root,
+              ),
             }}
           >
             <div className={generateClassName(defaultClasses.fieldGroup, classNames?.fieldGroup)}>
@@ -142,14 +136,20 @@ export function MediaDetail({
                 fw={500}
                 c="dimmed"
                 classNames={{
-                  root: generateClassName(defaultClasses.fieldLabelRoot, classNames?.fieldLabel?.root)
+                  root: generateClassName(
+                    defaultClasses.fieldLabelRoot,
+                    classNames?.fieldLabel?.root,
+                  ),
                 }}
               >
                 Name
               </Text>
               <Text
                 classNames={{
-                  root: generateClassName(defaultClasses.fieldValueRoot, classNames?.fieldValue?.root)
+                  root: generateClassName(
+                    defaultClasses.fieldValueRoot,
+                    classNames?.fieldValue?.root,
+                  ),
                 }}
               >
                 {image.name}
@@ -158,8 +158,16 @@ export function MediaDetail({
 
             <div className={generateClassName(defaultClasses.fieldGroup, classNames?.fieldGroup)}>
               <Group gap={4} align="center">
-                <Text size="sm" fw={500} c="dimmed"
-                  classNames={{ root: generateClassName(defaultClasses.fieldLabelRoot, classNames?.fieldLabel?.root) }}
+                <Text
+                  size="sm"
+                  fw={500}
+                  c="dimmed"
+                  classNames={{
+                    root: generateClassName(
+                      defaultClasses.fieldLabelRoot,
+                      classNames?.fieldLabel?.root,
+                    ),
+                  }}
                 >
                   Title
                 </Text>
@@ -172,7 +180,10 @@ export function MediaDetail({
                     loading={isSavingTitle}
                     title="Save title"
                     classNames={{
-                      root: generateClassName(defaultClasses.saveButtonRoot, classNames?.saveButton?.root)
+                      root: generateClassName(
+                        defaultClasses.saveButtonRoot,
+                        classNames?.saveButton?.root,
+                      ),
                     }}
                   >
                     <BsSaveFill size={12} />
@@ -193,16 +204,30 @@ export function MediaDetail({
                 autosize
                 classNames={{
                   root: generateClassName(defaultClasses.textareaRoot, classNames?.textarea?.root),
-                  input: generateClassName(defaultClasses.textareaInput, classNames?.textarea?.input),
-                  wrapper: generateClassName(defaultClasses.textareaWrapper, classNames?.textarea?.wrapper),
+                  input: generateClassName(
+                    defaultClasses.textareaInput,
+                    classNames?.textarea?.input,
+                  ),
+                  wrapper: generateClassName(
+                    defaultClasses.textareaWrapper,
+                    classNames?.textarea?.wrapper,
+                  ),
                 }}
               />
             </div>
 
             <div className={generateClassName(defaultClasses.fieldGroup, classNames?.fieldGroup)}>
               <Group gap={4} align="center">
-                <Text size="sm" fw={500} c="dimmed"
-                  classNames={{ root: generateClassName(defaultClasses.fieldLabelRoot, classNames?.fieldLabel?.root) }}
+                <Text
+                  size="sm"
+                  fw={500}
+                  c="dimmed"
+                  classNames={{
+                    root: generateClassName(
+                      defaultClasses.fieldLabelRoot,
+                      classNames?.fieldLabel?.root,
+                    ),
+                  }}
                 >
                   Description
                 </Text>
@@ -215,7 +240,10 @@ export function MediaDetail({
                     loading={isSavingDescription}
                     title="Save description"
                     classNames={{
-                      root: generateClassName(defaultClasses.saveButtonRoot, classNames?.saveButton?.root)
+                      root: generateClassName(
+                        defaultClasses.saveButtonRoot,
+                        classNames?.saveButton?.root,
+                      ),
                     }}
                   >
                     <BsSaveFill size={12} />
@@ -236,8 +264,14 @@ export function MediaDetail({
                 autosize
                 classNames={{
                   root: generateClassName(defaultClasses.textareaRoot, classNames?.textarea?.root),
-                  input: generateClassName(defaultClasses.textareaInput, classNames?.textarea?.input),
-                  wrapper: generateClassName(defaultClasses.textareaWrapper, classNames?.textarea?.wrapper),
+                  input: generateClassName(
+                    defaultClasses.textareaInput,
+                    classNames?.textarea?.input,
+                  ),
+                  wrapper: generateClassName(
+                    defaultClasses.textareaWrapper,
+                    classNames?.textarea?.wrapper,
+                  ),
                 }}
               />
             </div>
@@ -248,14 +282,20 @@ export function MediaDetail({
                 fw={500}
                 c="dimmed"
                 classNames={{
-                  root: generateClassName(defaultClasses.fieldLabelRoot, classNames?.fieldLabel?.root)
+                  root: generateClassName(
+                    defaultClasses.fieldLabelRoot,
+                    classNames?.fieldLabel?.root,
+                  ),
                 }}
               >
                 Type
               </Text>
               <Text
                 classNames={{
-                  root: generateClassName(defaultClasses.fieldValueRoot, classNames?.fieldValue?.root)
+                  root: generateClassName(
+                    defaultClasses.fieldValueRoot,
+                    classNames?.fieldValue?.root,
+                  ),
                 }}
               >
                 {image.type}
@@ -268,7 +308,10 @@ export function MediaDetail({
                 fw={500}
                 c="dimmed"
                 classNames={{
-                  root: generateClassName(defaultClasses.fieldLabelRoot, classNames?.fieldLabel?.root)
+                  root: generateClassName(
+                    defaultClasses.fieldLabelRoot,
+                    classNames?.fieldLabel?.root,
+                  ),
                 }}
               >
                 URL
@@ -278,7 +321,7 @@ export function MediaDetail({
                   size="xs"
                   c="dimmed"
                   classNames={{
-                    root: generateClassName(defaultClasses.urlText, classNames?.urlText)
+                    root: generateClassName(defaultClasses.urlText, classNames?.urlText),
                   }}
                 >
                   {image.url}
@@ -289,7 +332,10 @@ export function MediaDetail({
                   onClick={handleCopyLink}
                   size="sm"
                   classNames={{
-                    root: generateClassName(defaultClasses.copyButtonRoot, classNames?.copyButton?.root)
+                    root: generateClassName(
+                      defaultClasses.copyButtonRoot,
+                      classNames?.copyButton?.root,
+                    ),
                   }}
                 >
                   <MdOutlineFileCopy size={18} />
@@ -303,7 +349,10 @@ export function MediaDetail({
                 fw={500}
                 c="dimmed"
                 classNames={{
-                  root: generateClassName(defaultClasses.fieldLabelRoot, classNames?.fieldLabel?.root)
+                  root: generateClassName(
+                    defaultClasses.fieldLabelRoot,
+                    classNames?.fieldLabel?.root,
+                  ),
                 }}
               >
                 Created At
@@ -311,7 +360,10 @@ export function MediaDetail({
               <Text
                 size="sm"
                 classNames={{
-                  root: generateClassName(defaultClasses.fieldValueRoot, classNames?.fieldValue?.root)
+                  root: generateClassName(
+                    defaultClasses.fieldValueRoot,
+                    classNames?.fieldValue?.root,
+                  ),
                 }}
               >
                 {new Date(image.createdAt).toLocaleString()}
@@ -324,7 +376,10 @@ export function MediaDetail({
                 fw={500}
                 c="dimmed"
                 classNames={{
-                  root: generateClassName(defaultClasses.fieldLabelRoot, classNames?.fieldLabel?.root)
+                  root: generateClassName(
+                    defaultClasses.fieldLabelRoot,
+                    classNames?.fieldLabel?.root,
+                  ),
                 }}
               >
                 Updated At
@@ -332,7 +387,10 @@ export function MediaDetail({
               <Text
                 size="sm"
                 classNames={{
-                  root: generateClassName(defaultClasses.fieldValueRoot, classNames?.fieldValue?.root)
+                  root: generateClassName(
+                    defaultClasses.fieldValueRoot,
+                    classNames?.fieldValue?.root,
+                  ),
                 }}
               >
                 {new Date(image.updatedAt).toLocaleString()}
@@ -348,7 +406,10 @@ export function MediaDetail({
             size="lg"
             onClick={() => onDelete(image.id)}
             classNames={{
-              root: generateClassName(defaultClasses.deleteButtonRoot, classNames?.deleteButton?.root)
+              root: generateClassName(
+                defaultClasses.deleteButtonRoot,
+                classNames?.deleteButton?.root,
+              ),
             }}
           >
             <GrTrash size={20} />

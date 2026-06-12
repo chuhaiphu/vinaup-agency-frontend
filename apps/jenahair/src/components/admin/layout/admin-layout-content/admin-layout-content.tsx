@@ -1,26 +1,25 @@
 'use client';
 
-import { logoutActionPrivate } from '@/actions/auth-action';
-import { DashboardHeader } from '@/components/admin/layout/dashboard-header/dashboard-header';
-import DashboardSidebar from '@/components/admin/layout/dashboard-sidebar/dashboard-sidebar';
-import { ActionResponse } from '@/interfaces/_base-interface';
-import { IUserResponse } from '@/interfaces/user-interface';
-import { useAdminLayoutSiderStore } from '@/libs/zustand/admin-layout-sider-store';
-import { AuthProvider } from '@/providers/auth-provider';
 import { AppShell, AppShellMain } from '@mantine/core';
 import { redirect } from 'next/navigation';
 import { use } from 'react';
+
+import { logoutActionPrivate } from '@/actions/auth-actions';
+import { DashboardHeader } from '@/components/admin/layout/dashboard-header/dashboard-header';
+import DashboardSidebar from '@/components/admin/layout/dashboard-sidebar/dashboard-sidebar';
+import { ActionResponse } from '@/interfaces/_base-interfaces';
+import { UserResponse } from '@/interfaces/user-interfaces';
+import { useAdminLayoutSiderStore } from '@/libs/zustand/admin-layout-sider-store';
+import { AuthProvider } from '@/providers/auth-provider';
+
 import classes from './admin-layout-content.module.scss';
 
 interface AdminLayoutContentProps {
   children: React.ReactNode;
-  userDataPromise: Promise<ActionResponse<IUserResponse>>;
+  userDataPromise: Promise<ActionResponse<UserResponse>>;
 }
 
-export default function AdminLayoutContent({
-  children,
-  userDataPromise,
-}: AdminLayoutContentProps) {
+export default function AdminLayoutContent({ children, userDataPromise }: AdminLayoutContentProps) {
   const userData = use(userDataPromise);
   const { collapsed } = useAdminLayoutSiderStore();
 

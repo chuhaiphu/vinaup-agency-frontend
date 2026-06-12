@@ -1,5 +1,6 @@
 import { Paper, Stack } from '@mantine/core';
 import { Skeleton } from '@vinaup/ui/landing';
+
 import classes from './admin-setting-overview-page-content.module.scss';
 
 export default function AdminSettingOverviewPageContentSkeleton() {

@@ -1,30 +1,23 @@
 'use client';
 
-import React, { use, useState } from 'react';
-import dayjs from 'dayjs';
-import {
-  ActionIcon,
-  Button,
-  Group,
-  Modal,
-  Popover,
-  Stack,
-  Text,
-} from '@mantine/core';
-import { SlOptionsVertical } from 'react-icons/sl';
-import { MdOutlineCalendarMonth } from 'react-icons/md';
-import { MdLockReset } from 'react-icons/md';
-import classes from './users-table.module.scss';
-import { IUserResponse } from '@/interfaces/user-interface';
-import { EntitiesTable, EntitiesTableColumnProps } from '@vinaup/ui/admin';
+import { ActionIcon, Button, Group, Modal, Popover, Stack, Text } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
-
-import { resetPasswordForUserActionPrivate } from '@/actions/auth-action';
 import { notifications } from '@mantine/notifications';
+import { EntitiesTable, EntitiesTableColumnProps } from '@vinaup/ui/admin';
+import dayjs from 'dayjs';
+import React, { use, useState } from 'react';
+import { MdLockReset } from 'react-icons/md';
+import { MdOutlineCalendarMonth } from 'react-icons/md';
+import { SlOptionsVertical } from 'react-icons/sl';
+
+import { resetPasswordForUserActionPrivate } from '@/actions/auth-actions';
+import { UserResponse } from '@/interfaces/user-interfaces';
 import { useAuth } from '@/providers/auth-provider';
 
+import classes from './users-table.module.scss';
+
 interface UsersTableProps {
-  usersDataPromise: Promise<IUserResponse[]>;
+  usersDataPromise: Promise<UserResponse[]>;
 }
 
 const RoleDisplayMap: Record<string, string> = {
@@ -42,7 +35,7 @@ export default function UsersTable({ usersDataPromise }: UsersTableProps) {
   const [selectedDate, setSelectedDate] = useState<Date | string | null>(null);
   const [resetPasswordModalOpened, setResetPasswordModalOpened] = useState(false);
   const [isResetting, setIsResetting] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<IUserResponse | null>(null);
+  const [selectedUser, setSelectedUser] = useState<UserResponse | null>(null);
 
   const handleResetPassword = async () => {
     if (!selectedUser) return;
@@ -69,30 +62,20 @@ export default function UsersTable({ usersDataPromise }: UsersTableProps) {
     setSelectedUser(null);
   };
 
-  const columns: EntitiesTableColumnProps<IUserResponse>[] = [
+  const columns: EntitiesTableColumnProps<UserResponse>[] = [
     {
       key: 'date',
       width: '10%',
       headerAlign: 'left',
       header: (
-        <Popover
-          opened={datePickerOpened}
-          onChange={setDatePickerOpened}
-          position="bottom-start"
-        >
+        <Popover opened={datePickerOpened} onChange={setDatePickerOpened} position="bottom-start">
           <Popover.Target>
-            <ActionIcon
-              variant="transparent"
-              onClick={() => setDatePickerOpened((o) => !o)}
-            >
+            <ActionIcon variant="transparent" onClick={() => setDatePickerOpened((o) => !o)}>
               <MdOutlineCalendarMonth size={24} color="#01426e" />
             </ActionIcon>
           </Popover.Target>
           <Popover.Dropdown>
-            <DatePicker
-              value={selectedDate}
-              onChange={(value) => setSelectedDate(value)}
-            />
+            <DatePicker value={selectedDate} onChange={(value) => setSelectedDate(value)} />
           </Popover.Dropdown>
         </Popover>
       ),
@@ -127,9 +110,7 @@ export default function UsersTable({ usersDataPromise }: UsersTableProps) {
       width: '15%',
       headerAlign: 'right',
       header: (
-        <div
-          className={`${classes.columnHeaderContent} ${classes.actionColumnHeaderContent}`}
-        >
+        <div className={`${classes.columnHeaderContent} ${classes.actionColumnHeaderContent}`}>
           <ActionIcon variant="transparent">
             <SlOptionsVertical size={24} color="#01426e" />
           </ActionIcon>
@@ -158,7 +139,7 @@ export default function UsersTable({ usersDataPromise }: UsersTableProps) {
 
   return (
     <>
-      <EntitiesTable<IUserResponse>
+      <EntitiesTable<UserResponse>
         data={usersData}
         loading={false}
         columns={columns}
@@ -182,8 +163,7 @@ export default function UsersTable({ usersDataPromise }: UsersTableProps) {
       >
         <Stack>
           <Text>
-            Are you sure you want to reset password for user{' '}
-            <strong>{selectedUser?.email}</strong>?
+            Are you sure you want to reset password for user <strong>{selectedUser?.email}</strong>?
           </Text>
           <Group justify="flex-end" mt="sm">
             <Button
@@ -193,11 +173,7 @@ export default function UsersTable({ usersDataPromise }: UsersTableProps) {
             >
               Cancel
             </Button>
-            <Button
-              color="blue"
-              onClick={handleResetPassword}
-              loading={isResetting}
-            >
+            <Button color="blue" onClick={handleResetPassword} loading={isResetting}>
               Reset Password
             </Button>
           </Group>

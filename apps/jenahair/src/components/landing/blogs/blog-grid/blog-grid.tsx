@@ -1,27 +1,25 @@
 'use client';
 
-import { IBlogResponse } from '@/interfaces/blog-interface';
 import { Grid, GridCol, Pagination, Text } from '@mantine/core';
+import { Route } from 'next';
 import Link from 'next/link';
 import { useState } from 'react';
-import BlogItem from './blog-item/blog-item';
+
+import { BlogResponse } from '@/interfaces/blog-interfaces';
+
 import classes from './blog-grid.module.scss';
-import { Route } from 'next';
+import BlogItem from './blog-item/blog-item';
 
 type BlogGridProps = {
   queryParams?: {
     q?: string;
     destinations?: string;
   };
-  blogs: IBlogResponse[];
+  blogs: BlogResponse[];
   pageSize?: number;
 };
 
-export default function BlogGrid({
-  queryParams,
-  blogs,
-  pageSize = 16,
-}: BlogGridProps) {
+export default function BlogGrid({ queryParams, blogs, pageSize = 16 }: BlogGridProps) {
   const [page, setPage] = useState(1);
 
   let filteredBlogs = blogs ?? [];
@@ -33,8 +31,7 @@ export default function BlogGrid({
     filteredBlogs = filteredBlogs.filter(
       (blog) =>
         blog.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (blog.description &&
-          blog.description.toLowerCase().includes(searchQuery.toLowerCase()))
+        (blog.description && blog.description.toLowerCase().includes(searchQuery.toLowerCase())),
     );
   }
 
@@ -43,10 +40,8 @@ export default function BlogGrid({
     if (selectedDestinations.length > 0) {
       filteredBlogs = filteredBlogs.filter((blog) =>
         selectedDestinations.some((dest) =>
-          blog.destinations.some((blogDest) =>
-            blogDest.toLowerCase().includes(dest.toLowerCase())
-          )
-        )
+          blog.destinations.some((blogDest) => blogDest.toLowerCase().includes(dest.toLowerCase())),
+        ),
       );
     }
   }

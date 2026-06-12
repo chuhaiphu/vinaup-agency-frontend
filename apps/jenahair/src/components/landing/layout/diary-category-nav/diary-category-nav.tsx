@@ -1,31 +1,28 @@
 'use client';
 
-import React, { use, useMemo } from 'react';
 import { Paper, Stack, Group, Text } from '@mantine/core';
-import { useParams, useRouter } from 'next/navigation';
+import { TreeManager } from '@vinaup/utils';
 import { Route } from 'next';
+import { useParams, useRouter } from 'next/navigation';
+import React, { use, useMemo } from 'react';
+
+import { ActionResponse } from '@/interfaces/_base-interfaces';
+import { DiaryCategoryResponse } from '@/interfaces/diary-category-interfaces';
+
 import classes from './diary-category-nav.module.scss';
-import { IDiaryCategoryResponse } from '@/interfaces/diary-category-interface';
-import { TreeManager } from '../../../../../../../packages/utils/src/classes/tree-manager';
-import { ActionResponse } from '@/interfaces/_base-interface';
 
 interface DiaryCategoryNavProps {
-  diaryCategoriesDataPromise: Promise<ActionResponse<IDiaryCategoryResponse[]>>;
+  diaryCategoriesDataPromise: Promise<ActionResponse<DiaryCategoryResponse[]>>;
 }
 
-export default function DiaryCategoryNav({
-  diaryCategoriesDataPromise,
-}: DiaryCategoryNavProps) {
+export default function DiaryCategoryNav({ diaryCategoriesDataPromise }: DiaryCategoryNavProps) {
   const router = useRouter();
   const { id } = useParams();
 
   const diaryCategoriesData = use(diaryCategoriesDataPromise);
 
   const treeManager = useMemo(() => {
-    if (
-      diaryCategoriesData.data === undefined ||
-      diaryCategoriesData.data?.length === 0
-    ) {
+    if (diaryCategoriesData.data === undefined || diaryCategoriesData.data?.length === 0) {
       return null;
     }
     return new TreeManager(diaryCategoriesData.data);
@@ -44,8 +41,8 @@ export default function DiaryCategoryNav({
   };
 
   const renderDiaryCategoryBar = (
-    diaryCategory: IDiaryCategoryResponse,
-    depth: number = 0
+    diaryCategory: DiaryCategoryResponse,
+    depth: number = 0,
   ): React.ReactNode => {
     return (
       <React.Fragment key={diaryCategory.id}>
@@ -66,11 +63,7 @@ export default function DiaryCategoryNav({
             </Text>
           </Group>
         </Stack>
-        <>
-          {diaryCategory.children?.map((child) =>
-            renderDiaryCategoryBar(child, depth + 1)
-          )}
-        </>
+        <>{diaryCategory.children?.map((child) => renderDiaryCategoryBar(child, depth + 1))}</>
       </React.Fragment>
     );
   };

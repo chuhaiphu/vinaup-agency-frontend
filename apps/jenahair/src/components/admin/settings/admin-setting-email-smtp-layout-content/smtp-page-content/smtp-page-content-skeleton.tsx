@@ -1,5 +1,6 @@
 import { Group, Paper, Stack } from '@mantine/core';
 import { Skeleton } from '@vinaup/ui/landing';
+
 import classes from './smtp-page-content.module.scss';
 
 export default function SmtpPageContentSkeleton() {

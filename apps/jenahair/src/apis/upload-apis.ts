@@ -1,4 +1,6 @@
-import { apiPrivate } from "./_base";
+import { generateFilterQueryString } from '@vinaup/utils';
+
+import { apiPrivate } from './_base';
 
 export interface UploadResponse {
   url: string;
@@ -8,7 +10,7 @@ export interface UploadResponse {
 export async function uploadFileApiPrivate(file: File, folder?: string) {
   const formData = new FormData();
   formData.append('file', file);
-  const queryString = folder ? `?folder=${encodeURIComponent(folder)}` : '';
+  const queryString = generateFilterQueryString({ folder });
   return apiPrivate<UploadResponse>(`/upload/admin${queryString}`, {
     method: 'POST',
     body: formData,
@@ -18,6 +20,6 @@ export async function uploadFileApiPrivate(file: File, folder?: string) {
 export async function deleteUploadedFileApiPrivate(relativePath: string) {
   return apiPrivate<void>(`/upload/admin`, {
     method: 'DELETE',
-    body: JSON.stringify({path: relativePath}),
+    body: JSON.stringify({ path: relativePath }),
   });
 }

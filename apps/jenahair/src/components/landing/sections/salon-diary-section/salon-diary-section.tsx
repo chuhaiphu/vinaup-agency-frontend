@@ -1,8 +1,10 @@
 // import { Suspense } from 'react';
 import { Container } from '@mantine/core';
 import Link from 'next/link';
-import { getAllDiariesActionPublic } from '@/actions/diary-action';
+
+import { getAllDiariesActionPublic } from '@/actions/diary-actions';
 import DiaryGrid from '@/components/landing/diary/diary-grid/diary-grid';
+
 import classes from './salon-diary-section.module.scss';
 
 async function SalonDiaryContent() {
@@ -22,8 +24,8 @@ export async function SalonDiarySection() {
       <Container size={'lg'} className={classes.header}>
         <h2 className={classes.title}>Nhật ký cắt tóc & trang điểm</h2>
         <p className={classes.description}>
-          Salon Jena được chị em truyền miệng vì “Tay nghề giỏi, tận tâm & sử dụng
-          sản phẩm đến từ tự nhiên chính hãng tốt cho sức khỏe...”{' '}
+          Salon Jena được chị em truyền miệng vì “Tay nghề giỏi, tận tâm & sử dụng sản phẩm đến từ
+          tự nhiên chính hãng tốt cho sức khỏe...”{' '}
           <Link href="/nhat-ky" className={classes.link} prefetch={true}>
             Xem nhật ký
           </Link>

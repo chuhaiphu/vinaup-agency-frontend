@@ -1,10 +1,13 @@
 import { redirect } from 'next/navigation';
-import { getAppConfigActionPublic } from '@/actions/app-config-action';
-import { getMeActionPrivate } from '@/actions/auth-action';
+
+import { getAppConfigActionPublic } from '@/actions/app-config-actions';
+import { getMeActionPrivate } from '@/actions/auth-actions';
 
 export async function MaintenanceGuard() {
   const appConfigResponse = await getAppConfigActionPublic();
-  const isMaintenanceMode = appConfigResponse.success ? appConfigResponse.data?.maintenanceMode : false;
+  const isMaintenanceMode = appConfigResponse.success
+    ? appConfigResponse.data?.maintenanceMode
+    : false;
 
   if (isMaintenanceMode) {
     const meResult = await getMeActionPrivate();

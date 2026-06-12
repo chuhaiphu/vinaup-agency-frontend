@@ -1,7 +1,9 @@
 import { Container, Grid, GridCol, Group } from '@mantine/core';
 import Image from 'next/image';
-import classes from './salon-services-banner.module.scss';
+
 import { ServiceTagItem } from '@/mocks/salon-services';
+
+import classes from './salon-services-banner.module.scss';
 
 export interface SalonServicesBannerProps {
   imageSrc: string;

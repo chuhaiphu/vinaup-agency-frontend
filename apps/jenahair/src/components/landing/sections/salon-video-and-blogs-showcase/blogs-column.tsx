@@ -1,8 +1,10 @@
-import Link from 'next/link';
 import { Stack } from '@mantine/core';
-import { getAllBlogsActionPublic } from '@/actions/blog-action';
-import BlogItem from '@/components/landing/blogs/blog-grid/blog-item/blog-item';
 import { Route } from 'next';
+import Link from 'next/link';
+
+import { getAllBlogsActionPublic } from '@/actions/blog-actions';
+import BlogItem from '@/components/landing/blogs/blog-grid/blog-item/blog-item';
+
 import classes from './blogs-column.module.scss';
 
 export async function BlogsColumn() {

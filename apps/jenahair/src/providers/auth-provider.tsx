@@ -1,6 +1,7 @@
+import { generateErrorMessage } from '@vinaup/utils';
 import { createContext, useContext, useEffect, useState } from 'react';
 
-interface IUser {
+interface User {
   id: string;
   name: string;
   email: string;
@@ -9,24 +10,20 @@ interface IUser {
 }
 
 interface AuthContextType {
-  getUser: () => IUser | null;
+  getUser: () => User | null;
   logout: () => Promise<void>;
 }
 
 interface AuthProviderProps {
   children: React.ReactNode;
-  initialUser: IUser;
+  initialUser: User;
   onLogout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-export function AuthProvider({
-  children,
-  initialUser,
-  onLogout,
-}: AuthProviderProps) {
-  const [user, setUser] = useState<IUser | null>(initialUser);
+export function AuthProvider({ children, initialUser, onLogout }: AuthProviderProps) {
+  const [user, setUser] = useState<User | null>(initialUser);
 
   const logout = async () => {
     setUser(null);
@@ -35,7 +32,7 @@ export function AuthProvider({
       // Set a key in localStorage to notify other tabs about the logout event
       window.localStorage.setItem('ONLOGOUT_EVENT', Date.now().toString());
     } catch (error) {
-      alert(error instanceof Error ? error.message : 'Logout failed');
+      alert(generateErrorMessage(error, 'Logout failed'));
     }
   };
 
@@ -53,9 +50,7 @@ export function AuthProvider({
     };
   }, []);
 
-  return (
-    <AuthContext value={{ getUser: () => user, logout }}>{children}</AuthContext>
-  );
+  return <AuthContext value={{ getUser: () => user, logout }}>{children}</AuthContext>;
 }
 
 export function useAuth() {

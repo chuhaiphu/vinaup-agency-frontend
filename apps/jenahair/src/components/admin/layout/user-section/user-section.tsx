@@ -10,13 +10,15 @@ import {
   MenuTarget,
   MenuDropdown,
 } from '@mantine/core';
-import { FiUser, FiLogOut } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
-import classes from './user-section.module.scss';
-import { IUserResponse } from '@/interfaces/user-interface';
+import { FiUser, FiLogOut } from 'react-icons/fi';
+
+import { UserResponse } from '@/interfaces/user-interfaces';
 import { useAuth } from '@/providers/auth-provider';
 
-export function UserSection({ userData }: { userData: IUserResponse }) {
+import classes from './user-section.module.scss';
+
+export function UserSection({ userData }: { userData: UserResponse }) {
   const router = useRouter();
   const { logout } = useAuth();
   const handleLogout = async () => {

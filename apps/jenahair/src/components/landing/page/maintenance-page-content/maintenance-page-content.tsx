@@ -1,5 +1,6 @@
 import { Center } from '@mantine/core';
 import Image from 'next/image';
+
 import classes from './maintenance-page-content.module.scss';
 
 export default function MaintenancePageContent() {

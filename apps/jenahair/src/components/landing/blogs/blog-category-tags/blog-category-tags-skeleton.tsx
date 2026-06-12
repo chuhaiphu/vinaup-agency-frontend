@@ -1,5 +1,6 @@
 import { Box, Group } from '@mantine/core';
 import { Skeleton } from '@vinaup/ui/landing';
+
 import classes from './blog-category-tags.module.scss';
 
 type BlogCategoryTagsSkeletonProps = {
@@ -8,9 +9,7 @@ type BlogCategoryTagsSkeletonProps = {
 
 const TAG_WIDTHS = [96, 128, 112, 144];
 
-export default function BlogCategoryTagsSkeleton({
-  itemCount = 2,
-}: BlogCategoryTagsSkeletonProps) {
+export default function BlogCategoryTagsSkeleton({ itemCount = 2 }: BlogCategoryTagsSkeletonProps) {
   return (
     <Group gap="sm" className={classes.tagsWrapper}>
       <Box
@@ -35,11 +34,7 @@ export default function BlogCategoryTagsSkeleton({
             alignItems: 'center',
           }}
         >
-          <Skeleton
-            width={TAG_WIDTHS[index % TAG_WIDTHS.length]}
-            height={20}
-            borderRadius={6}
-          />
+          <Skeleton width={TAG_WIDTHS[index % TAG_WIDTHS.length]} height={20} borderRadius={6} />
         </Box>
       ))}
     </Group>

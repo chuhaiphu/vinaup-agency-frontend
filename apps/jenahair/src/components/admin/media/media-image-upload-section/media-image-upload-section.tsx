@@ -1,39 +1,39 @@
 'use client';
-import { ICreateMedia, IMedia, MediaUpload, type UploadResult } from '@vinaup/ui/admin';
-import { uploadImageActionPrivate } from '@/actions/upload-action';
-import { createManyMediaActionPrivate } from '@/actions/media-action';
 import { notifications } from '@mantine/notifications';
+import { CreateMediaRequest, Media, MediaUpload, type UploadResult } from '@vinaup/ui/admin';
+
+import { createManyMediaActionPrivate } from '@/actions/media-actions';
+import { uploadImageActionPrivate } from '@/actions/upload-actions';
 
 export default function MediaImageUploadSection() {
-
   const handleUpload = async (files: File[]): Promise<UploadResult[]> => {
     const successResults: UploadResult[] = [];
-  
+
     for (const file of files) {
       const uploadResponse = await uploadImageActionPrivate(file, 'media');
       if (uploadResponse.success && uploadResponse.data) {
         successResults.push({
           url: uploadResponse.data,
-          name: file.name
+          name: file.name,
         });
       }
     }
-    
+
     if (successResults.length === 0 && files.length > 0) {
-      throw new Error("All files failed to upload.");
+      throw new Error('All files failed to upload.');
     }
     return successResults;
-  }
+  };
 
-  const handleSave = async (data: ICreateMedia[]): Promise<IMedia[]> => {
+  const handleSave = async (data: CreateMediaRequest[]): Promise<Media[]> => {
     const response = await createManyMediaActionPrivate(data);
     if (!response.success || !response.data) {
-      throw new Error(response.error || "Lỗi khi lưu vào cơ sở dữ liệu");
+      throw new Error(response.error || 'Lỗi khi lưu vào cơ sở dữ liệu');
     }
-    return response.data as unknown as IMedia[];
-  }
+    return response.data as unknown as Media[];
+  };
 
-  const handleUploadSuccess = (media: IMedia[]) => {
+  const handleUploadSuccess = (media: Media[]) => {
     notifications.show({
       title: 'Upload success',
       message: `Upload success ${media.length} images`,
@@ -60,5 +60,5 @@ export default function MediaImageUploadSection() {
       onUploadSuccess={handleUploadSuccess}
       onUploadError={handleUploadError}
     />
-  )
+  );
 }

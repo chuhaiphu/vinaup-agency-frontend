@@ -1,5 +1,6 @@
 import { Grid, GridCol } from '@mantine/core';
 import { MediaCard } from '@vinaup/ui/landing';
+
 import { SERVICE_ITEMS } from '@/constants';
 
 export default function StaticOurServicesGrid() {

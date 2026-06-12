@@ -1,14 +1,15 @@
 'use client';
 
 import { ActionIcon, Group, UnstyledButton } from '@mantine/core';
-import { useRouter } from 'next/navigation';
-import { VinaupAddNewIcon as AddNewIcon } from '@vinaup/ui/cores';
-import { createPageActionPrivate } from '@/actions/page-action';
-import { Route } from 'next';
-import { generateUniqueEndpoint } from '@/utils/generate-unique-endpoint';
-import { useState } from 'react';
 import { notifications } from '@mantine/notifications';
+import { VinaupAddNewIcon as AddNewIcon } from '@vinaup/ui/cores';
+import { Route } from 'next';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
+import { createPageActionPrivate } from '@/actions/page-actions';
 import { useAuth } from '@/providers/auth-provider';
+import { generateUniqueEndpoint } from '@/utils/generate-unique-endpoint';
 
 export default function CreatePageAction() {
   const router = useRouter();
@@ -47,11 +48,7 @@ export default function CreatePageAction() {
       <UnstyledButton onClick={handleAddNewPage} fz={'lg'}>
         Add new
       </UnstyledButton>
-      <ActionIcon
-        variant="transparent"
-        onClick={handleAddNewPage}
-        loading={isCreating}
-      >
+      <ActionIcon variant="transparent" onClick={handleAddNewPage} loading={isCreating}>
         <AddNewIcon width={32} height={32} />
       </ActionIcon>
     </Group>

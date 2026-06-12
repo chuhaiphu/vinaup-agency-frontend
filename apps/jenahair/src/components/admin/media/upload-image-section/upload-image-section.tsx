@@ -2,10 +2,11 @@
 
 import { ActionIcon, Image, Loader } from '@mantine/core';
 import { VinaupUploadIconV1 as UploadIconV1 } from '@vinaup/ui/cores';
-import { HiOutlineTrash } from "react-icons/hi";
 import { useState } from 'react';
-import classes from './upload-image-section.module.scss';
+import { HiOutlineTrash } from 'react-icons/hi';
+
 import MediaImageModal from './media-image-modal';
+import classes from './upload-image-section.module.scss';
 
 interface UploadImageSectionProps {
   icon?: React.ReactNode;
@@ -27,7 +28,8 @@ export default function UploadImageSection({
   size = 'sm',
 }: Readonly<UploadImageSectionProps>) {
   const [modalOpened, setModalOpened] = useState(false);
-  const sizeMutiplier = size === 'sm' ? 1 : size === 'md' ? 1.5 : size === 'lg' ? 2 : size === 'xl' ? 3 : 6;
+  const sizeMutiplier =
+    size === 'sm' ? 1 : size === 'md' ? 1.5 : size === 'lg' ? 2 : size === 'xl' ? 3 : 6;
 
   const handleUploadClick = () => {
     if (onImageSelect) {
@@ -45,7 +47,7 @@ export default function UploadImageSection({
     <>
       <div className={classes.uploadImageWrapper}>
         <ActionIcon
-          component={onImageSelect ? "button" : "label"}
+          component={onImageSelect ? 'button' : 'label'}
           variant="transparent"
           size={40 * sizeMutiplier}
           loaderProps={{
@@ -63,7 +65,11 @@ export default function UploadImageSection({
             />
           ) : (
             <>
-              {icon ? icon : <UploadIconV1 width={40 * sizeMutiplier} height={40 * sizeMutiplier} />}
+              {icon ? (
+                icon
+              ) : (
+                <UploadIconV1 width={40 * sizeMutiplier} height={40 * sizeMutiplier} />
+              )}
               {!onImageSelect && <input type="file" hidden onChange={onFileChange} />}
             </>
           )}
@@ -75,7 +81,7 @@ export default function UploadImageSection({
             onClick={onRemoveFile}
             className={classes.deleteButton}
           >
-            <HiOutlineTrash size={26} color='#f1f1f1' />
+            <HiOutlineTrash size={26} color="#f1f1f1" />
           </ActionIcon>
         )}
       </div>

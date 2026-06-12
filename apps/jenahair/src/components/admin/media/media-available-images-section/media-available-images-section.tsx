@@ -1,6 +1,8 @@
-import { getAllMediaActionPrivate } from "@/actions/media-action";
-import { Stack, Text } from "@mantine/core";
-import MediaImageGrid from "./media-image-grid";
+import { Stack, Text } from '@mantine/core';
+
+import { getAllMediaActionPrivate } from '@/actions/media-actions';
+
+import MediaImageGrid from './media-image-grid';
 
 export default async function MediaAvailableImagesSection() {
   const mediaResponse = await getAllMediaActionPrivate();

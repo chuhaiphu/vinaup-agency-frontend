@@ -1,13 +1,14 @@
 'use client';
 
 import { ActionIcon, Group, UnstyledButton } from '@mantine/core';
-import { useRouter } from 'next/navigation';
-import { VinaupAddNewIcon as AddNewIcon } from '@vinaup/ui/cores';
-import { createDiaryCategoryActionPrivate } from '@/actions/diary-category-action';
-import { Route } from 'next';
-import { generateUniqueEndpoint } from '@/utils/generate-unique-endpoint';
-import { useState } from 'react';
 import { notifications } from '@mantine/notifications';
+import { VinaupAddNewIcon as AddNewIcon } from '@vinaup/ui/cores';
+import { Route } from 'next';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
+import { createDiaryCategoryActionPrivate } from '@/actions/diary-category-actions';
+import { generateUniqueEndpoint } from '@/utils/generate-unique-endpoint';
 
 export default function CreateDiaryCategoryAction() {
   const router = useRouter();
@@ -43,11 +44,7 @@ export default function CreateDiaryCategoryAction() {
       <UnstyledButton onClick={handleAddNewDiaryCategory} fz={'lg'}>
         Add new
       </UnstyledButton>
-      <ActionIcon
-        variant="transparent"
-        onClick={handleAddNewDiaryCategory}
-        loading={isCreating}
-      >
+      <ActionIcon variant="transparent" onClick={handleAddNewDiaryCategory} loading={isCreating}>
         <AddNewIcon width={32} height={32} />
       </ActionIcon>
     </Group>

@@ -1,10 +1,11 @@
-import AdminDiaryCategoryDetailPageContent from '@/components/admin/diary/admin-diary-category-detail-page-content/admin-diary-category-detail-page-content';
+import { Suspense } from 'react';
+
 import {
   getAllDiaryCategoriesActionPrivate,
   getAvailableSortOrdersActionPrivate,
   getDiaryCategoryByIdActionPrivate,
-} from '@/actions/diary-category-action';
-import { Suspense } from 'react';
+} from '@/actions/diary-category-actions';
+import AdminDiaryCategoryDetailPageContent from '@/components/admin/diary/admin-diary-category-detail-page-content/admin-diary-category-detail-page-content';
 
 export default function AdminDiaryCategoryDetailPage({
   params,
@@ -12,11 +13,11 @@ export default function AdminDiaryCategoryDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const currentDiaryCategoryPromise = params.then((params) =>
-    getDiaryCategoryByIdActionPrivate(params.id)
+    getDiaryCategoryByIdActionPrivate(params.id),
   );
   const diaryCategoriesPromise = getAllDiaryCategoriesActionPrivate();
   const availableSortOrdersPromise = currentDiaryCategoryPromise.then((res) =>
-    getAvailableSortOrdersActionPrivate(res.data?.parent?.id || '')
+    getAvailableSortOrdersActionPrivate(res.data?.parent?.id || ''),
   );
 
   return (

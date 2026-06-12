@@ -1,0 +1,11 @@
+# Build artifacts & dependencies — formatting these is noise.
+**/node_modules/**
+**/.next/**
+**/out/**
+**/build/**
+**/dist/**
+**/.turbo/**
+
+# Generated / lockfiles
+package-lock.json
+**/next-env.d.ts

@@ -1,23 +1,21 @@
 'use client';
 
-import { IPageResponse } from '@/interfaces/page-interface';
-import { IAppConfigResponse } from '@/interfaces/app-config-interface';
 import { Container, Group, Stack, Text } from '@mantine/core';
 import { VinaupLocationIcon as LocationIcon } from '@vinaup/ui/cores';
-import Link from 'next/link';
+import { SectionCarouselSlide, SectionCarousel, VideoSection } from '@vinaup/ui/landing';
 import { Route } from 'next';
-import {
-  SectionCarouselSlide,
-  SectionCarousel,
-  VideoSection,
-} from '@vinaup/ui/landing';
+import Link from 'next/link';
+
 import ContactPageContent from '@/components/landing/page/contact-page-content/contact-page-content';
+import { AppConfigResponse } from '@/interfaces/app-config-interfaces';
+import { PageResponse } from '@/interfaces/page-interfaces';
+
 import classes from './dynamic-endpoint-page-content.module.scss';
 
 interface DynamicEndpointPageContentProps {
-  page: IPageResponse | undefined;
-  allPages: IPageResponse[];
-  appConfig?: IAppConfigResponse;
+  page: PageResponse | undefined;
+  allPages: PageResponse[];
+  appConfig?: AppConfigResponse;
 }
 
 export default function DynamicEndpointPageContent({
@@ -29,19 +27,16 @@ export default function DynamicEndpointPageContent({
     return <div className={classes.pageDetailPage}>Page not found</div>;
   }
 
-  const additionalImageSlides: SectionCarouselSlide[] =
-    page.additionalImageUrls.map((url) => ({ src: url }));
+  const additionalImageSlides: SectionCarouselSlide[] = page.additionalImageUrls.map((url) => ({
+    src: url,
+  }));
 
   const renderAdditionalImagesCarousel = () => {
     if (additionalImageSlides.length === 0) return <></>;
     return <SectionCarousel slides={additionalImageSlides} height={480} />;
   };
 
-  const renderVideoSection = (
-    videoUrl?: string,
-    thumbnailUrl?: string,
-    title?: string
-  ) => {
+  const renderVideoSection = (videoUrl?: string, thumbnailUrl?: string, title?: string) => {
     if (!videoUrl) return <></>;
     return (
       <VideoSection
@@ -54,19 +49,12 @@ export default function DynamicEndpointPageContent({
   };
 
   const renderHTMLContent = (htmlContent: string | undefined | null) => {
-    if (
-      !htmlContent ||
-      htmlContent.trim() === '' ||
-      htmlContent.trim() === '<p></p>'
-    ) {
+    if (!htmlContent || htmlContent.trim() === '' || htmlContent.trim() === '<p></p>') {
       return <></>;
     }
     return (
       <Stack gap={2}>
-        <div
-          dangerouslySetInnerHTML={{ __html: htmlContent }}
-          className={classes.htmlContent}
-        />
+        <div dangerouslySetInnerHTML={{ __html: htmlContent }} className={classes.htmlContent} />
       </Stack>
     );
   };
@@ -111,7 +99,9 @@ export default function DynamicEndpointPageContent({
       <section className={classes.pageDetailHeader}>
         <Container size={'lg'} className={classes.pageDetailHeaderContainer}>
           <Group gap={20} align={'center'}>
-            <Text classNames={{ root: classes.pageTitle }} component='h1'>{page.title}</Text>
+            <Text classNames={{ root: classes.pageTitle }} component="h1">
+              {page.title}
+            </Text>
           </Group>
         </Container>
       </section>
@@ -122,14 +112,13 @@ export default function DynamicEndpointPageContent({
         </Container> */}
       </section>
 
-      {page.additionalImagesPosition === 'top' &&
-        additionalImageSlides.length > 0 && (
-          <section className={classes.pageCarouselSection}>
-            <Container size={'lg'} className={classes.pageCarouselSectionContainer}>
-              {renderAdditionalImagesCarousel()}
-            </Container>
-          </section>
-        )}
+      {page.additionalImagesPosition === 'top' && additionalImageSlides.length > 0 && (
+        <section className={classes.pageCarouselSection}>
+          <Container size={'lg'} className={classes.pageCarouselSectionContainer}>
+            {renderAdditionalImagesCarousel()}
+          </Container>
+        </section>
+      )}
 
       {page.videoPosition === 'top' && page.videoUrl && (
         <section className={classes.pageVideoSection}>
@@ -137,7 +126,7 @@ export default function DynamicEndpointPageContent({
             {renderVideoSection(
               page.videoUrl || undefined,
               page.videoThumbnailUrl || undefined,
-              page.title
+              page.title,
             )}
           </Container>
         </section>
@@ -146,9 +135,7 @@ export default function DynamicEndpointPageContent({
       <section className={classes.pageDetailContent}>
         <Container size={'lg'} className={classes.pageDetailContentContainer}>
           {renderHTMLContent(page.content)}
-          {page.type === 'contact' && (
-            <ContactPageContent appConfig={appConfig} />
-          )}
+          {page.type === 'contact' && <ContactPageContent appConfig={appConfig} />}
         </Container>
       </section>
 
@@ -158,20 +145,19 @@ export default function DynamicEndpointPageContent({
             {renderVideoSection(
               page.videoUrl || undefined,
               page.videoThumbnailUrl || undefined,
-              page.title
+              page.title,
             )}
           </Container>
         </section>
       )}
 
-      {page.additionalImagesPosition !== 'top' &&
-        additionalImageSlides.length > 0 && (
-          <section className={classes.pageCarouselSection}>
-            <Container size={'lg'} className={classes.pageCarouselSectionContainer}>
-              {renderAdditionalImagesCarousel()}
-            </Container>
-          </section>
-        )}
+      {page.additionalImagesPosition !== 'top' && additionalImageSlides.length > 0 && (
+        <section className={classes.pageCarouselSection}>
+          <Container size={'lg'} className={classes.pageCarouselSectionContainer}>
+            {renderAdditionalImagesCarousel()}
+          </Container>
+        </section>
+      )}
 
       <section className={classes.pageLocationSection}>
         <Container size={'lg'} className={classes.pageLocationSectionContainer}>

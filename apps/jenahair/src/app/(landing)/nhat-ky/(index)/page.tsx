@@ -1,12 +1,14 @@
-import { getAllDiariesActionPublic } from '@/actions/diary-action';
-import DiaryGrid from '@/components/landing/diary/diary-grid/diary-grid';
-import DiaryCategoryTags from '@/components/landing/diary/diary-category-tags/diary-category-tags';
 import { Stack, Box, Container } from '@mantine/core';
-import classes from './page.module.scss';
-import { Suspense } from 'react';
-import DiaryGridSkeleton from '@/components/landing/diary/diary-grid/diary-grid-skeleton';
-import DiaryCategoryTagsSkeleton from '@/components/landing/diary/diary-category-tags/diary-category-tags-skeleton';
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
+
+import { getAllDiariesActionPublic } from '@/actions/diary-actions';
+import DiaryCategoryTags from '@/components/landing/diary/diary-category-tags/diary-category-tags';
+import DiaryCategoryTagsSkeleton from '@/components/landing/diary/diary-category-tags/diary-category-tags-skeleton';
+import DiaryGrid from '@/components/landing/diary/diary-grid/diary-grid';
+import DiaryGridSkeleton from '@/components/landing/diary/diary-grid/diary-grid-skeleton';
+
+import classes from './page.module.scss';
 
 export const metadata: Metadata = { title: 'Nhật ký' };
 

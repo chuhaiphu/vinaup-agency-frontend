@@ -1,6 +1,7 @@
 'use client';
 import { Paper, Stack, Group } from '@mantine/core';
 import { Skeleton } from '@vinaup/ui/landing';
+
 import classes from './admin-section-ui-detail-page-content.module.scss';
 
 const ROWS = 3;

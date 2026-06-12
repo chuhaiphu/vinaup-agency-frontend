@@ -1,14 +1,15 @@
 'use client';
+import { notifications } from '@mantine/notifications';
 import {
   MediaModal,
-  type IMedia,
+  type Media,
   type UploadResult,
-  type ICreateMedia,
+  type CreateMediaRequest,
 } from '@vinaup/ui/admin';
-import { uploadImageActionPrivate } from '@/actions/upload-action';
-import { createManyMediaActionPrivate, getAllMediaActionPrivate } from '@/actions/media-action';
 import { useState, useEffect, useEffectEvent } from 'react';
-import { notifications } from '@mantine/notifications';
+
+import { createManyMediaActionPrivate, getAllMediaActionPrivate } from '@/actions/media-actions';
+import { uploadImageActionPrivate } from '@/actions/upload-actions';
 
 interface MediaImageModalProps {
   opened: boolean;
@@ -16,18 +17,12 @@ interface MediaImageModalProps {
   onSelect: (imageUrl: string) => void;
 }
 
-export default function MediaImageModal({
-  opened,
-  onClose,
-  onSelect,
-}: MediaImageModalProps) {
-  const [availableImages, setAvailableImages] = useState<IMedia[]>([]);
+export default function MediaImageModal({ opened, onClose, onSelect }: MediaImageModalProps) {
+  const [availableImages, setAvailableImages] = useState<Media[]>([]);
 
   const fetchAvailableImages = useEffectEvent(async () => {
     const response = await getAllMediaActionPrivate();
-    const imagesList = response.data?.filter(
-      (media) => media.type === 'image'
-    ) as IMedia[];
+    const imagesList = response.data?.filter((media) => media.type === 'image') as Media[];
     setAvailableImages(imagesList);
   });
 
@@ -57,17 +52,15 @@ export default function MediaImageModal({
     return successResults;
   };
 
-  const handleSave = async (data: ICreateMedia[]): Promise<IMedia[]> => {
+  const handleSave = async (data: CreateMediaRequest[]): Promise<Media[]> => {
     const response = await createManyMediaActionPrivate(data);
     if (!response.success || !response.data) {
-      throw new Error(
-        response.error || 'There was an error saving to the database'
-      );
+      throw new Error(response.error || 'There was an error saving to the database');
     }
-    return response.data as unknown as IMedia[];
+    return response.data as unknown as Media[];
   };
 
-  const handleUploadSuccess = (media: IMedia[]) => {
+  const handleUploadSuccess = (media: Media[]) => {
     setAvailableImages((prev) => [...prev, ...media]);
     notifications.show({
       title: 'Upload success',

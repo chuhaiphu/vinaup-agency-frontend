@@ -1,4 +1,5 @@
-import { getSectionUIByPositionActionPublic } from '@/actions/section-ui-action';
+import { getSectionUIByPositionActionPublic } from '@/actions/section-ui-actions';
+
 import { SECTION_REGISTRY } from './section-registry';
 
 interface DynamicSectionProps {

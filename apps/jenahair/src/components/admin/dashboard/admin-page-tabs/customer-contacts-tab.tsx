@@ -1,24 +1,26 @@
 'use client';
 
 import { Group, Text, Stack, Modal, ActionIcon, Button } from '@mantine/core';
-import { useState } from 'react';
-import { IoEyeOutline } from 'react-icons/io5';
+import { notifications } from '@mantine/notifications';
 import { EntitiesTable } from '@vinaup/ui/admin';
 import { EntitiesTableColumnProps } from '@vinaup/ui/admin';
-import { ICustomerContactResponse } from '@/interfaces/customer-contact-interface';
-import { SlOptionsVertical } from 'react-icons/sl';
-import { deleteCustomerContactActionPrivate } from '@/actions/customer-contact-action';
-import { notifications } from '@mantine/notifications';
+import { useState } from 'react';
 import { GrTrash } from 'react-icons/gr';
+import { IoEyeOutline } from 'react-icons/io5';
+import { SlOptionsVertical } from 'react-icons/sl';
+
+import { deleteCustomerContactActionPrivate } from '@/actions/customer-contact-actions';
+import { CustomerContactResponse } from '@/interfaces/customer-contact-interfaces';
+
 import classes from './customer-contacts-tab.module.scss';
 
 interface CustomerContactsTabProps {
-  customerContacts: ICustomerContactResponse[];
+  customerContacts: CustomerContactResponse[];
 }
 
 export default function CustomerContactsTab({ customerContacts }: CustomerContactsTabProps) {
   const [contactDetailModalOpened, setContactDetailModalOpened] = useState(false);
-  const [selectedContact, setSelectedContact] = useState<ICustomerContactResponse | null>(null);
+  const [selectedContact, setSelectedContact] = useState<CustomerContactResponse | null>(null);
   const [deleteContactModalOpened, setDeleteContactModalOpened] = useState(false);
   const [contactToDelete, setContactToDelete] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -31,7 +33,7 @@ export default function CustomerContactsTab({ customerContacts }: CustomerContac
     });
   };
 
-  const handleViewContactDetails = (contact: ICustomerContactResponse) => {
+  const handleViewContactDetails = (contact: CustomerContactResponse) => {
     setSelectedContact(contact);
     setContactDetailModalOpened(true);
   };
@@ -73,7 +75,7 @@ export default function CustomerContactsTab({ customerContacts }: CustomerContac
     }
   };
 
-  const customerContactColumns: EntitiesTableColumnProps<ICustomerContactResponse>[] = [
+  const customerContactColumns: EntitiesTableColumnProps<CustomerContactResponse>[] = [
     {
       key: 'customer',
       width: '30%',
@@ -83,7 +85,7 @@ export default function CustomerContactsTab({ customerContacts }: CustomerContac
       render: ({ entity }) => (
         <Stack gap={4}>
           <Group gap={4}>
-            <Text size="sm" c='dimmed'>
+            <Text size="sm" c="dimmed">
               Fullname:
             </Text>
             <Text size="sm" fw={500}>
@@ -92,7 +94,7 @@ export default function CustomerContactsTab({ customerContacts }: CustomerContac
           </Group>
 
           <Group gap={4}>
-            <Text size="sm" c='dimmed'>
+            <Text size="sm" c="dimmed">
               Email:
             </Text>
             <Text size="sm" fw={500}>
@@ -132,9 +134,7 @@ export default function CustomerContactsTab({ customerContacts }: CustomerContac
       header: 'Created At',
       headerAlign: 'center',
       cellAlign: 'center',
-      render: ({ entity }) => (
-        <Text size="sm">{formatDate(entity.createdAt)}</Text>
-      ),
+      render: ({ entity }) => <Text size="sm">{formatDate(entity.createdAt)}</Text>,
     },
     {
       key: 'actions',
@@ -150,16 +150,10 @@ export default function CustomerContactsTab({ customerContacts }: CustomerContac
       cellAlign: 'right',
       render: ({ entity }) => (
         <Group justify="flex-end" gap="xs">
-          <ActionIcon
-            variant="transparent"
-            onClick={() => handleOpenDeleteContactModal(entity.id)}
-          >
+          <ActionIcon variant="transparent" onClick={() => handleOpenDeleteContactModal(entity.id)}>
             <GrTrash size={20} color="#01426e" />
           </ActionIcon>
-          <ActionIcon
-            variant="transparent"
-            onClick={() => handleViewContactDetails(entity)}
-          >
+          <ActionIcon variant="transparent" onClick={() => handleViewContactDetails(entity)}>
             <IoEyeOutline size={24} color="#01426e" />
           </ActionIcon>
         </Group>
@@ -202,23 +196,35 @@ export default function CustomerContactsTab({ customerContacts }: CustomerContac
         {selectedContact && (
           <Stack gap="md">
             <div>
-              <Text size="sm" fw={700} mb={4}>Customer Information</Text>
+              <Text size="sm" fw={700} mb={4}>
+                Customer Information
+              </Text>
               <Stack gap={4}>
-                <Text size="sm"><strong>Name:</strong> {selectedContact.name}</Text>
-                <Text size="sm"><strong>Email:</strong> {selectedContact.email}</Text>
-                <Text size="sm"><strong>Phone:</strong> {selectedContact.phone}</Text>
+                <Text size="sm">
+                  <strong>Name:</strong> {selectedContact.name}
+                </Text>
+                <Text size="sm">
+                  <strong>Email:</strong> {selectedContact.email}
+                </Text>
+                <Text size="sm">
+                  <strong>Phone:</strong> {selectedContact.phone}
+                </Text>
               </Stack>
             </div>
 
             {selectedContact.notes && (
               <div>
-                <Text size="sm" fw={700} mb={4}>Message</Text>
+                <Text size="sm" fw={700} mb={4}>
+                  Message
+                </Text>
                 <Text size="sm">{selectedContact.notes}</Text>
               </div>
             )}
 
             <div>
-              <Text size="sm" fw={700} mb={4}>Created At</Text>
+              <Text size="sm" fw={700} mb={4}>
+                Created At
+              </Text>
               <Text size="sm">{formatDate(selectedContact.createdAt)}</Text>
             </div>
           </Stack>
@@ -241,11 +247,7 @@ export default function CustomerContactsTab({ customerContacts }: CustomerContac
             >
               Cancel
             </Button>
-            <Button
-              color="red"
-              onClick={handleDeleteContact}
-              loading={isDeleting}
-            >
+            <Button color="red" onClick={handleDeleteContact} loading={isDeleting}>
               Delete
             </Button>
           </Group>

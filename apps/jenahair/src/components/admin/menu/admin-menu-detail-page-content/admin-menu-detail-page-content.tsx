@@ -14,22 +14,21 @@ import {
   TextInput,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import classes from './admin-menu-detail-page-content.module.scss';
+import { TreeManager, generateErrorMessage } from '@vinaup/utils';
+import { useRouter } from 'next/navigation';
 import { use, useEffect, useMemo, useState } from 'react';
-import {
-  updateMenuActionPrivate,
-  deleteMenuActionPrivate,
-} from '@/actions/menu-action';
-import { IMenuResponse } from '@/interfaces/menu-interface';
 import { FaCaretDown } from 'react-icons/fa6';
 import { GrTrash } from 'react-icons/gr';
-import { TreeManager } from '../../../../../../../packages/utils/src/classes/tree-manager';
-import { useRouter } from 'next/navigation';
-import { ActionResponse } from '@/interfaces/_base-interface';
+
+import { updateMenuActionPrivate, deleteMenuActionPrivate } from '@/actions/menu-actions';
+import { ActionResponse } from '@/interfaces/_base-interfaces';
+import { MenuResponse } from '@/interfaces/menu-interfaces';
+
+import classes from './admin-menu-detail-page-content.module.scss';
 
 interface AdminMenuDetailPageContentProps {
-  currentMenuPromise: Promise<ActionResponse<IMenuResponse>>;
-  menusPromise: Promise<ActionResponse<IMenuResponse[]>>;
+  currentMenuPromise: Promise<ActionResponse<MenuResponse>>;
+  menusPromise: Promise<ActionResponse<MenuResponse[]>>;
   availableSortOrdersPromise: Promise<ActionResponse<number[]>>;
 }
 
@@ -60,8 +59,8 @@ export default function AdminMenuDetailPageContent({
 }
 
 interface AdminMenuDetailPageContentInnerProps {
-  currentMenu: IMenuResponse;
-  menusData: IMenuResponse[];
+  currentMenu: MenuResponse;
+  menusData: MenuResponse[];
   availableSortOrdersData: number[];
 }
 
@@ -71,9 +70,7 @@ function AdminMenuDetailPageContentInner({
   availableSortOrdersData,
 }: AdminMenuDetailPageContentInnerProps) {
   const [title, setTitle] = useState<string>(currentMenu.title);
-  const [parentId, setParentId] = useState<string | null>(
-    currentMenu.parent?.id || null
-  );
+  const [parentId, setParentId] = useState<string | null>(currentMenu.parent?.id || null);
   const [sortOrder, setSortOrder] = useState<number>(currentMenu.sortOrder || 0);
   const [customUrl, setCustomUrl] = useState<string>(currentMenu.customUrl || '');
 
@@ -95,9 +92,7 @@ function AdminMenuDetailPageContentInner({
   }, [menusData]);
 
   // Filter out current menu and its children from parent options
-  const excludedIds = menuTreeManager?.toIds(
-    menuTreeManager?.toFlatList(currentMenu.id) ?? []
-  );
+  const excludedIds = menuTreeManager?.toIds(menuTreeManager?.toFlatList(currentMenu.id) ?? []);
   excludedIds?.add(currentMenu.id);
 
   const parentOptions = menusData
@@ -122,7 +117,7 @@ function AdminMenuDetailPageContentInner({
     } catch (error) {
       notifications.show({
         title: 'Error',
-        message: error instanceof Error ? error.message : 'Unknown error',
+        message: generateErrorMessage(error, 'Unknown error'),
         color: 'red',
         position: 'top-right',
       });
@@ -152,7 +147,7 @@ function AdminMenuDetailPageContentInner({
     } catch (error) {
       notifications.show({
         title: 'Delete failed',
-        message: error instanceof Error ? error.message : 'Failed to delete menu',
+        message: generateErrorMessage(error, 'Failed to delete menu'),
         color: 'red',
       });
     } finally {
@@ -209,12 +204,7 @@ function AdminMenuDetailPageContentInner({
         </GridCol>
 
         <GridCol span={{ base: 12, sm: 12, md: 5, lg: 5, xl: 4 }}>
-          <Paper
-            pt={0}
-            p={'xs'}
-            radius={'md'}
-            classNames={{ root: classes.menuConfiguration }}
-          >
+          <Paper pt={0} p={'xs'} radius={'md'} classNames={{ root: classes.menuConfiguration }}>
             <Stack gap={'0'}>
               <Group justify="space-between" wrap="nowrap">
                 <Text size="lg">Index</Text>
@@ -233,9 +223,7 @@ function AdminMenuDetailPageContentInner({
                   }))}
                   value={sortOrder?.toString()}
                   variant="unstyled"
-                  rightSection={
-                    <FaCaretDown color="var(--vinaup-blue-link)" size={24} />
-                  }
+                  rightSection={<FaCaretDown color="var(--vinaup-blue-link)" size={24} />}
                   onChange={(value) => setSortOrder(value ? parseInt(value) : 0)}
                 />
               </Group>

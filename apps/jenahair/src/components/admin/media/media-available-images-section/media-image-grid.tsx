@@ -1,12 +1,13 @@
 'use client';
 
-import { MediaGrid, type IMedia } from '@vinaup/ui/admin';
-import { useRouter, usePathname } from "next/navigation";
-import { Route } from "next";
-import { IMediaResponse } from "@/interfaces/media-interface";
+import { MediaGrid, type Media } from '@vinaup/ui/admin';
+import { Route } from 'next';
+import { useRouter, usePathname } from 'next/navigation';
+
+import { MediaResponse } from '@/interfaces/media-interfaces';
 
 interface MediaImageGridProps {
-  images: IMediaResponse[];
+  images: MediaResponse[];
 }
 
 export default function MediaImageGrid({ images }: MediaImageGridProps) {
@@ -22,7 +23,7 @@ export default function MediaImageGrid({ images }: MediaImageGridProps) {
 
   return (
     <MediaGrid
-      images={images as unknown as IMedia[]}
+      images={images as unknown as Media[]}
       selectedImageId={selectedImageId}
       onImageClick={handleImageClick}
       sortOptions={[

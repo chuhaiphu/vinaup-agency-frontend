@@ -5,9 +5,7 @@ type DiaryGridSkeletonProps = {
   itemCount?: number;
 };
 
-export default function DiaryGridSkeleton({
-  itemCount = 4,
-}: DiaryGridSkeletonProps) {
+export default function DiaryGridSkeleton({ itemCount = 4 }: DiaryGridSkeletonProps) {
   return (
     <Grid mt={'lg'} mb={'md'} gap="lg">
       {Array.from({ length: itemCount }).map((_, index) => (

@@ -1,19 +1,17 @@
 'use client';
 
-import { incrementBlogLikeActionPublic } from '@/actions/blog-action';
 import { Group, Text, UnstyledButton } from '@mantine/core';
-import { IoHeart } from 'react-icons/io5';
 import { useState } from 'react';
+import { IoHeart } from 'react-icons/io5';
+
+import { incrementBlogLikeActionPublic } from '@/actions/blog-actions';
 
 type LikeBlogButtonProps = {
   blogId: string;
   likes: number;
 };
 
-export default function LikeBlogButton({
-  blogId,
-  likes: initialLikes,
-}: LikeBlogButtonProps) {
+export default function LikeBlogButton({ blogId, likes: initialLikes }: LikeBlogButtonProps) {
   const [likes, setLikes] = useState(initialLikes ?? 0);
   const [isLoading, setIsLoading] = useState(false);
 

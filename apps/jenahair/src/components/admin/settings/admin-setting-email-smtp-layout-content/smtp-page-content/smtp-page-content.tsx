@@ -1,11 +1,5 @@
 'use client';
 
-import { use } from 'react';
-import {
-  ISmtpConfigResponse,
-  ICreateSmtpConfig,
-  IUpdateSmtpConfig,
-} from '@/interfaces/smtp-config-interface';
 import {
   Button,
   Divider,
@@ -20,22 +14,29 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import classes from './smtp-page-content.module.scss';
+import { generateErrorMessage } from '@vinaup/utils';
+import { use } from 'react';
 import { useState } from 'react';
+
 import {
   saveSmtpConfigActionPrivate,
   sendTestEmailActionPrivate,
   updateSmtpConfigActionPrivate,
-} from '@/actions/smtp-config-action';
-import { ActionResponse } from '@/interfaces/_base-interface';
+} from '@/actions/smtp-config-actions';
+import { ActionResponse } from '@/interfaces/_base-interfaces';
+import {
+  SmtpConfigResponse,
+  CreateSmtpConfigRequest,
+  UpdateSmtpConfigRequest,
+} from '@/interfaces/smtp-config-interfaces';
+
+import classes from './smtp-page-content.module.scss';
 
 interface SmtpPageContentProps {
-  smtpConfigPromise: Promise<ActionResponse<ISmtpConfigResponse | null>>;
+  smtpConfigPromise: Promise<ActionResponse<SmtpConfigResponse | null>>;
 }
 
-export default function SmtpPageContent({
-  smtpConfigPromise,
-}: SmtpPageContentProps) {
+export default function SmtpPageContent({ smtpConfigPromise }: SmtpPageContentProps) {
   const response = use(smtpConfigPromise);
   const smtpConfig = response.data ?? null;
 
@@ -61,10 +62,10 @@ export default function SmtpPageContent({
 
     setIsSavingAll(true);
     try {
-      let result: ActionResponse<ISmtpConfigResponse>;
+      let result: ActionResponse<SmtpConfigResponse>;
 
       if (smtpConfig?.id) {
-        const updatePayload: IUpdateSmtpConfig = {
+        const updatePayload: UpdateSmtpConfigRequest = {
           host,
           port: Number(port),
           username,
@@ -82,7 +83,7 @@ export default function SmtpPageContent({
           notifications.show({ message: 'Password is required', color: 'red' });
           return;
         }
-        const createPayload: ICreateSmtpConfig = {
+        const createPayload: CreateSmtpConfigRequest = {
           host,
           port: Number(port),
           username,
@@ -140,8 +141,7 @@ export default function SmtpPageContent({
       }
     } catch (error) {
       notifications.show({
-        message:
-          error instanceof Error ? error.message : 'Error sending test email',
+        message: generateErrorMessage(error, 'Error sending test email'),
         color: 'red',
       });
     } finally {
@@ -246,10 +246,7 @@ export default function SmtpPageContent({
           <Stack gap={2}>
             <Group justify="space-between" align="flex-end">
               <Stack gap={2} style={{ flex: 1 }}>
-                <Tooltip
-                  label="Email address to receive notifications"
-                  position="left-end"
-                >
+                <Tooltip label="Email address to receive notifications" position="left-end">
                   <Text w={'fit-content'} fw={500}>
                     Receive Email
                   </Text>

@@ -14,26 +14,32 @@ import {
   TextInput,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import classes from './admin-diary-category-detail-page-content.module.scss';
 import { TextEditor } from '@vinaup/ui/admin';
-import UploadImageSection from '@/components/admin/media/upload-image-section/upload-image-section';
+import {
+  VinaupUploadIconV2 as UploadIconV2,
+  VinaupUploadIconV3 as UploadIconV3,
+  VinaupPenIcon as PenIcon,
+} from '@vinaup/ui/cores';
+import { TreeManager, generateErrorMessage } from '@vinaup/utils';
+import { useRouter } from 'next/navigation';
 import { use, useEffect, useMemo, useRef, useState } from 'react';
+import { FaCaretDown } from 'react-icons/fa6';
+import { GrTrash } from 'react-icons/gr';
+
 import {
   deleteDiaryCategoryActionPrivate,
   updateDiaryCategoryActionPrivate,
-} from '@/actions/diary-category-action';
-import { IDiaryCategoryResponse } from '@/interfaces/diary-category-interface';
+} from '@/actions/diary-category-actions';
+import UploadImageSection from '@/components/admin/media/upload-image-section/upload-image-section';
+import { ActionResponse } from '@/interfaces/_base-interfaces';
+import { DiaryCategoryResponse } from '@/interfaces/diary-category-interfaces';
 import { generateUniqueEndpoint } from '@/utils/generate-unique-endpoint';
-import { FaCaretDown } from 'react-icons/fa6';
-import { GrTrash } from 'react-icons/gr';
-import { VinaupUploadIconV2 as UploadIconV2, VinaupUploadIconV3 as UploadIconV3, VinaupPenIcon as PenIcon } from '@vinaup/ui/cores';
-import { TreeManager } from '../../../../../../../packages/utils/src/classes/tree-manager';
-import { useRouter } from 'next/navigation';
-import { ActionResponse } from '@/interfaces/_base-interface';
+
+import classes from './admin-diary-category-detail-page-content.module.scss';
 
 interface AdminDiaryCategoryDetailPageContentProps {
-  currentDiaryCategoryPromise: Promise<ActionResponse<IDiaryCategoryResponse>>;
-  diaryCategoriesPromise: Promise<ActionResponse<IDiaryCategoryResponse[]>>;
+  currentDiaryCategoryPromise: Promise<ActionResponse<DiaryCategoryResponse>>;
+  diaryCategoriesPromise: Promise<ActionResponse<DiaryCategoryResponse[]>>;
   availableSortOrdersPromise: Promise<ActionResponse<number[]>>;
 }
 
@@ -64,8 +70,8 @@ export default function AdminDiaryCategoryDetailPageContent({
 }
 
 interface AdminDiaryCategoryDetailPageContentInnerProps {
-  currentDiaryCategory: IDiaryCategoryResponse;
-  diaryCategoriesData: IDiaryCategoryResponse[];
+  currentDiaryCategory: DiaryCategoryResponse;
+  diaryCategoriesData: DiaryCategoryResponse[];
   availableSortOrdersData: number[];
 }
 
@@ -75,30 +81,19 @@ function AdminDiaryCategoryDetailPageContentInner({
   availableSortOrdersData,
 }: AdminDiaryCategoryDetailPageContentInnerProps) {
   const [title, setTitle] = useState<string>(currentDiaryCategory.title);
-  const [description, setDescription] = useState<string>(
-    currentDiaryCategory.description || ''
-  );
-  const [parentId, setParentId] = useState<string | null>(
-    currentDiaryCategory.parent?.id || null
-  );
-  const [videoUrl, setVideoUrl] = useState<string>(
-    currentDiaryCategory.videoUrl || ''
-  );
+  const [description, setDescription] = useState<string>(currentDiaryCategory.description || '');
+  const [parentId, setParentId] = useState<string | null>(currentDiaryCategory.parent?.id || null);
+  const [videoUrl, setVideoUrl] = useState<string>(currentDiaryCategory.videoUrl || '');
   const [videoThumbnailUrl, setVideoThumbnailUrl] = useState<string>(
-    currentDiaryCategory.videoThumbnailUrl || ''
+    currentDiaryCategory.videoThumbnailUrl || '',
   );
   const [videoPosition, setVideoPosition] = useState<string>(
-    currentDiaryCategory.videoPosition || 'end'
+    currentDiaryCategory.videoPosition || 'end',
   );
-  const [mainImageUrl, setMainImageUrl] = useState<string>(
-    currentDiaryCategory.mainImageUrl || ''
-  );
-  const [sortOrder, setSortOrder] = useState<number>(
-    currentDiaryCategory.sortOrder || 0
-  );
+  const [mainImageUrl, setMainImageUrl] = useState<string>(currentDiaryCategory.mainImageUrl || '');
+  const [sortOrder, setSortOrder] = useState<number>(currentDiaryCategory.sortOrder || 0);
 
-  const [videoThumbnailLoading, setVideoThumbnailLoading] =
-    useState<boolean>(false);
+  const [videoThumbnailLoading, setVideoThumbnailLoading] = useState<boolean>(false);
   const [mainImageLoading, setMainImageLoading] = useState<boolean>(false);
   const [deleteModalOpened, setDeleteModalOpened] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
@@ -118,18 +113,14 @@ function AdminDiaryCategoryDetailPageContentInner({
     return new TreeManager(diaryCategoriesData);
   }, [diaryCategoriesData]);
 
-  const excludedIds = treeManager?.toIds(
-    treeManager?.toFlatList(currentDiaryCategory.id) ?? []
-  );
+  const excludedIds = treeManager?.toIds(treeManager?.toFlatList(currentDiaryCategory.id) ?? []);
   excludedIds?.add(currentDiaryCategory.id);
 
   const parentOptions = diaryCategoriesData
     .filter((cat) => !excludedIds?.has(cat.id))
     .map((cat) => ({ value: cat.id, label: cat.title }));
 
-  const handleFocusAndSelectInput = (
-    ref: React.RefObject<HTMLInputElement | null>
-  ) => {
+  const handleFocusAndSelectInput = (ref: React.RefObject<HTMLInputElement | null>) => {
     if (ref.current) {
       ref.current.focus();
       ref.current.select();
@@ -172,7 +163,7 @@ function AdminDiaryCategoryDetailPageContentInner({
     } catch (error) {
       notifications.show({
         title: 'Failed to set image',
-        message: error instanceof Error ? error.message : '',
+        message: generateErrorMessage(error, ''),
         color: 'red',
       });
     } finally {
@@ -199,7 +190,7 @@ function AdminDiaryCategoryDetailPageContentInner({
     } catch (error) {
       notifications.show({
         title: 'Failed to set image',
-        message: error instanceof Error ? error.message : '',
+        message: generateErrorMessage(error, ''),
         color: 'red',
       });
     } finally {
@@ -239,7 +230,7 @@ function AdminDiaryCategoryDetailPageContentInner({
         newEndpoint = await generateUniqueEndpoint(
           title,
           'diary-category',
-          currentDiaryCategory.id
+          currentDiaryCategory.id,
         );
       }
 
@@ -262,7 +253,7 @@ function AdminDiaryCategoryDetailPageContentInner({
     } catch (error) {
       notifications.show({
         title: 'Save failed',
-        message: error instanceof Error ? error.message : 'Failed to save',
+        message: generateErrorMessage(error, 'Failed to save'),
         color: 'red',
       });
     } finally {
@@ -273,9 +264,7 @@ function AdminDiaryCategoryDetailPageContentInner({
   const handleDeleteDiaryCategory = async () => {
     setIsDeleting(true);
     try {
-      const result = await deleteDiaryCategoryActionPrivate(
-        currentDiaryCategory.id
-      );
+      const result = await deleteDiaryCategoryActionPrivate(currentDiaryCategory.id);
       if (result.success) {
         router.replace('/adminup/diary-category');
         notifications.show({
@@ -294,10 +283,7 @@ function AdminDiaryCategoryDetailPageContentInner({
     } catch (error) {
       notifications.show({
         title: 'Delete failed',
-        message:
-          error instanceof Error
-            ? error.message
-            : 'Failed to delete diary category',
+        message: generateErrorMessage(error, 'Failed to delete diary category'),
         color: 'red',
       });
     } finally {
@@ -324,22 +310,12 @@ function AdminDiaryCategoryDetailPageContentInner({
                   }}
                 />
                 <Group gap={'xs'} justify="space-between">
-                  <Text size="md">
-                    URL: jenahair.com/nhat-ky/{currentDiaryCategory.endpoint}
-                  </Text>
+                  <Text size="md">URL: jenahair.com/nhat-ky/{currentDiaryCategory.endpoint}</Text>
                   <Group>
-                    <Text
-                      size="sm"
-                      className={classes.linkText}
-                      onClick={handleViewLink}
-                    >
+                    <Text size="sm" className={classes.linkText} onClick={handleViewLink}>
                       View
                     </Text>
-                    <Text
-                      size="sm"
-                      className={classes.linkText}
-                      onClick={handleCopyLink}
-                    >
+                    <Text size="sm" className={classes.linkText} onClick={handleCopyLink}>
                       Copy link
                     </Text>
                   </Group>
@@ -373,12 +349,7 @@ function AdminDiaryCategoryDetailPageContentInner({
         </GridCol>
 
         <GridCol span={{ base: 12, sm: 12, md: 5, lg: 5, xl: 4 }}>
-          <Paper
-            pt={0}
-            p={'xs'}
-            radius={'md'}
-            classNames={{ root: classes.categoryConfiguration }}
-          >
+          <Paper pt={0} p={'xs'} radius={'md'} classNames={{ root: classes.categoryConfiguration }}>
             <Stack gap={'0'}>
               <Group justify="space-between" wrap="nowrap">
                 <Text size="lg">Index</Text>
@@ -397,9 +368,7 @@ function AdminDiaryCategoryDetailPageContentInner({
                   }))}
                   value={sortOrder?.toString()}
                   variant="unstyled"
-                  rightSection={
-                    <FaCaretDown color="var(--vinaup-blue-link)" size={24} />
-                  }
+                  rightSection={<FaCaretDown color="var(--vinaup-blue-link)" size={24} />}
                   onChange={handleUpdateSortOrder}
                 />
               </Group>
@@ -462,9 +431,7 @@ function AdminDiaryCategoryDetailPageContentInner({
                   ]}
                   value={videoPosition}
                   variant="unstyled"
-                  rightSection={
-                    <FaCaretDown color="var(--vinaup-blue-link)" size={20} />
-                  }
+                  rightSection={<FaCaretDown color="var(--vinaup-blue-link)" size={20} />}
                   onChange={(value) => {
                     if (!value) return;
                     handleUpdateVideoPosition(value);
@@ -477,14 +444,10 @@ function AdminDiaryCategoryDetailPageContentInner({
                   icon={<UploadIconV2 width={60} height={60} />}
                   isLoading={videoThumbnailLoading}
                   onImageSelect={
-                    videoThumbnailUrl.length > 0
-                      ? undefined
-                      : handleSelectVideoThumbnail
+                    videoThumbnailUrl.length > 0 ? undefined : handleSelectVideoThumbnail
                   }
                   onRemoveFile={
-                    videoThumbnailUrl.length > 0
-                      ? handleRemoveVideoThumbnail
-                      : undefined
+                    videoThumbnailUrl.length > 0 ? handleRemoveVideoThumbnail : undefined
                   }
                   imageUrl={videoThumbnailUrl}
                 />
@@ -518,12 +481,7 @@ function AdminDiaryCategoryDetailPageContentInner({
               </Group>
             </Stack>
           </Paper>
-          <Paper
-            p={'xs'}
-            radius={'md'}
-            mt={'sm'}
-            classNames={{ root: classes.paperBlock }}
-          >
+          <Paper p={'xs'} radius={'md'} mt={'sm'} classNames={{ root: classes.paperBlock }}>
             <Stack gap={'0'}>
               <Text size="xl">Featured image</Text>
               <Group justify="center">
@@ -532,12 +490,8 @@ function AdminDiaryCategoryDetailPageContentInner({
                   icon={<UploadIconV3 width={200} height={200} />}
                   isLoading={mainImageLoading}
                   imageUrl={mainImageUrl}
-                  onImageSelect={
-                    mainImageUrl.length > 0 ? undefined : handleSelectMainImage
-                  }
-                  onRemoveFile={
-                    mainImageUrl.length > 0 ? handleRemoveMainImage : undefined
-                  }
+                  onImageSelect={mainImageUrl.length > 0 ? undefined : handleSelectMainImage}
+                  onRemoveFile={mainImageUrl.length > 0 ? handleRemoveMainImage : undefined}
                 />
               </Group>
               <Group justify="center">
@@ -566,11 +520,7 @@ function AdminDiaryCategoryDetailPageContentInner({
             >
               Cancel
             </Button>
-            <Button
-              color="red"
-              onClick={handleDeleteDiaryCategory}
-              loading={isDeleting}
-            >
+            <Button color="red" onClick={handleDeleteDiaryCategory} loading={isDeleting}>
               Delete
             </Button>
           </Group>

@@ -1,9 +1,10 @@
 // import { Suspense } from 'react';
 import { Container, Grid, GridCol, Stack, Group } from '@mantine/core';
-import Link from 'next/link';
 import { VinaupGlobalIcon } from '@vinaup/ui/cores';
-import classes from './salon-video-and-blogs-showcase.module.scss';
+import Link from 'next/link';
+
 import { BlogsColumn } from './blogs-column';
+import classes from './salon-video-and-blogs-showcase.module.scss';
 import { VideoSectionShowcase } from './video-section-showcase';
 
 export async function SalonVideoAndBlogsShowcase() {
@@ -13,16 +14,13 @@ export async function SalonVideoAndBlogsShowcase() {
   return (
     <section className={classes.sectionWrapper}>
       <Container size={'lg'} pb={'2rem'}>
-
         <div className={classes.header}>
           <h2 className={classes.mainTitle}>Salon cam kết với khách hàng</h2>
           <p className={classes.mainDescription}>
-            Salon phục vụ làm đẹp cho khách hàng, đến khi hài lòng mà không phụ
-            thu thêm chi phí phát sinh. Sản phẩm phục vụ khách hàng là hàng chính
-            hãng
+            Salon phục vụ làm đẹp cho khách hàng, đến khi hài lòng mà không phụ thu thêm chi phí
+            phát sinh. Sản phẩm phục vụ khách hàng là hàng chính hãng
           </p>
         </div>
-
       </Container>
       <Container size={'xl'}>
         <Grid gap={{ base: 'xl', md: 'lg' }}>

@@ -1,10 +1,12 @@
 import { Group, Text } from '@mantine/core';
-import BlogsTable from '@/components/admin/blogs/blogs-table/blogs-table';
-import { getAllBlogsActionPrivate } from '@/actions/blog-action';
-import classes from './page.module.scss';
-import CreateBlogAction from '@/components/admin/blogs/create-blog-action/create-blog-action';
 import { Suspense } from 'react';
+
+import { getAllBlogsActionPrivate } from '@/actions/blog-actions';
+import BlogsTable from '@/components/admin/blogs/blogs-table/blogs-table';
 import BlogsTableSkeleton from '@/components/admin/blogs/blogs-table/blogs-table-skeleton';
+import CreateBlogAction from '@/components/admin/blogs/create-blog-action/create-blog-action';
+
+import classes from './page.module.scss';
 
 export default async function AdminBlogCategoryPage() {
   const blogsDataPromise = getAllBlogsActionPrivate().then((res) => {

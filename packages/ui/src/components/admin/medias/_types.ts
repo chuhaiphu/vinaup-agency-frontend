@@ -1,4 +1,4 @@
-export interface IMedia {
+export interface Media {
   id: string;
   name: string;
   title: string | null;
@@ -10,7 +10,7 @@ export interface IMedia {
   updatedAt: Date;
 }
 
-export interface ICreateMedia {
+export interface CreateMediaRequest {
   name: string;
   title?: string | null;
   description?: string | null;
@@ -19,7 +19,7 @@ export interface ICreateMedia {
   folder: string;
 }
 
-export interface IUpdateMedia {
+export interface UpdateMediaRequest {
   name?: string;
   title?: string | null;
   description?: string | null;
@@ -32,18 +32,18 @@ export interface UploadResult {
 
 export interface MediaUploadHandlers {
   onUpload: (files: File[]) => Promise<UploadResult[]>;
-  onSave?: (data: ICreateMedia[]) => Promise<IMedia[]>;
-  onUploadSuccess?: (media: IMedia[]) => void;
+  onSave?: (data: CreateMediaRequest[]) => Promise<Media[]>;
+  onUploadSuccess?: (media: Media[]) => void;
   onUploadError?: (error: Error) => void;
 }
 
 export interface MediaGridHandlers {
   onImageSelect: (imageId: string) => void;
-  onLoadImages: () => Promise<IMedia[]>;
+  onLoadImages: () => Promise<Media[]>;
 }
 
 export interface MediaDetailHandlers {
-  onUpdate: (id: string, data: IUpdateMedia) => Promise<void>;
+  onUpdate: (id: string, data: UpdateMediaRequest) => Promise<void>;
   onDelete: (id: string) => Promise<void>;
   onNavigateBack: () => void;
 }

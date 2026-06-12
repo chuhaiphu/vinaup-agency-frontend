@@ -1,20 +1,20 @@
 'use client';
-
-import { use, useState } from 'react';
 import { Button, Group, Paper, Stack, Text, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
+import { generateErrorMessage } from '@vinaup/utils';
+import { use, useState } from 'react';
+
+import { updateThemeConfigSocialLinksActionPrivate } from '@/actions/theme-config-actions';
+import { ActionResponse } from '@/interfaces/_base-interfaces';
 import {
-  updateThemeConfigSocialLinksActionPrivate,
-} from '@/actions/theme-config-action';
-import { ActionResponse } from '@/interfaces/_base-interface';
-import {
-  IThemeSocialLinksResponse,
-  IThemeSocialLinkItem,
-} from '@/interfaces/theme-config-interface';
+  ThemeSocialLinksResponse,
+  ThemeSocialLinkItem,
+} from '@/interfaces/theme-config-interfaces';
+
 import classes from './admin-theme-social-links-page-content.module.scss';
 
 interface AdminThemeSocialLinksPageContentProps {
-  themeConfigPromise: Promise<ActionResponse<IThemeSocialLinksResponse>>;
+  themeConfigPromise: Promise<ActionResponse<ThemeSocialLinksResponse>>;
 }
 
 interface SocialLinkFields {
@@ -44,7 +44,7 @@ const PLATFORM_ORDER: Array<keyof SocialLinkFields> = [
   'whatsapp',
 ];
 
-function toInitialFields(socialLinks: IThemeSocialLinkItem[] = []): SocialLinkFields {
+function toInitialFields(socialLinks: ThemeSocialLinkItem[] = []): SocialLinkFields {
   const fields: SocialLinkFields = {
     youtube: '',
     facebook: '',
@@ -71,16 +71,14 @@ export default function AdminThemeSocialLinksPageContent({
   const themeConfig = themeConfigResult.data;
   const [isSaving, setIsSaving] = useState(false);
   const [errors, setErrors] = useState<SocialLinkErrors>({});
-  const [fields, setFields] = useState<SocialLinkFields>(
-    toInitialFields(themeConfig?.value)
-  );
+  const [fields, setFields] = useState<SocialLinkFields>(toInitialFields(themeConfig?.value));
 
   const existingIdByPlatform = (themeConfig?.value ?? []).reduce(
     (acc, item) => {
       acc[item.platform.toLowerCase()] = item.id;
       return acc;
     },
-    {} as Record<string, string>
+    {} as Record<string, string>,
   );
 
   const validateUrl = (url: string): boolean => {
@@ -147,7 +145,7 @@ export default function AdminThemeSocialLinksPageContent({
     } catch (error) {
       notifications.show({
         title: 'Error',
-        message: error instanceof Error ? error.message : 'Unknown error',
+        message: generateErrorMessage(error, 'Unknown error'),
         color: 'red',
         position: 'top-right',
       });

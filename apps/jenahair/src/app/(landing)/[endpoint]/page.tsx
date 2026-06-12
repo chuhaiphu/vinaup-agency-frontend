@@ -1,11 +1,13 @@
+import type { ResolvingMetadata } from 'next';
+
+import { getAppConfigActionPublic } from '@/actions/app-config-actions';
 import {
   getAllPagesPublicActionPublic,
   getPageByEndpointActionPublic,
-} from '@/actions/page-action';
-import { getAppConfigActionPublic } from '@/actions/app-config-action';
+} from '@/actions/page-actions';
 import DynamicEndpointPageContent from '@/components/landing/page/dynamic-endpoint-page-content/dynamic-endpoint-page-content';
+
 import notFound from '../not-found';
-import type { ResolvingMetadata } from 'next';
 
 const PAGE_ENDPOINT_PLACEHOLDER = '__placeholder__';
 
@@ -81,11 +83,5 @@ export default async function DynamicEndpointPage({
   const page = pageResponse.data;
   const appConfig = appConfigResponse.success ? appConfigResponse.data : undefined;
 
-  return (
-    <DynamicEndpointPageContent
-      page={page}
-      allPages={allPages}
-      appConfig={appConfig}
-    />
-  );
+  return <DynamicEndpointPageContent page={page} allPages={allPages} appConfig={appConfig} />;
 }

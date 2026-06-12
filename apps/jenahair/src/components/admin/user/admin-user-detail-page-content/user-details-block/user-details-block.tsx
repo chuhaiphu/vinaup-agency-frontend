@@ -1,14 +1,15 @@
 'use client';
 
 import { Button, Group, Modal, Paper, Stack, Text } from '@mantine/core';
-import { MdLockReset } from 'react-icons/md';
-import { useState } from 'react';
-import { resetMyPasswordActionPrivate } from '@/actions/auth-action';
 import { notifications } from '@mantine/notifications';
-import { IUserResponse } from '@/interfaces/user-interface';
+import { useState } from 'react';
+import { MdLockReset } from 'react-icons/md';
+
+import { resetMyPasswordActionPrivate } from '@/actions/auth-actions';
+import { UserResponse } from '@/interfaces/user-interfaces';
 
 interface UserDetailsBlockProps {
-  user: IUserResponse;
+  user: UserResponse;
 }
 
 export default function UserDetailsBlock({ user }: UserDetailsBlockProps) {
@@ -44,12 +45,20 @@ export default function UserDetailsBlock({ user }: UserDetailsBlockProps) {
         <Group justify="space-between" align="flex-start">
           <Stack gap="md">
             <div>
-              <Text size="sm" c="dimmed">Email</Text>
-              <Text size="md" fw={500}>{user.email}</Text>
+              <Text size="sm" c="dimmed">
+                Email
+              </Text>
+              <Text size="md" fw={500}>
+                {user.email}
+              </Text>
             </div>
             <div>
-              <Text size="sm" c="dimmed">Name</Text>
-              <Text size="md" fw={500}>{user.name || 'N/A'}</Text>
+              <Text size="sm" c="dimmed">
+                Name
+              </Text>
+              <Text size="md" fw={500}>
+                {user.name || 'N/A'}
+              </Text>
             </div>
           </Stack>
 
@@ -71,9 +80,7 @@ export default function UserDetailsBlock({ user }: UserDetailsBlockProps) {
         centered
       >
         <Stack>
-          <Text>
-            Are you sure you want to reset your password?
-          </Text>
+          <Text>Are you sure you want to reset your password?</Text>
           <Group justify="flex-end" mt="sm">
             <Button
               variant="default"
@@ -82,11 +89,7 @@ export default function UserDetailsBlock({ user }: UserDetailsBlockProps) {
             >
               Cancel
             </Button>
-            <Button
-              color="blue"
-              onClick={handleResetPassword}
-              loading={isResetting}
-            >
+            <Button color="blue" onClick={handleResetPassword} loading={isResetting}>
               Reset Password
             </Button>
           </Group>

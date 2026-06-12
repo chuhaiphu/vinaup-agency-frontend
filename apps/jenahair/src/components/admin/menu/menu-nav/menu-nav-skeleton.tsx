@@ -1,5 +1,6 @@
 import { Paper, Stack, Group } from '@mantine/core';
 import { Skeleton } from '@vinaup/ui/landing';
+
 import classes from './menu-nav.module.scss';
 
 const NAV_ITEMS = [

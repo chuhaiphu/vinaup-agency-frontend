@@ -2,23 +2,19 @@ import { Group } from '@mantine/core';
 import { VinaupGridListIcon } from '@vinaup/ui/cores';
 import { Route } from 'next';
 import Link from 'next/link';
-import classes from './blog-category-tags.module.scss';
-import { getAllBlogCategoriesActionPublic } from '@/actions/blog-category-action';
 
-export default async function BlogCategoryTags({
-  activeEndpoint,
-}: {
-  activeEndpoint?: string;
-}) {
+import { getAllBlogCategoriesActionPublic } from '@/actions/blog-category-actions';
+
+import classes from './blog-category-tags.module.scss';
+
+export default async function BlogCategoryTags({ activeEndpoint }: { activeEndpoint?: string }) {
   const blogCategoriesResponse = await getAllBlogCategoriesActionPublic();
   const blogCategories = blogCategoriesResponse.data || [];
 
-  const sortedCategories = [...blogCategories].sort(
-    (a, b) => a.sortOrder - b.sortOrder
-  );
+  const sortedCategories = [...blogCategories].sort((a, b) => a.sortOrder - b.sortOrder);
 
   const categoriesWithoutRoot = sortedCategories.filter(
-    (category) => category.endpoint !== '__root__'
+    (category) => category.endpoint !== '__root__',
   );
 
   const isHomeActive = !activeEndpoint;

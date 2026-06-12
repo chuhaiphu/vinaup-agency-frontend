@@ -1,5 +1,6 @@
 import { Box, Group } from '@mantine/core';
 import { Skeleton } from '@vinaup/ui/landing';
+
 import classes from './diary-category-tags.module.scss';
 
 type DiaryCategoryTagsSkeletonProps = {
@@ -35,11 +36,7 @@ export default function DiaryCategoryTagsSkeleton({
             alignItems: 'center',
           }}
         >
-          <Skeleton
-            width={TAG_WIDTHS[index % TAG_WIDTHS.length]}
-            height={20}
-            borderRadius={6}
-          />
+          <Skeleton width={TAG_WIDTHS[index % TAG_WIDTHS.length]} height={20} borderRadius={6} />
         </Box>
       ))}
     </Group>

@@ -1,13 +1,14 @@
 import {
-  ICreateCustomerContact,
-  ICustomerContactResponse,
-} from '@/interfaces/customer-contact-interface';
+  CreateCustomerContactRequest,
+  CustomerContactResponse,
+} from '@/interfaces/customer-contact-interfaces';
+
 import { apiPrivate, apiPublic } from './_base';
 
 // ==================== PUBLIC ROUTES ====================
 
-export async function createCustomerContactApiPublic(data: ICreateCustomerContact) {
-  return apiPublic<ICustomerContactResponse>('/contacts', {
+export async function createCustomerContactApiPublic(data: CreateCustomerContactRequest) {
+  return apiPublic<CustomerContactResponse>('/contacts', {
     method: 'POST',
     body: JSON.stringify(data),
   });
@@ -15,13 +16,13 @@ export async function createCustomerContactApiPublic(data: ICreateCustomerContac
 
 // ==================== ADMIN ROUTES ====================
 export async function getAllCustomerContactsAdminApiPrivate() {
-  return apiPrivate<ICustomerContactResponse[]>(`/contacts/admin`, {
+  return apiPrivate<CustomerContactResponse[]>(`/contacts/admin`, {
     method: 'GET',
   });
 }
 
 export async function getCustomerContactByIdApiPrivate(id: string) {
-  return apiPrivate<ICustomerContactResponse>(`/contacts/admin/${id}`, {
+  return apiPrivate<CustomerContactResponse>(`/contacts/admin/${id}`, {
     method: 'GET',
   });
 }

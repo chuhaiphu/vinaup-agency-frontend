@@ -1,19 +1,12 @@
 'use client';
 
-import { RECAPTCHA_SITE_KEY } from '@/constants';
-import {
-  Grid,
-  GridCol,
-  Group,
-  Stack,
-  Text,
-  TextInput,
-  Textarea,
-  ActionIcon,
-} from '@mantine/core';
-import { useState, useRef, ReactNode } from 'react';
-import { ReCaptchaEnterprise, ReCaptchaEnterpriseHandle } from '@vinaup/ui/landing';
+import { Grid, GridCol, Group, Stack, Text, TextInput, Textarea, ActionIcon } from '@mantine/core';
 import { SubmitFormIcon } from '@vinaup/ui/cores';
+import { ReCaptchaEnterprise, ReCaptchaEnterpriseHandle } from '@vinaup/ui/landing';
+import { useState, useRef, ReactNode } from 'react';
+
+import { RECAPTCHA_SITE_KEY } from '@/constants';
+
 import classes from './contact-form.module.scss';
 
 interface ContactFormProps {

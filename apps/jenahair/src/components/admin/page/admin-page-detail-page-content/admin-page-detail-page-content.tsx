@@ -15,32 +15,41 @@ import {
   UnstyledButton,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import classes from './admin-page-detail-page-content.module.scss';
 import { TextEditor } from '@vinaup/ui/admin';
-import UploadImageSection from '@/components/admin/media/upload-image-section/upload-image-section';
+import {
+  VinaupUploadIconV2 as UploadIconV2,
+  VinaupUploadIconV3 as UploadIconV3,
+  VinaupPenIcon as PenIcon,
+  VinaupAddNewIcon as AddNewIcon,
+} from '@vinaup/ui/cores';
+import {
+  generateStrippedHtml,
+  generateSanitizedEndpoint,
+  generateErrorMessage,
+} from '@vinaup/utils';
+import { useRouter } from 'next/navigation';
+import { FaCaretDown } from 'react-icons/fa6';
+import { GrTrash } from 'react-icons/gr';
+import { Route } from 'next';
+import dayjs from 'dayjs';
 import { use, useEffect, useRef, useState } from 'react';
+
 import {
   createPageActionPrivate,
   deletePageActionPrivate,
   updatePageActionPrivate,
-} from '@/actions/page-action';
-import { IPageResponse } from '@/interfaces/page-interface';
-import {
-  generateUniqueEndpoint,
-} from '@/utils/generate-unique-endpoint';
-import { generateStrippedHtml, generateSanitizedEndpoint } from '@vinaup/utils';
+} from '@/actions/page-actions';
+import UploadImageSection from '@/components/admin/media/upload-image-section/upload-image-section';
 import { MAX_IMAGE_COUNT_ALLOWED, PAGE_TYPES } from '@/constants';
-import { FaCaretDown } from 'react-icons/fa6';
-import { GrTrash } from 'react-icons/gr';
-import { VinaupUploadIconV2 as UploadIconV2, VinaupUploadIconV3 as UploadIconV3, VinaupPenIcon as PenIcon, VinaupAddNewIcon as AddNewIcon } from '@vinaup/ui/cores';
-import { useRouter } from 'next/navigation';
-import { Route } from 'next';
-import dayjs from 'dayjs';
-import { ActionResponse } from '@/interfaces/_base-interface';
+import { ActionResponse } from '@/interfaces/_base-interfaces';
+import { PageResponse } from '@/interfaces/page-interfaces';
 import { useAuth } from '@/providers/auth-provider';
+import { generateUniqueEndpoint } from '@/utils/generate-unique-endpoint';
+
+import classes from './admin-page-detail-page-content.module.scss';
 
 interface AdminPageDetailPageContentProps {
-  currentPagePromise: Promise<ActionResponse<IPageResponse>>;
+  currentPagePromise: Promise<ActionResponse<PageResponse>>;
 }
 
 export default function AdminPageDetailPageContent({
@@ -64,7 +73,7 @@ export default function AdminPageDetailPageContent({
 }
 
 interface AdminPageDetailPageContentInnerProps {
-  currentPageData: IPageResponse;
+  currentPageData: PageResponse;
   userId: string;
 }
 
@@ -73,24 +82,21 @@ function AdminPageDetailPageContentInner({
   userId,
 }: AdminPageDetailPageContentInnerProps) {
   const [additionalImageUrls, setAdditionalImageUrls] = useState<string[]>(
-    currentPageData.additionalImageUrls
+    currentPageData.additionalImageUrls,
   );
   const [additionalImagesPosition, setAdditionalImagesPosition] = useState<string>(
-    currentPageData.additionalImagesPosition || 'top'
+    currentPageData.additionalImagesPosition || 'top',
   );
   const [videoUrl, setVideoUrl] = useState<string>(currentPageData.videoUrl || '');
   const [videoThumbnailUrl, setVideoThumbnailUrl] = useState<string>(
-    currentPageData.videoThumbnailUrl || ''
+    currentPageData.videoThumbnailUrl || '',
   );
-  const [mainImageUrl, setMainImageUrl] = useState<string>(
-    currentPageData.mainImageUrl || ''
-  );
+  const [mainImageUrl, setMainImageUrl] = useState<string>(currentPageData.mainImageUrl || '');
   const [videoPosition, setVideoPosition] = useState<string>(
-    currentPageData.videoPosition || 'bottom'
+    currentPageData.videoPosition || 'bottom',
   );
   const [loadingImageIndex, setLoadingImageIndex] = useState<number | null>(null);
-  const [videoThumbnailLoading, setVideoThumbnailLoading] =
-    useState<boolean>(false);
+  const [videoThumbnailLoading, setVideoThumbnailLoading] = useState<boolean>(false);
   const [mainImageLoading, setMainImageLoading] = useState<boolean>(false);
   const [title, setTitle] = useState<string>(currentPageData.title);
   const [content, setContent] = useState<string>(currentPageData.content || '');
@@ -109,9 +115,7 @@ function AdminPageDetailPageContentInner({
 
   const videoUrlInputRef = useRef<HTMLInputElement>(null);
   const endpointInputRef = useRef<HTMLInputElement>(null);
-  const handleFocusAndSelectInput = (
-    ref: React.RefObject<HTMLInputElement | null>
-  ) => {
+  const handleFocusAndSelectInput = (ref: React.RefObject<HTMLInputElement | null>) => {
     if (ref.current) {
       ref.current.focus();
       ref.current.select();
@@ -150,10 +154,7 @@ function AdminPageDetailPageContentInner({
     });
   };
 
-  const handleSelectAdditionalImage = async (
-    imageUrl: string,
-    imageIndex: number
-  ) => {
+  const handleSelectAdditionalImage = async (imageUrl: string, imageIndex: number) => {
     setLoadingImageIndex(imageIndex);
     try {
       await updatePageActionPrivate(currentPageData.id, {
@@ -163,7 +164,7 @@ function AdminPageDetailPageContentInner({
     } catch (error) {
       notifications.show({
         title: 'Failed to set image',
-        message: error instanceof Error ? error.message : '',
+        message: generateErrorMessage(error, ''),
         color: 'red',
       });
     } finally {
@@ -192,7 +193,7 @@ function AdminPageDetailPageContentInner({
     } catch (error) {
       notifications.show({
         title: 'Failed to set image',
-        message: error instanceof Error ? error.message : '',
+        message: generateErrorMessage(error, ''),
         color: 'red',
       });
     } finally {
@@ -217,7 +218,7 @@ function AdminPageDetailPageContentInner({
     } catch (error) {
       notifications.show({
         title: 'Failed to set image',
-        message: error instanceof Error ? error.message : '',
+        message: generateErrorMessage(error, ''),
         color: 'red',
       });
     } finally {
@@ -291,21 +292,10 @@ function AdminPageDetailPageContentInner({
     setIsSavingAll(true);
     try {
       let finalEndpoint = endpoint;
-      if (
-        title !== currentPageData.title &&
-        endpoint === currentPageData.endpoint
-      ) {
-        finalEndpoint = await generateUniqueEndpoint(
-          title,
-          'page',
-          currentPageData.id
-        );
+      if (title !== currentPageData.title && endpoint === currentPageData.endpoint) {
+        finalEndpoint = await generateUniqueEndpoint(title, 'page', currentPageData.id);
       } else if (endpoint !== currentPageData.endpoint) {
-        finalEndpoint = await generateUniqueEndpoint(
-          endpoint,
-          'page',
-          currentPageData.id
-        );
+        finalEndpoint = await generateUniqueEndpoint(endpoint, 'page', currentPageData.id);
       }
 
       await updatePageActionPrivate(currentPageData.id, {
@@ -333,7 +323,7 @@ function AdminPageDetailPageContentInner({
     } catch (error) {
       notifications.show({
         title: 'Save failed',
-        message: error instanceof Error ? error.message : 'Unknown error',
+        message: generateErrorMessage(error, 'Unknown error'),
         color: 'red',
       });
     } finally {
@@ -362,7 +352,7 @@ function AdminPageDetailPageContentInner({
     } catch (error) {
       notifications.show({
         title: 'Delete failed',
-        message: error instanceof Error ? error.message : 'Failed to delete page',
+        message: generateErrorMessage(error, 'Failed to delete page'),
         color: 'red',
       });
     } finally {
@@ -379,11 +369,7 @@ function AdminPageDetailPageContentInner({
           <UnstyledButton onClick={handleAddNewPage} fz={'lg'}>
             Add new
           </UnstyledButton>
-          <ActionIcon
-            variant="transparent"
-            onClick={handleAddNewPage}
-            loading={isCreating}
-          >
+          <ActionIcon variant="transparent" onClick={handleAddNewPage} loading={isCreating}>
             <AddNewIcon width={32} height={32} />
           </ActionIcon>
         </Group>
@@ -432,18 +418,10 @@ function AdminPageDetailPageContentInner({
                     </Group>
                   </Group>
                   <Group gap={'xs'}>
-                    <Text
-                      size="sm"
-                      className={classes.linkText}
-                      onClick={handleViewLink}
-                    >
+                    <Text size="sm" className={classes.linkText} onClick={handleViewLink}>
                       View
                     </Text>
-                    <Text
-                      size="sm"
-                      className={classes.linkText}
-                      onClick={handleCopyLink}
-                    >
+                    <Text size="sm" className={classes.linkText} onClick={handleCopyLink}>
                       Copy link
                     </Text>
                   </Group>
@@ -481,9 +459,7 @@ function AdminPageDetailPageContentInner({
                     ]}
                     value={additionalImagesPosition}
                     variant="unstyled"
-                    rightSection={
-                      <FaCaretDown color="var(--vinaup-blue-link)" size={20} />
-                    }
+                    rightSection={<FaCaretDown color="var(--vinaup-blue-link)" size={20} />}
                     onChange={(value) => {
                       if (!value) return;
                       handleUpdateAdditionalImagesPosition(value);
@@ -497,9 +473,7 @@ function AdminPageDetailPageContentInner({
                       size="xl"
                       imageUrl={imgUrl}
                       isLoading={loadingImageIndex === index}
-                      onImageSelect={(imageUrl) =>
-                        handleSelectAdditionalImage(imageUrl, index)
-                      }
+                      onImageSelect={(imageUrl) => handleSelectAdditionalImage(imageUrl, index)}
                       onRemoveFile={() => handleRemoveAdditionalImage(index)}
                     />
                   ))}
@@ -508,10 +482,7 @@ function AdminPageDetailPageContentInner({
                       size="xl"
                       isLoading={loadingImageIndex === additionalImageUrls.length}
                       onImageSelect={(imageUrl) =>
-                        handleSelectAdditionalImage(
-                          imageUrl,
-                          additionalImageUrls.length
-                        )
+                        handleSelectAdditionalImage(imageUrl, additionalImageUrls.length)
                       }
                     />
                   )}
@@ -544,9 +515,7 @@ function AdminPageDetailPageContentInner({
                   ]}
                   value={status}
                   variant="unstyled"
-                  rightSection={
-                    <FaCaretDown color="var(--vinaup-blue-link)" size={24} />
-                  }
+                  rightSection={<FaCaretDown color="var(--vinaup-blue-link)" size={24} />}
                   onChange={(value) => {
                     if (!value) return;
                     handleUpdateStatus(value);
@@ -565,9 +534,7 @@ function AdminPageDetailPageContentInner({
                   data={PAGE_TYPES}
                   value={pageType}
                   variant="unstyled"
-                  rightSection={
-                    <FaCaretDown color="var(--vinaup-blue-link)" size={24} />
-                  }
+                  rightSection={<FaCaretDown color="var(--vinaup-blue-link)" size={24} />}
                   onChange={(value) => {
                     if (!value) return;
                     handleUpdatePageType(value);
@@ -633,9 +600,7 @@ function AdminPageDetailPageContentInner({
                   ]}
                   value={videoPosition}
                   variant="unstyled"
-                  rightSection={
-                    <FaCaretDown color="var(--vinaup-blue-link)" size={20} />
-                  }
+                  rightSection={<FaCaretDown color="var(--vinaup-blue-link)" size={20} />}
                   onChange={(value) => {
                     if (!value) return;
                     handleUpdateVideoPosition(value);
@@ -648,14 +613,10 @@ function AdminPageDetailPageContentInner({
                   icon={<UploadIconV2 width={60} height={60} />}
                   isLoading={videoThumbnailLoading}
                   onImageSelect={
-                    videoThumbnailUrl.length > 0
-                      ? undefined
-                      : handleSelectVideoThumbnail
+                    videoThumbnailUrl.length > 0 ? undefined : handleSelectVideoThumbnail
                   }
                   onRemoveFile={
-                    videoThumbnailUrl.length > 0
-                      ? handleRemoveVideoThumbnail
-                      : undefined
+                    videoThumbnailUrl.length > 0 ? handleRemoveVideoThumbnail : undefined
                   }
                   imageUrl={videoThumbnailUrl}
                 />
@@ -703,12 +664,8 @@ function AdminPageDetailPageContentInner({
                   icon={<UploadIconV3 width={200} height={200} />}
                   isLoading={mainImageLoading}
                   imageUrl={mainImageUrl}
-                  onImageSelect={
-                    mainImageUrl.length > 0 ? undefined : handleSelectMainImage
-                  }
-                  onRemoveFile={
-                    mainImageUrl.length > 0 ? handleRemoveMainImage : undefined
-                  }
+                  onImageSelect={mainImageUrl.length > 0 ? undefined : handleSelectMainImage}
+                  onRemoveFile={mainImageUrl.length > 0 ? handleRemoveMainImage : undefined}
                 />
               </Group>
               <Group justify="center">
@@ -753,9 +710,7 @@ function AdminPageDetailPageContentInner({
             >
               https://jenahair.com/{endpoint}
             </Text>
-            <Text size="sm">
-              {dayjs(currentPageData.updatedAt).format('MMM DD, YYYY')}
-            </Text>
+            <Text size="sm">{dayjs(currentPageData.updatedAt).format('MMM DD, YYYY')}</Text>
             <div
               dangerouslySetInnerHTML={{ __html: seoContent || '' }}
               className={classes.htmlContent}

@@ -1,7 +1,9 @@
 import { AutoScrollCarousel } from '@vinaup/ui/landing';
-import { getMarqueeActionPublic } from '@/actions/theme-config-action';
-import classes from './agency-marquee-section.module.scss';
 import Image from 'next/image';
+
+import { getMarqueeActionPublic } from '@/actions/theme-config-actions';
+
+import classes from './agency-marquee-section.module.scss';
 
 export async function AgencyMarqueeSection() {
   'use cache';
@@ -31,9 +33,5 @@ export async function AgencyMarqueeSection() {
     }
     return null;
   };
-  return (
-    <AutoScrollCarousel>
-      {slides.map((slide) => renderSlide(slide))}
-    </AutoScrollCarousel>
-  );
+  return <AutoScrollCarousel>{slides.map((slide) => renderSlide(slide))}</AutoScrollCarousel>;
 }

@@ -1,7 +1,8 @@
 'use client';
 import { Table } from '@mantine/core';
-import classes from './users-table.module.scss';
 import { Skeleton } from '@vinaup/ui/landing';
+
+import classes from './users-table.module.scss';
 
 const COLUMNS = 5;
 const ROWS = 5;

@@ -1,14 +1,16 @@
-import { getDiaryCategoryDiariesByDiaryCategoryIdActionPublic } from '@/actions/diary-category-diary-action';
-import DiaryGrid from '@/components/landing/diary/diary-grid/diary-grid';
-import DiaryCategoryTags from '@/components/landing/diary/diary-category-tags/diary-category-tags';
-import { IDiaryCategoryResponse } from '@/interfaces/diary-category-interface';
-import { IDiaryResponse } from '@/interfaces/diary-interface';
 import { Box, Container, Stack } from '@mantine/core';
 import { VideoSection } from '@vinaup/ui/landing';
+
+import { getDiaryCategoryDiariesByDiaryCategoryIdActionPublic } from '@/actions/diary-category-diary-actions';
+import DiaryCategoryTags from '@/components/landing/diary/diary-category-tags/diary-category-tags';
+import DiaryGrid from '@/components/landing/diary/diary-grid/diary-grid';
+import { DiaryCategoryResponse } from '@/interfaces/diary-category-interfaces';
+import { DiaryResponse } from '@/interfaces/diary-interfaces';
+
 import classes from './landing-diary-category-page-content.module.scss';
 
 type LandingDiaryCategoryPageContentProps = {
-  category: IDiaryCategoryResponse;
+  category: DiaryCategoryResponse;
   searchParams: Promise<{ q?: string; destinations?: string }>;
 };
 
@@ -24,23 +26,21 @@ export default async function LandingDiaryCategoryPageContent({
 }: LandingDiaryCategoryPageContentProps) {
   const queryParams = await searchParams;
 
-  const diaryCategoryDiariesResponse =
-    await getDiaryCategoryDiariesByDiaryCategoryIdActionPublic(category.id);
+  const diaryCategoryDiariesResponse = await getDiaryCategoryDiariesByDiaryCategoryIdActionPublic(
+    category.id,
+  );
 
-  const diariesInCategory: IDiaryResponse[] =
+  const diariesInCategory: DiaryResponse[] =
     diaryCategoryDiariesResponse.success && diaryCategoryDiariesResponse.data
       ? diaryCategoryDiariesResponse.data
           .map((dcd) => dcd.diary)
           .filter(
-            (diary): diary is IDiaryResponse =>
-              diary !== undefined && diary.visibility === 'public'
+            (diary): diary is DiaryResponse => diary !== undefined && diary.visibility === 'public',
           )
       : [];
 
   const sortedDiaries = [...diariesInCategory]
-    .sort(
-      (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-    )
+    .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
     .sort((a, b) => a.sortOrder - b.sortOrder);
 
   const renderVideoSection = () => {
@@ -69,9 +69,7 @@ export default async function LandingDiaryCategoryPageContent({
       {/* --- 2. INTRO SECTION --- */}
       <Container size={'xl'} className={classes.diaryCategoryIntro}>
         <DiaryCategoryTags activeEndpoint={category.endpoint} />
-        <Box mt={'sm'}>
-          {category.videoPosition === 'top' && renderVideoSection()}
-        </Box>
+        <Box mt={'sm'}>{category.videoPosition === 'top' && renderVideoSection()}</Box>
         <Stack gap="sm" mt={'sm'}>
           {!isHtmlDescriptionEmpty(category.description) && (
             <div
@@ -87,7 +85,9 @@ export default async function LandingDiaryCategoryPageContent({
       </Container>
 
       {category.videoPosition !== 'top' && (
-        <Container size="xl" p={0}>{renderVideoSection()}</Container>
+        <Container size="xl" p={0}>
+          {renderVideoSection()}
+        </Container>
       )}
     </div>
   );

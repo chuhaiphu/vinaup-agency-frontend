@@ -1,7 +1,9 @@
 import { Box, Container, Stack } from '@mantine/core';
 import { Skeleton } from '@vinaup/ui/landing';
-import DiaryGridSkeleton from '@/components/landing/diary/diary-grid/diary-grid-skeleton';
+
 import DiaryCategoryTagsSkeleton from '@/components/landing/diary/diary-category-tags/diary-category-tags-skeleton';
+import DiaryGridSkeleton from '@/components/landing/diary/diary-grid/diary-grid-skeleton';
+
 import classes from './landing-diary-category-page-content.module.scss';
 
 const DESCRIPTION_LINES = [92, 86, 78];
@@ -23,12 +25,7 @@ export default function LandingDiaryCategoryPageContentSkeleton() {
         <DiaryCategoryTagsSkeleton />
         <Stack gap="sm" mt={'sm'}>
           {DESCRIPTION_LINES.map((width, index) => (
-            <Skeleton
-              key={index}
-              width={`${width}%`}
-              height={20}
-              borderRadius={6}
-            />
+            <Skeleton key={index} width={`${width}%`} height={20} borderRadius={6} />
           ))}
         </Stack>
       </Container>

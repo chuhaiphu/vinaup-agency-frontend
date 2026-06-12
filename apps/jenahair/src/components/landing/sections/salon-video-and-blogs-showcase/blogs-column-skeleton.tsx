@@ -5,10 +5,7 @@ export function BlogsColumnSkeleton() {
   return (
     <Stack gap="lg" justify="space-between" style={{ flexGrow: 1 }}>
       {Array.from({ length: 2 }).map((_, i) => (
-        <Box
-          key={i}
-          style={{ display: 'flex', gap: '1.5rem', alignItems: 'stretch' }}
-        >
+        <Box key={i} style={{ display: 'flex', gap: '1.5rem', alignItems: 'stretch' }}>
           <Box style={{ flex: 1, aspectRatio: '16 / 9', borderRadius: 8, overflow: 'hidden' }}>
             <Skeleton width="100%" height="100%" borderRadius={8} />
           </Box>

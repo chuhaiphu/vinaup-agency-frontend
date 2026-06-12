@@ -1,18 +1,11 @@
 'use client';
-import {
-  Button,
-  PasswordInput,
-  Text,
-  TextInput,
-  Title,
-  Container,
-  Stack,
-} from '@mantine/core';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { Suspense, useState } from 'react';
-import { localSignInActionPrivate } from '@/actions/auth-action';
+import { Button, PasswordInput, Text, TextInput, Title, Container, Stack } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { Route } from 'next';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { Suspense, useState } from 'react';
+
+import { localSignInActionPrivate } from '@/actions/auth-actions';
 
 function LoginForm() {
   const router = useRouter();
@@ -72,9 +65,7 @@ function LoginForm() {
               label="Password"
               placeholder="Your password"
               value={formData.password}
-              onChange={(e) =>
-                setFormData({ ...formData, password: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               required
             />
 

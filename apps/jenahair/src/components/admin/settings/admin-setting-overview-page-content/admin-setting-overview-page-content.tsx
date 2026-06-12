@@ -1,18 +1,21 @@
 'use client';
 
-import { use } from 'react';
-import { updateAppConfigActionPrivate } from '@/actions/app-config-action';
-import { ToggleSection } from '@vinaup/ui/landing';
 import { Group, Paper, Stack, Text, TextInput, Button } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
+import { ToggleSection } from '@vinaup/ui/landing';
+import { generateErrorMessage } from '@vinaup/utils';
+import { use } from 'react';
 import { useState } from 'react';
-import classes from './admin-setting-overview-page-content.module.scss';
+
+import { updateAppConfigActionPrivate } from '@/actions/app-config-actions';
 import UploadImageSection from '@/components/admin/media/upload-image-section/upload-image-section';
-import { IAppConfigResponse } from '@/interfaces/app-config-interface';
-import { ActionResponse } from '@/interfaces/_base-interface';
+import { ActionResponse } from '@/interfaces/_base-interfaces';
+import { AppConfigResponse } from '@/interfaces/app-config-interfaces';
+
+import classes from './admin-setting-overview-page-content.module.scss';
 
 interface AdminSettingOverviewPageContentProps {
-  appConfigPromise: Promise<ActionResponse<IAppConfigResponse>>;
+  appConfigPromise: Promise<ActionResponse<AppConfigResponse>>;
 }
 
 export default function AdminSettingOverviewPageContent({
@@ -21,9 +24,7 @@ export default function AdminSettingOverviewPageContent({
   const appConfigResponse = use(appConfigPromise);
   const appConfig = appConfigResponse.data;
 
-  const [isMaintenanceMode, setIsMaintenanceMode] = useState(
-    appConfig?.maintenanceMode
-  );
+  const [isMaintenanceMode, setIsMaintenanceMode] = useState(appConfig?.maintenanceMode);
   const [faviconUrl, setFaviconUrl] = useState(appConfig?.faviconUrl);
   const [logoUrl, setLogoUrl] = useState(appConfig?.logoUrl);
   const [isUpdatingLogoUrl, setIsUpdatingLogoUrl] = useState(false);
@@ -39,7 +40,7 @@ export default function AdminSettingOverviewPageContent({
     } catch (error) {
       notifications.show({
         title: 'Failed to set image',
-        message: error instanceof Error ? error.message : '',
+        message: generateErrorMessage(error, ''),
         color: 'red',
       });
     } finally {
@@ -62,7 +63,7 @@ export default function AdminSettingOverviewPageContent({
     } catch (error) {
       notifications.show({
         title: 'Failed to set image',
-        message: error instanceof Error ? error.message : '',
+        message: generateErrorMessage(error, ''),
         color: 'red',
       });
     } finally {
@@ -108,7 +109,7 @@ export default function AdminSettingOverviewPageContent({
     } catch (error) {
       notifications.show({
         title: 'Error',
-        message: error instanceof Error ? error.message : 'Unknown error',
+        message: generateErrorMessage(error, 'Unknown error'),
         color: 'red',
         position: 'top-right',
       });

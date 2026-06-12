@@ -1,9 +1,11 @@
 import { Grid, GridCol, Group, Text } from '@mantine/core';
 import { Suspense } from 'react';
-import { getAllMenusActionPrivate } from '@/actions/menu-action';
+
+import { getAllMenusActionPrivate } from '@/actions/menu-actions';
+import CreateMenuAction from '@/components/admin/menu/create-menu-action/create-menu-action';
 import MenuNav from '@/components/admin/menu/menu-nav/menu-nav';
 import MenuNavSkeleton from '@/components/admin/menu/menu-nav/menu-nav-skeleton';
-import CreateMenuAction from '@/components/admin/menu/create-menu-action/create-menu-action';
+
 import classes from './layout.module.scss';
 
 export default async function AdminMenuLayout({ children }: { children: React.ReactNode }) {

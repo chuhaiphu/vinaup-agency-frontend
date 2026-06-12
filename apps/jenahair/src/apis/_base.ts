@@ -1,8 +1,9 @@
-import { HttpResponse } from '@/interfaces/_base-interface';
-import { ApiError } from '../../../../packages/utils/src/classes/api-error';
+import { ApiError, generateErrorMessage } from '@vinaup/utils';
 import { generateParsedCookie } from '@vinaup/utils';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+
+import { HttpResponse } from '@/interfaces/_base-interfaces';
 
 const API_URL = process.env.API_URL;
 
@@ -12,7 +13,7 @@ if (!API_URL) {
 
 export async function apiPublic<T>(
   endpoint: string,
-  options: RequestInit = {}
+  options: RequestInit = {},
 ): Promise<HttpResponse<T>> {
   const url = `${API_URL}${endpoint}`;
   const headers: HeadersInit = {};
@@ -28,17 +29,13 @@ export async function apiPublic<T>(
     if (error instanceof ApiError) {
       throw error;
     }
-    throw new ApiError(
-      error instanceof Error ? error.message : 'Unexpected error occurred',
-      'UNKNOWN',
-      520
-    );
+    throw new ApiError(generateErrorMessage(error, 'Unexpected error occurred'), 'UNKNOWN', 520);
   }
 }
 
 export async function apiPrivate<T>(
   endpoint: string,
-  options: RequestInit = {}
+  options: RequestInit = {},
 ): Promise<HttpResponse<T>> {
   const url = `${API_URL}${endpoint}`;
   // take the cookie from browser storage and set it to the request headers
@@ -92,7 +89,6 @@ export async function apiPrivate<T>(
       }
     }
 
-
     const httpResponse: HttpResponse<T> = await response.json();
     return httpResponse;
   } catch (error) {
@@ -100,10 +96,6 @@ export async function apiPrivate<T>(
       throw error;
     }
     // Backend is unreachable
-    throw new ApiError(
-      error instanceof Error ? error.message : 'Unexpected error occurred',
-      'UNKNOWN',
-      520
-    );
+    throw new ApiError(generateErrorMessage(error, 'Unexpected error occurred'), 'UNKNOWN', 520);
   }
 }

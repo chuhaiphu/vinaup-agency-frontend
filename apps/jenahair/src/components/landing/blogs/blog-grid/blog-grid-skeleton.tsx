@@ -5,9 +5,7 @@ type BlogGridSkeletonProps = {
   itemCount?: number;
 };
 
-export default function BlogGridSkeleton({
-  itemCount = 4,
-}: BlogGridSkeletonProps) {
+export default function BlogGridSkeleton({ itemCount = 4 }: BlogGridSkeletonProps) {
   return (
     <Grid mt={'lg'} mb={'md'} gap="lg">
       {Array.from({ length: itemCount }).map((_, index) => (

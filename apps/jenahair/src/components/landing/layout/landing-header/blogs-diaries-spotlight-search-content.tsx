@@ -1,11 +1,13 @@
 'use client';
 
-import { IBlogResponse } from '@/interfaces/blog-interface';
-import { IDiaryResponse } from '@/interfaces/diary-interface';
-import { IPageResponse } from '@/interfaces/page-interface';
 import { SpotlightActionData } from '@mantine/spotlight';
 import { SpotlightSearch } from '@vinaup/ui/landing';
 import { useRouter } from 'next/navigation';
+
+import { BlogResponse } from '@/interfaces/blog-interfaces';
+import { DiaryResponse } from '@/interfaces/diary-interfaces';
+import { PageResponse } from '@/interfaces/page-interfaces';
+
 import classes from './blogs-diaries-spotlight-search-content.module.scss';
 
 export default function BlogsDiariesSpotlightSearchContent({
@@ -13,9 +15,9 @@ export default function BlogsDiariesSpotlightSearchContent({
   diariesResponse,
   pagesResponse,
 }: {
-  blogsResponse: IBlogResponse[];
-  diariesResponse: IDiaryResponse[];
-  pagesResponse: IPageResponse[];
+  blogsResponse: BlogResponse[];
+  diariesResponse: DiaryResponse[];
+  pagesResponse: PageResponse[];
 }) {
   const router = useRouter();
   const spotlightActions: SpotlightActionData[] = [

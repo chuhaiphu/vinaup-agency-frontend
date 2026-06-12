@@ -1,29 +1,28 @@
 'use client';
-
-import React, { use, useState } from 'react';
-import dayjs from 'dayjs';
 import { ActionIcon, Button, Group, Modal, Popover, Stack } from '@mantine/core';
-import { TbEdit } from 'react-icons/tb';
-import { SlOptionsVertical } from 'react-icons/sl';
-import { MdOutlineCalendarMonth } from 'react-icons/md';
-import { GrTrash } from 'react-icons/gr';
-import classes from './pages-table.module.scss';
-import { IPageResponse } from '@/interfaces/page-interface';
-import { EntitiesTable, EntitiesTableColumnProps } from '@vinaup/ui/admin';
 import { DatePicker } from '@mantine/dates';
-
-import { PageTypeDisplayMap, StatusDisplayMap } from '@/constants';
-import { useRouter } from 'next/navigation';
-import { deletePageActionPrivate } from '@/actions/page-action';
 import { notifications } from '@mantine/notifications';
+import { EntitiesTable, EntitiesTableColumnProps } from '@vinaup/ui/admin';
+import { generateErrorMessage } from '@vinaup/utils';
+import dayjs from 'dayjs';
+import { useRouter } from 'next/navigation';
+import React, { use, useState } from 'react';
+import { GrTrash } from 'react-icons/gr';
+import { MdOutlineCalendarMonth } from 'react-icons/md';
+import { SlOptionsVertical } from 'react-icons/sl';
+import { TbEdit } from 'react-icons/tb';
+
+import { deletePageActionPrivate } from '@/actions/page-actions';
+import { PageTypeDisplayMap, StatusDisplayMap } from '@/constants';
+import { PageResponse } from '@/interfaces/page-interfaces';
+
+import classes from './pages-table.module.scss';
 
 interface PagesTableProps {
-  pagesDataPromise: Promise<IPageResponse[]>;
+  pagesDataPromise: Promise<PageResponse[]>;
 }
 
-export default function PagesTable({
-  pagesDataPromise,
-}: PagesTableProps) {
+export default function PagesTable({ pagesDataPromise }: PagesTableProps) {
   const pagesData = use(pagesDataPromise);
   const router = useRouter();
   const [datePickerOpened, setDatePickerOpened] = useState(false);
@@ -55,7 +54,7 @@ export default function PagesTable({
     } catch (error) {
       notifications.show({
         title: 'Delete failed',
-        message: error instanceof Error ? error.message : 'Failed to delete page',
+        message: generateErrorMessage(error, 'Failed to delete page'),
         color: 'red',
       });
     } finally {
@@ -65,26 +64,20 @@ export default function PagesTable({
     }
   };
 
-  const columns: EntitiesTableColumnProps<IPageResponse>[] = [
+  const columns: EntitiesTableColumnProps<PageResponse>[] = [
     {
       key: 'date',
       width: '5%',
       headerAlign: 'left',
       header: (
-        <Popover opened={datePickerOpened} onChange={setDatePickerOpened} position='bottom-start'>
+        <Popover opened={datePickerOpened} onChange={setDatePickerOpened} position="bottom-start">
           <Popover.Target>
-            <ActionIcon
-              variant="transparent"
-              onClick={() => setDatePickerOpened((o) => !o)}
-            >
+            <ActionIcon variant="transparent" onClick={() => setDatePickerOpened((o) => !o)}>
               <MdOutlineCalendarMonth size={24} color="#01426e" />
             </ActionIcon>
           </Popover.Target>
           <Popover.Dropdown>
-            <DatePicker
-              value={selectedDate}
-              onChange={(value) => setSelectedDate(value)}
-            />
+            <DatePicker value={selectedDate} onChange={(value) => setSelectedDate(value)} />
           </Popover.Dropdown>
         </Popover>
       ),
@@ -94,11 +87,7 @@ export default function PagesTable({
       key: 'title',
       width: '30%',
       header: 'Title',
-      render: ({ entity }) => (
-        <>
-          {entity.title || '(No title)'}
-        </>
-      ),
+      render: ({ entity }) => <>{entity.title || '(No title)'}</>,
     },
     {
       key: 'type',
@@ -122,7 +111,7 @@ export default function PagesTable({
       key: 'status',
       width: '10%',
       header: 'Status',
-      render: ({ entity }) => (StatusDisplayMap[entity.visibility]),
+      render: ({ entity }) => StatusDisplayMap[entity.visibility],
     },
     {
       key: 'actions',
@@ -158,10 +147,9 @@ export default function PagesTable({
     },
   ];
 
-
   return (
     <>
-      <EntitiesTable<IPageResponse>
+      <EntitiesTable<PageResponse>
         data={pagesData}
         loading={false}
         columns={columns}
@@ -192,11 +180,7 @@ export default function PagesTable({
             >
               Cancel
             </Button>
-            <Button
-              color="red"
-              onClick={handleDeletePage}
-              loading={isDeleting}
-            >
+            <Button color="red" onClick={handleDeletePage} loading={isDeleting}>
               Delete
             </Button>
           </Group>
@@ -205,4 +189,3 @@ export default function PagesTable({
     </>
   );
 }
-

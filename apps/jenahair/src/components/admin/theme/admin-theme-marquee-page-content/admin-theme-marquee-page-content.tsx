@@ -1,6 +1,4 @@
 'use client';
-
-import { use, useState } from 'react';
 import {
   ActionIcon,
   Button,
@@ -13,20 +11,21 @@ import {
   TextInput,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import { HiOutlineTrash } from 'react-icons/hi';
-import { updateMarqueeActionPrivate } from '@/actions/theme-config-action';
-import { ActionResponse } from '@/interfaces/_base-interface';
-import {
-  IMarqueeSlide,
-  IMarqueeSlidesResponse,
-} from '@/interfaces/theme-config-interface';
-import UploadImageSection from '@/components/admin/media/upload-image-section/upload-image-section';
 import { VinaupAddNewIcon as AddNewIcon } from '@vinaup/ui/cores';
-import classes from './admin-theme-marquee-page-content.module.scss';
+import { generateErrorMessage } from '@vinaup/utils';
+import { use, useState } from 'react';
+import { HiOutlineTrash } from 'react-icons/hi';
+
+import { updateMarqueeActionPrivate } from '@/actions/theme-config-actions';
+import UploadImageSection from '@/components/admin/media/upload-image-section/upload-image-section';
 import { MAX_MARQUEE_SLIDE_COUNT } from '@/constants';
+import { ActionResponse } from '@/interfaces/_base-interfaces';
+import { MarqueeSlide, MarqueeSlidesResponse } from '@/interfaces/theme-config-interfaces';
+
+import classes from './admin-theme-marquee-page-content.module.scss';
 
 interface AdminThemeMarqueePageContentProps {
-  marqueePromise: Promise<ActionResponse<IMarqueeSlidesResponse>>;
+  marqueePromise: Promise<ActionResponse<MarqueeSlidesResponse>>;
 }
 
 function generateId() {
@@ -37,26 +36,20 @@ export default function AdminThemeMarqueePageContent({
   marqueePromise,
 }: AdminThemeMarqueePageContentProps) {
   const result = use(marqueePromise);
-  const initialSlides: IMarqueeSlide[] = result.data?.value ?? [];
+  const initialSlides: MarqueeSlide[] = result.data?.value ?? [];
 
   return <AdminThemeMarqueePageContentInner initialSlides={initialSlides} />;
 }
 
-function AdminThemeMarqueePageContentInner({
-  initialSlides,
-}: {
-  initialSlides: IMarqueeSlide[];
-}) {
-  const [slides, setSlides] = useState<IMarqueeSlide[]>(initialSlides);
-  const [activeTab, setActiveTab] = useState<string | null>(
-    initialSlides[0]?.id ?? null
-  );
+function AdminThemeMarqueePageContentInner({ initialSlides }: { initialSlides: MarqueeSlide[] }) {
+  const [slides, setSlides] = useState<MarqueeSlide[]>(initialSlides);
+  const [activeTab, setActiveTab] = useState<string | null>(initialSlides[0]?.id ?? null);
   const [isSaving, setIsSaving] = useState(false);
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
 
   const handleAddSlide = () => {
     if (slides.length >= MAX_MARQUEE_SLIDE_COUNT) return;
-    const newSlide: IMarqueeSlide = {
+    const newSlide: MarqueeSlide = {
       id: generateId(),
       title: '',
       description: '',
@@ -66,13 +59,9 @@ function AdminThemeMarqueePageContentInner({
     setActiveTab(newSlide.id);
   };
 
-  const handleUpdateSlide = (
-    id: string,
-    field: keyof IMarqueeSlide,
-    value: string
-  ) => {
+  const handleUpdateSlide = (id: string, field: keyof MarqueeSlide, value: string) => {
     setSlides((prev) =>
-      prev.map((slide) => (slide.id === id ? { ...slide, [field]: value } : slide))
+      prev.map((slide) => (slide.id === id ? { ...slide, [field]: value } : slide)),
     );
   };
 
@@ -111,7 +100,7 @@ function AdminThemeMarqueePageContentInner({
     } catch (error) {
       notifications.show({
         title: 'Error',
-        message: error instanceof Error ? error.message : 'Unknown error',
+        message: generateErrorMessage(error, 'Unknown error'),
         color: 'red',
         position: 'top-right',
       });
@@ -134,12 +123,7 @@ function AdminThemeMarqueePageContentInner({
               >
                 <AddNewIcon width={24} height={24} />
               </ActionIcon>
-              <Button
-                loading={isSaving}
-                onClick={handleSave}
-                color="teal"
-                size="sm"
-              >
+              <Button loading={isSaving} onClick={handleSave} color="teal" size="sm">
                 Save
               </Button>
             </Group>
@@ -164,33 +148,23 @@ function AdminThemeMarqueePageContentInner({
                       <TextInput
                         label="Title"
                         value={slide.title}
-                        onChange={(e) =>
-                          handleUpdateSlide(slide.id, 'title', e.target.value)
-                        }
+                        onChange={(e) => handleUpdateSlide(slide.id, 'title', e.target.value)}
                       />
                       <TextInput
                         label="Description"
                         value={slide.description}
-                        onChange={(e) =>
-                          handleUpdateSlide(slide.id, 'description', e.target.value)
-                        }
+                        onChange={(e) => handleUpdateSlide(slide.id, 'description', e.target.value)}
                       />
                       <Group align="center">
                         <UploadImageSection
                           size="md"
                           imageUrl={slide.imageUrl || undefined}
                           isLoading={false}
-                          onImageSelect={(url) =>
-                            handleUpdateSlide(slide.id, 'imageUrl', url)
-                          }
-                          onRemoveFile={() =>
-                            handleUpdateSlide(slide.id, 'imageUrl', '')
-                          }
+                          onImageSelect={(url) => handleUpdateSlide(slide.id, 'imageUrl', url)}
+                          onRemoveFile={() => handleUpdateSlide(slide.id, 'imageUrl', '')}
                         />
                         <Stack gap={2}>
-                          <Text size="lg">
-                            {slide.imageUrl ? 'Edit' : 'Upload'}
-                          </Text>
+                          <Text size="lg">{slide.imageUrl ? 'Edit' : 'Upload'}</Text>
                           <Text size="sm" c="dimmed">
                             png, jpg, jpeg; Size ≤ 5Mbs
                           </Text>
@@ -222,10 +196,7 @@ function AdminThemeMarqueePageContentInner({
         centered
       >
         <Stack>
-          <Text>
-            Are you sure you want to delete this slide? This action cannot be
-            undone.
-          </Text>
+          <Text>Are you sure you want to delete this slide? This action cannot be undone.</Text>
           <Group justify="flex-end" mt="sm">
             <Button variant="default" onClick={() => setDeleteTargetId(null)}>
               Cancel

@@ -1,13 +1,13 @@
 'use client';
 import { NavLink } from '@mantine/core';
+import { validatePathActive } from '@vinaup/utils';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import { NavItemProps } from './_props';
 import { FaChevronUp } from 'react-icons/fa6';
-import Link from 'next/link';
 
+import { NavItemProps } from './_props';
 import classes from './dashboard-nav.module.scss';
-import { validatePathActive } from '@vinaup/utils';
 
 export function DashboardNav({ navItems }: Readonly<{ navItems: NavItemProps[] }>) {
   const pathName = usePathname();
@@ -55,9 +55,7 @@ export function DashboardNav({ navItems }: Readonly<{ navItems: NavItemProps[] }
 
     // Parent with children
     if (item.childrens) {
-      const isActive = item.childrens.some((child) =>
-        validatePathActive(pathName, child.path!)
-      );
+      const isActive = item.childrens.some((child) => validatePathActive(pathName, child.path!));
       const isOpened = openedItems[item.key];
 
       return (
@@ -88,9 +86,7 @@ export function DashboardNav({ navItems }: Readonly<{ navItems: NavItemProps[] }
     if (item.path) {
       const isActive = validatePathActive(pathName, item.path, item.isRoot);
       const icon =
-        isActive && item.rightSectionActive
-          ? item.rightSectionActive
-          : item.rightSection;
+        isActive && item.rightSectionActive ? item.rightSectionActive : item.rightSection;
 
       // Child item
       if (isChild) {
@@ -131,14 +127,8 @@ export function DashboardNav({ navItems }: Readonly<{ navItems: NavItemProps[] }
     }
 
     // Item without path (display only)
-    return (
-      <NavLink key={item.key} label={item.label} rightSection={item.rightSection} />
-    );
+    return <NavLink key={item.key} label={item.label} rightSection={item.rightSection} />;
   };
 
-  return (
-    <div className={classes.root}>
-      {navItems.map((item) => renderNavItem(item))}
-    </div>
-  );
+  return <div className={classes.root}>{navItems.map((item) => renderNavItem(item))}</div>;
 }

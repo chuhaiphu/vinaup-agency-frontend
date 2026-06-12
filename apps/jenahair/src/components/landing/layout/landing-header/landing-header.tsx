@@ -1,20 +1,24 @@
-import { getThemeConfigActionPublic } from '@/actions/theme-config-action';
-import { getAllMenusActionPublic } from '@/actions/menu-action';
-import { getAllBlogsActionPublic } from '@/actions/blog-action';
-import { getAllDiariesActionPublic } from '@/actions/diary-action';
-import { getAllPagesPublicActionPublic } from '@/actions/page-action';
-import type { IMenuResponse } from '@/interfaces/menu-interface';
-import { TreeManager } from '../../../../../../../packages/utils/src/classes/tree-manager';
-import { JenhairIcon, VinaupFacebookIcon, VinaupGoogleMapIcon, VinaupInstagramIcon, VinaupTiktokIcon } from '@vinaup/ui/cores';
-import { WhatsappIcon } from '@vinaup/ui/cores';
 import {
-  StickyHeader,
-  Sidebar,
-  type SidebarNavLink,
-} from '@vinaup/ui/landing';
+  JenhairIcon,
+  VinaupFacebookIcon,
+  VinaupGoogleMapIcon,
+  VinaupInstagramIcon,
+  VinaupTiktokIcon,
+} from '@vinaup/ui/cores';
+import { WhatsappIcon } from '@vinaup/ui/cores';
+import { StickyHeader, Sidebar, type SidebarNavLink } from '@vinaup/ui/landing';
+import { TreeManager } from '@vinaup/utils';
 import { validateExternalEndpoint, generateParsedEndpoint } from '@vinaup/utils';
-import { StickyHeaderContent } from './sticky-header-content';
+
+import { getAllBlogsActionPublic } from '@/actions/blog-actions';
+import { getAllDiariesActionPublic } from '@/actions/diary-actions';
+import { getAllMenusActionPublic } from '@/actions/menu-actions';
+import { getAllPagesPublicActionPublic } from '@/actions/page-actions';
+import { getThemeConfigActionPublic } from '@/actions/theme-config-actions';
+import type { MenuResponse } from '@/interfaces/menu-interfaces';
+
 import BlogsDiariesSpotlightSearchContent from './blogs-diaries-spotlight-search-content';
+import { StickyHeaderContent } from './sticky-header-content';
 
 const SOCIAL_ICON_MAP: Record<string, { icon: React.ReactNode; label: string }> = {
   googlemap: {
@@ -39,13 +43,13 @@ const SOCIAL_ICON_MAP: Record<string, { icon: React.ReactNode; label: string }> 
   },
 };
 
-function buildNavLinks(flatMenus: IMenuResponse[]): SidebarNavLink[] {
+function buildNavLinks(flatMenus: MenuResponse[]): SidebarNavLink[] {
   if (!flatMenus.length) return [];
 
   const root = new TreeManager(flatMenus).getRoot();
   if (!root?.children?.length) return [];
 
-  function toNavLink(menu: IMenuResponse): SidebarNavLink {
+  function toNavLink(menu: MenuResponse): SidebarNavLink {
     const href = generateParsedEndpoint(menu.customUrl);
     return {
       id: menu.id,
@@ -56,24 +60,19 @@ function buildNavLinks(flatMenus: IMenuResponse[]): SidebarNavLink[] {
     };
   }
 
-  return root.children.map(toNavLink)
+  return root.children.map(toNavLink);
 }
 
 export default async function LandingHeader() {
   'use cache';
-  const [
-    socialLinksResponse,
-    menusResponse,
-    blogsResponse,
-    diariesResponse,
-    pagesResponse,
-  ] = await Promise.all([
-    getThemeConfigActionPublic(),
-    getAllMenusActionPublic(),
-    getAllBlogsActionPublic(),
-    getAllDiariesActionPublic(),
-    getAllPagesPublicActionPublic(),
-  ]);
+  const [socialLinksResponse, menusResponse, blogsResponse, diariesResponse, pagesResponse] =
+    await Promise.all([
+      getThemeConfigActionPublic(),
+      getAllMenusActionPublic(),
+      getAllBlogsActionPublic(),
+      getAllDiariesActionPublic(),
+      getAllPagesPublicActionPublic(),
+    ]);
 
   const socialLinksData = socialLinksResponse.data?.value ?? [];
 

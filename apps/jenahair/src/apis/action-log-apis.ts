@@ -1,5 +1,8 @@
-import { IActionLog } from "@/interfaces/action-log-interface";
-import { apiPrivate } from "./_base";
+import { generateFilterQueryString } from '@vinaup/utils';
+
+import { ActionLog } from '@/interfaces/action-log-interfaces';
+
+import { apiPrivate } from './_base';
 
 export interface ActionLogFilterParams {
   entityType?: string;
@@ -7,17 +10,17 @@ export interface ActionLogFilterParams {
 }
 
 export async function getAllActionLogsApiPrivate(filter?: ActionLogFilterParams) {
-  const params = new URLSearchParams();
-  if (filter?.entityType) params.append('entityType', filter.entityType);
-  if (filter?.userId) params.append('userId', filter.userId);
-  const queryString = params.toString() ? `?${params.toString()}` : '';
-  return apiPrivate<IActionLog[]>(`/action-logs/admin${queryString}`, {
+  const queryString = generateFilterQueryString({
+    entityType: filter?.entityType,
+    userId: filter?.userId,
+  });
+  return apiPrivate<ActionLog[]>(`/action-logs/admin${queryString}`, {
     method: 'GET',
   });
 }
 
 export async function getActionLogsByEntityApiPrivate(entityType: string, entityId: string) {
-  return apiPrivate<IActionLog[]>(`/action-logs/admin/${entityType}/${entityId}`, {
+  return apiPrivate<ActionLog[]>(`/action-logs/admin/${entityType}/${entityId}`, {
     method: 'GET',
   });
 }

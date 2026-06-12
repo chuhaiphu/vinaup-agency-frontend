@@ -1,5 +1,3 @@
 export default function AdminDiaryCategoryPage() {
-  return (
-    <div></div>
-  );
+  return <div></div>;
 }

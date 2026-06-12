@@ -1,27 +1,21 @@
 'use client';
-
-import { use } from 'react';
-import { IAppConfigResponse } from '@/interfaces/app-config-interface';
-import {
-  Button,
-  Group,
-  Paper,
-  Stack,
-  Text,
-  Textarea,
-  TextInput,
-} from '@mantine/core';
+import { Button, Group, Paper, Stack, Text, Textarea, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import classes from './admin-setting-seo-page-content.module.scss';
-import { useState } from 'react';
-import { updateAppConfigActionPrivate } from '@/actions/app-config-action';
-import Link from 'next/link';
-import { HiOutlineEye } from 'react-icons/hi';
+import { generateErrorMessage } from '@vinaup/utils';
 import { Route } from 'next';
-import { ActionResponse } from '@/interfaces/_base-interface';
+import Link from 'next/link';
+import { use } from 'react';
+import { useState } from 'react';
+import { HiOutlineEye } from 'react-icons/hi';
+
+import { updateAppConfigActionPrivate } from '@/actions/app-config-actions';
+import { ActionResponse } from '@/interfaces/_base-interfaces';
+import { AppConfigResponse } from '@/interfaces/app-config-interfaces';
+
+import classes from './admin-setting-seo-page-content.module.scss';
 
 interface AdminSettingSeoPageContentProps {
-  appConfigPromise: Promise<ActionResponse<IAppConfigResponse>>;
+  appConfigPromise: Promise<ActionResponse<AppConfigResponse>>;
 }
 
 export default function AdminSettingSeoPageContent({
@@ -31,9 +25,7 @@ export default function AdminSettingSeoPageContent({
   const appConfig = appConfigResponse.data;
 
   const [title, setTitle] = useState(appConfig?.websiteTitle || '');
-  const [description, setDescription] = useState(
-    appConfig?.websiteDescription || ''
-  );
+  const [description, setDescription] = useState(appConfig?.websiteDescription || '');
   const [isSavingAll, setIsSavingAll] = useState(false);
 
   const handleSaveAll = async () => {
@@ -52,7 +44,7 @@ export default function AdminSettingSeoPageContent({
     } catch (error) {
       notifications.show({
         title: 'Error',
-        message: error instanceof Error ? error.message : 'Unknown error',
+        message: generateErrorMessage(error, 'Unknown error'),
         color: 'red',
         position: 'top-right',
         autoClose: 1500,

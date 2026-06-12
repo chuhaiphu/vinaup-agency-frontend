@@ -1,18 +1,16 @@
-import LandingBlogDetailPageContent from '@/components/landing/blogs/landing-blog-detail-page-content/landing-blog-detail-page-content';
-import LandingBlogDetailSkeleton from '@/components/landing/blogs/landing-blog-detail-page-content/landing-blog-detail-skeleton';
-import LandingBlogCategoryPageContent from '@/components/landing/blogs/landing-blog-category-page/landing-blog-category-page-content';
-import LandingBlogCategoryPageContentSkeleton from '@/components/landing/blogs/landing-blog-category-page/landing-blog-category-page-content-skeleton';
-import {
-  getAllBlogsActionPublic,
-  getBlogByEndpointActionPublic,
-} from '@/actions/blog-action';
-import {
-  getAllBlogCategoriesActionPublic,
-  getBlogCategoryByEndpointActionPublic,
-} from '@/actions/blog-category-action';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
+
+import { getAllBlogsActionPublic, getBlogByEndpointActionPublic } from '@/actions/blog-actions';
+import {
+  getAllBlogCategoriesActionPublic,
+  getBlogCategoryByEndpointActionPublic,
+} from '@/actions/blog-category-actions';
+import LandingBlogCategoryPageContent from '@/components/landing/blogs/landing-blog-category-page/landing-blog-category-page-content';
+import LandingBlogCategoryPageContentSkeleton from '@/components/landing/blogs/landing-blog-category-page/landing-blog-category-page-content-skeleton';
+import LandingBlogDetailPageContent from '@/components/landing/blogs/landing-blog-detail-page-content/landing-blog-detail-page-content';
+import LandingBlogDetailSkeleton from '@/components/landing/blogs/landing-blog-detail-page-content/landing-blog-detail-skeleton';
 
 const BLOG_ENDPOINT_PLACEHOLDER = '__placeholder__';
 
@@ -100,10 +98,7 @@ type BlogEndpointPageProps = {
   searchParams: Promise<{ q?: string; destinations?: string }>;
 };
 
-export default async function BlogEndpointPage({
-  params,
-  searchParams,
-}: BlogEndpointPageProps) {
+export default async function BlogEndpointPage({ params, searchParams }: BlogEndpointPageProps) {
   const { endpoint } = await params;
 
   if (endpoint === BLOG_ENDPOINT_PLACEHOLDER) {

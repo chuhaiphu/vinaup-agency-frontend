@@ -1,31 +1,30 @@
 'use client';
-
-import React, { use, useEffect, useState } from 'react';
-import dayjs from 'dayjs';
 import { ActionIcon, Button, Group, Modal, Pagination, Popover, Stack } from '@mantine/core';
-import { TbEdit } from 'react-icons/tb';
-import { SlOptionsVertical } from 'react-icons/sl';
-import { MdOutlineCalendarMonth } from 'react-icons/md';
-import { GrTrash } from 'react-icons/gr';
-import classes from './diaries-table.module.scss';
-import { IDiaryResponse } from '@/interfaces/diary-interface';
-import { EntitiesTable, EntitiesTableColumnProps } from '@vinaup/ui/admin';
 import { DatePicker } from '@mantine/dates';
-
-import { StatusDisplayMap } from '@/constants';
-import { useRouter } from 'next/navigation';
-import { deleteDiaryActionPrivate } from '@/actions/diary-action';
 import { notifications } from '@mantine/notifications';
+import { EntitiesTable, EntitiesTableColumnProps } from '@vinaup/ui/admin';
+import { generateErrorMessage } from '@vinaup/utils';
+import dayjs from 'dayjs';
+import { useRouter } from 'next/navigation';
+import React, { use, useEffect, useState } from 'react';
+import { GrTrash } from 'react-icons/gr';
+import { MdOutlineCalendarMonth } from 'react-icons/md';
+import { SlOptionsVertical } from 'react-icons/sl';
+import { TbEdit } from 'react-icons/tb';
+
+import { deleteDiaryActionPrivate } from '@/actions/diary-actions';
+import { StatusDisplayMap } from '@/constants';
+import { DiaryResponse } from '@/interfaces/diary-interfaces';
+
+import classes from './diaries-table.module.scss';
 
 interface DiariesTableProps {
-  diariesDataPromise: Promise<IDiaryResponse[]>;
+  diariesDataPromise: Promise<DiaryResponse[]>;
 }
 
 const ITEMS_PER_PAGE = 20;
 
-export default function DiariesTable({
-  diariesDataPromise,
-}: DiariesTableProps) {
+export default function DiariesTable({ diariesDataPromise }: DiariesTableProps) {
   const router = useRouter();
   const [page, setPage] = useState(1);
   const [datePickerOpened, setDatePickerOpened] = useState(false);
@@ -63,7 +62,7 @@ export default function DiariesTable({
     } catch (error) {
       notifications.show({
         title: 'Delete failed',
-        message: error instanceof Error ? error.message : 'Failed to delete diary',
+        message: generateErrorMessage(error, 'Failed to delete diary'),
         color: 'red',
       });
     } finally {
@@ -73,26 +72,20 @@ export default function DiariesTable({
     }
   };
 
-  const columns: EntitiesTableColumnProps<IDiaryResponse>[] = [
+  const columns: EntitiesTableColumnProps<DiaryResponse>[] = [
     {
       key: 'date',
       width: '5%',
       headerAlign: 'left',
       header: (
-        <Popover opened={datePickerOpened} onChange={setDatePickerOpened} position='bottom-start'>
+        <Popover opened={datePickerOpened} onChange={setDatePickerOpened} position="bottom-start">
           <Popover.Target>
-            <ActionIcon
-              variant="transparent"
-              onClick={() => setDatePickerOpened((o) => !o)}
-            >
+            <ActionIcon variant="transparent" onClick={() => setDatePickerOpened((o) => !o)}>
               <MdOutlineCalendarMonth size={24} color="#01426e" />
             </ActionIcon>
           </Popover.Target>
           <Popover.Dropdown>
-            <DatePicker
-              value={selectedDate}
-              onChange={(value) => setSelectedDate(value)}
-            />
+            <DatePicker value={selectedDate} onChange={(value) => setSelectedDate(value)} />
           </Popover.Dropdown>
         </Popover>
       ),
@@ -102,11 +95,7 @@ export default function DiariesTable({
       key: 'title',
       width: '35%',
       header: 'Title',
-      render: ({ entity }) => (
-        <>
-          {entity.title}
-        </>
-      ),
+      render: ({ entity }) => <>{entity.title}</>,
     },
     {
       key: 'category',
@@ -118,7 +107,13 @@ export default function DiariesTable({
         if (entity.diaryCategoryDiaries.length === 0) {
           return <>(No category selected)</>;
         }
-        return <>{entity.diaryCategoryDiaries.map((diaryCategoryDiary) => diaryCategoryDiary.diaryCategory?.title).join(', ')}</>;
+        return (
+          <>
+            {entity.diaryCategoryDiaries
+              .map((diaryCategoryDiary) => diaryCategoryDiary.diaryCategory?.title)
+              .join(', ')}
+          </>
+        );
       },
     },
     {
@@ -128,7 +123,6 @@ export default function DiariesTable({
       cellAlign: 'left',
       header: 'Author',
       render: ({ entity }) => {
-
         return <>{entity?.createdBy?.name}</>;
       },
     },
@@ -136,7 +130,7 @@ export default function DiariesTable({
       key: 'status',
       width: '10%',
       header: 'Status',
-      render: ({ entity }) => (StatusDisplayMap[entity.visibility]),
+      render: ({ entity }) => StatusDisplayMap[entity.visibility],
     },
     {
       key: 'actions',
@@ -172,13 +166,12 @@ export default function DiariesTable({
     },
   ];
 
-
   const paginatedData = diariesData.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
 
   return (
     <>
       <Stack gap="md">
-        <EntitiesTable<IDiaryResponse>
+        <EntitiesTable<DiaryResponse>
           data={paginatedData}
           loading={false}
           columns={columns}
@@ -195,12 +188,7 @@ export default function DiariesTable({
           }}
         />
         <Group justify="center">
-          <Pagination
-            value={page}
-            onChange={setPage}
-            total={totalPages}
-            size="sm"
-          />
+          <Pagination value={page} onChange={setPage} total={totalPages} size="sm" />
         </Group>
       </Stack>
       <Modal
@@ -218,11 +206,7 @@ export default function DiariesTable({
             >
               Cancel
             </Button>
-            <Button
-              color="red"
-              onClick={handleDeleteDiary}
-              loading={isDeleting}
-            >
+            <Button color="red" onClick={handleDeleteDiary} loading={isDeleting}>
               Delete
             </Button>
           </Group>

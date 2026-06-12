@@ -1,12 +1,9 @@
 import { Group, Text } from '@mantine/core';
-import MediaTabs from './media-tabs';
-import classes from './layout.module.scss';
 
-export default function AdminMediaLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+import classes from './layout.module.scss';
+import MediaTabs from './media-tabs';
+
+export default function AdminMediaLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className={classes.adminMediaPageRoot}>
       <Group className={classes.pageHeader} justify="space-between">

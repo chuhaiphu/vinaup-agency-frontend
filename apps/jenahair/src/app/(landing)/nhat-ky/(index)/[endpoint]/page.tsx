@@ -1,18 +1,16 @@
-import LandingDiaryDetailPageContent from '@/components/landing/diary/landing-diary-detail-page-content/landing-diary-detail-page-content';
-import LandingDiaryDetailPageContentSkeleton from '@/components/landing/diary/landing-diary-detail-page-content/landing-diary-detail-page-content-skeleton';
-import LandingDiaryCategoryPageContent from '@/components/landing/diary/landing-diary-category-page/landing-diary-category-page-content';
-import LandingDiaryCategoryPageContentSkeleton from '@/components/landing/diary/landing-diary-category-page/landing-diary-category-page-content-skeleton';
-import {
-  getAllDiariesActionPublic,
-  getDiaryByEndpointActionPublic,
-} from '@/actions/diary-action';
-import {
-  getAllDiaryCategoriesActionPublic,
-  getDiaryCategoryByEndpointActionPublic,
-} from '@/actions/diary-category-action';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
+
+import { getAllDiariesActionPublic, getDiaryByEndpointActionPublic } from '@/actions/diary-actions';
+import {
+  getAllDiaryCategoriesActionPublic,
+  getDiaryCategoryByEndpointActionPublic,
+} from '@/actions/diary-category-actions';
+import LandingDiaryCategoryPageContent from '@/components/landing/diary/landing-diary-category-page/landing-diary-category-page-content';
+import LandingDiaryCategoryPageContentSkeleton from '@/components/landing/diary/landing-diary-category-page/landing-diary-category-page-content-skeleton';
+import LandingDiaryDetailPageContent from '@/components/landing/diary/landing-diary-detail-page-content/landing-diary-detail-page-content';
+import LandingDiaryDetailPageContentSkeleton from '@/components/landing/diary/landing-diary-detail-page-content/landing-diary-detail-page-content-skeleton';
 
 const DIARY_ENDPOINT_PLACEHOLDER = '__placeholder__';
 
@@ -100,11 +98,7 @@ type DiaryEndpointPageProps = {
   searchParams: Promise<{ q?: string; destinations?: string }>;
 };
 
-export default async function DiaryEndpointPage({
-  params,
-  searchParams,
-}: DiaryEndpointPageProps) {
-
+export default async function DiaryEndpointPage({ params, searchParams }: DiaryEndpointPageProps) {
   const { endpoint } = await params;
 
   if (endpoint === DIARY_ENDPOINT_PLACEHOLDER) {

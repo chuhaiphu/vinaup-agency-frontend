@@ -1,9 +1,10 @@
 import { MetadataRoute } from 'next';
-import { getAllBlogsActionPublic } from '@/actions/blog-action';
-import { getAllPagesVisibleActionPrivate } from '@/actions/page-action';
-import { getAllBlogCategoriesActionPrivate } from '@/actions/blog-category-action';
-import { getAllDiariesActionPublic } from '@/actions/diary-action';
-import { getAllDiaryCategoriesActionPublic } from '@/actions/diary-category-action';
+
+import { getAllBlogsActionPublic } from '@/actions/blog-actions';
+import { getAllBlogCategoriesActionPrivate } from '@/actions/blog-category-actions';
+import { getAllDiariesActionPublic } from '@/actions/diary-actions';
+import { getAllDiaryCategoriesActionPublic } from '@/actions/diary-category-actions';
+import { getAllPagesVisibleActionPrivate } from '@/actions/page-actions';
 
 const BASE_URL = 'https://jenahair.com';
 

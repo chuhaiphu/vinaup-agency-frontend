@@ -1,0 +1,58 @@
+'use server';
+
+import { revalidatePath } from 'next/cache';
+
+import { executeApi } from '@/actions/_base';
+import {
+  getSmtpConfigApiPrivate,
+  updateSmtpConfigApiPrivate,
+  testSmtpEmailApiPrivate,
+} from '@/apis/smtp-config-apis';
+import { ActionResponse } from '@/interfaces/_base-interfaces';
+import {
+  SmtpConfigResponse,
+  CreateSmtpConfigRequest,
+  UpdateSmtpConfigRequest,
+} from '@/interfaces/smtp-config-interfaces';
+
+export async function getSmtpConfigActionPrivate(): Promise<
+  ActionResponse<SmtpConfigResponse | null>
+> {
+  const result = await executeApi(async () => getSmtpConfigApiPrivate());
+  return result as ActionResponse<SmtpConfigResponse | null>;
+}
+
+export async function saveSmtpConfigActionPrivate(
+  input: CreateSmtpConfigRequest,
+): Promise<ActionResponse<SmtpConfigResponse>> {
+  const result = await executeApi(async () => updateSmtpConfigApiPrivate(input));
+  revalidatePath('/adminup/settings', 'page');
+  return result;
+}
+
+export async function updateSmtpConfigActionPrivate(
+  id: string,
+  input: UpdateSmtpConfigRequest,
+): Promise<ActionResponse<SmtpConfigResponse>> {
+  const result = await executeApi(async () => updateSmtpConfigApiPrivate(input));
+  revalidatePath('/adminup/settings', 'page');
+  return result;
+}
+
+export async function hasSmtpConfigActionPrivate(): Promise<ActionResponse<boolean>> {
+  const result = await executeApi(async () => getSmtpConfigApiPrivate());
+  return {
+    success: result.success,
+    data: result.success && result.data !== null,
+    error: result.error,
+  };
+}
+
+export async function sendTestEmailActionPrivate(email: string): Promise<ActionResponse<void>> {
+  const result = await executeApi(async () => testSmtpEmailApiPrivate(email));
+  return {
+    success: result.success && result.data?.success === true,
+    error:
+      result.error || (result.data?.success === false ? 'Failed to send test email' : undefined),
+  };
+}

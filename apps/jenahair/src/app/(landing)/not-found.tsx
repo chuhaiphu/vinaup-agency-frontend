@@ -1,5 +1,6 @@
 import { Container, Title, Text, Stack, Center } from '@mantine/core';
 import Link from 'next/link';
+
 import classes from './not-found.module.scss';
 
 export default async function NotFound() {
@@ -16,14 +17,9 @@ export default async function NotFound() {
           <Text size="lg" c="dimmed" ta="center" maw={500}>
             The page you are looking for does not exist or has been moved.
           </Text>
-          <Link
-            href="/"
-          >
-            Go Back Home
-          </Link>
+          <Link href="/">Go Back Home</Link>
         </Stack>
       </Center>
     </Container>
   );
 }
-

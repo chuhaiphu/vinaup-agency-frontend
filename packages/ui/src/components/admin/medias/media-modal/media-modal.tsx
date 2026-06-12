@@ -6,7 +6,7 @@ import { generateClassName } from '@vinaup/utils';
 import { MediaGrid } from '../media-grid/media-grid';
 import { MediaUpload } from '../media-upload/media-upload';
 import defaultClasses from './media-modal.module.scss';
-import type { IMedia, MediaUploadHandlers } from '../_types';
+import type { Media, MediaUploadHandlers } from '../_types';
 
 interface MediaModalClassNames {
   tabs?: { root?: string; list?: string; panel?: string; tab?: string };
@@ -16,8 +16,8 @@ interface MediaModalClassNames {
 export interface MediaModalProps extends MediaUploadHandlers {
   opened: boolean;
   onClose: () => void;
-  images: IMedia[];
-  onSelect: (image: IMedia) => void;
+  images: Media[];
+  onSelect: (image: Media) => void;
   title?: string;
   submitLabel?: string;
   cancelLabel?: string;
@@ -29,9 +29,9 @@ export function MediaModal({
   onClose,
   images,
   onSelect,
-  title = "Media Library",
-  submitLabel = "Select",
-  cancelLabel = "Cancel",
+  title = 'Media Library',
+  submitLabel = 'Select',
+  cancelLabel = 'Cancel',
   onUpload,
   onSave,
   onUploadSuccess,
@@ -39,7 +39,7 @@ export function MediaModal({
   classNames,
 }: MediaModalProps) {
   const [activeTab, setActiveTab] = useState<string | null>('library');
-  const [selectedImage, setSelectedImage] = useState<IMedia | null>(null);
+  const [selectedImage, setSelectedImage] = useState<Media | null>(null);
 
   useEffect(() => {
     if (opened) {
@@ -62,7 +62,7 @@ export function MediaModal({
     }
   };
 
-  const handleInternalUploadSuccess = (media: IMedia[]) => {
+  const handleInternalUploadSuccess = (media: Media[]) => {
     if (onUploadSuccess) {
       onUploadSuccess(media);
     }
@@ -80,21 +80,20 @@ export function MediaModal({
       size={'60vw'}
       styles={{
         body: {
-          paddingBottom: 0
-        }
+          paddingBottom: 0,
+        },
       }}
     >
-      <Tabs
-        value={activeTab}
-        onChange={setActiveTab}
-        classNames={classNames?.tabs}
-      >
+      <Tabs value={activeTab} onChange={setActiveTab} classNames={classNames?.tabs}>
         <Tabs.List>
           <Tabs.Tab value="library">Library</Tabs.Tab>
           <Tabs.Tab value="upload">Upload</Tabs.Tab>
         </Tabs.List>
 
-        <Tabs.Panel value="library" className={generateClassName(defaultClasses.tabPanel, classNames?.tabs?.panel)}>
+        <Tabs.Panel
+          value="library"
+          className={generateClassName(defaultClasses.tabPanel, classNames?.tabs?.panel)}
+        >
           {images.length === 0 ? (
             <Stack align="center" justify="center" h={300}>
               <Text c="dimmed">No images found</Text>
@@ -111,7 +110,10 @@ export function MediaModal({
           )}
         </Tabs.Panel>
 
-        <Tabs.Panel value="upload" className={generateClassName(defaultClasses.tabPanel, classNames?.tabs?.panel)}>
+        <Tabs.Panel
+          value="upload"
+          className={generateClassName(defaultClasses.tabPanel, classNames?.tabs?.panel)}
+        >
           <MediaUpload
             onUpload={onUpload}
             onSave={onSave}
@@ -123,14 +125,15 @@ export function MediaModal({
         </Tabs.Panel>
       </Tabs>
 
-      <Flex className={generateClassName(defaultClasses.footer, classNames?.footer?.root)} justify="flex-end" gap="sm">
+      <Flex
+        className={generateClassName(defaultClasses.footer, classNames?.footer?.root)}
+        justify="flex-end"
+        gap="sm"
+      >
         <Button variant="default" onClick={onClose}>
           {cancelLabel}
         </Button>
-        <Button
-          onClick={handleSubmit}
-          disabled={!selectedImage}
-        >
+        <Button onClick={handleSubmit} disabled={!selectedImage}>
           {submitLabel}
         </Button>
       </Flex>

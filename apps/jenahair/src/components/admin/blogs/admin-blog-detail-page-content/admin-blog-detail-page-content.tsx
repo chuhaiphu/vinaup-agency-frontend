@@ -17,39 +17,45 @@ import {
   UnstyledButton,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import classes from './admin-blog-detail-page-content.module.scss';
 import { TextEditor } from '@vinaup/ui/admin';
-import UploadImageSection from '@/components/admin/media/upload-image-section/upload-image-section';
+import {
+  VinaupUploadIconV2 as UploadIconV2,
+  VinaupUploadIconV3 as UploadIconV3,
+  VinaupPenIcon as PenIcon,
+  VinaupAddNewIcon as AddNewIcon,
+} from '@vinaup/ui/cores';
+import { generateStrippedHtml, generateErrorMessage } from '@vinaup/utils';
+import { useRouter } from 'next/navigation';
+
+import {
+  createBlogCategoryBlogActionPrivate,
+  deleteBlogCategoryBlogActionPrivate,
+} from '@/actions/blog-category-blog-actions';
+import { TreeManager } from '@vinaup/utils';
+import { Route } from 'next';
+import dayjs from 'dayjs';
 import { use, useEffect, useMemo, useRef, useState } from 'react';
+import { FaCaretDown, FaCheck } from 'react-icons/fa6';
+import { GrTrash } from 'react-icons/gr';
+
 import {
   createBlogActionPrivate,
   deleteBlogActionPrivate,
   updateBlogActionPrivate,
-} from '@/actions/blog-action';
-import { IBlogResponse } from '@/interfaces/blog-interface';
-import {
-  generateUniqueEndpoint,
-} from '@/utils/generate-unique-endpoint';
-import { generateStrippedHtml } from '@vinaup/utils';
+} from '@/actions/blog-actions';
+import UploadImageSection from '@/components/admin/media/upload-image-section/upload-image-section';
 import { MAX_IMAGE_COUNT_ALLOWED, VN_PROVINCES } from '@/constants';
-import { FaCaretDown, FaCheck } from 'react-icons/fa6';
-import { GrTrash } from 'react-icons/gr';
-import { VinaupUploadIconV2 as UploadIconV2, VinaupUploadIconV3 as UploadIconV3, VinaupPenIcon as PenIcon, VinaupAddNewIcon as AddNewIcon } from '@vinaup/ui/cores';
-import { useRouter } from 'next/navigation';
-import { IBlogCategoryResponse } from '@/interfaces/blog-category-interface';
-import {
-  createBlogCategoryBlogActionPrivate,
-  deleteBlogCategoryBlogActionPrivate,
-} from '@/actions/blog-category-blog-action';
-import { TreeManager } from '../../../../../../../packages/utils/src/classes/tree-manager';
-import { Route } from 'next';
-import dayjs from 'dayjs';
-import { ActionResponse } from '@/interfaces/_base-interface';
+import { ActionResponse } from '@/interfaces/_base-interfaces';
+import { BlogCategoryResponse } from '@/interfaces/blog-category-interfaces';
+import { BlogResponse } from '@/interfaces/blog-interfaces';
 import { useAuth } from '@/providers/auth-provider';
+import { generateUniqueEndpoint } from '@/utils/generate-unique-endpoint';
+
+import classes from './admin-blog-detail-page-content.module.scss';
 
 interface AdminBlogDetailPageContentProps {
-  currentBlogPromise: Promise<ActionResponse<IBlogResponse>>;
-  blogCategoriesPromise: Promise<ActionResponse<IBlogCategoryResponse[]>>;
+  currentBlogPromise: Promise<ActionResponse<BlogResponse>>;
+  blogCategoriesPromise: Promise<ActionResponse<BlogCategoryResponse[]>>;
 }
 
 export default function AdminBlogDetailPageContent({
@@ -77,8 +83,8 @@ export default function AdminBlogDetailPageContent({
 }
 
 interface AdminBlogDetailPageContentInnerProps {
-  currentBlogData: IBlogResponse;
-  blogCategoriesData: IBlogCategoryResponse[];
+  currentBlogData: BlogResponse;
+  blogCategoriesData: BlogCategoryResponse[];
   userId: string;
 }
 
@@ -88,35 +94,30 @@ function AdminBlogDetailPageContentInner({
   userId,
 }: AdminBlogDetailPageContentInnerProps) {
   const [additionalImageUrls, setAdditionalImageUrls] = useState<string[]>(
-    currentBlogData.additionalImageUrls
+    currentBlogData.additionalImageUrls,
   );
   const [additionalImagesPosition, setAdditionalImagesPosition] = useState<string>(
-    currentBlogData.additionalImagesPosition || 'top'
+    currentBlogData.additionalImagesPosition || 'top',
   );
   const [videoUrl, setVideoUrl] = useState<string>(currentBlogData.videoUrl || '');
   const [videoThumbnailUrl, setVideoThumbnailUrl] = useState<string>(
-    currentBlogData.videoThumbnailUrl || ''
+    currentBlogData.videoThumbnailUrl || '',
   );
-  const [mainImageUrl, setMainImageUrl] = useState<string>(
-    currentBlogData.mainImageUrl || ''
-  );
+  const [mainImageUrl, setMainImageUrl] = useState<string>(currentBlogData.mainImageUrl || '');
   const [videoPosition, setVideoPosition] = useState<string>(
-    currentBlogData.videoPosition || 'bottom'
+    currentBlogData.videoPosition || 'bottom',
   );
   const [loadingImageIndex, setLoadingImageIndex] = useState<number | null>(null);
-  const [videoThumbnailLoading, setVideoThumbnailLoading] =
-    useState<boolean>(false);
+  const [videoThumbnailLoading, setVideoThumbnailLoading] = useState<boolean>(false);
   const [mainImageLoading, setMainImageLoading] = useState<boolean>(false);
   const [title, setTitle] = useState<string>(currentBlogData.title);
   // const [description, setDescription] = useState<string>(currentBlogData.description || '');
   const [content, setContent] = useState<string>(currentBlogData.content || '');
-  const [destinations, setDestinations] = useState<string[]>(
-    currentBlogData.destinations
-  );
+  const [destinations, setDestinations] = useState<string[]>(currentBlogData.destinations);
   const [status, setStatus] = useState<string>(currentBlogData.visibility);
   const [sortOrder, setSortOrder] = useState<number>(currentBlogData.sortOrder);
   const [selectedCategoryIds, setSelectedCategoryIds] = useState<string[]>(
-    currentBlogData.blogCategoryBlogs.map((bcb) => bcb.blogCategoryId)
+    currentBlogData.blogCategoryBlogs.map((bcb) => bcb.blogCategoryId),
   );
 
   const [deleteModalOpened, setDeleteModalOpened] = useState<boolean>(false);
@@ -126,9 +127,7 @@ function AdminBlogDetailPageContentInner({
 
   const router = useRouter();
   useEffect(() => {
-    setSelectedCategoryIds(
-      currentBlogData.blogCategoryBlogs.map((bcb) => bcb.blogCategoryId)
-    );
+    setSelectedCategoryIds(currentBlogData.blogCategoryBlogs.map((bcb) => bcb.blogCategoryId));
   }, [currentBlogData.blogCategoryBlogs]);
 
   const treeManager = useMemo(() => {
@@ -139,9 +138,7 @@ function AdminBlogDetailPageContentInner({
   }, [blogCategoriesData]);
 
   const videoUrlInputRef = useRef<HTMLInputElement>(null);
-  const handleFocusAndSelectInput = (
-    ref: React.RefObject<HTMLInputElement | null>
-  ) => {
+  const handleFocusAndSelectInput = (ref: React.RefObject<HTMLInputElement | null>) => {
     if (ref.current) {
       ref.current.focus();
       ref.current.select();
@@ -179,10 +176,7 @@ function AdminBlogDetailPageContentInner({
     });
   };
 
-  const handleSelectAdditionalImage = async (
-    imageUrl: string,
-    imageIndex: number
-  ) => {
+  const handleSelectAdditionalImage = async (imageUrl: string, imageIndex: number) => {
     setLoadingImageIndex(imageIndex);
     try {
       await updateBlogActionPrivate(currentBlogData.id, {
@@ -192,7 +186,7 @@ function AdminBlogDetailPageContentInner({
     } catch (error) {
       notifications.show({
         title: 'Failed to set image',
-        message: error instanceof Error ? error.message : '',
+        message: generateErrorMessage(error, ''),
         color: 'red',
       });
     } finally {
@@ -223,7 +217,7 @@ function AdminBlogDetailPageContentInner({
     } catch (error) {
       notifications.show({
         title: 'Failed to set image',
-        message: error instanceof Error ? error.message : '',
+        message: generateErrorMessage(error, ''),
         color: 'red',
       });
     } finally {
@@ -250,7 +244,7 @@ function AdminBlogDetailPageContentInner({
     } catch (error) {
       notifications.show({
         title: 'Failed to set image',
-        message: error instanceof Error ? error.message : '',
+        message: generateErrorMessage(error, ''),
         color: 'red',
       });
     } finally {
@@ -344,7 +338,7 @@ function AdminBlogDetailPageContentInner({
     } catch (error) {
       notifications.show({
         title: 'Delete failed',
-        message: error instanceof Error ? error.message : 'Failed to delete blog',
+        message: generateErrorMessage(error, 'Failed to delete blog'),
         color: 'red',
       });
     } finally {
@@ -358,11 +352,7 @@ function AdminBlogDetailPageContentInner({
     try {
       let newEndpoint = currentBlogData.endpoint;
       if (title !== currentBlogData.title) {
-        newEndpoint = await generateUniqueEndpoint(
-          title,
-          'blog',
-          currentBlogData.id
-        );
+        newEndpoint = await generateUniqueEndpoint(title, 'blog', currentBlogData.id);
       }
 
       const updatePayload = {
@@ -383,15 +373,11 @@ function AdminBlogDetailPageContentInner({
       await updateBlogActionPrivate(currentBlogData.id, updatePayload);
 
       const currentBlogCategoryIds = currentBlogData.blogCategoryBlogs.map(
-        (bcb) => bcb.blogCategoryId
+        (bcb) => bcb.blogCategoryId,
       );
 
-      const toAdd = selectedCategoryIds.filter(
-        (id) => !currentBlogCategoryIds.includes(id)
-      );
-      const toRemove = currentBlogCategoryIds.filter(
-        (id) => !selectedCategoryIds.includes(id)
-      );
+      const toAdd = selectedCategoryIds.filter((id) => !currentBlogCategoryIds.includes(id));
+      const toRemove = currentBlogCategoryIds.filter((id) => !selectedCategoryIds.includes(id));
 
       for (const blogCategoryId of toAdd) {
         await createBlogCategoryBlogActionPrivate({
@@ -403,7 +389,7 @@ function AdminBlogDetailPageContentInner({
 
       for (const blogCategoryId of toRemove) {
         const blogCategoryBlog = currentBlogData.blogCategoryBlogs.find(
-          (bcb) => bcb.blogCategoryId === blogCategoryId
+          (bcb) => bcb.blogCategoryId === blogCategoryId,
         );
         if (blogCategoryBlog) {
           await deleteBlogCategoryBlogActionPrivate(blogCategoryBlog.id);
@@ -419,7 +405,7 @@ function AdminBlogDetailPageContentInner({
     } catch (error) {
       notifications.show({
         title: 'Save failed',
-        message: error instanceof Error ? error.message : 'Unknown error',
+        message: generateErrorMessage(error, 'Unknown error'),
         color: 'red',
       });
     } finally {
@@ -427,17 +413,16 @@ function AdminBlogDetailPageContentInner({
     }
   };
   // blog category options record for renderBlogCategoryOption to reference the id from option value
-  const blogCategoryOptionsData: Record<string, IBlogCategoryResponse> =
-    blogCategoriesData.reduce(
-      (acc, blogCategory) => {
-        acc[blogCategory.id] = blogCategory;
-        return acc;
-      },
-      {} as Record<string, IBlogCategoryResponse>
-    );
+  const blogCategoryOptionsData: Record<string, BlogCategoryResponse> = blogCategoriesData.reduce(
+    (acc, blogCategory) => {
+      acc[blogCategory.id] = blogCategory;
+      return acc;
+    },
+    {} as Record<string, BlogCategoryResponse>,
+  );
 
   // Helper function to get parent chain recursively
-  const getOptionChain = (blogCategoryId: string): IBlogCategoryResponse[] => {
+  const getOptionChain = (blogCategoryId: string): BlogCategoryResponse[] => {
     const blogCategoryChain = blogCategoryOptionsData[blogCategoryId];
     if (!blogCategoryChain) return [];
     if (blogCategoryChain.parent) {
@@ -446,17 +431,12 @@ function AdminBlogDetailPageContentInner({
     return [blogCategoryChain];
   };
 
-  const getOptionChainWithoutRoot = (
-    blogCategoryId: string
-  ): IBlogCategoryResponse[] => {
+  const getOptionChainWithoutRoot = (blogCategoryId: string): BlogCategoryResponse[] => {
     const parentChain = getOptionChain(blogCategoryId);
     return parentChain.slice(1);
   };
 
-  const renderBlogCategoryOption: MultiSelectProps['renderOption'] = ({
-    option,
-    checked,
-  }) => {
+  const renderBlogCategoryOption: MultiSelectProps['renderOption'] = ({ option, checked }) => {
     const parentChain = getOptionChainWithoutRoot(option.value);
 
     // If has parent(s), show the full chain
@@ -509,11 +489,7 @@ function AdminBlogDetailPageContentInner({
           <UnstyledButton onClick={handleAddNewBlog} fz={'lg'}>
             Add new
           </UnstyledButton>
-          <ActionIcon
-            variant="transparent"
-            onClick={handleAddNewBlog}
-            loading={isCreating}
-          >
+          <ActionIcon variant="transparent" onClick={handleAddNewBlog} loading={isCreating}>
             <AddNewIcon width={32} height={32} />
           </ActionIcon>
         </Group>
@@ -534,22 +510,12 @@ function AdminBlogDetailPageContentInner({
                   }}
                 />
                 <Group gap={'xs'} justify="space-between">
-                  <Text size="md">
-                    URL: jenahair.com/blogs/{currentBlogData.endpoint}
-                  </Text>
+                  <Text size="md">URL: jenahair.com/blogs/{currentBlogData.endpoint}</Text>
                   <Group>
-                    <Text
-                      size="sm"
-                      className={classes.linkText}
-                      onClick={handleViewLink}
-                    >
+                    <Text size="sm" className={classes.linkText} onClick={handleViewLink}>
                       View
                     </Text>
-                    <Text
-                      size="sm"
-                      className={classes.linkText}
-                      onClick={handleCopyLink}
-                    >
+                    <Text size="sm" className={classes.linkText} onClick={handleCopyLink}>
                       Copy link
                     </Text>
                   </Group>
@@ -587,9 +553,7 @@ function AdminBlogDetailPageContentInner({
                     ]}
                     value={additionalImagesPosition}
                     variant="unstyled"
-                    rightSection={
-                      <FaCaretDown color="var(--vinaup-blue-link)" size={20} />
-                    }
+                    rightSection={<FaCaretDown color="var(--vinaup-blue-link)" size={20} />}
                     onChange={(value) => {
                       if (!value) return;
                       handleUpdateAdditionalImagesPosition(value);
@@ -603,9 +567,7 @@ function AdminBlogDetailPageContentInner({
                       size="xl"
                       imageUrl={imgUrl}
                       isLoading={loadingImageIndex === index}
-                      onImageSelect={(imageUrl) =>
-                        handleSelectAdditionalImage(imageUrl, index)
-                      }
+                      onImageSelect={(imageUrl) => handleSelectAdditionalImage(imageUrl, index)}
                       onRemoveFile={() => handleRemoveAdditionalImage(index)}
                     />
                   ))}
@@ -614,10 +576,7 @@ function AdminBlogDetailPageContentInner({
                       size="xl"
                       isLoading={loadingImageIndex === additionalImageUrls.length}
                       onImageSelect={(imageUrl) =>
-                        handleSelectAdditionalImage(
-                          imageUrl,
-                          additionalImageUrls.length
-                        )
+                        handleSelectAdditionalImage(imageUrl, additionalImageUrls.length)
                       }
                     />
                   )}
@@ -648,9 +607,7 @@ function AdminBlogDetailPageContentInner({
                       hidePickedOptions
                       data={VN_PROVINCES.map((p) => ({ value: p, label: p }))}
                       value={destinations}
-                      placeholder={
-                        destinations.length < 3 ? 'Select up to 3 destinations' : ''
-                      }
+                      placeholder={destinations.length < 3 ? 'Select up to 3 destinations' : ''}
                       searchable
                       nothingFoundMessage="Not found"
                       onChange={(value) => handleUpdateDestinations(value)}
@@ -691,9 +648,7 @@ function AdminBlogDetailPageContentInner({
                   >
                     https://jenahair.com/blogs/{currentBlogData.endpoint}
                   </Text>
-                  <Text size="sm">
-                    {dayjs(currentBlogData.updatedAt).format('MMM DD, YYYY')}
-                  </Text>
+                  <Text size="sm">{dayjs(currentBlogData.updatedAt).format('MMM DD, YYYY')}</Text>
                   <div
                     dangerouslySetInnerHTML={{ __html: seoContent || '' }}
                     className={classes.htmlDescription}
@@ -772,9 +727,7 @@ function AdminBlogDetailPageContentInner({
                   ]}
                   value={status}
                   variant="unstyled"
-                  rightSection={
-                    <FaCaretDown color="var(--vinaup-blue-link)" size={24} />
-                  }
+                  rightSection={<FaCaretDown color="var(--vinaup-blue-link)" size={24} />}
                   onChange={(value) => {
                     if (!value) return;
                     handleUpdateStatus(value);
@@ -811,9 +764,7 @@ function AdminBlogDetailPageContentInner({
                   ]}
                   value={sortOrder.toString()}
                   variant="unstyled"
-                  rightSection={
-                    <FaCaretDown color="var(--vinaup-blue-link)" size={24} />
-                  }
+                  rightSection={<FaCaretDown color="var(--vinaup-blue-link)" size={24} />}
                   onChange={(value) => {
                     if (!value) return;
                     handleUpdateSortOrder(value);
@@ -854,19 +805,10 @@ function AdminBlogDetailPageContentInner({
               </Group>
             </Stack>
           </Paper>
-          <Paper
-            p={'xs'}
-            radius={'md'}
-            mt={'sm'}
-            classNames={{ root: classes.paperBlock }}
-          >
+          <Paper p={'xs'} radius={'md'} mt={'sm'} classNames={{ root: classes.paperBlock }}>
             <Group justify="space-between" wrap="nowrap">
               <MultiSelect
-                placeholder={
-                  selectedCategoryIds.length < 3
-                    ? 'Select up to 3 blog categories'
-                    : ''
-                }
+                placeholder={selectedCategoryIds.length < 3 ? 'Select up to 3 blog categories' : ''}
                 size="md"
                 maxValues={3}
                 w={'100%'}
@@ -910,9 +852,7 @@ function AdminBlogDetailPageContentInner({
                   ]}
                   value={videoPosition}
                   variant="unstyled"
-                  rightSection={
-                    <FaCaretDown color="var(--vinaup-blue-link)" size={20} />
-                  }
+                  rightSection={<FaCaretDown color="var(--vinaup-blue-link)" size={20} />}
                   onChange={(value) => {
                     if (!value) return;
                     handleUpdateVideoPosition(value);
@@ -925,14 +865,10 @@ function AdminBlogDetailPageContentInner({
                   icon={<UploadIconV2 width={60} height={60} />}
                   isLoading={videoThumbnailLoading}
                   onImageSelect={
-                    videoThumbnailUrl.length > 0
-                      ? undefined
-                      : handleSelectVideoThumbnail
+                    videoThumbnailUrl.length > 0 ? undefined : handleSelectVideoThumbnail
                   }
                   onRemoveFile={
-                    videoThumbnailUrl.length > 0
-                      ? handleRemoveVideoThumbnail
-                      : undefined
+                    videoThumbnailUrl.length > 0 ? handleRemoveVideoThumbnail : undefined
                   }
                   imageUrl={videoThumbnailUrl}
                 />
@@ -980,12 +916,8 @@ function AdminBlogDetailPageContentInner({
                   icon={<UploadIconV3 width={200} height={200} />}
                   isLoading={mainImageLoading}
                   imageUrl={mainImageUrl}
-                  onImageSelect={
-                    mainImageUrl.length > 0 ? undefined : handleSelectMainImage
-                  }
-                  onRemoveFile={
-                    mainImageUrl.length > 0 ? handleRemoveMainImage : undefined
-                  }
+                  onImageSelect={mainImageUrl.length > 0 ? undefined : handleSelectMainImage}
+                  onRemoveFile={mainImageUrl.length > 0 ? handleRemoveMainImage : undefined}
                 />
               </Group>
               <Group justify="center">

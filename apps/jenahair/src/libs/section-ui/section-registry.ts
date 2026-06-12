@@ -1,7 +1,8 @@
 import { SectionCarousel } from '@vinaup/ui/landing';
+import { VideoSection } from '@vinaup/ui/landing';
+
 import { SECTION_KEYS } from './section-key';
 import { SECTION_METADATA } from './section-metadata';
-import { VideoSection } from '@vinaup/ui/landing';
 
 // Full registry with components for runtime - key is componentKey (immutable)
 const REGISTRY_MAP = {
@@ -15,7 +16,6 @@ const REGISTRY_MAP = {
   },
 };
 
-export const SECTION_REGISTRY: Record<string, React.ElementType> =
-  Object.fromEntries(
-    Object.entries(REGISTRY_MAP).map(([key, value]) => [key, value.component])
-  );
+export const SECTION_REGISTRY: Record<string, React.ElementType> = Object.fromEntries(
+  Object.entries(REGISTRY_MAP).map(([key, value]) => [key, value.component]),
+);

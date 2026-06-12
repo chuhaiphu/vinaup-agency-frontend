@@ -14,26 +14,32 @@ import {
   TextInput,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import classes from './admin-blog-category-detail-page-content.module.scss';
 import { TextEditor } from '@vinaup/ui/admin';
-import UploadImageSection from '@/components/admin/media/upload-image-section/upload-image-section';
+import {
+  VinaupUploadIconV2 as UploadIconV2,
+  VinaupUploadIconV3 as UploadIconV3,
+  VinaupPenIcon as PenIcon,
+} from '@vinaup/ui/cores';
+import { TreeManager, generateErrorMessage } from '@vinaup/utils';
+import { useRouter } from 'next/navigation';
 import { use, useEffect, useMemo, useRef, useState } from 'react';
+import { FaCaretDown } from 'react-icons/fa6';
+import { GrTrash } from 'react-icons/gr';
+
 import {
   deleteBlogCategoryActionPrivate,
   updateBlogCategoryActionPrivate,
-} from '@/actions/blog-category-action';
-import { IBlogCategoryResponse } from '@/interfaces/blog-category-interface';
+} from '@/actions/blog-category-actions';
+import UploadImageSection from '@/components/admin/media/upload-image-section/upload-image-section';
+import { ActionResponse } from '@/interfaces/_base-interfaces';
+import { BlogCategoryResponse } from '@/interfaces/blog-category-interfaces';
 import { generateUniqueEndpoint } from '@/utils/generate-unique-endpoint';
-import { FaCaretDown } from 'react-icons/fa6';
-import { GrTrash } from 'react-icons/gr';
-import { VinaupUploadIconV2 as UploadIconV2, VinaupUploadIconV3 as UploadIconV3, VinaupPenIcon as PenIcon } from '@vinaup/ui/cores';
-import { TreeManager } from '../../../../../../../packages/utils/src/classes/tree-manager';
-import { useRouter } from 'next/navigation';
-import { ActionResponse } from '@/interfaces/_base-interface';
+
+import classes from './admin-blog-category-detail-page-content.module.scss';
 
 interface AdminBlogCategoryDetailPageContentProps {
-  currentBlogCategoryPromise: Promise<ActionResponse<IBlogCategoryResponse>>;
-  blogCategoriesPromise: Promise<ActionResponse<IBlogCategoryResponse[]>>;
+  currentBlogCategoryPromise: Promise<ActionResponse<BlogCategoryResponse>>;
+  blogCategoriesPromise: Promise<ActionResponse<BlogCategoryResponse[]>>;
   availableSortOrdersPromise: Promise<ActionResponse<number[]>>;
 }
 
@@ -64,8 +70,8 @@ export default function AdminBlogCategoryDetailPageContent({
 }
 
 interface AdminBlogCategoryDetailPageContentInnerProps {
-  currentBlogCategory: IBlogCategoryResponse;
-  blogCategoriesData: IBlogCategoryResponse[];
+  currentBlogCategory: BlogCategoryResponse;
+  blogCategoriesData: BlogCategoryResponse[];
   availableSortOrdersData: number[];
 }
 
@@ -75,30 +81,19 @@ function AdminBlogCategoryDetailPageContentInner({
   availableSortOrdersData,
 }: AdminBlogCategoryDetailPageContentInnerProps) {
   const [title, setTitle] = useState<string>(currentBlogCategory.title);
-  const [description, setDescription] = useState<string>(
-    currentBlogCategory.description || ''
-  );
-  const [parentId, setParentId] = useState<string | null>(
-    currentBlogCategory.parent?.id || null
-  );
-  const [videoUrl, setVideoUrl] = useState<string>(
-    currentBlogCategory.videoUrl || ''
-  );
+  const [description, setDescription] = useState<string>(currentBlogCategory.description || '');
+  const [parentId, setParentId] = useState<string | null>(currentBlogCategory.parent?.id || null);
+  const [videoUrl, setVideoUrl] = useState<string>(currentBlogCategory.videoUrl || '');
   const [videoThumbnailUrl, setVideoThumbnailUrl] = useState<string>(
-    currentBlogCategory.videoThumbnailUrl || ''
+    currentBlogCategory.videoThumbnailUrl || '',
   );
   const [videoPosition, setVideoPosition] = useState<string>(
-    currentBlogCategory.videoPosition || 'end'
+    currentBlogCategory.videoPosition || 'end',
   );
-  const [mainImageUrl, setMainImageUrl] = useState<string>(
-    currentBlogCategory.mainImageUrl || ''
-  );
-  const [sortOrder, setSortOrder] = useState<number>(
-    currentBlogCategory.sortOrder || 0
-  );
+  const [mainImageUrl, setMainImageUrl] = useState<string>(currentBlogCategory.mainImageUrl || '');
+  const [sortOrder, setSortOrder] = useState<number>(currentBlogCategory.sortOrder || 0);
 
-  const [videoThumbnailLoading, setVideoThumbnailLoading] =
-    useState<boolean>(false);
+  const [videoThumbnailLoading, setVideoThumbnailLoading] = useState<boolean>(false);
   const [mainImageLoading, setMainImageLoading] = useState<boolean>(false);
   const [deleteModalOpened, setDeleteModalOpened] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
@@ -119,18 +114,14 @@ function AdminBlogCategoryDetailPageContentInner({
   }, [blogCategoriesData]);
 
   // Filter out current category and its children from parent options
-  const excludedIds = treeManager?.toIds(
-    treeManager?.toFlatList(currentBlogCategory.id) ?? []
-  );
+  const excludedIds = treeManager?.toIds(treeManager?.toFlatList(currentBlogCategory.id) ?? []);
   excludedIds?.add(currentBlogCategory.id);
 
   const parentOptions = blogCategoriesData
     .filter((cat) => !excludedIds?.has(cat.id))
     .map((cat) => ({ value: cat.id, label: cat.title }));
 
-  const handleFocusAndSelectInput = (
-    ref: React.RefObject<HTMLInputElement | null>
-  ) => {
+  const handleFocusAndSelectInput = (ref: React.RefObject<HTMLInputElement | null>) => {
     if (ref.current) {
       ref.current.focus();
       ref.current.select();
@@ -173,7 +164,7 @@ function AdminBlogCategoryDetailPageContentInner({
     } catch (error) {
       notifications.show({
         title: 'Failed to set image',
-        message: error instanceof Error ? error.message : '',
+        message: generateErrorMessage(error, ''),
         color: 'red',
       });
     } finally {
@@ -200,7 +191,7 @@ function AdminBlogCategoryDetailPageContentInner({
     } catch (error) {
       notifications.show({
         title: 'Failed to set image',
-        message: error instanceof Error ? error.message : '',
+        message: generateErrorMessage(error, ''),
         color: 'red',
       });
     } finally {
@@ -237,11 +228,7 @@ function AdminBlogCategoryDetailPageContentInner({
     try {
       let newEndpoint = currentBlogCategory.endpoint;
       if (title !== currentBlogCategory.title) {
-        newEndpoint = await generateUniqueEndpoint(
-          title,
-          'blog-category',
-          currentBlogCategory.id
-        );
+        newEndpoint = await generateUniqueEndpoint(title, 'blog-category', currentBlogCategory.id);
       }
 
       await updateBlogCategoryActionPrivate(currentBlogCategory.id, {
@@ -263,7 +250,7 @@ function AdminBlogCategoryDetailPageContentInner({
     } catch (error) {
       notifications.show({
         title: 'Save failed',
-        message: error instanceof Error ? error.message : 'Failed to save',
+        message: generateErrorMessage(error, 'Failed to save'),
         color: 'red',
       });
     } finally {
@@ -293,8 +280,7 @@ function AdminBlogCategoryDetailPageContentInner({
     } catch (error) {
       notifications.show({
         title: 'Delete failed',
-        message:
-          error instanceof Error ? error.message : 'Failed to delete blog category',
+        message: generateErrorMessage(error, 'Failed to delete blog category'),
         color: 'red',
       });
     } finally {
@@ -321,22 +307,12 @@ function AdminBlogCategoryDetailPageContentInner({
                   }}
                 />
                 <Group gap={'xs'} justify="space-between">
-                  <Text size="md">
-                    URL: jenahair.com/{currentBlogCategory.endpoint}
-                  </Text>
+                  <Text size="md">URL: jenahair.com/{currentBlogCategory.endpoint}</Text>
                   <Group>
-                    <Text
-                      size="sm"
-                      className={classes.linkText}
-                      onClick={handleViewLink}
-                    >
+                    <Text size="sm" className={classes.linkText} onClick={handleViewLink}>
                       View
                     </Text>
-                    <Text
-                      size="sm"
-                      className={classes.linkText}
-                      onClick={handleCopyLink}
-                    >
+                    <Text size="sm" className={classes.linkText} onClick={handleCopyLink}>
                       Copy link
                     </Text>
                   </Group>
@@ -370,12 +346,7 @@ function AdminBlogCategoryDetailPageContentInner({
         </GridCol>
 
         <GridCol span={{ base: 12, sm: 12, md: 5, lg: 5, xl: 4 }}>
-          <Paper
-            pt={0}
-            p={'xs'}
-            radius={'md'}
-            classNames={{ root: classes.categoryConfiguration }}
-          >
+          <Paper pt={0} p={'xs'} radius={'md'} classNames={{ root: classes.categoryConfiguration }}>
             <Stack gap={'0'}>
               <Group justify="space-between" wrap="nowrap">
                 <Text size="lg">Index</Text>
@@ -394,9 +365,7 @@ function AdminBlogCategoryDetailPageContentInner({
                   }))}
                   value={sortOrder?.toString()}
                   variant="unstyled"
-                  rightSection={
-                    <FaCaretDown color="var(--vinaup-blue-link)" size={24} />
-                  }
+                  rightSection={<FaCaretDown color="var(--vinaup-blue-link)" size={24} />}
                   onChange={handleUpdateSortOrder}
                 />
               </Group>
@@ -459,9 +428,7 @@ function AdminBlogCategoryDetailPageContentInner({
                   ]}
                   value={videoPosition}
                   variant="unstyled"
-                  rightSection={
-                    <FaCaretDown color="var(--vinaup-blue-link)" size={20} />
-                  }
+                  rightSection={<FaCaretDown color="var(--vinaup-blue-link)" size={20} />}
                   onChange={(value) => {
                     if (!value) return;
                     handleUpdateVideoPosition(value);
@@ -474,14 +441,10 @@ function AdminBlogCategoryDetailPageContentInner({
                   icon={<UploadIconV2 width={60} height={60} />}
                   isLoading={videoThumbnailLoading}
                   onImageSelect={
-                    videoThumbnailUrl.length > 0
-                      ? undefined
-                      : handleSelectVideoThumbnail
+                    videoThumbnailUrl.length > 0 ? undefined : handleSelectVideoThumbnail
                   }
                   onRemoveFile={
-                    videoThumbnailUrl.length > 0
-                      ? handleRemoveVideoThumbnail
-                      : undefined
+                    videoThumbnailUrl.length > 0 ? handleRemoveVideoThumbnail : undefined
                   }
                   imageUrl={videoThumbnailUrl}
                 />
@@ -515,12 +478,7 @@ function AdminBlogCategoryDetailPageContentInner({
               </Group>
             </Stack>
           </Paper>
-          <Paper
-            p={'xs'}
-            radius={'md'}
-            mt={'sm'}
-            classNames={{ root: classes.paperBlock }}
-          >
+          <Paper p={'xs'} radius={'md'} mt={'sm'} classNames={{ root: classes.paperBlock }}>
             <Stack gap={'0'}>
               <Text size="xl">Featured image</Text>
               <Group justify="center">
@@ -529,12 +487,8 @@ function AdminBlogCategoryDetailPageContentInner({
                   icon={<UploadIconV3 width={200} height={200} />}
                   isLoading={mainImageLoading}
                   imageUrl={mainImageUrl}
-                  onImageSelect={
-                    mainImageUrl.length > 0 ? undefined : handleSelectMainImage
-                  }
-                  onRemoveFile={
-                    mainImageUrl.length > 0 ? handleRemoveMainImage : undefined
-                  }
+                  onImageSelect={mainImageUrl.length > 0 ? undefined : handleSelectMainImage}
+                  onRemoveFile={mainImageUrl.length > 0 ? handleRemoveMainImage : undefined}
                 />
               </Group>
               <Group justify="center">
@@ -563,11 +517,7 @@ function AdminBlogCategoryDetailPageContentInner({
             >
               Cancel
             </Button>
-            <Button
-              color="red"
-              onClick={handleDeleteBlogCategory}
-              loading={isDeleting}
-            >
+            <Button color="red" onClick={handleDeleteBlogCategory} loading={isDeleting}>
               Delete
             </Button>
           </Group>

@@ -1,8 +1,9 @@
 'use client';
 
 import { Group, Paper, Stack, Text } from '@mantine/core';
-import { usePathname, useRouter } from 'next/navigation';
 import { Route } from 'next';
+import { usePathname, useRouter } from 'next/navigation';
+
 import classes from './setting-nav.module.scss';
 
 type SettingNavItem = {

@@ -1,22 +1,22 @@
 import '@mantine/carousel/styles.css';
 
-import classes from './layout.module.scss';
-import { getAppConfigActionPublic } from '@/actions/app-config-action';
+import { ScrollToTop } from '@vinaup/ui/landing';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
+
+import { getAppConfigActionPublic } from '@/actions/app-config-actions';
 import LandingHeader from '@/components/landing/layout/landing-header/landing-header';
-import { MaintenanceGuard } from '@/components/landing/primitives/maintenance-guard/maintenance-guard';
 import { SalonLandingFooter } from '@/components/landing/layout/salon-landing-footer/salon-landing-footer';
-import { ScrollToTop } from '@vinaup/ui/landing';
+import { MaintenanceGuard } from '@/components/landing/primitives/maintenance-guard/maintenance-guard';
+
+import classes from './layout.module.scss';
 
 export async function generateMetadata(): Promise<Metadata> {
   const configResponse = await getAppConfigActionPublic();
   const config = configResponse.data;
 
-  const websiteTitle = config?.websiteTitle
-    || 'Jena Hair';
-  const description = config?.websiteDescription
-    || 'Salon tóc cao cấp tại Việt Nam.';
+  const websiteTitle = config?.websiteTitle || 'Jena Hair';
+  const description = config?.websiteDescription || 'Salon tóc cao cấp tại Việt Nam.';
 
   return {
     title: {
@@ -42,12 +42,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function LandingLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-
+export default async function LandingLayout({ children }: { children: React.ReactNode }) {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',

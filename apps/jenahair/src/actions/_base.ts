@@ -1,5 +1,7 @@
-import { ActionResponse, HttpResponse } from '@/interfaces/_base-interface';
+import { generateErrorMessage } from '@vinaup/utils';
 import { unstable_rethrow } from 'next/navigation';
+
+import { ActionResponse, HttpResponse } from '@/interfaces/_base-interfaces';
 
 const isSuccessStatusCode = (statusCode: number | undefined) => {
   if (!statusCode) return false;
@@ -15,7 +17,7 @@ export async function executeApi<T>(
   options?: {
     delay?: boolean;
     delayMs?: number;
-  }
+  },
 ): Promise<ActionResponse<T>> {
   if (options?.delay) {
     await new Promise((resolve) => setTimeout(resolve, options.delayMs || 0));
@@ -37,7 +39,7 @@ export async function executeApi<T>(
     unstable_rethrow(error);
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Unexpected error occurred',
+      error: generateErrorMessage(error, 'Unexpected error occurred'),
     };
   }
 }

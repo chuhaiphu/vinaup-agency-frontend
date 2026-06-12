@@ -1,16 +1,18 @@
 'use client';
 
-import { IAppConfigResponse } from '@/interfaces/app-config-interface';
 import { Grid, GridCol, Stack, Text, Group } from '@mantine/core';
-import { FaEnvelope, FaClock } from 'react-icons/fa';
 import { VinaupLocationIcon as LocationIcon } from '@vinaup/ui/cores';
 import { WhatsappIcon } from '@vinaup/ui/cores';
+import { FaEnvelope, FaClock } from 'react-icons/fa';
+
+import { submitCustomerContactActionPublic } from '@/actions/customer-contact-actions';
+import { AppConfigResponse } from '@/interfaces/app-config-interfaces';
+
 import ContactForm from './contact-form';
-import { submitCustomerContactActionPublic } from '@/actions/customer-contact-action';
 import classes from './contact-page-content.module.scss';
 
 interface ContactPageContentProps {
-  appConfig: IAppConfigResponse | undefined;
+  appConfig: AppConfigResponse | undefined;
 }
 
 export default function ContactPageContent({ appConfig }: ContactPageContentProps) {
@@ -57,9 +59,7 @@ export default function ContactPageContent({ appConfig }: ContactPageContentProp
                 <div className={classes.iconWrapper}>{item.icon}</div>
                 <Stack gap={2}>
                   <Text className={classes.itemLabel}>{item.label}</Text>
-                  <Text className={classes.itemValue}>
-                    {item.value ?? 'Đang cập nhật'}
-                  </Text>
+                  <Text className={classes.itemValue}>{item.value ?? 'Đang cập nhật'}</Text>
                 </Stack>
               </Group>
             ))}

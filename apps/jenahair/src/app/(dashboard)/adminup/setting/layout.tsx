@@ -1,5 +1,7 @@
 import { Grid, GridCol, Group, Text } from '@mantine/core';
+
 import SettingNav from '@/components/admin/layout/setting-nav/setting-nav';
+
 import classes from './layout.module.scss';
 
 export default function AdminSettingLayout({ children }: { children: React.ReactNode }) {

@@ -1,12 +1,13 @@
 'use client';
 
 import { ActionIcon, Group, UnstyledButton } from '@mantine/core';
-import { useRouter } from 'next/navigation';
-import { VinaupAddNewIcon as AddNewIcon } from '@vinaup/ui/cores';
-import { createMenuActionPrivate } from '@/actions/menu-action';
-import { Route } from 'next';
-import { useState } from 'react';
 import { notifications } from '@mantine/notifications';
+import { VinaupAddNewIcon as AddNewIcon } from '@vinaup/ui/cores';
+import { Route } from 'next';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
+import { createMenuActionPrivate } from '@/actions/menu-actions';
 
 export default function CreateMenuAction() {
   const router = useRouter();
@@ -40,11 +41,7 @@ export default function CreateMenuAction() {
       <UnstyledButton onClick={handleAddNewMenu} fz={'lg'}>
         Add new
       </UnstyledButton>
-      <ActionIcon
-        variant="transparent"
-        onClick={handleAddNewMenu}
-        loading={isCreating}
-      >
+      <ActionIcon variant="transparent" onClick={handleAddNewMenu} loading={isCreating}>
         <AddNewIcon width={32} height={32} />
       </ActionIcon>
     </Group>

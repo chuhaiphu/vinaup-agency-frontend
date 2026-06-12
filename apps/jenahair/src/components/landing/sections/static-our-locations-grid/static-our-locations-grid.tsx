@@ -1,7 +1,8 @@
 import { Grid, GridCol, Group, Stack, Text } from '@mantine/core';
-import classes from './static-our-locations-grid.module.scss';
 import { MediaCard } from '@vinaup/ui/landing';
+
 import ExploreDestinationsButton from './explore-destinations-button';
+import classes from './static-our-locations-grid.module.scss';
 
 export default function StaticOurLocationsGrid() {
   return (

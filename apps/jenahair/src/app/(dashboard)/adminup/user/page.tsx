@@ -1,13 +1,15 @@
 import { Group, Text } from '@mantine/core';
+import { redirect } from 'next/navigation';
+import { Suspense } from 'react';
+
+import { getMeActionPrivate } from '@/actions/auth-actions';
+import { getAllUsersActionPrivate } from '@/actions/user-actions';
 import UsersTable from '@/components/admin/user/users-table/users-table';
 import UsersTableSkeleton from '@/components/admin/user/users-table/users-table-skeleton';
-import { getAllUsersActionPrivate } from '@/actions/user-action';
-import { Suspense } from 'react';
+import { ActionResponse } from '@/interfaces/_base-interfaces';
+import { UserResponse } from '@/interfaces/user-interfaces';
+
 import classes from './page.module.scss';
-import { getMeActionPrivate } from '@/actions/auth-action';
-import { ActionResponse } from '@/interfaces/_base-interface';
-import { IUserResponse } from '@/interfaces/user-interface';
-import { redirect } from 'next/navigation';
 
 export default async function AdminUserPage() {
   const usersDataPromise = getAllUsersActionPrivate().then((res) => {
@@ -36,17 +38,11 @@ export default async function AdminUserPage() {
 }
 
 interface AdminUserHiddenGuardProps {
-  currentUserPromise: Promise<ActionResponse<IUserResponse> | null>;
+  currentUserPromise: Promise<ActionResponse<UserResponse> | null>;
 }
-const AdminUserHiddenGuard = async ({
-  currentUserPromise,
-}: AdminUserHiddenGuardProps) => {
+const AdminUserHiddenGuard = async ({ currentUserPromise }: AdminUserHiddenGuardProps) => {
   const currentUserData = await currentUserPromise;
-  if (
-    !currentUserData ||
-    !currentUserData.data ||
-    currentUserData.data.role !== 'supadmin'
-  ) {
+  if (!currentUserData || !currentUserData.data || currentUserData.data.role !== 'supadmin') {
     redirect('/adminup');
   }
 

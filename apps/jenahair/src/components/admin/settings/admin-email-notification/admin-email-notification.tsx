@@ -42,15 +42,26 @@ export const AdminEmailNotification = ({
       <Preview>{previewText}</Preview>
       <Body style={{ backgroundColor: '#f6f9fc', fontFamily: 'Arial, sans-serif' }}>
         <Container style={{ margin: '0 auto', padding: '20px 0 48px', maxWidth: '600px' }}>
-          <Heading style={{ color: '#333', fontSize: '24px', fontWeight: 'bold', marginBottom: '20px' }}>
+          <Heading
+            style={{ color: '#333', fontSize: '24px', fontWeight: 'bold', marginBottom: '20px' }}
+          >
             {title}
           </Heading>
           <Text style={{ color: '#666', fontSize: '16px', marginBottom: '20px' }}>
             {description}
           </Text>
-          
-          <Section style={{ backgroundColor: '#ffffff', borderRadius: '8px', padding: '20px', marginBottom: '20px' }}>
-            <Text style={{ color: '#333', fontSize: '18px', fontWeight: 'bold', marginBottom: '10px' }}>
+
+          <Section
+            style={{
+              backgroundColor: '#ffffff',
+              borderRadius: '8px',
+              padding: '20px',
+              marginBottom: '20px',
+            }}
+          >
+            <Text
+              style={{ color: '#333', fontSize: '18px', fontWeight: 'bold', marginBottom: '10px' }}
+            >
               Customer Information
             </Text>
             <Text style={{ color: '#555', fontSize: '14px', margin: '5px 0' }}>
@@ -68,8 +79,22 @@ export const AdminEmailNotification = ({
             <>
               <Hr style={{ borderColor: '#e6ebf1', margin: '20px 0' }} />
 
-              <Section style={{ backgroundColor: '#ffffff', borderRadius: '8px', padding: '20px', marginBottom: '20px' }}>
-                <Text style={{ color: '#333', fontSize: '18px', fontWeight: 'bold', marginBottom: '10px' }}>
+              <Section
+                style={{
+                  backgroundColor: '#ffffff',
+                  borderRadius: '8px',
+                  padding: '20px',
+                  marginBottom: '20px',
+                }}
+              >
+                <Text
+                  style={{
+                    color: '#333',
+                    fontSize: '18px',
+                    fontWeight: 'bold',
+                    marginBottom: '10px',
+                  }}
+                >
                   Details
                 </Text>
                 {details.map((detail, index) => (
@@ -85,11 +110,32 @@ export const AdminEmailNotification = ({
             <>
               <Hr style={{ borderColor: '#e6ebf1', margin: '20px 0' }} />
 
-              <Section style={{ backgroundColor: '#ffffff', borderRadius: '8px', padding: '20px', marginBottom: '20px' }}>
-                <Text style={{ color: '#333', fontSize: '18px', fontWeight: 'bold', marginBottom: '10px' }}>
+              <Section
+                style={{
+                  backgroundColor: '#ffffff',
+                  borderRadius: '8px',
+                  padding: '20px',
+                  marginBottom: '20px',
+                }}
+              >
+                <Text
+                  style={{
+                    color: '#333',
+                    fontSize: '18px',
+                    fontWeight: 'bold',
+                    marginBottom: '10px',
+                  }}
+                >
                   Notes
                 </Text>
-                <Text style={{ color: '#555', fontSize: '14px', margin: '5px 0', whiteSpace: 'pre-wrap' }}>
+                <Text
+                  style={{
+                    color: '#555',
+                    fontSize: '14px',
+                    margin: '5px 0',
+                    whiteSpace: 'pre-wrap',
+                  }}
+                >
                   {notes}
                 </Text>
               </Section>

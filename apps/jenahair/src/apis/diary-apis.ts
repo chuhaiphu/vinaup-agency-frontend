@@ -1,29 +1,28 @@
-import { ICreateDiary, IDiaryResponse, IUpdateDiary } from "@/interfaces/diary-interface";
-import { apiPrivate, apiPublic } from "./_base";
+import { generateFilterQueryString } from '@vinaup/utils';
+
+import {
+  CreateDiaryRequest,
+  DiaryResponse,
+  UpdateDiaryRequest,
+} from '@/interfaces/diary-interfaces';
+
+import { apiPrivate, apiPublic } from './_base';
 
 export interface DiaryFilterParams {
   visibility?: string;
 }
 
-function buildQueryString(filter?: DiaryFilterParams): string {
-  if (!filter) return '';
-  const params = new URLSearchParams();
-  if (filter.visibility) params.append('visibility', filter.visibility);
-  const query = params.toString();
-  return query ? `?${query}` : '';
-}
-
 // ==================== PUBLIC ROUTES ====================
 
 export async function getAllDiariesApiPublic(filter?: DiaryFilterParams) {
-  const queryString = buildQueryString(filter);
-  return apiPublic<IDiaryResponse[]>(`/diaries${queryString}`, {
+  const queryString = generateFilterQueryString({ visibility: filter?.visibility });
+  return apiPublic<DiaryResponse[]>(`/diaries${queryString}`, {
     method: 'GET',
   });
 }
 
 export async function getDiaryByEndpointApiPublic(endpoint: string) {
-  return apiPublic<IDiaryResponse>(`/diaries/${endpoint}`, {
+  return apiPublic<DiaryResponse>(`/diaries/${endpoint}`, {
     method: 'GET',
   });
 }
@@ -42,28 +41,28 @@ export async function toggleDiaryLikeApiPublic(id: string) {
 
 // ==================== ADMIN ROUTES ====================
 
-export async function createDiaryApiPrivate(data: ICreateDiary) {
-  return apiPrivate<IDiaryResponse>('/diaries/admin', {
+export async function createDiaryApiPrivate(data: CreateDiaryRequest) {
+  return apiPrivate<DiaryResponse>('/diaries/admin', {
     method: 'POST',
     body: JSON.stringify(data),
   });
 }
 
 export async function getAllDiariesAdminApiPrivate(filter?: DiaryFilterParams) {
-  const queryString = buildQueryString(filter);
-  return apiPrivate<IDiaryResponse[]>(`/diaries/admin${queryString}`, {
+  const queryString = generateFilterQueryString({ visibility: filter?.visibility });
+  return apiPrivate<DiaryResponse[]>(`/diaries/admin${queryString}`, {
     method: 'GET',
   });
 }
 
 export async function getDiaryByIdApiPrivate(id: string) {
-  return apiPrivate<IDiaryResponse>(`/diaries/admin/${id}`, {
+  return apiPrivate<DiaryResponse>(`/diaries/admin/${id}`, {
     method: 'GET',
   });
 }
 
-export async function updateDiaryApiPrivate(id: string, data: IUpdateDiary) {
-  return apiPrivate<IDiaryResponse>(`/diaries/admin/${id}`, {
+export async function updateDiaryApiPrivate(id: string, data: UpdateDiaryRequest) {
+  return apiPrivate<DiaryResponse>(`/diaries/admin/${id}`, {
     method: 'PUT',
     body: JSON.stringify(data),
   });

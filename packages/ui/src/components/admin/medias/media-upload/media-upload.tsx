@@ -24,7 +24,7 @@ import { useState, useEffect } from 'react';
 import { notifications } from '@mantine/notifications';
 import { generateClassName, validateImageFile, generateFormattedFileSize } from '@vinaup/utils';
 import defaultClasses from './media-upload.module.scss';
-import type { ICreateMedia, MediaUploadHandlers } from '../_types';
+import type { CreateMediaRequest, MediaUploadHandlers } from '../_types';
 
 export interface UploadFileItem {
   id: string;
@@ -116,11 +116,11 @@ export function MediaUpload({
             return { ...item, status: 'success', url: uploadResults[idx].url };
           }
           return item;
-        })
+        }),
       );
 
       if (onSave) {
-        const mediaData: ICreateMedia[] = uploadResults.map((result) => ({
+        const mediaData: CreateMediaRequest[] = uploadResults.map((result) => ({
           name: result.name,
           title: null,
           description: null,
@@ -137,8 +137,8 @@ export function MediaUpload({
         prev.map((item) =>
           newUploadFiles.some((f) => f.id === item.id)
             ? { ...item, status: 'error', error: (error as Error).message }
-            : item
-        )
+            : item,
+        ),
       );
       onUploadError?.(error as Error);
     } finally {
@@ -175,10 +175,7 @@ export function MediaUpload({
     } catch (error) {
       notifications.show({
         title: 'Copy failed',
-        message:
-          error instanceof Error
-            ? error.message
-            : 'Failed to copy link to clipboard',
+        message: error instanceof Error ? error.message : 'Failed to copy link to clipboard',
         color: 'red',
       });
     }
@@ -261,7 +258,7 @@ export function MediaUpload({
             classNames={{
               root: generateClassName(
                 defaultClasses.sectionTitleRoot,
-                classNames?.sectionTitle?.root
+                classNames?.sectionTitle?.root,
               ),
             }}
           >
@@ -287,7 +284,7 @@ export function MediaUpload({
                     <div
                       className={generateClassName(
                         defaultClasses.imageContainer,
-                        classNames?.imageContainer
+                        classNames?.imageContainer,
                       )}
                     >
                       <Image
@@ -297,7 +294,7 @@ export function MediaUpload({
                         classNames={{
                           root: generateClassName(
                             defaultClasses.itemImageRoot,
-                            classNames?.itemImage?.root
+                            classNames?.itemImage?.root,
                           ),
                         }}
                       />
@@ -305,7 +302,7 @@ export function MediaUpload({
                         <div
                           className={generateClassName(
                             defaultClasses.uploadingOverlay,
-                            classNames?.uploadingOverlay
+                            classNames?.uploadingOverlay,
                           )}
                         >
                           <Loader size="sm" color="white" />
@@ -317,7 +314,7 @@ export function MediaUpload({
                             defaultClasses.statusBadge,
                             defaultClasses.statusBadgeSuccess,
                             classNames?.statusBadge,
-                            classNames?.statusBadgeSuccess
+                            classNames?.statusBadgeSuccess,
                           )}
                         >
                           <Text size="xs" c="white" fw={700}>
@@ -331,7 +328,7 @@ export function MediaUpload({
                             defaultClasses.statusBadge,
                             defaultClasses.statusBadgeError,
                             classNames?.statusBadge,
-                            classNames?.statusBadgeError
+                            classNames?.statusBadgeError,
                           )}
                         >
                           <HiOutlineX size={16} color="white" />
@@ -372,7 +369,7 @@ export function MediaUpload({
                           classNames={{
                             root: generateClassName(
                               defaultClasses.copyButtonRoot,
-                              classNames?.copyButton?.root
+                              classNames?.copyButton?.root,
                             ),
                           }}
                         >

@@ -1,43 +1,44 @@
-import { ICreatePage, IPageResponse, IUpdatePage } from "@/interfaces/page-interface";
-import { apiPrivate, apiPublic } from "./_base";
+import { CreatePageRequest, PageResponse, UpdatePageRequest } from '@/interfaces/page-interfaces';
+
+import { apiPrivate, apiPublic } from './_base';
 
 // ==================== PUBLIC ROUTES ====================
 
 export async function getAllPagesApiPublic() {
-  return apiPublic<IPageResponse[]>('/pages', {
+  return apiPublic<PageResponse[]>('/pages', {
     method: 'GET',
   });
 }
 
 export async function getPageByEndpointApiPublic(endpoint: string) {
-  return apiPublic<IPageResponse>(`/pages/${endpoint}`, {
+  return apiPublic<PageResponse>(`/pages/${endpoint}`, {
     method: 'GET',
   });
 }
 
 // ==================== ADMIN ROUTES ====================
 
-export async function createPageApiPrivate(data: ICreatePage) {
-  return apiPrivate<IPageResponse>('/pages/admin', {
+export async function createPageApiPrivate(data: CreatePageRequest) {
+  return apiPrivate<PageResponse>('/pages/admin', {
     method: 'POST',
     body: JSON.stringify(data),
   });
 }
 
 export async function getAllPagesAdminApiPrivate() {
-  return apiPrivate<IPageResponse[]>('/pages/admin', {
+  return apiPrivate<PageResponse[]>('/pages/admin', {
     method: 'GET',
   });
 }
 
 export async function getPageByIdApiPrivate(id: string) {
-  return apiPrivate<IPageResponse>(`/pages/admin/${id}`, {
+  return apiPrivate<PageResponse>(`/pages/admin/${id}`, {
     method: 'GET',
   });
 }
 
-export async function updatePageApiPrivate(id: string, data: IUpdatePage) {
-  return apiPrivate<IPageResponse>(`/pages/admin/${id}`, {
+export async function updatePageApiPrivate(id: string, data: UpdatePageRequest) {
+  return apiPrivate<PageResponse>(`/pages/admin/${id}`, {
     method: 'PUT',
     body: JSON.stringify(data),
   });
