@@ -16,7 +16,7 @@ import {
 import { notifications } from '@mantine/notifications';
 import { TreeManager, generateErrorMessage } from '@vinaup/utils';
 import { useRouter } from 'next/navigation';
-import { use, useEffect, useMemo, useState } from 'react';
+import { use, useMemo, useState } from 'react';
 import { FaCaretDown } from 'react-icons/fa6';
 import { GrTrash } from 'react-icons/gr';
 
@@ -77,10 +77,6 @@ function AdminMenuDetailPageContentInner({
   const [isSavingAll, setIsSavingAll] = useState<boolean>(false);
   const [deleteModalOpened, setDeleteModalOpened] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
-
-  useEffect(() => {
-    setSortOrder(currentMenu.sortOrder);
-  }, [currentMenu.sortOrder]);
 
   const router = useRouter();
 

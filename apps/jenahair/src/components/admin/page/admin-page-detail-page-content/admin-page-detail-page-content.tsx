@@ -32,7 +32,7 @@ import { FaCaretDown } from 'react-icons/fa6';
 import { GrTrash } from 'react-icons/gr';
 import { Route } from 'next';
 import dayjs from 'dayjs';
-import { use, useEffect, useRef, useState } from 'react';
+import { use, useRef, useState } from 'react';
 
 import {
   createPageActionPrivate,
@@ -43,7 +43,7 @@ import UploadImageSection from '@/components/admin/media/upload-image-section/up
 import { MAX_IMAGE_COUNT_ALLOWED, PAGE_TYPES } from '@/constants';
 import { ActionResponse } from '@/interfaces/_base-interfaces';
 import { PageResponse } from '@/interfaces/page-interfaces';
-import { useAuth } from '@/providers/auth-provider';
+import { useAuthContext } from '@/providers/auth-provider';
 import { generateUniqueEndpoint } from '@/utils/generate-unique-endpoint';
 
 import classes from './admin-page-detail-page-content.module.scss';
@@ -56,7 +56,7 @@ export default function AdminPageDetailPageContent({
   currentPagePromise,
 }: AdminPageDetailPageContentProps) {
   const currentPageResult = use(currentPagePromise);
-  const { getUser } = useAuth();
+  const { getUser } = useAuthContext();
 
   if (!currentPageResult.success || !currentPageResult.data) {
     return <div>Page not found</div>;
@@ -108,10 +108,6 @@ function AdminPageDetailPageContentInner({
   const [isCreating, setIsCreating] = useState<boolean>(false);
   const [isSavingAll, setIsSavingAll] = useState<boolean>(false);
   const router = useRouter();
-
-  useEffect(() => {
-    setEndpoint(currentPageData.endpoint);
-  }, [currentPageData.endpoint]);
 
   const videoUrlInputRef = useRef<HTMLInputElement>(null);
   const endpointInputRef = useRef<HTMLInputElement>(null);

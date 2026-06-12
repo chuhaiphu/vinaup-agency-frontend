@@ -14,13 +14,13 @@ import { useRouter } from 'next/navigation';
 import { FiUser, FiLogOut } from 'react-icons/fi';
 
 import { UserResponse } from '@/interfaces/user-interfaces';
-import { useAuth } from '@/providers/auth-provider';
+import { useAuthContext } from '@/providers/auth-provider';
 
 import classes from './user-section.module.scss';
 
 export function UserSection({ userData }: { userData: UserResponse }) {
   const router = useRouter();
-  const { logout } = useAuth();
+  const { logout } = useAuthContext();
   const handleLogout = async () => {
     await logout();
     router.push('/login');

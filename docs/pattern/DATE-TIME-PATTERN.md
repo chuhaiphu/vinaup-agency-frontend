@@ -7,15 +7,20 @@
 A `Date` / Postgres `timestamptz` is not the text "30/04/2026 08:00" — it is a single number, **milliseconds since the Unix epoch (UTC)**, one absolute point on the world timeline with **no timezone attached**. A timezone is only a _lens_: the number never changes, only the text we read it as.
 
 ```
-CREATE                         DATA            DISPLAY
-human text + a timezone   ──►  the number ──►  human text seen through a timezone
-"30/04 00:00 in UTC+7"         (immutable)     VN lens → "30/04 00:00" · UTC lens → "29/04 17:00"
+CREATE                          DATA            DISPLAY
+human text + a timezone   ──►   the number ──►  human text, seen through a timezone
+"30/04 00:00 in UTC+7"          (immutable)     UTC lens → "29/04 17:00"
+                                                VN  lens → "30/04 00:00"
+                                                NY  lens → "29/04 13:00"
 ```
 
-| Concept           | Meaning                                 | Timezone?                   |
-| ----------------- | --------------------------------------- | --------------------------- |
-| **Instant**       | a precise moment ("published at 14:35") | stored UTC, shown in a lens |
-| **Calendar date** | a label on a wall calendar ("the 30th") | none — same for everyone    |
+- The lens at **create** decides _which number is born_ — the same text "30/04 00:00" becomes a **different** instant depending on the timezone we read it in.
+- The lens at **display** only changes the _text_, never the number.
+
+| Concept           | Meaning                                 | Has time-of-day? | Timezone?                   |
+| ----------------- | --------------------------------------- | ---------------- | --------------------------- |
+| **Instant**       | a precise moment ("published at 14:35") | yes              | stored UTC, shown in a lens |
+| **Calendar date** | a label on a wall calendar ("the 30th") | no               | none — same for everyone    |
 
 ### The shared contract
 
@@ -24,6 +29,8 @@ human text + a timezone   ──►  the number ──►  human text seen throu
 1. **Send** instants as UTC ISO — `.toISOString()` (always ends in `Z`).
 2. **Display** through the browser-local lens — `dayjs(value).format(...)`.
 3. **Compute "which calendar day/month"** locally — the backend ships instants only.
+
+On the wire an instant is always **UTC ISO-8601**; the backend (vinaup-api) stores it as Postgres `timestamptz` — the frontend never needs more than the ISO string.
 
 This app uses **Day.js core only** (no `utc`/`timezone` plugins). `dayjs(iso)` reads an instant through the browser-local lens; `.format(...)` renders local; `.toISOString()` applies the UTC lens.
 
@@ -68,8 +75,17 @@ Keep date formatting on the client (the viewer's lens) to avoid SSR hydration mi
 
 Define `DD_MM_YYYY`, `HH_MM`, etc. in `src/constants/` and reuse — don't scatter magic format strings. → [DRY](../principle/DRY.md)
 
+### End-to-end round trip
+
+```
+BROWSER (UTC+7)                       API + POSTGRES                     BROWSER (any tz)
+pick 30/04 08:00 ─ toISOString ─► "2026-04-30T01:00:00Z" ─► timestamptz ─► ISO back ─► dayjs().format()
+(local lens, create)              (instant on the wire)      (UTC truth)    (local lens, display)
+```
+
 ## References
 
-- [Day.js — UTC plugin (why core is local)](https://day.js.org/docs/en/plugin/utc)
 - [MDN — Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)
+- [ISO 8601 — date-time + offset](https://en.wikipedia.org/wiki/ISO_8601)
+- [Day.js — UTC plugin (why core is local)](https://day.js.org/docs/en/plugin/utc)
 - [PostgreSQL — Date/Time Types](https://www.postgresql.org/docs/current/datatype-datetime.html)

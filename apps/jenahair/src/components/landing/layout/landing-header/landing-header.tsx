@@ -9,6 +9,7 @@ import { WhatsappIcon } from '@vinaup/ui/cores';
 import { StickyHeader, Sidebar, type SidebarNavLink } from '@vinaup/ui/landing';
 import { TreeManager } from '@vinaup/utils';
 import { validateExternalEndpoint, generateParsedEndpoint } from '@vinaup/utils';
+import { cacheLife, cacheTag } from 'next/cache';
 
 import { getAllBlogsActionPublic } from '@/actions/blog-actions';
 import { getAllDiariesActionPublic } from '@/actions/diary-actions';
@@ -64,7 +65,13 @@ function buildNavLinks(flatMenus: MenuResponse[]): SidebarNavLink[] {
 }
 
 export default async function LandingHeader() {
+  // The header is cached into the static shell and aggregates five domains.
+  // Each must be tagged so a mutation in any of them refreshes the header — a
+  // component cache is a separate entry from the actions it calls.
+  // → docs/pattern/CACHING-REVALIDATION.md (Rule 1)
   'use cache';
+  cacheLife('default');
+  cacheTag('theme-config', 'menu', 'blogs', 'diaries', 'pages');
   const [socialLinksResponse, menusResponse, blogsResponse, diariesResponse, pagesResponse] =
     await Promise.all([
       getThemeConfigActionPublic(),

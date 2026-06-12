@@ -34,7 +34,7 @@ import {
 import { TreeManager } from '@vinaup/utils';
 import { Route } from 'next';
 import dayjs from 'dayjs';
-import { use, useEffect, useMemo, useRef, useState } from 'react';
+import { use, useMemo, useRef, useState } from 'react';
 import { FaCaretDown, FaCheck } from 'react-icons/fa6';
 import { GrTrash } from 'react-icons/gr';
 
@@ -48,7 +48,7 @@ import { MAX_IMAGE_COUNT_ALLOWED, VN_PROVINCES } from '@/constants';
 import { ActionResponse } from '@/interfaces/_base-interfaces';
 import { BlogCategoryResponse } from '@/interfaces/blog-category-interfaces';
 import { BlogResponse } from '@/interfaces/blog-interfaces';
-import { useAuth } from '@/providers/auth-provider';
+import { useAuthContext } from '@/providers/auth-provider';
 import { generateUniqueEndpoint } from '@/utils/generate-unique-endpoint';
 
 import classes from './admin-blog-detail-page-content.module.scss';
@@ -64,7 +64,7 @@ export default function AdminBlogDetailPageContent({
 }: AdminBlogDetailPageContentProps) {
   const currentBlogResult = use(currentBlogPromise);
   const blogCategoriesResult = use(blogCategoriesPromise);
-  const { getUser } = useAuth();
+  const { getUser } = useAuthContext();
 
   if (!currentBlogResult.success || !currentBlogResult.data) {
     return <div>Blog not found</div>;
@@ -126,9 +126,6 @@ function AdminBlogDetailPageContentInner({
   const [isSavingAll, setIsSavingAll] = useState<boolean>(false);
 
   const router = useRouter();
-  useEffect(() => {
-    setSelectedCategoryIds(currentBlogData.blogCategoryBlogs.map((bcb) => bcb.blogCategoryId));
-  }, [currentBlogData.blogCategoryBlogs]);
 
   const treeManager = useMemo(() => {
     if (blogCategoriesData.length === 0) {

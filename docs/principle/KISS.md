@@ -19,8 +19,8 @@ Systems work best kept simple. Complexity is a cost that must be justified by th
 | Toggle / transient local UI            | `useState` (Client Component)                                                                                                        |
 | Form (multi-field + validation)        | `@mantine/form`                                                                                                                      |
 | UI state shared across components      | Zustand store (`src/libs/zustand/`) → [OBSERVER-PATTERN](../pattern/OBSERVER-PATTERN.md)                                             |
-| Server data                            | Server Component reads via `src/actions/`; mutate via Server Action → [SERVER-ACTIONS-PATTERN](../pattern/SERVER-ACTIONS-PATTERN.md) |
-| Auth / theme / session across the tree | client Context provider → [PROVIDER-PATTERN](../pattern/PROVIDER-PATTERN.md)                                                         |
+| Server data                            | Server Component reads via `src/actions/`; mutate via Server Action → [REPOSITORY-PATTERN](../pattern/REPOSITORY-PATTERN.md) |
+| Per-user, server-seeded client state (auth session) | client Context provider → [PROVIDER-PATTERN](../pattern/PROVIDER-PATTERN.md)                                                         |
 
 > **Don't reach for a client provider to hold server data.** In Next.js the server already owns that, with caching and revalidation built in. A client store of server entities is the classic over-engineering this codebase avoids.
 

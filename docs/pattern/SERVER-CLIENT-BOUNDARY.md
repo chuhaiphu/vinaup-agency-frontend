@@ -2,7 +2,7 @@
 
 ## What
 
-In the App Router, **every component is a Server Component by default**. A Server Component runs only on the server: it can be `async`, read data (via `src/actions/`), and ships **zero JS** to the browser. The `'use client'` directive marks the boundary where a component (and everything it imports) becomes a Client Component — hydrated in the browser, able to use state, effects, event handlers, and browser APIs.
+In Next.js 16 App Router, **every component is a Server Component by default**. A Server Component runs only on the server: it can be `async`, read data, and ships **zero JS** to the browser. The `'use client'` directive marks the boundary where a component (and everything it imports) becomes a Client Component — hydrated in the browser, able to use state, effects, event handlers, and browser APIs.
 
 ```
 Server Component (default)            'use client' boundary
@@ -15,6 +15,11 @@ Server Component (default)            'use client' boundary
 
 ```tsx
 // src/app/(landing)/blogs/[endpoint]/page.tsx — Server Component, no 'use client'
+export async function generateStaticParams() {
+  const res = await getAllBlogsActionPublic();
+  return (res.data ?? []).map((blog) => ({ endpoint: blog.endpoint }));
+}
+
 export default async function BlogPage({ params }: { params: Promise<{ endpoint: string }> }) {
   const { endpoint } = await params;
   const result = await getBlogByEndpointActionPublic(endpoint);
@@ -22,6 +27,41 @@ export default async function BlogPage({ params }: { params: Promise<{ endpoint:
   return <BlogDetail blog={result.data} />; // pass data down as props
 }
 ```
+
+#### `await params` at the page root
+
+`params` always arrives as a **promise**.
+
+**1. The DATA-STREAMING default — a request-time dynamic route may NOT `await params` at the root.** When a `[id]`/`[endpoint]` route has _no_ `generateStaticParams`, the segment value is only known per request. Awaiting it at the page root would block the whole page on request-time data and cause the build error `Uncached data was accessed outside of <Suspense>`. 
+
+So we should **chains off** the params promise (never `await` it at the root) and wraps the content in `<Suspense>`:
+
+```tsx
+// dynamic, request-time route — no generateStaticParams
+export default function DetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const dataPromise = params.then((p) => getByIdActionPrivate(p.id)); // chain, don't await
+  return (
+    <Suspense fallback={<DetailSkeleton />}>
+      <DetailContent dataPromise={dataPromise} /> {/* Client Component calls use(dataPromise) */}
+    </Suspense>
+  );
+}
+```
+
+→ full pattern in [DATA-STREAMING-PATTERN — Stream with `use(promise)`](DATA-STREAMING-PATTERN.md).
+
+**2. What `generateStaticParams` changes.** It runs **at build time**, enumerates every concrete value of the dynamic segment (here, every blog `endpoint`). For such a route the params promise is a _build-time constant_ — it resolves at prerender, not per request.
+
+```
+generateStaticParams() → {endpoint:'a'}, {endpoint:'b'}   (build time)
+        │  Next prerenders one page each
+        ▼
+/blogs/a   /blogs/b   …   ← each is a static page; its `params` is already fixed
+```
+
+Because the params promise resolves at prerender, there is nothing to `await` for, so a `<Suspense>` boundary would be pointless. Awaiting `params` at the root is therefore the correct.
+
+> Rule of thumb: `generateStaticParams` ⇒ `params` is build-time ⇒ `await` at the root. No `generateStaticParams` ⇒ `params` is request-time ⇒ chain the promise + `<Suspense>`.
 
 ### Interactivity is a Client Component
 

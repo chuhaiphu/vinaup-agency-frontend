@@ -73,13 +73,13 @@ export async function deleteBlogActionPrivate(id: string): Promise<ActionRespons
   return result;
 }
 
+// View/like counters fire on (almost) every visit. 
+// They must NOT call updateTag('blogs'),
+// doing so would invalidate the blog list cache on every read and defeat caching entirely.
 export async function incrementBlogViewActionPublic(
   blogId: string,
 ): Promise<ActionResponse<boolean>> {
   const result = await executeApi(async () => incrementBlogViewApiPublic(blogId));
-  if (result.success) {
-    updateTag('blogs');
-  }
   return {
     success: result.success,
     data: result.data?.recorded ?? false,
@@ -91,9 +91,6 @@ export async function incrementBlogLikeActionPublic(
   blogId: string,
 ): Promise<ActionResponse<boolean>> {
   const result = await executeApi(async () => toggleBlogLikeApiPublic(blogId));
-  if (result.success) {
-    updateTag('blogs');
-  }
   return {
     success: result.success,
     data: result.data?.liked ?? false,

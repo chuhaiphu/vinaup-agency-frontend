@@ -6,32 +6,25 @@ import {
   type UploadResult,
   type CreateMediaRequest,
 } from '@vinaup/ui/admin';
-import { useState, useEffect, useEffectEvent } from 'react';
 
-import { createManyMediaActionPrivate, getAllMediaActionPrivate } from '@/actions/media-actions';
+import { createManyMediaActionPrivate } from '@/actions/media-actions';
 import { uploadImageActionPrivate } from '@/actions/upload-actions';
 
 interface MediaImageModalProps {
   opened: boolean;
   onClose: () => void;
   onSelect: (imageUrl: string) => void;
+  images: Media[];
+  onImagesChange: (images: Media[]) => void;
 }
 
-export default function MediaImageModal({ opened, onClose, onSelect }: MediaImageModalProps) {
-  const [availableImages, setAvailableImages] = useState<Media[]>([]);
-
-  const fetchAvailableImages = useEffectEvent(async () => {
-    const response = await getAllMediaActionPrivate();
-    const imagesList = response.data?.filter((media) => media.type === 'image') as Media[];
-    setAvailableImages(imagesList);
-  });
-
-  useEffect(() => {
-    if (opened) {
-      fetchAvailableImages();
-    }
-  }, [opened]);
-
+export default function MediaImageModal({
+  opened,
+  onClose,
+  onSelect,
+  images,
+  onImagesChange,
+}: MediaImageModalProps) {
   const handleUpload = async (files: File[]): Promise<UploadResult[]> => {
     const successResults: UploadResult[] = [];
 
@@ -61,7 +54,7 @@ export default function MediaImageModal({ opened, onClose, onSelect }: MediaImag
   };
 
   const handleUploadSuccess = (media: Media[]) => {
-    setAvailableImages((prev) => [...prev, ...media]);
+    onImagesChange([...images, ...media]);
     notifications.show({
       title: 'Upload success',
       message: `Upload success ${media.length} images`,
@@ -80,7 +73,7 @@ export default function MediaImageModal({ opened, onClose, onSelect }: MediaImag
     <MediaModal
       opened={opened}
       onClose={onClose}
-      images={availableImages}
+      images={images}
       onSelect={(image) => onSelect(image.url)}
       onUpload={handleUpload}
       onSave={handleSave}

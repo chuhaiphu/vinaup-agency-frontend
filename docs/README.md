@@ -27,16 +27,16 @@ The docs follow a three-layer split:
 
 ## Patterns index
 
-| Pattern                                                     | Concern                                                               |
-| ----------------------------------------------------------- | --------------------------------------------------------------------- |
-| [REPOSITORY-PATTERN](pattern/REPOSITORY-PATTERN.md)         | `src/apis/` — typed HTTP access, `apiPublic`/`apiPrivate`             |
-| [SERVER-ACTIONS-PATTERN](pattern/SERVER-ACTIONS-PATTERN.md) | `src/actions/` — `'use server'`, `ActionResponse<T>`, `executeApi`    |
-| [CACHING-REVALIDATION](pattern/CACHING-REVALIDATION.md)     | `'use cache'`, `cacheTag`/`cacheLife`, `updateTag` vs `revalidateTag` |
-| [SERVER-CLIENT-BOUNDARY](pattern/SERVER-CLIENT-BOUNDARY.md) | RSC by default; where `'use client'` goes                             |
-| [PROVIDER-PATTERN](pattern/PROVIDER-PATTERN.md)             | client-only React Context (auth, theme, UI)                           |
-| [OBSERVER-PATTERN](pattern/OBSERVER-PATTERN.md)             | Zustand stores — UI/ephemeral state only                              |
-| [COMPOSITE-PATTERN](pattern/COMPOSITE-PATTERN.md)           | reuse via `@vinaup/ui`; modal/form via Mantine                        |
-| [DATE-TIME-PATTERN](pattern/DATE-TIME-PATTERN.md)           | Day.js local lens + SSR hydration                                     |
+| Pattern                                                       | Concern                                                               |
+| ------------------------------------------------------------- | --------------------------------------------------------------------- |
+| [REPOSITORY-PATTERN](pattern/REPOSITORY-PATTERN.md)           | `src/apis/` + `src/actions/` — `apiPublic`/`apiPrivate`, `executeApi` → `ActionResponse<T>`, revalidate by tag |
+| [CACHING-PATTERN](pattern/CACHING-PATTERN.md)                 | `'use cache'`, `cacheTag`/`cacheLife`, `updateTag` vs `revalidateTag` |
+| [SERVER-CLIENT-BOUNDARY](pattern/SERVER-CLIENT-BOUNDARY.md)   | RSC by default; where `'use client'` goes                             |
+| [DATA-STREAMING-PATTERN](pattern/DATA-STREAMING-PATTERN.md)   | server read; cached vs streamed; `use(promise)`+Suspense; reseed on remount |
+| [PROVIDER-PATTERN](pattern/PROVIDER-PATTERN.md)               | client-only React Context — seeded, per-user (auth session)           |
+| [OBSERVER-PATTERN](pattern/OBSERVER-PATTERN.md)               | Zustand stores — UI/ephemeral state only                              |
+| [COMPOSITE-PATTERN](pattern/COMPOSITE-PATTERN.md)             | reuse via `@vinaup/ui`; modal/form via Mantine; container/sections    |
+| [DATE-TIME-PATTERN](pattern/DATE-TIME-PATTERN.md)             | Day.js local lens + SSR hydration                                     |
 
 ## Enforcement
 

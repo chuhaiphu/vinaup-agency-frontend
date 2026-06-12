@@ -8,12 +8,12 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { createBlogActionPrivate } from '@/actions/blog-actions';
-import { useAuth } from '@/providers/auth-provider';
+import { useAuthContext } from '@/providers/auth-provider';
 import { generateUniqueEndpoint } from '@/utils/generate-unique-endpoint';
 
 export default function CreateBlogAction() {
   const router = useRouter();
-  const userData = useAuth().getUser();
+  const userData = useAuthContext().getUser();
   const [isCreating, setIsCreating] = useState(false);
 
   const handleAddNewBlog = async () => {

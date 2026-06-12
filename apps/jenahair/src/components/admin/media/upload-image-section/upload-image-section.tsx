@@ -1,9 +1,12 @@
 'use client';
 
 import { ActionIcon, Image, Loader } from '@mantine/core';
+import { type Media } from '@vinaup/ui/admin';
 import { VinaupUploadIconV1 as UploadIconV1 } from '@vinaup/ui/cores';
 import { useState } from 'react';
 import { HiOutlineTrash } from 'react-icons/hi';
+
+import { getAllMediaActionPrivate } from '@/actions/media-actions';
 
 import MediaImageModal from './media-image-modal';
 import classes from './upload-image-section.module.scss';
@@ -28,13 +31,20 @@ export default function UploadImageSection({
   size = 'sm',
 }: Readonly<UploadImageSectionProps>) {
   const [modalOpened, setModalOpened] = useState(false);
+  const [availableImages, setAvailableImages] = useState<Media[]>([]);
   const sizeMutiplier =
     size === 'sm' ? 1 : size === 'md' ? 1.5 : size === 'lg' ? 2 : size === 'xl' ? 3 : 6;
 
-  const handleUploadClick = () => {
-    if (onImageSelect) {
-      setModalOpened(true);
-    }
+  const handleUploadClick = async () => {
+    if (!onImageSelect) return;
+
+    // ─── Open immediately, then fetch ─────
+    // The fetch is interaction-driven (this click), so it lives in the handler, not an Effect
+    // (avoids react-hooks/set-state-in-effect).
+    setModalOpened(true);
+    const response = await getAllMediaActionPrivate();
+    const imageList = (response.data?.filter((media) => media.type === 'image') ?? []) as Media[];
+    setAvailableImages(imageList);
   };
 
   const handleImageSelect = (selectedImageUrl: string) => {
@@ -91,6 +101,8 @@ export default function UploadImageSection({
           opened={modalOpened}
           onClose={() => setModalOpened(false)}
           onSelect={handleImageSelect}
+          images={availableImages}
+          onImagesChange={setAvailableImages}
         />
       )}
     </>

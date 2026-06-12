@@ -12,7 +12,7 @@ import { SlOptionsVertical } from 'react-icons/sl';
 
 import { resetPasswordForUserActionPrivate } from '@/actions/auth-actions';
 import { UserResponse } from '@/interfaces/user-interfaces';
-import { useAuth } from '@/providers/auth-provider';
+import { useAuthContext } from '@/providers/auth-provider';
 
 import classes from './users-table.module.scss';
 
@@ -27,7 +27,7 @@ const RoleDisplayMap: Record<string, string> = {
 };
 
 export default function UsersTable({ usersDataPromise }: UsersTableProps) {
-  const { getUser } = useAuth();
+  const { getUser } = useAuthContext();
   const currentUserId = getUser()?.id;
   const usersData = use(usersDataPromise);
 

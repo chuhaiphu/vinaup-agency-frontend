@@ -16,13 +16,13 @@ Dependencies point **inward** only — outer layers depend on inner layers, neve
 ├────────────────────────────────────────────┤
 │  API (repository) src/apis/                 │  apiPublic / apiPrivate, typed HTTP
 ├────────────────────────────────────────────┤
-│  Client State  src/providers/ · src/libs/zustand/  │  auth/theme context · UI Zustand
+│  Client State  src/providers/ · src/libs/zustand/  │  auth session context · UI Zustand
 ├────────────────────────────────────────────┤
 │  Core   src/interfaces/ · src/constants/ · src/utils/ + @vinaup/utils │  types, enums, pure helpers
 └────────────────────────────────────────────┘
 ```
 
-> **Next.js shifts where "server state" lives.** On a React Native client, a Context provider owns the fetch lifecycle. Here, **Server Components fetch** (through `src/actions/` → `src/apis/`) and **Server Actions mutate + revalidate by tag**. React Context (`src/providers/`) is reserved for genuinely _client_ state (auth session, theme, UI). → [SERVER-CLIENT-BOUNDARY](../pattern/SERVER-CLIENT-BOUNDARY.md), [PROVIDER-PATTERN](../pattern/PROVIDER-PATTERN.md)
+> **Next.js shifts where "server state" lives.** On a React Native client, a Context provider owns the fetch lifecycle. Here, **Server Components fetch** (through `src/actions/` → `src/apis/`) and **Server Actions mutate + revalidate by tag**. React Context (`src/providers/`) is reserved for per-user, server-seeded _client_ state (the auth session); browser-only shared UI lives in Zustand. → [SERVER-CLIENT-BOUNDARY](../pattern/SERVER-CLIENT-BOUNDARY.md), [PROVIDER-PATTERN](../pattern/PROVIDER-PATTERN.md)
 
 ### UI layer — render only
 
@@ -35,7 +35,7 @@ const result = await getBlogByEndpointActionPublic(endpoint);
 
 ### Server Actions layer — mutate & revalidate
 
-`src/actions/*-actions.ts` (`'use server'`) wrap api calls in `executeApi`, return a typed `ActionResponse<T>`, and invalidate caches by tag (`updateTag`/`revalidateTag`). → [SERVER-ACTIONS-PATTERN](../pattern/SERVER-ACTIONS-PATTERN.md)
+`src/actions/*-actions.ts` (`'use server'`) wrap api calls in `executeApi`, return a typed `ActionResponse<T>`, and invalidate caches by tag (`updateTag`/`revalidateTag`). → [REPOSITORY-PATTERN](../pattern/REPOSITORY-PATTERN.md)
 
 ### API layer — HTTP adapters
 
@@ -59,5 +59,5 @@ Dependencies point inward (UI → Actions → API → Core; client-state is a si
 | Read server data                  | Server Component → `src/actions/`                |
 | Mutate server data + revalidate   | Server Action (`'use server'`)                   |
 | HTTP transport                    | `src/apis/` only                                 |
-| Auth/theme/UI client state        | `src/providers/` (context) · `src/libs/zustand/` |
+| Client state (auth session · shared UI) | `src/providers/` (context) · `src/libs/zustand/` |
 | Business calculation / formatting | `src/utils/` or `@vinaup/utils`                  |

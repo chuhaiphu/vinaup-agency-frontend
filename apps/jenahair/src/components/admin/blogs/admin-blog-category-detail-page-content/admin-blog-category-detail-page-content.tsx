@@ -22,7 +22,7 @@ import {
 } from '@vinaup/ui/cores';
 import { TreeManager, generateErrorMessage } from '@vinaup/utils';
 import { useRouter } from 'next/navigation';
-import { use, useEffect, useMemo, useRef, useState } from 'react';
+import { use, useMemo, useRef, useState } from 'react';
 import { FaCaretDown } from 'react-icons/fa6';
 import { GrTrash } from 'react-icons/gr';
 
@@ -98,10 +98,6 @@ function AdminBlogCategoryDetailPageContentInner({
   const [deleteModalOpened, setDeleteModalOpened] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [isSavingAll, setIsSavingAll] = useState<boolean>(false);
-
-  useEffect(() => {
-    setSortOrder(currentBlogCategory.sortOrder);
-  }, [currentBlogCategory.sortOrder]);
 
   const router = useRouter();
   const videoUrlInputRef = useRef<HTMLInputElement>(null);

@@ -7,9 +7,9 @@ The Composite pattern builds complex UI by assembling small pieces, each doing o
 - **Level 1 — shared high-level components** in `@vinaup/ui`, composed from Mantine.
 - **Level 2 — modal split** into shell + content when a modal grows complex.
 
-### Level 1 — reuse via `@vinaup/ui`, not a primitive-wrapping layer
+### Level 1 — reuse via `@vinaup/ui`
 
-> Unlike the React-Native app, the agency does **not** wrap Mantine into custom primitives (`Button`, `Input`). Mantine is used directly; reuse happens through **higher-level** components published from `@vinaup/ui`.
+Mantine is used directly; reuse happens through **higher-level** components published from `@vinaup/ui`.
 
 ```tsx
 import { EntitiesTable } from '@vinaup/ui/admin'; // generic typed table
@@ -32,9 +32,18 @@ const form = useForm<CreateBlogRequest>({
 
 When a modal owns local state or a multi-field form, split it into a **shell** (opens the modal, owns submit/close wiring) and **content** (the form + local state). A trivial confirm/single-field modal stays one file.
 
+### Level 3 — container vs presentational (splitting a large screen)
+
+A screen that grows past a few hundred lines and mixes data unwrapping, form state, several sections and CRUD handlers is a **god component**. Split it:
+
+- **Container** (one per screen): unwraps the data (`use(promise)`), owns the form (`@mantine/form`) and the save/delete handlers, and composes section components. Stays thin.
+- **Section components** (presentational): receive the `form` (and any handlers) via props and render **one concern each** — a media block, a sidebar, a category picker. Co-located in the screen's folder.
+
+> **Known debt:** the `adminup` detail screens (`admin-blog-detail-page-content.tsx` and siblings, 500–955 lines) predate this rule and are **not yet split**. They are the reference for _what to split next_, not the shape to copy — new screens follow Level 3 from the start.
+
 ## Why
 
-A single component that owns the container, the form state, the list, and the callbacks grows fast and becomes hard to read and test. Composing small pieces — and lifting shared ones into `@vinaup/ui` — keeps each file small and changes local. Reusing Mantine directly (instead of wrapping it) avoids a maintenance layer that adds no behaviour.
+Composing small pieces — and lifting shared ones into `@vinaup/ui` — keeps each file small and changes local. Reusing Mantine directly (instead of wrapping it) avoids a maintenance layer that adds no behaviour.
 
 ## How
 
@@ -57,3 +66,7 @@ Shell = open/close + submit wiring; content = form + local state. Keep simple co
 ### Rule 5 — One concern per component
 
 If a component fetches, computes, and renders, split it: read on the server, compute in a helper, render in a leaf. → [SoC](../principle/SOC.md)
+
+### Rule 6 — Split a screen past ~250 lines into container + sections
+
+Thin container unwraps data + owns the form; presentational sections receive `form` via props and render one concern each. → [SoC](../principle/SOC.md), [DATA-STREAMING-PATTERN](DATA-STREAMING-PATTERN.md)

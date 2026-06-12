@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 'use client';
 
 import {
@@ -34,7 +35,7 @@ import {
 import { TreeManager } from '@vinaup/utils';
 import { Route } from 'next';
 import dayjs from 'dayjs';
-import { use, useEffect, useMemo, useRef, useState } from 'react';
+import { use, useMemo, useRef, useState } from 'react';
 import { FaCaretDown, FaCheck } from 'react-icons/fa6';
 import { GrTrash } from 'react-icons/gr';
 
@@ -48,7 +49,7 @@ import { MAX_IMAGE_COUNT_ALLOWED, VN_PROVINCES } from '@/constants';
 import { ActionResponse } from '@/interfaces/_base-interfaces';
 import { DiaryCategoryResponse } from '@/interfaces/diary-category-interfaces';
 import { DiaryResponse } from '@/interfaces/diary-interfaces';
-import { useAuth } from '@/providers/auth-provider';
+import { useAuthContext } from '@/providers/auth-provider';
 import { generateUniqueEndpoint } from '@/utils/generate-unique-endpoint';
 
 import classes from './admin-diary-detail-page-content.module.scss';
@@ -64,7 +65,7 @@ export default function AdminDiaryDetailPageContent({
 }: AdminDiaryDetailPageContentProps) {
   const currentDiaryResult = use(currentDiaryPromise);
   const diaryCategoriesResult = use(diaryCategoriesPromise);
-  const { getUser } = useAuth();
+  const { getUser } = useAuthContext();
 
   if (!currentDiaryResult.success || !currentDiaryResult.data) {
     return <div>Diary not found</div>;
@@ -125,9 +126,6 @@ function AdminDiaryDetailPageContentInner({
   const [isSavingAll, setIsSavingAll] = useState<boolean>(false);
 
   const router = useRouter();
-  useEffect(() => {
-    setSelectedCategoryIds(currentDiaryData.diaryCategoryDiaries.map((dcd) => dcd.diaryCategoryId));
-  }, [currentDiaryData.diaryCategoryDiaries]);
 
   const treeManager = useMemo(() => {
     if (diaryCategoriesData.length === 0) {

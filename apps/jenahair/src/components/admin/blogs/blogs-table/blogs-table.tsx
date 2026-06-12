@@ -6,7 +6,7 @@ import { EntitiesTable, EntitiesTableColumnProps } from '@vinaup/ui/admin';
 import { generateErrorMessage } from '@vinaup/utils';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
-import React, { use, useEffect, useState } from 'react';
+import React, { use, useState } from 'react';
 import { GrTrash } from 'react-icons/gr';
 import { MdOutlineCalendarMonth } from 'react-icons/md';
 import { SlOptionsVertical } from 'react-icons/sl';
@@ -35,9 +35,8 @@ export default function BlogsTable({ blogsDataPromise }: BlogsTableProps) {
 
   const blogsData = use(blogsDataPromise);
   const totalPages = Math.ceil(blogsData.length / ITEMS_PER_PAGE) || 1;
-  useEffect(() => {
-    setPage((p) => (p > totalPages ? totalPages : p));
-  }, [blogsData.length, totalPages]);
+
+  const safePage = Math.min(page, totalPages);
 
   const handleDeleteBlog = async () => {
     if (!selectedBlogId) return;
@@ -166,7 +165,7 @@ export default function BlogsTable({ blogsDataPromise }: BlogsTableProps) {
     },
   ];
 
-  const paginatedData = blogsData.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
+  const paginatedData = blogsData.slice((safePage - 1) * ITEMS_PER_PAGE, safePage * ITEMS_PER_PAGE);
 
   return (
     <>
@@ -188,7 +187,7 @@ export default function BlogsTable({ blogsDataPromise }: BlogsTableProps) {
           }}
         />
         <Group justify="center">
-          <Pagination value={page} onChange={setPage} total={totalPages} size="sm" />
+          <Pagination value={safePage} onChange={setPage} total={totalPages} size="sm" />
         </Group>
       </Stack>
       <Modal

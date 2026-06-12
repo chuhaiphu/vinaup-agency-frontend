@@ -6,7 +6,7 @@ import { EntitiesTable, EntitiesTableColumnProps } from '@vinaup/ui/admin';
 import { generateErrorMessage } from '@vinaup/utils';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
-import React, { use, useEffect, useState } from 'react';
+import React, { use, useState } from 'react';
 import { GrTrash } from 'react-icons/gr';
 import { MdOutlineCalendarMonth } from 'react-icons/md';
 import { SlOptionsVertical } from 'react-icons/sl';
@@ -35,9 +35,8 @@ export default function DiariesTable({ diariesDataPromise }: DiariesTableProps) 
 
   const diariesData = use(diariesDataPromise);
   const totalPages = Math.ceil(diariesData.length / ITEMS_PER_PAGE) || 1;
-  useEffect(() => {
-    setPage((p) => (p > totalPages ? totalPages : p));
-  }, [diariesData.length, totalPages]);
+
+  const safePage = Math.min(page, totalPages);
 
   const handleDeleteDiary = async () => {
     if (!selectedDiaryId) return;
@@ -166,7 +165,10 @@ export default function DiariesTable({ diariesDataPromise }: DiariesTableProps) 
     },
   ];
 
-  const paginatedData = diariesData.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
+  const paginatedData = diariesData.slice(
+    (safePage - 1) * ITEMS_PER_PAGE,
+    safePage * ITEMS_PER_PAGE,
+  );
 
   return (
     <>
@@ -188,7 +190,7 @@ export default function DiariesTable({ diariesDataPromise }: DiariesTableProps) 
           }}
         />
         <Group justify="center">
-          <Pagination value={page} onChange={setPage} total={totalPages} size="sm" />
+          <Pagination value={safePage} onChange={setPage} total={totalPages} size="sm" />
         </Group>
       </Stack>
       <Modal

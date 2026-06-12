@@ -1,6 +1,6 @@
-// import { Suspense } from 'react';
 import { Container, Grid, GridCol, Stack, Group } from '@mantine/core';
 import { VinaupGlobalIcon } from '@vinaup/ui/cores';
+import { cacheLife, cacheTag } from 'next/cache';
 import Link from 'next/link';
 
 import { BlogsColumn } from './blogs-column';
@@ -8,9 +8,13 @@ import classes from './salon-video-and-blogs-showcase.module.scss';
 import { VideoSectionShowcase } from './video-section-showcase';
 
 export async function SalonVideoAndBlogsShowcase() {
-  // only use 'use cache' for landing page component only,
-  // to prevent cucumulative layout shift.
+  // Cache this section into the prerendered static shell. It reads blogs (via
+  // BlogsColumn) and theme-config (via VideoSectionShowcase), so it must tag
+  // both to be invalidated — a component cache is its own entry, separate from
+  // the actions it calls. → docs/pattern/CACHING-REVALIDATION.md (Rule 1)
   'use cache';
+  cacheLife('default');
+  cacheTag('blogs', 'theme-config');
   return (
     <section className={classes.sectionWrapper}>
       <Container size={'lg'} pb={'2rem'}>
@@ -48,9 +52,7 @@ export async function SalonVideoAndBlogsShowcase() {
                 </Link>
               </Group>
 
-              {/* <Suspense fallback={<BlogsColumnSkeleton />}> */}
               <BlogsColumn />
-              {/* </Suspense> */}
             </Stack>
           </GridCol>
         </Grid>
