@@ -2,7 +2,7 @@
 
 import { Group, Paper, Stack, Text, TextInput } from '@mantine/core';
 import { UseFormReturnType } from '@mantine/form';
-import { CopyToClipboard } from '@vinaup/ui/actions';
+import { CopyToClipboard } from '@vinaup/ui/shared';
 
 import { SITE_BASE_URL } from '@/constants';
 

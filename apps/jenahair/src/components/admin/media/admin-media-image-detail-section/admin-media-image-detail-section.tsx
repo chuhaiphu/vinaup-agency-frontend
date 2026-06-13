@@ -1,8 +1,8 @@
 'use client';
 
-import { Button, Group, Modal, Stack, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { MediaDetail, type Media, type UpdateMediaRequest } from '@vinaup/ui/admin';
+import { ConfirmModal } from '@vinaup/ui/shared';
 import { generateErrorMessage } from '@vinaup/utils';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -76,28 +76,14 @@ export default function AdminMediaImageDetailSection({
         onNotify={handleNotify}
       />
 
-      <Modal
+      <ConfirmModal
+        variant="danger"
         opened={deleteModalOpened}
         onClose={() => setDeleteModalOpened(false)}
-        title="Confirm Delete"
-        centered
-      >
-        <Stack>
-          <Text>Are you sure you want to delete this image? This action cannot be undone.</Text>
-          <Group justify="flex-end" mt="sm">
-            <Button
-              variant="default"
-              onClick={() => setDeleteModalOpened(false)}
-              disabled={isDeleting}
-            >
-              Cancel
-            </Button>
-            <Button color="red" onClick={handleConfirmDelete} loading={isDeleting}>
-              Delete
-            </Button>
-          </Group>
-        </Stack>
-      </Modal>
+        onConfirm={handleConfirmDelete}
+        loading={isDeleting}
+        message="Are you sure you want to delete this image? This action cannot be undone."
+      />
     </>
   );
 }

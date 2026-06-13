@@ -1,12 +1,14 @@
 ﻿import '@mantine/carousel/styles.css';
 
-import classes from './layout.module.scss';
-import { Suspense } from 'react';
-import { ScrollToTop } from '@vinaup/ui/actions';
+import { ScrollToTop } from '@vinaup/ui/shared';
 import { Metadata } from 'next';
+import { Suspense } from 'react';
+
+import { ComputerShopLandingFooter } from '@/components/landing/layout/computer-shop-landing-footer/computer-shop-landing-footer';
 import LandingHeader from '@/components/landing/layout/landing-header/landing-header';
 import { MaintenanceGuard } from '@/components/landing/primitives/maintenance-guard/maintenance-guard';
-import { ComputerShopLandingFooter } from '@/components/landing/layout/computer-shop-landing-footer/computer-shop-landing-footer';
+
+import classes from './layout.module.scss';
 
 export const metadata: Metadata = {
   title: 'Vi Tinh Net',

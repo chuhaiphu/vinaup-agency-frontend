@@ -1,11 +1,11 @@
 import { Container, Group, Stack, Text } from '@mantine/core';
-import { CopyToClipboard } from '@vinaup/ui/actions';
 import {
   VinaupLocationIcon as LocationIcon,
   VinaupGridListIcon,
   VinaupPriceTagIcon,
 } from '@vinaup/ui/cores';
 import { VideoSection, SectionCarousel, SectionCarouselSlide } from '@vinaup/ui/landing';
+import { CopyToClipboard } from '@vinaup/ui/shared';
 import { Route } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';

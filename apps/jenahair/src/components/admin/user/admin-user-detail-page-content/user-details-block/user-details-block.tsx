@@ -1,7 +1,8 @@
 'use client';
 
-import { Button, Group, Modal, Paper, Stack, Text } from '@mantine/core';
+import { Button, Group, Paper, Stack, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
+import { ConfirmModal } from '@vinaup/ui/shared';
 import { useState } from 'react';
 import { MdLockReset } from 'react-icons/md';
 
@@ -73,28 +74,16 @@ export default function UserDetailsBlock({ user }: UserDetailsBlockProps) {
         </Group>
       </Paper>
 
-      <Modal
+      <ConfirmModal
+        variant="primary"
         opened={resetPasswordModalOpened}
         onClose={() => setResetPasswordModalOpened(false)}
+        onConfirm={handleResetPassword}
+        loading={isResetting}
         title="Confirm Reset Password"
-        centered
-      >
-        <Stack>
-          <Text>Are you sure you want to reset your password?</Text>
-          <Group justify="flex-end" mt="sm">
-            <Button
-              variant="default"
-              onClick={() => setResetPasswordModalOpened(false)}
-              disabled={isResetting}
-            >
-              Cancel
-            </Button>
-            <Button color="blue" onClick={handleResetPassword} loading={isResetting}>
-              Reset Password
-            </Button>
-          </Group>
-        </Stack>
-      </Modal>
+        confirmLabel="Reset Password"
+        message="Are you sure you want to reset your password?"
+      />
     </>
   );
 }

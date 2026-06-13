@@ -3,6 +3,7 @@
 import { Grid, GridCol, Stack } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
+import { ConfirmModal } from '@vinaup/ui/shared';
 import { TreeManager, generateErrorMessage } from '@vinaup/utils';
 import { useRouter } from 'next/navigation';
 import { use, useMemo, useState } from 'react';
@@ -11,7 +12,6 @@ import {
   deleteDiaryCategoryActionPrivate,
   updateDiaryCategoryActionPrivate,
 } from '@/actions/diary-category-actions';
-import DeleteConfirmModal from '@/components/admin/shared/delete-confirm-modal/delete-confirm-modal';
 import FeatureImageSection from '@/components/admin/shared/feature-image-section/feature-image-section';
 import VideoSection from '@/components/admin/shared/video-section/video-section';
 import { ActionResponse } from '@/interfaces/_base-interfaces';
@@ -43,6 +43,8 @@ export default function AdminDiaryCategoryDetailPageContent({
 
   return (
     <AdminDiaryCategoryDetailPageContentInner
+      // Remount on id change so useForm re-initializes to drops unsaved edits when navigate forth and back.
+      key={currentDiaryCategoryResult.data.id}
       currentDiaryCategory={currentDiaryCategoryResult.data}
       diaryCategoriesData={diaryCategoriesResult.data ?? []}
       availableSortOrdersData={availableSortOrdersResult.data ?? []}
@@ -92,7 +94,6 @@ function AdminDiaryCategoryDetailPageContentInner({
       const values = form.getValues();
 
       // ─── Step 1: regenerate the endpoint only when the title changed ─────
-      // The endpoint is derived from the title; an unchanged title keeps the published URL stable.
       let newEndpoint = currentDiaryCategory.endpoint;
       if (values.title !== currentDiaryCategory.title) {
         newEndpoint = await generateUniqueEndpoint(
@@ -103,7 +104,6 @@ function AdminDiaryCategoryDetailPageContentInner({
       }
 
       // ─── Step 2: persist every field in one update ─────
-      // All fields (including image urls) are buffered in the form and saved together.
       await updateDiaryCategoryActionPrivate(currentDiaryCategory.id, {
         title: values.title,
         description: values.description,
@@ -207,11 +207,12 @@ function AdminDiaryCategoryDetailPageContentInner({
         </GridCol>
       </Grid>
 
-      <DeleteConfirmModal
+      <ConfirmModal
+        variant="danger"
         opened={deleteModalOpened}
         onClose={() => setDeleteModalOpened(false)}
         onConfirm={handleDeleteDiaryCategory}
-        isDeleting={isDeleting}
+        loading={isDeleting}
         message="Are you sure you want to delete this diary category?"
       />
     </div>

@@ -1,30 +1,21 @@
 'use client';
 
-import {
-  ActionIcon,
-  Button,
-  Grid,
-  GridCol,
-  Group,
-  Modal,
-  Paper,
-  Select,
-  Stack,
-  Text,
-  TextInput,
-} from '@mantine/core';
+import { Grid, GridCol, Stack } from '@mantine/core';
+import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
+import { ConfirmModal } from '@vinaup/ui/shared';
 import { TreeManager, generateErrorMessage } from '@vinaup/utils';
 import { useRouter } from 'next/navigation';
 import { use, useMemo, useState } from 'react';
-import { FaCaretDown } from 'react-icons/fa6';
-import { GrTrash } from 'react-icons/gr';
 
 import { updateMenuActionPrivate, deleteMenuActionPrivate } from '@/actions/menu-actions';
 import { ActionResponse } from '@/interfaces/_base-interfaces';
 import { MenuResponse } from '@/interfaces/menu-interfaces';
 
+import { MenuDetailFormValues, toMenuDetailFormValues } from './_form';
 import classes from './admin-menu-detail-page-content.module.scss';
+import MenuConfigSection from './menu-config-section/menu-config-section';
+import MenuInfoSection from './menu-info-section/menu-info-section';
 
 interface AdminMenuDetailPageContentProps {
   currentMenuPromise: Promise<ActionResponse<MenuResponse>>;
@@ -51,6 +42,8 @@ export default function AdminMenuDetailPageContent({
 
   return (
     <AdminMenuDetailPageContentInner
+      // Remount on id change so useForm re-initializes to drops unsaved edits when navigate forth and back.
+      key={currentMenu.id}
       currentMenu={currentMenu}
       menusData={menusData}
       availableSortOrdersData={availableSortOrdersData}
@@ -69,10 +62,9 @@ function AdminMenuDetailPageContentInner({
   menusData,
   availableSortOrdersData,
 }: AdminMenuDetailPageContentInnerProps) {
-  const [title, setTitle] = useState<string>(currentMenu.title);
-  const [parentId, setParentId] = useState<string | null>(currentMenu.parent?.id || null);
-  const [sortOrder, setSortOrder] = useState<number>(currentMenu.sortOrder || 0);
-  const [customUrl, setCustomUrl] = useState<string>(currentMenu.customUrl || '');
+  const form = useForm<MenuDetailFormValues>({
+    initialValues: toMenuDetailFormValues(currentMenu),
+  });
 
   const [isSavingAll, setIsSavingAll] = useState<boolean>(false);
   const [deleteModalOpened, setDeleteModalOpened] = useState<boolean>(false);
@@ -98,11 +90,12 @@ function AdminMenuDetailPageContentInner({
   const handleSaveAll = async () => {
     setIsSavingAll(true);
     try {
+      const values = form.getValues();
       await updateMenuActionPrivate(currentMenu.id, {
-        title,
-        parentId: parentId || undefined,
-        sortOrder,
-        customUrl: customUrl || undefined,
+        title: values.title,
+        parentId: values.parentId || undefined,
+        sortOrder: values.sortOrder,
+        customUrl: values.customUrl || undefined,
       });
       notifications.show({
         message: 'Saved successfully',
@@ -157,131 +150,30 @@ function AdminMenuDetailPageContentInner({
       <Grid>
         <GridCol span={{ base: 12, sm: 12, md: 7, lg: 7, xl: 8 }}>
           <Stack>
-            <Paper p={'sm'} radius={'md'} classNames={{ root: classes.paperBlock }}>
-              <Stack gap={'xs'}>
-                <Text>Title</Text>
-                <TextInput
-                  size="md"
-                  value={title}
-                  placeholder="A title under 100 characters"
-                  maxLength={100}
-                  onChange={(e) => {
-                    setTitle(e.target.value);
-                  }}
-                />
-              </Stack>
-
-              <Stack gap={'xs'} mt={'md'}>
-                <Text>Parent Menu</Text>
-                <Select
-                  size="md"
-                  placeholder="---"
-                  data={parentOptions}
-                  value={parentId}
-                  searchable
-                  nothingFoundMessage="No menu found"
-                  onChange={(value) => setParentId(value)}
-                />
-              </Stack>
-
-              <Stack gap={'xs'} mt={'md'}>
-                <Text>Custom URL</Text>
-                <TextInput
-                  size="md"
-                  placeholder="Enter custom URL"
-                  value={customUrl}
-                  onChange={(e) => {
-                    setCustomUrl(e.target.value);
-                  }}
-                />
-              </Stack>
-            </Paper>
+            <MenuInfoSection form={form} parentOptions={parentOptions} />
           </Stack>
         </GridCol>
 
         <GridCol span={{ base: 12, sm: 12, md: 5, lg: 5, xl: 4 }}>
-          <Paper pt={0} p={'xs'} radius={'md'} classNames={{ root: classes.menuConfiguration }}>
-            <Stack gap={'0'}>
-              <Group justify="space-between" wrap="nowrap">
-                <Text size="lg">Index</Text>
-                <Select
-                  w={'5rem'}
-                  classNames={{
-                    root: classes.selectRoot,
-                    section: classes.selectSection,
-                    input: classes.selectInput,
-                    option: classes.selectOption,
-                  }}
-                  size="md"
-                  data={availableSortOrdersData.map((order) => ({
-                    value: order.toString(),
-                    label: order.toString(),
-                  }))}
-                  value={sortOrder?.toString()}
-                  variant="unstyled"
-                  rightSection={<FaCaretDown color="var(--vinaup-blue-link)" size={24} />}
-                  onChange={(value) => setSortOrder(value ? parseInt(value) : 0)}
-                />
-              </Group>
-              <Group justify="space-between" wrap="nowrap" mt={'sm'}>
-                <ActionIcon
-                  size="lg"
-                  variant="subtle"
-                  color="var(--vinaup-blue-link)"
-                  onClick={() => setDeleteModalOpened(true)}
-                >
-                  <GrTrash size={24} color="var(--vinaup-blue-link)" />
-                </ActionIcon>
-                <Group gap={'xs'}>
-                  <Button
-                    loading={isSavingAll}
-                    onClick={handleSaveAll}
-                    variant="filled"
-                    color="teal"
-                    size="xs"
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      router.push('/adminup/menu');
-                    }}
-                    variant="filled"
-                    color="blue"
-                    size="xs"
-                    bg={'#01426e'}
-                  >
-                    Exit
-                  </Button>
-                </Group>
-              </Group>
-            </Stack>
-          </Paper>
+          <MenuConfigSection
+            form={form}
+            availableSortOrders={availableSortOrdersData}
+            isSaving={isSavingAll}
+            onSave={handleSaveAll}
+            onExit={() => router.push('/adminup/menu')}
+            onDeleteClick={() => setDeleteModalOpened(true)}
+          />
         </GridCol>
       </Grid>
 
-      <Modal
+      <ConfirmModal
+        variant="danger"
         opened={deleteModalOpened}
         onClose={() => setDeleteModalOpened(false)}
-        title="Confirm Delete"
-        centered
-      >
-        <Stack>
-          <Text>Are you sure you want to delete this menu?</Text>
-          <Group justify="flex-end" mt="sm">
-            <Button
-              variant="default"
-              onClick={() => setDeleteModalOpened(false)}
-              disabled={isDeleting}
-            >
-              Cancel
-            </Button>
-            <Button color="red" onClick={handleDeleteMenu} loading={isDeleting}>
-              Delete
-            </Button>
-          </Group>
-        </Stack>
-      </Modal>
+        onConfirm={handleDeleteMenu}
+        loading={isDeleting}
+        message="Are you sure you want to delete this menu?"
+      />
     </div>
   );
 }

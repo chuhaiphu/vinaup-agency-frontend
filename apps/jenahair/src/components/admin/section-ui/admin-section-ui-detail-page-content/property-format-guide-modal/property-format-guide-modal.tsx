@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Modal, Stack, Text, Textarea } from '@mantine/core';
-import { CopyToClipboard } from '@vinaup/ui/actions';
+import { CopyToClipboard } from '@vinaup/ui/shared';
 
 interface PropertyFormatGuideModalProps {
   opened: boolean;

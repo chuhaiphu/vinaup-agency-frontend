@@ -5,6 +5,7 @@ import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { JSONEditor } from '@vinaup/ui/admin';
+import { ConfirmModal } from '@vinaup/ui/shared';
 import { useState } from 'react';
 
 import {
@@ -12,7 +13,6 @@ import {
   getSectionUICredentialsByCodeActionPrivate,
   updateSectionUIActionPrivate,
 } from '@/actions/section-ui-actions';
-import DeleteConfirmModal from '@/components/admin/shared/delete-confirm-modal/delete-confirm-modal';
 import { MAX_SECTION_POSITION } from '@/constants';
 import { DynamicSectionUIResponse } from '@/interfaces/dynamic-section-ui-interfaces';
 import { SectionUICredentialsResponse } from '@/interfaces/section-ui-credentials-interfaces';
@@ -215,11 +215,12 @@ export default function SectionUIEditForm({
         </Button>
       </Group>
 
-      <DeleteConfirmModal
+      <ConfirmModal
+        variant="danger"
         opened={deleteModalOpened}
         onClose={closeDeleteModal}
         onConfirm={handleDelete}
-        isDeleting={isDeleting}
+        loading={isDeleting}
         message="Are you sure you want to delete this item?"
       />
 

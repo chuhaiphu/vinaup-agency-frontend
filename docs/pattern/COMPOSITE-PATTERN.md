@@ -39,7 +39,7 @@ import { EntitiesTable, MediaModal } from '@vinaup/ui/admin'; // generic table, 
 import { HeroCarousel, ProductCard } from '@vinaup/ui/landing';
 ```
 
-Subpath exports (verified in `packages/ui/package.json`): `@vinaup/ui/admin`, `@vinaup/ui/landing`, `@vinaup/ui/cores` (alias `/core`), `@vinaup/ui/libs/mantine`.
+Subpath exports (verified in `packages/ui/package.json`): `@vinaup/ui/admin`, `@vinaup/ui/landing`, `@vinaup/ui/shared` (cross-app primitives: `ConfirmModal`, `ScrollToTop`, `CopyToClipboard`), `@vinaup/ui/cores` (alias `/core`), `@vinaup/ui/libs/mantine`.
 
 Use Mantine directly — no custom `Button` / `Input` re-skins. A shared component earns its place only when it carries **real composed behaviour** (a typed `EntitiesTable`, a `MediaModal` orchestrating grid + upload), not to restyle one Mantine element.
 
@@ -138,20 +138,6 @@ export default function EntityModalShell({ opened, onClose }: ShellProps) {
 
 ---
 
-## What this codebase satisfies today
-
-An honest scorecard — the gaps drive the [Refactor backlog](#refactor-backlog).
-
-| Decision | Status | Evidence |
-| -------- | :----: | -------- |
-| Mechanisms (props / children / render-prop) | ✅ Satisfied | slots (`ProductCard`) + render-prop (`EntitiesTable`) used idiomatically |
-| Placement (reuse via `@vinaup/ui`, no re-skins) | ✅ Satisfied | healthy package; only 3 borderline thin wrappers |
-| Split A — container + sections | ✅ Satisfied | all six admin detail screens split — shared-form shape (blog/diary/page/category), independent-blocks (`admin-user-detail`), and mode-machine (`section-ui`); no god components remain |
-| Split B — modal shell + content | ❌ Mostly not | raw modals are mostly inline/monolithic; `DeleteConfirmModal` (`admin/shared/`) now covers the confirm case |
-| Forms via `@mantine/form` | ✅ Satisfied | every detail/edit screen uses `useForm` (section-ui's edit mode buffers behind Save; its create wizard stays imperative by nature) |
-
----
-
 ## Why
 
 Composing small single-purpose pieces — and lifting shared ones into `@vinaup/ui` — keeps each file small and each change local. Using Mantine directly (instead of wrapping it) avoids a maintenance layer that adds no behaviour.
@@ -196,11 +182,3 @@ Thin container gets the data + owns the form; presentational sections render one
 → [Coding Convention §9](../CODING-CONVENTION.md), [§10](../CODING-CONVENTION.md), [§11](../CODING-CONVENTION.md)
 
 ---
-
-## Refactor backlog
-
-The scorecard gaps, prioritized. These are **not yet done** — they are the work this doc points at. New code follows the rules above from the start; these are the legacy screens that predate them.
-
-**P2 — medium screens:** `menu` (287), `settings/.../smtp-page-content` (274), `dashboard/admin-page-tabs/customer-contacts-tab` (258), `theme/*` (234–235), landing `blog`/`diary` detail (236–237).
-
-**P3 — modal hygiene:** audit the 42 raw `<Modal>` sites; extract shell + content for the stateful ones (e.g. `user-details-block.tsx` reset-password modal, table delete modals). Leave simple confirms inline.

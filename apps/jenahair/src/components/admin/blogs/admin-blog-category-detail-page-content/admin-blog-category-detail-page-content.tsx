@@ -3,6 +3,7 @@
 import { Grid, GridCol, Stack } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
+import { ConfirmModal } from '@vinaup/ui/shared';
 import { TreeManager, generateErrorMessage } from '@vinaup/utils';
 import { useRouter } from 'next/navigation';
 import { use, useMemo, useState } from 'react';
@@ -11,7 +12,6 @@ import {
   deleteBlogCategoryActionPrivate,
   updateBlogCategoryActionPrivate,
 } from '@/actions/blog-category-actions';
-import DeleteConfirmModal from '@/components/admin/shared/delete-confirm-modal/delete-confirm-modal';
 import FeatureImageSection from '@/components/admin/shared/feature-image-section/feature-image-section';
 import VideoSection from '@/components/admin/shared/video-section/video-section';
 import { ActionResponse } from '@/interfaces/_base-interfaces';
@@ -43,6 +43,8 @@ export default function AdminBlogCategoryDetailPageContent({
 
   return (
     <AdminBlogCategoryDetailPageContentInner
+      // Remount on id change so useForm re-initializes to drops unsaved edits when navigate forth and back.
+      key={currentBlogCategoryResult.data.id}
       currentBlogCategory={currentBlogCategoryResult.data}
       blogCategoriesData={blogCategoriesResult.data ?? []}
       availableSortOrdersData={availableSortOrdersResult.data ?? []}
@@ -92,7 +94,6 @@ function AdminBlogCategoryDetailPageContentInner({
       const values = form.getValues();
 
       // ─── Step 1: regenerate the endpoint only when the title changed ─────
-      // The endpoint is derived from the title; an unchanged title keeps the published URL stable.
       let newEndpoint = currentBlogCategory.endpoint;
       if (values.title !== currentBlogCategory.title) {
         newEndpoint = await generateUniqueEndpoint(
@@ -207,11 +208,12 @@ function AdminBlogCategoryDetailPageContentInner({
         </GridCol>
       </Grid>
 
-      <DeleteConfirmModal
+      <ConfirmModal
+        variant="danger"
         opened={deleteModalOpened}
         onClose={() => setDeleteModalOpened(false)}
         onConfirm={handleDeleteBlogCategory}
-        isDeleting={isDeleting}
+        loading={isDeleting}
         message="Are you sure you want to delete this blog category?"
       />
     </div>

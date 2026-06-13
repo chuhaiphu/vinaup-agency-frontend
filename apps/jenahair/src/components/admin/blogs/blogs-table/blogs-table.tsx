@@ -1,8 +1,9 @@
 'use client';
-import { ActionIcon, Button, Group, Modal, Pagination, Popover, Stack } from '@mantine/core';
+import { ActionIcon, Group, Pagination, Popover, Stack } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import { notifications } from '@mantine/notifications';
 import { EntitiesTable, EntitiesTableColumnProps } from '@vinaup/ui/admin';
+import { ConfirmModal } from '@vinaup/ui/shared';
 import { generateErrorMessage } from '@vinaup/utils';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
@@ -190,27 +191,13 @@ export default function BlogsTable({ blogsDataPromise }: BlogsTableProps) {
           <Pagination value={safePage} onChange={setPage} total={totalPages} size="sm" />
         </Group>
       </Stack>
-      <Modal
+      <ConfirmModal
+        variant="danger"
         opened={deleteModalOpened}
         onClose={() => setDeleteModalOpened(false)}
-        title="Confirm Delete"
-        centered
-      >
-        <Stack>
-          <Group justify="flex-end" mt="sm">
-            <Button
-              variant="default"
-              onClick={() => setDeleteModalOpened(false)}
-              disabled={isDeleting}
-            >
-              Cancel
-            </Button>
-            <Button color="red" onClick={handleDeleteBlog} loading={isDeleting}>
-              Delete
-            </Button>
-          </Group>
-        </Stack>
-      </Modal>
+        onConfirm={handleDeleteBlog}
+        loading={isDeleting}
+      />
     </>
   );
 }

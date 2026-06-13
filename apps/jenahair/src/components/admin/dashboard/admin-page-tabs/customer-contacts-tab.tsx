@@ -1,9 +1,10 @@
 'use client';
 
-import { Group, Text, Stack, Modal, ActionIcon, Button } from '@mantine/core';
+import { Group, Text, Stack, Modal, ActionIcon } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { EntitiesTable } from '@vinaup/ui/admin';
 import { EntitiesTableColumnProps } from '@vinaup/ui/admin';
+import { ConfirmModal } from '@vinaup/ui/shared';
 import { useState } from 'react';
 import { GrTrash } from 'react-icons/gr';
 import { IoEyeOutline } from 'react-icons/io5';
@@ -231,28 +232,14 @@ export default function CustomerContactsTab({ customerContacts }: CustomerContac
         )}
       </Modal>
 
-      <Modal
+      <ConfirmModal
+        variant="danger"
         opened={deleteContactModalOpened}
         onClose={() => setDeleteContactModalOpened(false)}
-        title="Confirm Delete"
-        centered
-      >
-        <Stack>
-          <Text>Are you sure you want to delete this customer contact?</Text>
-          <Group justify="flex-end" mt="sm">
-            <Button
-              variant="default"
-              onClick={() => setDeleteContactModalOpened(false)}
-              disabled={isDeleting}
-            >
-              Cancel
-            </Button>
-            <Button color="red" onClick={handleDeleteContact} loading={isDeleting}>
-              Delete
-            </Button>
-          </Group>
-        </Stack>
-      </Modal>
+        onConfirm={handleDeleteContact}
+        loading={isDeleting}
+        message="Are you sure you want to delete this customer contact?"
+      />
     </>
   );
 }

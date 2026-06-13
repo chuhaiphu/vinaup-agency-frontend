@@ -1,10 +1,10 @@
 import { Suspense } from 'react';
 
 import { getSmtpConfigActionPrivate } from '@/actions/smtp-config-actions';
-import SmtpPageContent from '@/components/admin/settings/admin-setting-email-smtp-layout-content/smtp-page-content/smtp-page-content';
-import SmtpPageContentSkeleton from '@/components/admin/settings/admin-setting-email-smtp-layout-content/smtp-page-content/smtp-page-content-skeleton';
+import SmtpPageContent from '@/components/admin/settings/admin-setting-email-smtp-page-content/smtp-page-content/smtp-page-content';
+import SmtpPageContentSkeleton from '@/components/admin/settings/admin-setting-email-smtp-page-content/smtp-page-content/smtp-page-content-skeleton';
 
-export default async function EmailSmtpPage() {
+export default async function SmtpPage() {
   const smtpConfigPromise = getSmtpConfigActionPrivate();
 
   return (

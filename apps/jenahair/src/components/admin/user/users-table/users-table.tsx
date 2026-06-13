@@ -1,9 +1,10 @@
 'use client';
 
-import { ActionIcon, Button, Group, Modal, Popover, Stack, Text } from '@mantine/core';
+import { ActionIcon, Group, Popover } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import { notifications } from '@mantine/notifications';
 import { EntitiesTable, EntitiesTableColumnProps } from '@vinaup/ui/admin';
+import { ConfirmModal } from '@vinaup/ui/shared';
 import dayjs from 'dayjs';
 import React, { use, useState } from 'react';
 import { MdLockReset } from 'react-icons/md';
@@ -155,30 +156,21 @@ export default function UsersTable({ usersDataPromise }: UsersTableProps) {
           },
         }}
       />
-      <Modal
+      <ConfirmModal
+        variant="primary"
         opened={resetPasswordModalOpened}
         onClose={() => setResetPasswordModalOpened(false)}
+        onConfirm={handleResetPassword}
+        loading={isResetting}
         title="Confirm Reset Password"
-        centered
-      >
-        <Stack>
-          <Text>
-            Are you sure you want to reset password for user <strong>{selectedUser?.email}</strong>?
-          </Text>
-          <Group justify="flex-end" mt="sm">
-            <Button
-              variant="default"
-              onClick={() => setResetPasswordModalOpened(false)}
-              disabled={isResetting}
-            >
-              Cancel
-            </Button>
-            <Button color="blue" onClick={handleResetPassword} loading={isResetting}>
-              Reset Password
-            </Button>
-          </Group>
-        </Stack>
-      </Modal>
+        confirmLabel="Reset Password"
+        message={
+          <>
+            Are you sure you want to reset password for user{' '}
+            <strong>{selectedUser?.email}</strong>?
+          </>
+        }
+      />
     </>
   );
 }

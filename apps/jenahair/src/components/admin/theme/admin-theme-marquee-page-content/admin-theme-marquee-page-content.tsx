@@ -3,7 +3,6 @@ import {
   ActionIcon,
   Button,
   Group,
-  Modal,
   Paper,
   Stack,
   Tabs,
@@ -12,6 +11,7 @@ import {
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { VinaupAddNewIcon as AddNewIcon } from '@vinaup/ui/cores';
+import { ConfirmModal } from '@vinaup/ui/shared';
 import { generateErrorMessage } from '@vinaup/utils';
 import { use, useState } from 'react';
 import { HiOutlineTrash } from 'react-icons/hi';
@@ -189,24 +189,13 @@ function AdminThemeMarqueePageContentInner({ initialSlides }: { initialSlides: M
         </Paper>
       </div>
 
-      <Modal
+      <ConfirmModal
+        variant="danger"
         opened={deleteTargetId !== null}
         onClose={() => setDeleteTargetId(null)}
-        title="Confirm Delete"
-        centered
-      >
-        <Stack>
-          <Text>Are you sure you want to delete this slide? This action cannot be undone.</Text>
-          <Group justify="flex-end" mt="sm">
-            <Button variant="default" onClick={() => setDeleteTargetId(null)}>
-              Cancel
-            </Button>
-            <Button color="red" onClick={handleConfirmDelete}>
-              Delete
-            </Button>
-          </Group>
-        </Stack>
-      </Modal>
+        onConfirm={handleConfirmDelete}
+        message="Are you sure you want to delete this slide? This action cannot be undone."
+      />
     </>
   );
 }

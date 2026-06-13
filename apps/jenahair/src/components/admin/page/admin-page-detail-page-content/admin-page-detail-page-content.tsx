@@ -4,6 +4,7 @@ import { ActionIcon, Grid, GridCol, Group, Stack, Text, UnstyledButton } from '@
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { VinaupAddNewIcon as AddNewIcon } from '@vinaup/ui/cores';
+import { ConfirmModal } from '@vinaup/ui/shared';
 import { generateErrorMessage } from '@vinaup/utils';
 import { Route } from 'next';
 import { useRouter } from 'next/navigation';
@@ -15,7 +16,6 @@ import {
   updatePageActionPrivate,
 } from '@/actions/page-actions';
 import AdditionalImagesSection from '@/components/admin/shared/additional-images-section/additional-images-section';
-import DeleteConfirmModal from '@/components/admin/shared/delete-confirm-modal/delete-confirm-modal';
 import FeatureImageSection from '@/components/admin/shared/feature-image-section/feature-image-section';
 import SeoPreviewSection from '@/components/admin/shared/seo-preview-section/seo-preview-section';
 import VideoSection from '@/components/admin/shared/video-section/video-section';
@@ -47,6 +47,8 @@ export default function AdminPageDetailPageContent({
 
   return (
     <AdminPageDetailPageContentInner
+      // Remount on id change so useForm re-initializes to drops unsaved edits when navigate forth and back.
+      key={currentPageResult.data.id}
       currentPageData={currentPageResult.data}
       userId={getUser()?.id ?? ''}
     />
@@ -246,11 +248,12 @@ function AdminPageDetailPageContentInner({
         updatedAt={currentPageData.updatedAt}
         mt={'md'}
       />
-      <DeleteConfirmModal
+      <ConfirmModal
+        variant="danger"
         opened={deleteModalOpened}
         onClose={() => setDeleteModalOpened(false)}
         onConfirm={handleDeletePage}
-        isDeleting={isDeleting}
+        loading={isDeleting}
       />
     </div>
   );

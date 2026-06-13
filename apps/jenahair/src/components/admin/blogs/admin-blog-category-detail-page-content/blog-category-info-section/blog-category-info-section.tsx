@@ -2,8 +2,8 @@
 
 import { ComboboxItem, Group, Paper, Select, Stack, Text, TextInput } from '@mantine/core';
 import { UseFormReturnType } from '@mantine/form';
-import { CopyToClipboard } from '@vinaup/ui/actions';
 import { TextEditor } from '@vinaup/ui/admin';
+import { CopyToClipboard } from '@vinaup/ui/shared';
 
 import { SITE_BASE_URL } from '@/constants';
 

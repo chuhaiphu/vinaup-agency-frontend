@@ -2,8 +2,8 @@
 
 import { ActionIcon, Group, Paper, Stack, Text, TextInput } from '@mantine/core';
 import { UseFormReturnType } from '@mantine/form';
-import { CopyToClipboard } from '@vinaup/ui/actions';
 import { VinaupPenIcon as PenIcon } from '@vinaup/ui/cores';
+import { CopyToClipboard } from '@vinaup/ui/shared';
 import { generateSanitizedEndpoint } from '@vinaup/utils';
 import { useRef } from 'react';
 

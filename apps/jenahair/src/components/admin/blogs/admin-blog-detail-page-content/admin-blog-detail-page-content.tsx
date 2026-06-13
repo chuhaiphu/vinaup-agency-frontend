@@ -1,9 +1,19 @@
 'use client';
 
-import { ActionIcon, Grid, GridCol, Group, Paper, Stack, Text, UnstyledButton } from '@mantine/core';
+import {
+  ActionIcon,
+  Grid,
+  GridCol,
+  Group,
+  Paper,
+  Stack,
+  Text,
+  UnstyledButton,
+} from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { VinaupAddNewIcon as AddNewIcon } from '@vinaup/ui/cores';
+import { ConfirmModal } from '@vinaup/ui/shared';
 import { generateErrorMessage } from '@vinaup/utils';
 import { Route } from 'next';
 import { useRouter } from 'next/navigation';
@@ -20,7 +30,6 @@ import {
 } from '@/actions/blog-category-blog-actions';
 import AdditionalImagesSection from '@/components/admin/shared/additional-images-section/additional-images-section';
 import CategoryMultiSelect from '@/components/admin/shared/category-multi-select/category-multi-select';
-import DeleteConfirmModal from '@/components/admin/shared/delete-confirm-modal/delete-confirm-modal';
 import FeatureImageSection from '@/components/admin/shared/feature-image-section/feature-image-section';
 import SeoPreviewSection from '@/components/admin/shared/seo-preview-section/seo-preview-section';
 import VideoSection from '@/components/admin/shared/video-section/video-section';
@@ -57,6 +66,8 @@ export default function AdminBlogDetailPageContent({
 
   return (
     <AdminBlogDetailPageContentInner
+      // Remount on id change so useForm re-initializes to drops unsaved edits when navigate forth and back.
+      key={currentBlogResult.data.id}
       currentBlogData={currentBlogResult.data}
       blogCategoriesData={blogCategoriesResult.data ?? []}
       userId={getUser()?.id ?? ''}
@@ -123,7 +134,7 @@ function AdminBlogDetailPageContentInner({
       const values = form.getValues();
 
       // ─── Step 1: regenerate the endpoint only when the title changed ─────
-      // The endpoint is derived from the title; an unchanged title keeps the published URL stable.
+      // The endpoint is derived from the title.
       let newEndpoint = currentBlogData.endpoint;
       if (values.title !== currentBlogData.title) {
         newEndpoint = await generateUniqueEndpoint(values.title, 'blog', currentBlogData.id);
@@ -147,7 +158,6 @@ function AdminBlogDetailPageContentInner({
       });
 
       // ─── Step 3: diff the category links against the loaded snapshot ─────
-      // The join rows are separate entities, so they are created/deleted individually.
       const currentBlogCategoryIds = currentBlogData.blogCategoryBlogs.map(
         (bcb) => bcb.blogCategoryId,
       );
@@ -290,11 +300,12 @@ function AdminBlogDetailPageContentInner({
           />
         </GridCol>
       </Grid>
-      <DeleteConfirmModal
+      <ConfirmModal
+        variant="danger"
         opened={deleteModalOpened}
         onClose={() => setDeleteModalOpened(false)}
         onConfirm={handleDeleteBlog}
-        isDeleting={isDeleting}
+        loading={isDeleting}
       />
     </div>
   );
