@@ -15,6 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const configResponse = await getAppConfigActionPublic();
   const config = configResponse.data;
 
+  const siteName = config?.siteName || 'Jena Hair';
   const websiteTitle = config?.websiteTitle || 'Jena Hair';
   const description = config?.websiteDescription || 'Salon tóc cao cấp tại Việt Nam.';
 
@@ -24,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
       template: `%s`,
     },
     description,
-    applicationName: websiteTitle,
+    applicationName: siteName,
     icons: {
       icon: config?.faviconUrl || '/favicon.ico',
     },
@@ -32,7 +33,7 @@ export async function generateMetadata(): Promise<Metadata> {
       url: 'https://jenahair.com',
       type: 'website',
       locale: 'vi_VN',
-      siteName: websiteTitle,
+      siteName,
       title: websiteTitle,
       description,
     },
@@ -43,10 +44,16 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function LandingLayout({ children }: { children: React.ReactNode }) {
+  // Pull the same admin-configured site name used in generateMetadata so the WebSite
+  // JSON-LD `name` and og:site_name always agree (getAppConfigActionPublic is cached, so
+  // this does not cause a second network round-trip).
+  const configResponse = await getAppConfigActionPublic();
+  const siteName = configResponse.data?.siteName || 'Jena Hair';
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'Jena Hair',
+    name: siteName,
     url: 'https://jenahair.com/',
   };
 

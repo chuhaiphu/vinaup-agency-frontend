@@ -24,6 +24,7 @@ export default function AdminSettingSeoPageContent({
   const appConfigResponse = use(appConfigPromise);
   const appConfig = appConfigResponse.data;
 
+  const [siteName, setSiteName] = useState(appConfig?.siteName || '');
   const [title, setTitle] = useState(appConfig?.websiteTitle || '');
   const [description, setDescription] = useState(appConfig?.websiteDescription || '');
   const [isSavingAll, setIsSavingAll] = useState(false);
@@ -32,6 +33,7 @@ export default function AdminSettingSeoPageContent({
     setIsSavingAll(true);
     try {
       await updateAppConfigActionPrivate({
+        siteName,
         websiteTitle: title,
         websiteDescription: description,
       });
@@ -72,6 +74,20 @@ export default function AdminSettingSeoPageContent({
               Save
             </Button>
           </Group>
+          <Stack gap={2}>
+            <Group justify="space-between" wrap="nowrap">
+              <Text size="lg">Site name</Text>
+            </Group>
+            <TextInput
+              size="md"
+              value={siteName}
+              placeholder="Brand name shown in Google search (e.g. Jena Hair)"
+              maxLength={60}
+              onChange={(e) => {
+                setSiteName(e.target.value);
+              }}
+            />
+          </Stack>
           <Stack gap={2}>
             <Group justify="space-between" wrap="nowrap">
               <Text size="lg">Site title</Text>

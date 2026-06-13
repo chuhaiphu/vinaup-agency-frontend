@@ -21,7 +21,7 @@ export default function BlogCategoryInfoSection({
   endpoint,
   parentOptions,
 }: BlogCategoryInfoSectionProps) {
-  const url = `${SITE_BASE_URL}/${endpoint}`;
+  const url = `${SITE_BASE_URL}/blogs/${endpoint}`;
 
   return (
     <Paper p={'sm'} radius={'md'} classNames={{ root: classes.blogCategoryInfoSectionRoot }}>
@@ -34,7 +34,7 @@ export default function BlogCategoryInfoSection({
           {...form.getInputProps('title')}
         />
         <Group gap={'xs'} justify="space-between">
-          <Text size="md">URL: jenahair.com/{endpoint}</Text>
+          <Text size="md">URL: jenahair.com/blogs/{endpoint}</Text>
           <Group gap={'xs'}>
             <Text size="sm" className={classes.linkText} onClick={() => window.open(url, '_blank')}>
               View

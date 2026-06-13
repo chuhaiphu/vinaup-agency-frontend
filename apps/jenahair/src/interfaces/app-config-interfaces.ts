@@ -6,6 +6,7 @@ export interface AppConfigResponse {
   emailContact: string | null;
   phoneContact: string | null;
   addressContact: string | null;
+  siteName: string | null;
   websiteTitle: string | null;
   websiteDescription: string | null;
 }
@@ -17,6 +18,7 @@ export interface UpdateAppConfigRequest {
   emailContact?: string;
   phoneContact?: string;
   addressContact?: string;
+  siteName?: string;
   websiteTitle?: string;
   websiteDescription?: string;
 }
