@@ -37,6 +37,7 @@ The docs follow a three-layer split:
 | [OBSERVER-PATTERN](pattern/OBSERVER-PATTERN.md)               | Zustand stores — UI/ephemeral state only                              |
 | [COMPOSITE-PATTERN](pattern/COMPOSITE-PATTERN.md)             | reuse via `@vinaup/ui`; modal/form via Mantine; container/sections    |
 | [DATE-TIME-PATTERN](pattern/DATE-TIME-PATTERN.md)             | Day.js local lens + SSR hydration                                     |
+| [NOT-FOUND-PATTERN](pattern/NOT-FOUND-PATTERN.md)             | `notFound()` vs `not-found.tsx`; root 404 boundary; no faked 404 in UI |
 
 ## Enforcement
 

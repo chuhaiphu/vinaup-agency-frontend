@@ -201,8 +201,6 @@ Thin container gets the data + owns the form; presentational sections render one
 
 The scorecard gaps, prioritized. These are **not yet done** — they are the work this doc points at. New code follows the rules above from the start; these are the legacy screens that predate them.
 
-**P0 — dead-dependency cleanup.** ✅ Done — `@mantine/modals` removed from both apps.
-
 **P2 — medium screens:** `menu` (287), `settings/.../smtp-page-content` (274), `dashboard/admin-page-tabs/customer-contacts-tab` (258), `theme/*` (234–235), landing `blog`/`diary` detail (236–237).
 
 **P3 — modal hygiene:** audit the 42 raw `<Modal>` sites; extract shell + content for the stateful ones (e.g. `user-details-block.tsx` reset-password modal, table delete modals). Leave simple confirms inline.

@@ -1,23 +1,26 @@
-import { Paper, Text } from '@mantine/core';
+'use client';
 
-import { getUserByIdActionPrivate } from '@/actions/user-actions';
+import { Paper, Text } from '@mantine/core';
+import { notFound } from 'next/navigation';
+import { use } from 'react';
+
 import UserDetailForm from '@/components/admin/user/user-detail-form/user-detail-form';
+import { UserResponse } from '@/interfaces/user-interfaces';
 
 import classes from './admin-user-detail-page-content.module.scss';
 import UserDetailsBlock from './user-details-block/user-details-block';
 
 interface AdminUserDetailPageContentProps {
-  params: Promise<{ id: string }>;
+  currentUserPromise: Promise<UserResponse | undefined>;
 }
 
-export default async function AdminUserDetailPageContent({
-  params,
+export default function AdminUserDetailPageContent({
+  currentUserPromise,
 }: AdminUserDetailPageContentProps) {
-  const { id } = await params;
-  const currentUser = await getUserByIdActionPrivate(id);
+  const currentUser = use(currentUserPromise);
 
   if (!currentUser) {
-    return <div>User not found</div>;
+    notFound();
   }
 
   return (

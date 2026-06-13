@@ -1,4 +1,6 @@
 import type { ResolvingMetadata } from 'next';
+import { cacheLife, cacheTag } from 'next/cache';
+import { notFound } from 'next/navigation';
 
 import { getAppConfigActionPublic } from '@/actions/app-config-actions';
 import {
@@ -6,8 +8,7 @@ import {
   getPageByEndpointActionPublic,
 } from '@/actions/page-actions';
 import DynamicEndpointPageContent from '@/components/landing/page/dynamic-endpoint-page-content/dynamic-endpoint-page-content';
-
-import notFound from '../not-found';
+import { PageResponse } from '@/interfaces/page-interfaces';
 
 const PAGE_ENDPOINT_PLACEHOLDER = '__placeholder__';
 
@@ -62,25 +63,40 @@ export default async function DynamicEndpointPage({
 }: {
   params: Promise<{ endpoint: string }>;
 }) {
-  'use cache';
+  // ─── Step 1: 404 guard — must run OUTSIDE any 'use cache' scope ─────
   const { endpoint } = await params;
 
   if (endpoint === PAGE_ENDPOINT_PLACEHOLDER) {
     notFound();
   }
 
-  const [pageResponse, allPagesResponse, appConfigResponse] = await Promise.all([
-    getPageByEndpointActionPublic(endpoint),
-    getAllPagesPublicActionPublic(),
-    getAppConfigActionPublic(),
-  ]);
+  const pageResponse = await getPageByEndpointActionPublic(endpoint);
 
   if (!pageResponse.success || !pageResponse.data) {
     notFound();
   }
 
+  // ─── Step 2: render the cached content — no throw can occur inside ─────
+  return <DynamicCachedEndpointContent endpoint={endpoint} page={pageResponse.data} />;
+}
+
+async function DynamicCachedEndpointContent({
+  endpoint,
+  page,
+}: {
+  endpoint: string;
+  page: PageResponse;
+}) {
+  'use cache';
+  cacheLife('default');
+  cacheTag('pages', `page:${endpoint}`, 'app-config');
+
+  const [allPagesResponse, appConfigResponse] = await Promise.all([
+    getAllPagesPublicActionPublic(),
+    getAppConfigActionPublic(),
+  ]);
+
   const allPages = allPagesResponse.success ? (allPagesResponse.data ?? []) : [];
-  const page = pageResponse.data;
   const appConfig = appConfigResponse.success ? appConfigResponse.data : undefined;
 
   return <DynamicEndpointPageContent page={page} allPages={allPages} appConfig={appConfig} />;

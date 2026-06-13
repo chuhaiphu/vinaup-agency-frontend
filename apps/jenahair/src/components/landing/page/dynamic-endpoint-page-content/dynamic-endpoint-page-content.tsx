@@ -13,7 +13,7 @@ import { PageResponse } from '@/interfaces/page-interfaces';
 import classes from './dynamic-endpoint-page-content.module.scss';
 
 interface DynamicEndpointPageContentProps {
-  page: PageResponse | undefined;
+  page: PageResponse;
   allPages: PageResponse[];
   appConfig?: AppConfigResponse;
 }
@@ -23,10 +23,6 @@ export default function DynamicEndpointPageContent({
   allPages,
   appConfig,
 }: DynamicEndpointPageContentProps) {
-  if (!page) {
-    return <div className={classes.pageDetailPage}>Page not found</div>;
-  }
-
   const additionalImageSlides: SectionCarouselSlide[] = page.additionalImageUrls.map((url) => ({
     src: url,
   }));

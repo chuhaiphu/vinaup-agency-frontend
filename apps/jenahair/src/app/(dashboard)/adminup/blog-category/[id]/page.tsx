@@ -6,6 +6,7 @@ import {
   getBlogCategoryByIdActionPrivate,
 } from '@/actions/blog-category-actions';
 import AdminBlogCategoryDetailPageContent from '@/components/admin/blogs/admin-blog-category-detail-page-content/admin-blog-category-detail-page-content';
+import AdminBlogCategoryDetailPageContentSkeleton from '@/components/admin/blogs/admin-blog-category-detail-page-content/admin-blog-category-detail-page-content-skeleton';
 
 export default function AdminBlogCategoryDetailPage({
   params,
@@ -21,7 +22,7 @@ export default function AdminBlogCategoryDetailPage({
   );
 
   return (
-    <Suspense>
+    <Suspense fallback={<AdminBlogCategoryDetailPageContentSkeleton />}>
       <AdminBlogCategoryDetailPageContent
         currentBlogCategoryPromise={currentBlogCategoryPromise}
         blogCategoriesPromise={blogCategoriesPromise}

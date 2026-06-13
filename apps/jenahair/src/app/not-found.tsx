@@ -3,14 +3,11 @@ import Link from 'next/link';
 
 import classes from './not-found.module.scss';
 
-export default async function NotFound() {
+export default function NotFound() {
   return (
     <Container size="md" py="xl">
-      <Center className={classes.center}>
+      <Center className={classes.notFoundRoot}>
         <Stack align="center" gap="lg">
-          <Title order={1} size="3rem" c="#00E1FF">
-            404
-          </Title>
           <Title order={2} ta="center">
             Page Not Found
           </Title>

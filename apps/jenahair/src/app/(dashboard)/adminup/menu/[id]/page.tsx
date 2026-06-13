@@ -6,6 +6,7 @@ import {
   getMenuByIdActionPrivate,
 } from '@/actions/menu-actions';
 import AdminMenuDetailPageContent from '@/components/admin/menu/admin-menu-detail-page-content/admin-menu-detail-page-content';
+import AdminMenuDetailPageContentSkeleton from '@/components/admin/menu/admin-menu-detail-page-content/admin-menu-detail-page-content-skeleton';
 
 export default function AdminMenuDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const currentMenuPromise = params.then((params) => getMenuByIdActionPrivate(params.id));
@@ -15,7 +16,7 @@ export default function AdminMenuDetailPage({ params }: { params: Promise<{ id: 
   );
 
   return (
-    <Suspense>
+    <Suspense fallback={<AdminMenuDetailPageContentSkeleton />}>
       <AdminMenuDetailPageContent
         currentMenuPromise={currentMenuPromise}
         menusPromise={menusPromise}

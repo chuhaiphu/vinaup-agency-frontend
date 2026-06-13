@@ -6,6 +6,7 @@ import {
   getDiaryCategoryByIdActionPrivate,
 } from '@/actions/diary-category-actions';
 import AdminDiaryCategoryDetailPageContent from '@/components/admin/diary/admin-diary-category-detail-page-content/admin-diary-category-detail-page-content';
+import AdminDiaryCategoryDetailPageContentSkeleton from '@/components/admin/diary/admin-diary-category-detail-page-content/admin-diary-category-detail-page-content-skeleton';
 
 export default function AdminDiaryCategoryDetailPage({
   params,
@@ -21,7 +22,7 @@ export default function AdminDiaryCategoryDetailPage({
   );
 
   return (
-    <Suspense>
+    <Suspense fallback={<AdminDiaryCategoryDetailPageContentSkeleton />}>
       <AdminDiaryCategoryDetailPageContent
         currentDiaryCategoryPromise={currentDiaryCategoryPromise}
         diaryCategoriesPromise={diaryCategoriesPromise}
