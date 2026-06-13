@@ -1,8 +1,9 @@
 'use client';
 
 import { Pagination } from '@mantine/core';
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import type { Route } from 'next';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+
 import classes from './category-pagination.module.scss';
 
 interface CategoryPaginationProps {

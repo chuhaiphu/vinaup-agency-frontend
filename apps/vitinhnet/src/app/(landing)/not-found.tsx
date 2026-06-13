@@ -1,5 +1,6 @@
 import { Container, Title, Text, Stack, Center } from '@mantine/core';
 import Link from 'next/link';
+
 import classes from './not-found.module.scss';
 
 export default async function NotFound() {

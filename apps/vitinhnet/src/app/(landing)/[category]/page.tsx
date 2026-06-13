@@ -1,30 +1,18 @@
-import { Suspense } from 'react';
 import { Container, Title, Box, Group, Loader, Center, SimpleGrid } from '@mantine/core';
-import { ProductCardV2, Product } from '@/components/landing/sections/featured-products/product-card-v2';
-import classes from './page.module.scss';
-import { CategoryControls } from './category-controls';
-import { CategoryPagination } from './category-pagination';
-import { SeoArticle } from '@/components/landing/sections/seo-article/seo-article';
 import { VideoSection } from '@vinaup/ui/landing';
+import { Suspense } from 'react';
+
+import { getAllProductsActionPublic } from '@/actions/product-actions';
+import { ProductCardV2 } from '@/components/landing/sections/featured-products/product-card-v2';
+import { SeoArticle } from '@/components/landing/sections/seo-article/seo-article';
+import { CATEGORY_MAP } from '@/constants/category-constants';
 import { SEO_ARTICLE_MOCK_HTML } from '@/mocks/seo-article.mock';
 
-const MOCK_PRODUCTS: Product[] = Array(90).fill(null).map((_, index) => ({
-    id: index.toString(),
-    title: 'Dell Latitude 5420 i5 1145G7 8G 256G 14" A1',
-    image: '1751241600_Dell5490(1).jpg',
-    oldPrice: '24.800.000đ',
-    newPrice: '22.800.000đ',
-    discountPercent: '-16%',
-}));
+import { CategoryControls } from './category-controls';
+import { CategoryPagination } from './category-pagination';
+import classes from './page.module.scss';
 
-const CATEGORY_MAP: Record<string, string> = {
-    'laptop-nhap-khau': 'Laptop Nhập Khẩu',
-    'may-tinh-dong-bo': 'Máy Tính Đồng Bộ',
-    'man-hinh': 'Màn Hình Máy Tính',
-    'may-in': 'Máy In',
-    'linh-kien': 'Linh Kiện Máy Tính',
-    'pcnet': 'PCNet Máy Tính Net',
-};
+const ITEMS_PER_PAGE = 20;
 
 async function CategoryPageWrapper({
     paramsPromise,
@@ -36,15 +24,19 @@ async function CategoryPageWrapper({
     const resolvedParams = await paramsPromise;
     const resolvedSearchParams = await searchParamsPromise;
 
+    const categorySlug = resolvedParams.category;
+
     const formatCategoryName = (slug: string) => {
         return CATEGORY_MAP[slug] || slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
     };
 
-    const categoryName = formatCategoryName(resolvedParams.category);
+    const categoryName = formatCategoryName(categorySlug);
 
-    const ITEMS_PER_PAGE = 20;
-    const totalProducts = MOCK_PRODUCTS.length;
-    const totalPages = Math.ceil(totalProducts / ITEMS_PER_PAGE);
+    const result = await getAllProductsActionPublic({ category: categorySlug });
+    const products = result.success && result.data ? result.data : [];
+
+    const totalProducts = products.length;
+    const totalPages = Math.max(1, Math.ceil(totalProducts / ITEMS_PER_PAGE));
 
     let currentPage = 1;
     if (typeof resolvedSearchParams.page === 'string') {
@@ -56,7 +48,7 @@ async function CategoryPageWrapper({
 
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
-    const currentProducts = MOCK_PRODUCTS.slice(startIndex, endIndex);
+    const currentProducts = products.slice(startIndex, endIndex);
 
     return (
         <Box className={classes.mainWrapper}>
@@ -73,8 +65,8 @@ async function CategoryPageWrapper({
 
                 {/* PRODUCT GRID */}
                 <SimpleGrid cols={{ base: 2, sm: 3, md: 4, lg: 5 }} spacing={{ base: '10px', sm: '15px', md: '20px' }}>
-                    {currentProducts.map((product, idx) => (
-                        <ProductCardV2 key={idx} product={product} />
+                    {currentProducts.map((product) => (
+                        <ProductCardV2 key={product.id} product={product} />
                     ))}
                 </SimpleGrid>
 

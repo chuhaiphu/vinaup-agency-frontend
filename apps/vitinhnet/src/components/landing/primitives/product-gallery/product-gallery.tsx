@@ -1,11 +1,12 @@
 'use client';
 
+import { Carousel, CarouselSlide } from '@mantine/carousel';
 import { Badge } from '@mantine/core';
 import { IconChevronRight, IconChevronLeft } from '@tabler/icons-react';
+import { EmblaCarouselType } from 'embla-carousel';
 import Image from 'next/image';
 import { useState } from 'react';
-import { Carousel, CarouselSlide } from '@mantine/carousel';
-import { EmblaCarouselType } from 'embla-carousel';
+
 import '@mantine/carousel/styles.css';
 import classes from './product-gallery.module.scss';
 

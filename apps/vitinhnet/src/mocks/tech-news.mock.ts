@@ -1,30 +1,13 @@
-export interface ITinCongNghe {
-  id: number;
-  title: string;
-  endpoint: string;
-  categoryEndpoint: string;
-  mainImageUrl: string;
-  galleryImages?: string[];
-  likes: number;
-  views: number;
-  content: string;
-}
+import { TechNewsArticleResponse } from '@/interfaces/tech-news-interfaces';
 
-export const MOCK_CATEGORIES = [
-  { id: 1, title: "Tất cả", endpoint: "" },
-  { id: 2, title: "Tin tức chung", endpoint: "tin-tuc-chung" },
-  { id: 3, title: "Đánh giá sản phẩm", endpoint: "danh-gia-san-pham" },
-  { id: 4, title: "Hướng dẫn thủ thuật", endpoint: "huong-dan-thu-thuat" },
-];
-
-export const MOCK_BLOGS: ITinCongNghe[] = [
+export const MOCK_TECH_NEWS_ARTICLES: TechNewsArticleResponse[] = [
   {
     id: 1,
     title: "Top 5 laptop văn phòng đáng mua nhất năm 2026",
     endpoint: "top-5-laptop-van-phong-dang-mua-nhat",
     categoryEndpoint: "tin-tuc-chung",
     mainImageUrl: "/MSI-Gaming-PC_2024-09-30.png",
-    galleryImages: [
+    galleryImageUrls: [
       "/MSI-Gaming-PC_2024-09-30.png",
       "https://placehold.co/1200x600/1E1E1E/FFF?text=Laptop+Van+Phong+2026",
       "https://placehold.co/1200x600/C44C50/FFF?text=Top+5+Review"
@@ -47,7 +30,7 @@ export const MOCK_BLOGS: ITinCongNghe[] = [
     endpoint: "danh-gia-chi-tiet-rtx-5090",
     categoryEndpoint: "danh-gia-san-pham",
     mainImageUrl: "/MSI-Gaming-PC_2024-09-30.png",
-    galleryImages: [
+    galleryImageUrls: [
       "/MSI-Gaming-PC_2024-09-30.png",
       "https://placehold.co/1200x600/000000/00FF00?text=RTX+5090+Gaming",
       "https://placehold.co/1200x600/333333/00FF00?text=Max+Settings+4K"

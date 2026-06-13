@@ -1,22 +1,18 @@
 'use client';
 
 import { Container, Title, Group, Button, Box } from '@mantine/core';
-import Marquee from 'react-fast-marquee';
-import { NewsCard, type NewsItem } from './news-card';
-import classes from './tech-news.module.scss';
 import { VinaupGlobalIcon } from '@vinaup/ui/cores';
-import Link from 'next/link';
 import { Route } from 'next';
+import Link from 'next/link';
+import Marquee from 'react-fast-marquee';
 
-const defaultNews: NewsItem[] = Array(6).fill(null).map((_, index) => ({
-    id: index.toString(),
-    title: 'Title new abc Title new abc Title new abc',
-    image: 'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?q=80&w=2670&auto=format&fit=crop',
-    likes: 1,
-    views: 1,
-}));
+import { TechNewsArticleResponse } from '@/interfaces/tech-news-interfaces';
 
-export function TechNews() {
+import { NewsCard } from './news-card';
+import classes from './tech-news.module.scss';
+
+
+export function TechNews({ articles }: { articles: TechNewsArticleResponse[] }) {
     return (
         <Box className={classes.section}>
             <Container size="xl" w="100%" pt={{ base: '1rem', sm: '2rem' }}>
@@ -46,7 +42,7 @@ export function TechNews() {
                     pauseOnHover={true}
                     gradient={false}
                 >
-                    {defaultNews.map((item, index) => (
+                    {articles.map((item, index) => (
                         <div key={`${item.id}-${index}`} className={classes.newsCardWrapper}>
                             <NewsCard item={item} />
                         </div>

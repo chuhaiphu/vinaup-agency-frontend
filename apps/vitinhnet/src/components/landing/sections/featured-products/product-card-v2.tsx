@@ -1,65 +1,58 @@
 'use client';
 
 import { Image, Text, AspectRatio } from '@mantine/core';
-import { BsPlusCircle } from 'react-icons/bs';
 import { VinaupHeartIcon } from '@vinaup/ui/cores';
-import classes from './product-card-v2.module.scss';
-import Link from 'next/link';
+import { generateFormattedPrice } from '@vinaup/utils';
 import { Route } from 'next';
+import Link from 'next/link';
+import { BsPlusCircle } from 'react-icons/bs';
 
-export interface Product {
-    id: string;
-    title: string;
-    image: string;
-    oldPrice: string;
-    newPrice: string;
-    discountPercent?: string;
-    slug?: string;
-}
+import { ProductResponse } from '@/interfaces/product-interfaces';
 
-export function ProductCardV2({ product }: { product: Product }) {
-    const productSlug = product.slug || product.id;
-    const productUrl = `/san-pham/${productSlug}` as Route;
+import classes from './product-card-v2.module.scss';
 
-    return (
-        <div className={classes.productCard}>
-            {product.discountPercent && <div className={classes.badge}>{product.discountPercent}</div>}
+export function ProductCardV2({ product }: { product: ProductResponse }) {
+  const productUrl = `/san-pham/${product.slug}` as Route;
 
-            <Link href={productUrl} className={classes.imageWrapper} style={{ display: 'block' }}>
-                <AspectRatio ratio={1 / 1}>
-                    <Image
-                        src={product.image}
-                        alt={product.title}
-                        fit="contain"
-                        fallbackSrc="https://placehold.co/400x300?text=Product"
-                    />
-                </AspectRatio>
-            </Link>
+  return (
+    <div className={classes.productCard}>
+      {product.discountPercent > 0 && <div className={classes.badge}>-{product.discountPercent}%</div>}
 
-            <div className={classes.productInfo}>
-                <Link href={productUrl} style={{ textDecoration: 'none' }}>
-                    <Text className={classes.productTitle} lineClamp={2}>{product.title}</Text>
-                </Link>
+      <Link href={productUrl} className={classes.imageWrapper} style={{ display: 'block' }}>
+        <AspectRatio ratio={1 / 1}>
+          <Image
+            src={product.imageUrl}
+            alt={product.title}
+            fit="contain"
+            fallbackSrc="https://placehold.co/400x300?text=Product"
+          />
+        </AspectRatio>
+      </Link>
 
-                <div className={classes.metaContainer}>
-                    {/* Hàng 1: Giá mới và Icon Trái tim */}
-                    <div className={classes.priceRow}>
-                        <Text className={classes.newPrice}>{product.newPrice}</Text>
-                        <span className={classes.favorited}>
-                            <VinaupHeartIcon fill="#C44C50" size={18} />
-                        </span>
-                    </div>
+      <div className={classes.productInfo}>
+        <Link href={productUrl} style={{ textDecoration: 'none' }}>
+          <Text className={classes.productTitle} lineClamp={2}>
+            {product.title}
+          </Text>
+        </Link>
 
-                    {/* Hàng 2: Giá cũ (Giảm giá) và So sánh */}
-                    <div className={classes.actionRow}>
-                        <Text className={classes.oldPrice}>{product.oldPrice}</Text>
-                        <div className={classes.compare}>
-                            <BsPlusCircle size={16} />
-                            <span>So sánh</span>
-                        </div>
-                    </div>
-                </div>
+        <div className={classes.metaContainer}>
+          <div className={classes.priceRow}>
+            <Text className={classes.newPrice}>{generateFormattedPrice(product.price)}đ</Text>
+            <span className={classes.favorited}>
+              <VinaupHeartIcon fill="var(--vinaup-soft-crimson)" size={18} />
+            </span>
+          </div>
+
+          <div className={classes.actionRow}>
+            <Text className={classes.oldPrice}>{generateFormattedPrice(product.originalPrice)}đ</Text>
+            <div className={classes.compare}>
+              <BsPlusCircle size={16} />
+              <span>So sánh</span>
             </div>
+          </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 }

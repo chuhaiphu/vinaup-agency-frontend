@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import {
   Box,
   Checkbox,
@@ -12,9 +11,12 @@ import {
 } from '@mantine/core';
 import { IconTrash, IconMinus, IconPlus } from '@tabler/icons-react';
 import { VinaupCartIcon } from '@vinaup/ui/cores';
-import { useCartStore } from '@/stores/cart-store';
-import classes from './CartItemList.module.scss';
 import Image from 'next/image';
+import { useState } from 'react';
+
+import { useCartStore } from '@/stores/cart-store';
+
+import classes from './cart-item-list.module.scss';
 
 export const CartItemList = () => {
   const { items, toggleAllSelection, toggleItemSelection, updateQuantity, removeItem } = useCartStore();

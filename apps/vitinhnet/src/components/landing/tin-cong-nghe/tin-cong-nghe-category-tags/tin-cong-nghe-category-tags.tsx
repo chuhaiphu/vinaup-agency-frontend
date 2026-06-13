@@ -1,17 +1,19 @@
 'use client';
+import { VinaupArrowRightIcon } from '@vinaup/ui/cores';
 import { Route } from 'next';
 import Link from 'next/link';
-import { MOCK_CATEGORIES } from '../../../../mocks/tech-news-data.mock';
-import classes from './tin-cong-nghe-category-tags.module.scss';
+
 import { CategoryScroll, CategoryScrollItem } from '@/components/landing/primitives/category-scroll/category-scroll';
-import { VinaupArrowRightIcon } from '@vinaup/ui/cores';
+import { TECH_NEWS_CATEGORIES } from '@/constants/tech-news-constants';
+
+import classes from './tin-cong-nghe-category-tags.module.scss';
 
 export default function TinCongNgheCategoryTags({
     activeEndpoint = '',
 }: {
     activeEndpoint?: string;
 }) {
-    const filteredCategories = MOCK_CATEGORIES.filter(cat => cat.title !== 'Tất cả');
+    const filteredCategories = TECH_NEWS_CATEGORIES.filter(cat => cat.title !== 'Tất cả');
 
     const scrollItems: CategoryScrollItem[] = filteredCategories.map(category => ({
         label: category.title,

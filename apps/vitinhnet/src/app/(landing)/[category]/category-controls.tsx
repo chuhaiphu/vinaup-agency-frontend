@@ -2,10 +2,12 @@
 
 import { Button } from '@mantine/core';
 import { IconFilter } from '@tabler/icons-react';
-import classes from './page.module.scss';
-import { CategoryScroll, CategoryScrollItem } from '@/components/landing/primitives/category-scroll/category-scroll';
 import { VinaupArrowRightIcon } from '@vinaup/ui/cores'; // Thêm import icon
 import Link from 'next/link'; // Thêm import Link
+
+import { CategoryScroll, CategoryScrollItem } from '@/components/landing/primitives/category-scroll/category-scroll';
+
+import classes from './page.module.scss';
 
 interface CategoryControlsProps {
     categorySlug: string;

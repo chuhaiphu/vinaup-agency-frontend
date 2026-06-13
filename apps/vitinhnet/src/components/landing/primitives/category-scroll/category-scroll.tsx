@@ -1,12 +1,13 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
 import { ActionIcon, Button, Box } from '@mantine/core';
 import { IconChevronRight, IconChevronLeft } from '@tabler/icons-react';
-import Link from 'next/link';
+import { generateClassName } from '@vinaup/utils';
 import { Route } from 'next';
+import Link from 'next/link';
+import { useRef, useState, useEffect } from 'react';
+
 import classes from './category-scroll.module.scss';
-import clsx from 'clsx';
 
 export interface CategoryScrollItem {
     label: string;
@@ -66,7 +67,7 @@ export function CategoryScroll({
     };
 
     return (
-        <Box className={clsx(classes.scrollWrapper, wrapperClassName)}>
+        <Box className={generateClassName(classes.scrollWrapper, wrapperClassName)}>
             {showLeftArrow && (
                 <ActionIcon
                     variant="subtle"
@@ -78,7 +79,7 @@ export function CategoryScroll({
                 </ActionIcon>
             )}
 
-            <div className={clsx(classes.scrollContainer, containerClassName)} ref={scrollRef} onScroll={updateArrows}>
+            <div className={generateClassName(classes.scrollContainer, containerClassName)} ref={scrollRef} onScroll={updateArrows}>
                 {items.map((item, idx) => (
                     <Button
                         component={Link}
@@ -87,7 +88,7 @@ export function CategoryScroll({
                         variant={item.isActive ? 'filled' : 'default'}
                         color={item.isActive ? 'red' : undefined}
                         size="sm"
-                        className={clsx(classes.categoryPill, itemClassName, item.className)}
+                        className={generateClassName(classes.categoryPill, itemClassName, item.className)}
                     >
                         {item.label}
                     </Button>

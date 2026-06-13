@@ -1,12 +1,17 @@
 import { Container, Stack, Box, Title } from '@mantine/core';
+
+import { getAllTechNewsActionPublic } from '@/actions/tech-news-actions';
 import TinCongNgheCategoryTags from '@/components/landing/tin-cong-nghe/tin-cong-nghe-category-tags/tin-cong-nghe-category-tags';
 import TinCongNgheGrid from '@/components/landing/tin-cong-nghe/tin-cong-nghe-grid/tin-cong-nghe-grid';
-import { MOCK_BLOGS } from '@/mocks/tech-news-data.mock';
+
 import classes from './page.module.scss';
 
 export const metadata = { title: 'Tin Công Nghệ | ViTinhNet' };
 
-export default function TechNewsPage() {
+export default async function TechNewsPage() {
+    const result = await getAllTechNewsActionPublic();
+    const articles = result.data ?? [];
+
     return (
         <div className={classes.pageWrapper}>
             <Container size="xl" pt={{ base: '1rem', md: '2rem' }}>
@@ -25,7 +30,7 @@ export default function TechNewsPage() {
 
             {/* 3. BLOGS GRID */}
             <Container size="xl" pb={{ base: '1rem', md: '2rem' }}>
-                <TinCongNgheGrid blogs={MOCK_BLOGS} />
+                <TinCongNgheGrid blogs={articles} />
             </Container>
         </div>
     );

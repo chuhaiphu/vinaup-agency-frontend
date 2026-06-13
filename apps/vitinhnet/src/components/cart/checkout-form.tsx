@@ -1,12 +1,14 @@
 'use client';
 
-import React from 'react';
-import { UseFormReturnType } from '@mantine/form';
 import { Paper, Text, TextInput, Title, Flex, Switch, Box } from '@mantine/core';
+import { UseFormReturnType } from '@mantine/form';
 import { IconChevronDown } from '@tabler/icons-react';
 import { VinaupUserIcon, VinaupPhoneIcon, VinaupLocationIcon } from '@vinaup/ui/cores';
-import { CheckoutFormData } from '@/interfaces/cart';
-import classes from './CheckoutForm.module.scss';
+import React from 'react';
+
+import { CheckoutFormData } from '@/interfaces/cart-interfaces';
+
+import classes from './checkout-form.module.scss';
 
 interface CheckoutFormProps {
   form: UseFormReturnType<CheckoutFormData>;

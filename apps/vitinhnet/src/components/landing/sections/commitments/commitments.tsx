@@ -1,8 +1,9 @@
 'use client';
 
 import { Container, Grid, Title, Text, Box, Timeline, GridCol } from '@mantine/core';
-import { FaHandshake, FaShieldAlt, FaTruck } from 'react-icons/fa';
 import { VideoSection } from '@vinaup/ui/landing';
+import { FaHandshake, FaShieldAlt, FaTruck } from 'react-icons/fa';
+
 import classes from './commitments.module.scss';
 
 export function Commitments() {

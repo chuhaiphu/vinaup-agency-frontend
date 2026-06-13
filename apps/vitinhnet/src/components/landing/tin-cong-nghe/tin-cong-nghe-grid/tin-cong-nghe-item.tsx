@@ -1,10 +1,13 @@
 import { Group } from '@mantine/core';
-import Image from 'next/image';
 import { VinaupHeartIcon, VinaupEyeIcon } from '@vinaup/ui/cores';
-import classes from './tin-cong-nghe-item.module.scss';
-import { ITinCongNghe } from '../../../../mocks/tech-news-data.mock';
+import Image from 'next/image';
 
-export default function TinCongNgheItem({ item }: { item: ITinCongNghe }) {
+import { TechNewsArticleResponse } from '@/interfaces/tech-news-interfaces';
+
+import classes from './tin-cong-nghe-item.module.scss';
+
+
+export default function TinCongNgheItem({ item }: { item: TechNewsArticleResponse }) {
   return (
     <div className={classes.cardWrapper}>
       <div className={classes.imageWrapper}>

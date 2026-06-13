@@ -2,8 +2,9 @@
 
 import { Container, Grid, Group, Stack, Text, Box, Button, Image, GridCol } from '@mantine/core';
 import { VinaupGoogleMapIcon, VinaupInstagramIcon, VinaupFacebookIcon, VinaupTiktokIcon, VinaupLocationIcon, VinaupPhoneIcon, VinaupMessageIcon, VinaupTimeIcon } from '@vinaup/ui/cores';
-import classes from './computer-shop-landing-footer.module.scss';
 import Link from 'next/link';
+
+import classes from './computer-shop-landing-footer.module.scss';
 
 const tags = [
     'Máy vi tính văn phòng', 'Laptop giá rẻ', 'Laptop Dell cũ', 'Laptop HP cũ',

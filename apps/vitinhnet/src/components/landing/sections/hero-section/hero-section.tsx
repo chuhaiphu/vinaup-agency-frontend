@@ -1,9 +1,10 @@
 'use client';
 
 import { Container, Grid, Title, Text, Button, Group, Box, GridCol } from '@mantine/core';
-import { HeroCarousel } from '@vinaup/ui/landing';
-import classes from './hero-section.module.scss';
 import { DellLogoIcon, HpLogoIcon } from '@vinaup/ui/cores';
+import { HeroCarousel } from '@vinaup/ui/landing';
+
+import classes from './hero-section.module.scss';
 
 const slides = [
   {

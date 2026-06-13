@@ -3,14 +3,16 @@
 import { Container, Grid, Anchor } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
-import Link from 'next/link';
 import { IconChevronLeft } from '@tabler/icons-react';
-import { CartItemList } from '@/components/cart/CartItemList';
-import { CheckoutForm } from '@/components/cart/CheckoutForm';
-import { OrderSummary } from '@/components/cart/OrderSummary';
-import { CheckoutFormData } from '@/interfaces/cart';
-import { useCartStore } from '@/stores/cart-store';
+import Link from 'next/link';
+
+import { createOrderActionPublic } from '@/actions/order-actions';
+import { CartItemList } from '@/components/cart/cart-item-list';
 import classes from '@/components/cart/cart.module.scss';
+import { CheckoutForm } from '@/components/cart/checkout-form';
+import { OrderSummary } from '@/components/cart/order-summary';
+import { CheckoutFormData } from '@/interfaces/cart-interfaces';
+import { useCartStore } from '@/stores/cart-store';
 
 export default function CartCheckoutPage() {
   const { items } = useCartStore();
@@ -47,9 +49,9 @@ export default function CartCheckoutPage() {
     },
   });
 
-  const handleSubmit = (values: CheckoutFormData) => {
-    const selectedItems = items.filter(item => item.isSelected);
-    
+  const handleSubmit = async (values: CheckoutFormData) => {
+    const selectedItems = items.filter((item) => item.isSelected);
+
     if (selectedItems.length === 0) {
       notifications.show({
         title: 'Thất bại',
@@ -59,19 +61,21 @@ export default function CartCheckoutPage() {
       return;
     }
 
-    const payload = {
-      customer: values,
-      cart: selectedItems,
-    };
+    const result = await createOrderActionPublic({ customer: values, items: selectedItems });
 
-    console.log('--- MOCK SUBMIT PAYLOAD ---');
-    console.log(JSON.stringify(payload, null, 2));
-
-    notifications.show({
-      title: 'Đã đặt hàng thành công!',
-      message: 'Vui lòng mở console để kiểm tra payload giả lập.',
-      color: 'green',
-    });
+    if (result.success) {
+      notifications.show({
+        title: 'Đã đặt hàng thành công!',
+        message: 'Chúng tôi sẽ liên hệ với bạn để xác nhận đơn hàng.',
+        color: 'green',
+      });
+    } else {
+      notifications.show({
+        title: 'Thất bại',
+        message: result.error ?? 'Không thể tạo đơn hàng, vui lòng thử lại.',
+        color: 'red',
+      });
+    }
   };
 
   return (

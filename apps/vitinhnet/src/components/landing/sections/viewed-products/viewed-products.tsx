@@ -2,20 +2,14 @@
 
 import { Container, Title, Box } from '@mantine/core';
 import { GridCarousel } from '@vinaup/ui/landing';
+
 import classes from './viewed-products.module.scss';
+
 import '@mantine/carousel/styles.css';
-import { Product, ProductCardV2 } from '@/components/landing/sections/featured-products/product-card-v2';
+import { ProductCardV2 } from '@/components/landing/sections/featured-products/product-card-v2';
+import { ProductResponse } from '@/interfaces/product-interfaces';
 
-const defaultProducts: Product[] = Array(6).fill(null).map((_, index) => ({
-    id: index.toString(),
-    title: 'Dell Latitude 5420 i5 1145G7 8G 256G 14" A1',
-    image: '/1751241600_Dell5490(1).jpg',
-    oldPrice: '10.800.000đ',
-    newPrice: '49.800.000đ',
-    discountPercent: '-16%'
-}));
-
-export function ViewedProducts() {
+export function ViewedProducts({ products }: { products: ProductResponse[] }) {
     return (
         <Box className={classes.section}>
             <Container size="xl" w="100%" pb={{ base: '1rem', sm: '2rem' }}>
@@ -24,7 +18,7 @@ export function ViewedProducts() {
                 </div>
 
                 <GridCarousel
-                    items={defaultProducts}
+                    items={products}
                     slideSize={{ base: '50%', xs: '33.333333%', sm: '33.333333%', md: '25%', lg: '20%' }}
                     carouselProps={{
                         withIndicators: false,

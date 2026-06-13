@@ -1,47 +1,43 @@
 import { Container, Grid, Anchor, Text, Box, Title, Group, Badge, Button, Divider, GridCol } from '@mantine/core';
-import classes from './product-detail.module.scss';
-import { ProductGallery } from '../../primitives/product-gallery/product-gallery';
-import { 
-    VinaupCartPlusIcon, 
+import {
+    VinaupCartPlusIcon,
     VinaupEarthIcon,
     VinaupEyeIcon,
     VinaupCopyIcon,
     VinaupHeartIcon,
     VinaupPlusIcon
 } from '@vinaup/ui/cores';
+import { generateFormattedPrice } from '@vinaup/utils';
 
-export function ProductDetail() {
-    const thumbnails = [
-        '/1751241600_Dell5490(1).jpg',
-        '/1751241600_Dell5490(1).jpg',
-        '/1751241600_Dell5490(1).jpg',
-        '/1751241600_Dell5490(1).jpg',
-        '/1751241600_Dell5490(1).jpg',
-    ];
+import { ProductResponse } from '@/interfaces/product-interfaces';
 
+import classes from './product-detail.module.scss';
+import { ProductGallery } from '../../primitives/product-gallery/product-gallery';
+
+export function ProductDetail({ product }: { product: ProductResponse }) {
     return (
         <Container size="xl" pt={{ base: '1rem', sm: '2rem' }}>
             <Box className={classes.productContainer}>
                 <Grid gap={{ base: '16px', md: '20px' }}>
                     {/* Left: Product Gallery */}
                     <GridCol span={{ base: 12, md: 6, lg: 6 }}>
-                        <ProductGallery images={thumbnails} />
+                        <ProductGallery images={product.galleryImageUrls} />
                     </GridCol>
 
                     {/* Right: Product Info */}
                     <GridCol span={{ base: 12, md: 6, lg: 6 }}>
                         <div className={classes.info}>
                             <Title order={1} className={classes.title}>
-                                Dell Latitude 5420 i5 1145G7 8G 256G A1
+                                {product.title}
                             </Title>
 
                             <Box mb="0.75rem">
-                                <Text className={classes.oldPrice} hiddenFrom="sm" mb={4}>10.000.000đ</Text>
-                                
+                                <Text className={classes.oldPrice} hiddenFrom="sm" mb={4}>{generateFormattedPrice(product.originalPrice)}đ</Text>
+
                                 <Group gap="sm" align="center">
-                                    <Text className={classes.newPrice}>29.800.000đ</Text>
-                                    <Text className={classes.oldPrice} visibleFrom="sm">10.000.000đ</Text>
-                                    <Badge color="red" variant="outline" className={classes.discountBadge}>-16%</Badge>
+                                    <Text className={classes.newPrice}>{generateFormattedPrice(product.price)}đ</Text>
+                                    <Text className={classes.oldPrice} visibleFrom="sm">{generateFormattedPrice(product.originalPrice)}đ</Text>
+                                    <Badge color="red" variant="outline" className={classes.discountBadge}>-{product.discountPercent}%</Badge>
                                 </Group>
                             </Box>
 

@@ -1,10 +1,14 @@
-import React from 'react';
-import { ProductCompare } from './product-compare'; // Sửa lại đường dẫn import nếu bạn để component ở thư mục khác
+import { getCompareProductsActionPublic } from '@/actions/product-actions';
 
-export default function ComparePage() {
-    return (
-        <main>
-            <ProductCompare />
-        </main>
-    );
+import { ProductCompare } from './product-compare';
+
+export default async function ComparePage() {
+  const result = await getCompareProductsActionPublic();
+  const products = result.success && result.data ? result.data : [];
+
+  return (
+    <main>
+      <ProductCompare products={products} />
+    </main>
+  );
 }

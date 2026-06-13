@@ -1,15 +1,17 @@
 ﻿'use client';
 
 import { Container, Group, TextInput, ActionIcon, Indicator, Box } from '@mantine/core';
-import Link from 'next/link';
-import Image from 'next/image';
-import { IoSearch } from 'react-icons/io5';
-import classes from './landing-header.module.scss';
 import { MenuSquareIcon, VinaupCartIcon, VinaupMessengerIcon, VinaupUserIcon, VinaupZaloRectangleIcon } from '@vinaup/ui/cores';
 import { Route } from 'next';
-import { Suspense, useEffect, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
+import { IoSearch } from 'react-icons/io5';
+
 import { useCartStore } from '@/stores/cart-store';
+
+import classes from './landing-header.module.scss';
 
 const NAV_LINKS = [
     { label: 'Laptop nhập khẩu', href: '/laptop-nhap-khau' },

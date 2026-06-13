@@ -1,12 +1,14 @@
 'use client';
 
-import React from 'react';
 import { Paper, Title, Flex, Text, Divider, Checkbox, Button, Box, Anchor, TextInput } from '@mantine/core';
-import { IconDiscount2 } from '@tabler/icons-react';
-import { useCartStore } from '@/stores/cart-store';
 import { UseFormReturnType } from '@mantine/form';
-import { CheckoutFormData } from '@/interfaces/cart';
-import classes from './OrderSummary.module.scss';
+import { IconDiscount2 } from '@tabler/icons-react';
+import React from 'react';
+
+import { CheckoutFormData } from '@/interfaces/cart-interfaces';
+import { useCartStore } from '@/stores/cart-store';
+
+import classes from './order-summary.module.scss';
 
 interface OrderSummaryProps {
   form: UseFormReturnType<CheckoutFormData>;

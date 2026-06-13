@@ -2,12 +2,16 @@
 
 import { Container, Title, Box } from '@mantine/core';
 import { GridCarousel } from '@vinaup/ui/landing';
+
 import classes from './featured-products.module.scss';
+
 import '@mantine/carousel/styles.css';
 import { VinaupArrowRightIcon } from '@vinaup/ui/cores';
-import { Product, ProductCardV2 } from '@/components/landing/sections/featured-products/product-card-v2';
 import Link from 'next/link';
+
 import { CategoryScroll, CategoryScrollItem } from '@/components/landing/primitives/category-scroll/category-scroll';
+import { ProductCardV2 } from '@/components/landing/sections/featured-products/product-card-v2';
+import { ProductResponse } from '@/interfaces/product-interfaces';
 
 const categories = [
     { label: 'Laptop HP', slug: 'laptop-hp' },
@@ -21,16 +25,7 @@ const categories = [
     { label: 'Laptop Lenovo', slug: 'laptop-lenovo' }
 ];
 
-const defaultProducts: Product[] = Array(6).fill(null).map((_, index) => ({
-    id: index.toString(),
-    title: 'Dell Latitude 5420 i5 1145G7 8G 256G 14" A1',
-    image: '1751241600_Dell5490(1).jpg',
-    oldPrice: '24.800.000đ',
-    newPrice: '22.800.000đ',
-    discountPercent: '-16%'
-}));
-
-export function FeaturedProducts() {
+export function FeaturedProducts({ products }: { products: ProductResponse[] }) {
     const scrollItems: CategoryScrollItem[] = categories.map(cat => ({
         label: cat.label,
         href: `/laptop-nhap-khau/${cat.slug}`,
@@ -70,7 +65,7 @@ export function FeaturedProducts() {
 
                 {/* Carousel */}
                 <GridCarousel
-                    items={defaultProducts}
+                    items={products}
                     slideSize={{ base: '50%', xs: '33.333333%', sm: '33.333333%', md: '25%', lg: '20%' }}
                     carouselProps={{
                         withIndicators: false,

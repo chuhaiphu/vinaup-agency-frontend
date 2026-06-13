@@ -1,17 +1,20 @@
 'use client';
 import { Grid, GridCol, Pagination, Text } from '@mantine/core';
+import { Route } from 'next';
 import Link from 'next/link';
 import { useState } from 'react';
-import { Route } from 'next';
-import TinCongNgheItem from './tin-cong-nghe-item';
+
+import { TechNewsArticleResponse } from '@/interfaces/tech-news-interfaces';
+
 import classes from './tin-cong-nghe-grid.module.scss';
-import { ITinCongNghe } from '../../../../mocks/tech-news-data.mock';
+import TinCongNgheItem from './tin-cong-nghe-item';
+
 
 export default function TinCongNgheGrid({
     blogs,
     pageSize = 16,
 }: {
-    blogs: ITinCongNghe[];
+    blogs: TechNewsArticleResponse[];
     pageSize?: number;
 }) {
     const [page, setPage] = useState(1);

@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
 import { Button } from '@mantine/core';
 import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
+import { generateClassName } from '@vinaup/utils';
+import { useState } from 'react';
+
 import classes from './seo-article.module.scss';
-import clsx from 'clsx';
 
 interface SeoArticleProps {
     contentHtml: string;
@@ -15,7 +16,7 @@ export function SeoArticle({ contentHtml }: SeoArticleProps) {
 
     return (
         <div className={classes.wrapper}>
-            <div className={clsx(classes.contentContainer, { [classes.expanded]: isExpanded })}>
+            <div className={generateClassName(classes.contentContainer, isExpanded ? classes.expanded : undefined)}>
                 {/* Render HTML content safely */}
                 <div 
                     className={classes.content} 

@@ -1,22 +1,17 @@
 import { Image, Text, AspectRatio } from '@mantine/core';
 import { VinaupHeartIcon, VinaupEyeIcon } from '@vinaup/ui/cores';
+
+import { TechNewsArticleResponse } from '@/interfaces/tech-news-interfaces';
+
 import classes from './tech-news.module.scss';
 
-export interface NewsItem {
-    id: string;
-    title: string;
-    image: string;
-    likes: number;
-    views: number;
-}
-
-export function NewsCard({ item }: { item: NewsItem }) {
+export function NewsCard({ item }: { item: TechNewsArticleResponse }) {
     return (
         <div className={classes.newsCard}>
             <div className={classes.imageWrapper}>
                 <AspectRatio ratio={4 / 3}>
                     <Image
-                        src={item.image}
+                        src={item.mainImageUrl}
                         alt={item.title}
                         fit="cover"
                         radius="sm"

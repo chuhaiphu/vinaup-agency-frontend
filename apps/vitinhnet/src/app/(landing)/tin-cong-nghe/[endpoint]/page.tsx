@@ -1,9 +1,4 @@
 import { Container, Title, Text, Box, Group } from '@mantine/core';
-import { MOCK_BLOGS, MOCK_CATEGORIES } from '@/mocks/tech-news-data.mock';
-import { notFound } from 'next/navigation';
-import TinCongNgheCategoryTags from '@/components/landing/tin-cong-nghe/tin-cong-nghe-category-tags/tin-cong-nghe-category-tags';
-import TinCongNgheGrid from '@/components/landing/tin-cong-nghe/tin-cong-nghe-grid/tin-cong-nghe-grid';
-import { HeroCarousel, VideoSection } from '@vinaup/ui/landing';
 import {
   VinaupPriceTagIcon,
   VinaupHeartIcon,
@@ -11,11 +6,21 @@ import {
   VinaupCopyIcon,
   VinaupLocationIcon
 } from '@vinaup/ui/cores';
+import { HeroCarousel, VideoSection } from '@vinaup/ui/landing';
+import { notFound } from 'next/navigation';
+
+import { getAllTechNewsActionPublic, getTechNewsByEndpointActionPublic } from '@/actions/tech-news-actions';
+import TinCongNgheCategoryTags from '@/components/landing/tin-cong-nghe/tin-cong-nghe-category-tags/tin-cong-nghe-category-tags';
+import TinCongNgheGrid from '@/components/landing/tin-cong-nghe/tin-cong-nghe-grid/tin-cong-nghe-grid';
+import { TECH_NEWS_CATEGORIES } from '@/constants/tech-news-constants';
+
 import classes from './page.module.scss';
 
+
 export async function generateStaticParams() {
-  const blogParams = MOCK_BLOGS.map((blog) => ({ endpoint: blog.endpoint }));
-  const categoryParams = MOCK_CATEGORIES.filter(c => c.endpoint).map((cat) => ({ endpoint: cat.endpoint }));
+  const result = await getAllTechNewsActionPublic();
+  const blogParams = (result.data ?? []).map((article) => ({ endpoint: article.endpoint }));
+  const categoryParams = TECH_NEWS_CATEGORIES.filter((c) => c.endpoint).map((cat) => ({ endpoint: cat.endpoint }));
   return [...blogParams, ...categoryParams];
 }
 
@@ -27,10 +32,11 @@ export default async function TinCongNgheEndpointPage({
   const { endpoint } = await params;
 
   // Check if it's a category
-  const category = MOCK_CATEGORIES.find((c) => c.endpoint === endpoint);
+  const category = TECH_NEWS_CATEGORIES.find((c) => c.endpoint === endpoint);
 
   if (category) {
-    const categoryBlogs = MOCK_BLOGS.filter(b => b.categoryEndpoint === category.endpoint);
+    const categoryResult = await getAllTechNewsActionPublic({ categoryEndpoint: category.endpoint });
+    const categoryBlogs = categoryResult.data ?? [];
     return (
       <div className={classes.categoryPageWrapper}>
         <Container size="xl" pt={{ base: '1rem', md: '2rem' }}>
@@ -53,10 +59,11 @@ export default async function TinCongNgheEndpointPage({
   }
 
   // Check if it's a blog detail
-  const blog = MOCK_BLOGS.find((b) => b.endpoint === endpoint);
+  const blogResult = await getTechNewsByEndpointActionPublic(endpoint);
+  const blog = blogResult.success ? blogResult.data : undefined;
 
   if (blog) {
-    const defaultCategory = MOCK_CATEGORIES.find(c => c.endpoint === blog.categoryEndpoint);
+    const defaultCategory = TECH_NEWS_CATEGORIES.find(c => c.endpoint === blog.categoryEndpoint);
     const categoryName = defaultCategory?.title || 'Tin tức';
 
     return (
@@ -91,8 +98,8 @@ export default async function TinCongNgheEndpointPage({
           <Box className={classes.detailCarouselWrapper}>
             <HeroCarousel
               data={
-                blog.galleryImages
-                  ? blog.galleryImages.map((img, idx) => ({ id: `${blog.id}-${idx}`, image: img, alt: `${blog.title} ${idx + 1}` }))
+                blog.galleryImageUrls
+                  ? blog.galleryImageUrls.map((img, idx) => ({ id: `${blog.id}-${idx}`, image: img, alt: `${blog.title} ${idx + 1}` }))
                   : [{ id: blog.id, image: blog.mainImageUrl, alt: blog.title }]
               }
               ratio={2 / 1}

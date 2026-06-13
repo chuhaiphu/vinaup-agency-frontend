@@ -1,9 +1,6 @@
-'use client';
+import { Paper, Text, Title, Flex, Box, Container, Grid, Image, GridCol, AspectRatio } from '@mantine/core';
 
-import React from 'react';
-import { Paper, Text, TextInput, Textarea, Title, Flex, Box, Button, Container, Grid, Image, GridCol, AspectRatio } from '@mantine/core';
-import { IconMessageDots } from '@tabler/icons-react';
-import { VinaupUserIcon, VinaupPhoneIcon, VinaupEmailIcon } from '@vinaup/ui/cores';
+import { ContactForm } from './contact-form';
 import classes from './page.module.scss';
 
 export default function ContactPage() {
@@ -36,85 +33,7 @@ export default function ContactPage() {
               </Flex>
             </Box>
 
-            <Paper radius="md" withBorder p={0} className={classes.formSection}>
-              <Flex align="center" className={classes.formSectionHeader}>
-                <Title order={4} className={classes.sectionTitle}>
-                  Nhập thông tin
-                </Title>
-              </Flex>
-
-              <Flex direction="column" p={{ base: 8, md: 'md' }} gap="xl">
-                <Flex gap="md" align="center">
-                  <Box>
-                    <VinaupUserIcon size={24} fill="#121212" />
-                  </Box>
-                  <Box flex={1}>
-                    <Text className={classes.inputLabel}>Họ và tên</Text>
-                    <TextInput
-                      variant="unstyled"
-                      placeholder="Nhập họ và tên"
-                      classNames={{ input: classes.contactInput }}
-                    />
-                  </Box>
-                </Flex>
-
-                <Flex gap="md" align="center">
-                  <Box>
-                    <VinaupPhoneIcon size={24} fill="#121212" />
-                  </Box>
-                  <Box flex={1}>
-                    <Text className={classes.inputLabel}>Số điện thoại</Text>
-                    <TextInput
-                      variant="unstyled"
-                      placeholder="Nhập số điện thoại"
-                      classNames={{ input: classes.contactInput }}
-                    />
-                  </Box>
-                </Flex>
-
-                <Flex gap="md" align="center">
-                  <Box>
-                    <VinaupEmailIcon size={24} fill="#121212" />
-                  </Box>
-                  <Box flex={1}>
-                    <Text className={classes.inputLabel}>Email</Text>
-                    <TextInput
-                      variant="unstyled"
-                      placeholder="Nhập địa chỉ email"
-                      classNames={{ input: classes.contactInput }}
-                    />
-                  </Box>
-                </Flex>
-
-                <Flex gap="md" align="flex-start">
-                  <Box>
-                    <IconMessageDots size={30} color="#121212" stroke={2} />
-                  </Box>
-                  <Box flex={1}>
-                    <Text className={classes.inputLabel}>Nội dung</Text>
-                    <Textarea
-                      variant="unstyled"
-                      placeholder="Nhập nội dung bạn cần liên hệ..."
-                      classNames={{ input: classes.contactInput }}
-                      minRows={2}
-                      autosize
-                    />
-                  </Box>
-                </Flex>
-
-                <Flex justify="flex-end">
-                  <Button
-                    color="var(--vinaup-soft-crimson)"
-                    size="md"
-                    radius="md"
-                    px="xl"
-                    className={classes.submitButton}
-                  >
-                    Gửi liên hệ
-                  </Button>
-                </Flex>
-              </Flex>
-            </Paper>
+            <ContactForm />
           </Flex>
         </GridCol>
 

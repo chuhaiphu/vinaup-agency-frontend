@@ -1,8 +1,9 @@
 'use client';
 
-import classes from './sticky-header.module.scss';
-import clsx from 'clsx';
 import { useWindowScroll } from '@mantine/hooks';
+import { generateClassName } from '@vinaup/utils';
+
+import classes from './sticky-header.module.scss';
 
 export interface StickyHeaderProps {
   children: React.ReactNode;
@@ -14,9 +15,7 @@ export function StickyHeader({ children }: Readonly<StickyHeaderProps>) {
 
   return (
     <header
-      className={clsx(classes.stickyHeader, {
-        [classes.scrolled]: isScrolled,
-      })}
+      className={generateClassName(classes.stickyHeader, isScrolled ? classes.scrolled : undefined)}
     >
       {children}
     </header>

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import { CartItem } from '@/interfaces/cart';
+
+import { CartItem } from '@/interfaces/cart-interfaces';
 
 interface CartState {
   items: CartItem[];

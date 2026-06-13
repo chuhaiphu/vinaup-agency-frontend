@@ -1,11 +1,12 @@
 import { Container, Grid, GridCol, Box, Title, Text, List, ListItem, Group, Stack, AspectRatio, Image } from '@mantine/core';
-import classes from './product-description.module.scss';
 import {
     VinaupPriceTagIcon,
     VinaupLocationIcon,
     VinaupArrowRightIcon
 } from '@vinaup/ui/cores';
 import { VideoSection } from '@vinaup/ui/landing';
+
+import classes from './product-description.module.scss';
 
 export function ProductDescription() {
     return (
