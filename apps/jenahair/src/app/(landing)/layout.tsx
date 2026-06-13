@@ -1,6 +1,6 @@
 import '@mantine/carousel/styles.css';
 
-import { ScrollToTop } from '@vinaup/ui/landing';
+import { ScrollToTop } from '@vinaup/ui/actions';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 

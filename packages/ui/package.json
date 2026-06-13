@@ -4,6 +4,7 @@
   "private": true,
   "main": "./src/components/landing/index.ts",
   "exports": {
+    "./actions": "./src/components/actions/index.ts",
     "./landing": "./src/components/landing/index.ts",
     "./admin": "./src/components/admin/index.ts",
     "./cores": "./src/cores/index.ts",

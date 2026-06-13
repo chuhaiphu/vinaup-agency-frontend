@@ -1,52 +1,35 @@
 'use client';
 
-import {
-  ActionIcon,
-  Button,
-  Grid,
-  GridCol,
-  Group,
-  Modal,
-  Paper,
-  Select,
-  Stack,
-  Text,
-  TextInput,
-  UnstyledButton,
-} from '@mantine/core';
+import { ActionIcon, Grid, GridCol, Group, Stack, Text, UnstyledButton } from '@mantine/core';
+import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
-import { TextEditor } from '@vinaup/ui/admin';
-import {
-  VinaupUploadIconV2 as UploadIconV2,
-  VinaupUploadIconV3 as UploadIconV3,
-  VinaupPenIcon as PenIcon,
-  VinaupAddNewIcon as AddNewIcon,
-} from '@vinaup/ui/cores';
-import {
-  generateStrippedHtml,
-  generateSanitizedEndpoint,
-  generateErrorMessage,
-} from '@vinaup/utils';
-import { useRouter } from 'next/navigation';
-import { FaCaretDown } from 'react-icons/fa6';
-import { GrTrash } from 'react-icons/gr';
+import { VinaupAddNewIcon as AddNewIcon } from '@vinaup/ui/cores';
+import { generateErrorMessage } from '@vinaup/utils';
 import { Route } from 'next';
-import dayjs from 'dayjs';
-import { use, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { use, useState } from 'react';
 
 import {
   createPageActionPrivate,
   deletePageActionPrivate,
   updatePageActionPrivate,
 } from '@/actions/page-actions';
-import UploadImageSection from '@/components/admin/media/upload-image-section/upload-image-section';
-import { MAX_IMAGE_COUNT_ALLOWED, PAGE_TYPES } from '@/constants';
+import AdditionalImagesSection from '@/components/admin/shared/additional-images-section/additional-images-section';
+import DeleteConfirmModal from '@/components/admin/shared/delete-confirm-modal/delete-confirm-modal';
+import FeatureImageSection from '@/components/admin/shared/feature-image-section/feature-image-section';
+import SeoPreviewSection from '@/components/admin/shared/seo-preview-section/seo-preview-section';
+import VideoSection from '@/components/admin/shared/video-section/video-section';
+import { MAX_IMAGE_COUNT_ALLOWED, SITE_BASE_URL } from '@/constants';
 import { ActionResponse } from '@/interfaces/_base-interfaces';
 import { PageResponse } from '@/interfaces/page-interfaces';
 import { useAuthContext } from '@/providers/auth-provider';
 import { generateUniqueEndpoint } from '@/utils/generate-unique-endpoint';
 
+import { PageDetailFormValues, toPageDetailFormValues } from './_form';
 import classes from './admin-page-detail-page-content.module.scss';
+import PageConfigSection from './page-config-section/page-config-section';
+import PageContentSection from './page-content-section/page-content-section';
+import PageTitleSection from './page-title-section/page-title-section';
 
 interface AdminPageDetailPageContentProps {
   currentPagePromise: Promise<ActionResponse<PageResponse>>;
@@ -62,11 +45,9 @@ export default function AdminPageDetailPageContent({
     return <div>Page not found</div>;
   }
 
-  const currentPageData = currentPageResult.data;
-
   return (
     <AdminPageDetailPageContentInner
-      currentPageData={currentPageData}
+      currentPageData={currentPageResult.data}
       userId={getUser()?.id ?? ''}
     />
   );
@@ -81,42 +62,16 @@ function AdminPageDetailPageContentInner({
   currentPageData,
   userId,
 }: AdminPageDetailPageContentInnerProps) {
-  const [additionalImageUrls, setAdditionalImageUrls] = useState<string[]>(
-    currentPageData.additionalImageUrls,
-  );
-  const [additionalImagesPosition, setAdditionalImagesPosition] = useState<string>(
-    currentPageData.additionalImagesPosition || 'top',
-  );
-  const [videoUrl, setVideoUrl] = useState<string>(currentPageData.videoUrl || '');
-  const [videoThumbnailUrl, setVideoThumbnailUrl] = useState<string>(
-    currentPageData.videoThumbnailUrl || '',
-  );
-  const [mainImageUrl, setMainImageUrl] = useState<string>(currentPageData.mainImageUrl || '');
-  const [videoPosition, setVideoPosition] = useState<string>(
-    currentPageData.videoPosition || 'bottom',
-  );
-  const [loadingImageIndex, setLoadingImageIndex] = useState<number | null>(null);
-  const [videoThumbnailLoading, setVideoThumbnailLoading] = useState<boolean>(false);
-  const [mainImageLoading, setMainImageLoading] = useState<boolean>(false);
-  const [title, setTitle] = useState<string>(currentPageData.title);
-  const [content, setContent] = useState<string>(currentPageData.content || '');
-  const [status, setStatus] = useState<string>(currentPageData.visibility);
-  const [pageType, setPageType] = useState<string>(currentPageData.type);
-  const [endpoint, setEndpoint] = useState<string>(currentPageData.endpoint);
+  const form = useForm<PageDetailFormValues>({
+    initialValues: toPageDetailFormValues(currentPageData),
+  });
+
   const [deleteModalOpened, setDeleteModalOpened] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [isCreating, setIsCreating] = useState<boolean>(false);
-  const [isSavingAll, setIsSavingAll] = useState<boolean>(false);
-  const router = useRouter();
+  const [isSaving, setIsSaving] = useState<boolean>(false);
 
-  const videoUrlInputRef = useRef<HTMLInputElement>(null);
-  const endpointInputRef = useRef<HTMLInputElement>(null);
-  const handleFocusAndSelectInput = (ref: React.RefObject<HTMLInputElement | null>) => {
-    if (ref.current) {
-      ref.current.focus();
-      ref.current.select();
-    }
-  };
+  const router = useRouter();
 
   const handleAddNewPage = async () => {
     setIsCreating(true);
@@ -150,165 +105,39 @@ function AdminPageDetailPageContentInner({
     });
   };
 
-  const handleSelectAdditionalImage = async (imageUrl: string, imageIndex: number) => {
-    setLoadingImageIndex(imageIndex);
+  const handleSave = async () => {
+    setIsSaving(true);
     try {
-      await updatePageActionPrivate(currentPageData.id, {
-        additionalImageUrls: [...additionalImageUrls, imageUrl],
-      });
-      setAdditionalImageUrls([...additionalImageUrls, imageUrl]);
-    } catch (error) {
-      notifications.show({
-        title: 'Failed to set image',
-        message: generateErrorMessage(error, ''),
-        color: 'red',
-      });
-    } finally {
-      setLoadingImageIndex(null);
-    }
-  };
+      const values = form.getValues();
 
-  const handleRemoveAdditionalImage = async (imageIndex: number) => {
-    setLoadingImageIndex(imageIndex);
-    const newImages = additionalImageUrls.filter((_, idx) => idx !== imageIndex);
-
-    setAdditionalImageUrls(newImages);
-    await updatePageActionPrivate(currentPageData.id, {
-      additionalImageUrls: newImages,
-    });
-    setLoadingImageIndex(null);
-  };
-
-  const handleSelectVideoThumbnail = async (imageUrl: string) => {
-    setVideoThumbnailLoading(true);
-    try {
-      await updatePageActionPrivate(currentPageData.id, {
-        videoThumbnailUrl: imageUrl,
-      });
-      setVideoThumbnailUrl(imageUrl);
-    } catch (error) {
-      notifications.show({
-        title: 'Failed to set image',
-        message: generateErrorMessage(error, ''),
-        color: 'red',
-      });
-    } finally {
-      setVideoThumbnailLoading(false);
-    }
-  };
-
-  const handleRemoveVideoThumbnail = async () => {
-    setVideoThumbnailLoading(true);
-    setVideoThumbnailUrl('');
-    await updatePageActionPrivate(currentPageData.id, {
-      videoThumbnailUrl: '',
-    });
-    setVideoThumbnailLoading(false);
-  };
-
-  const handleSelectMainImage = async (imageUrl: string) => {
-    setMainImageLoading(true);
-    try {
-      await updatePageActionPrivate(currentPageData.id, { mainImageUrl: imageUrl });
-      setMainImageUrl(imageUrl);
-    } catch (error) {
-      notifications.show({
-        title: 'Failed to set image',
-        message: generateErrorMessage(error, ''),
-        color: 'red',
-      });
-    } finally {
-      setMainImageLoading(false);
-    }
-  };
-
-  const handleRemoveMainImage = async () => {
-    setMainImageLoading(true);
-    setMainImageUrl('');
-    await updatePageActionPrivate(currentPageData.id, {
-      mainImageUrl: '',
-    });
-    setMainImageLoading(false);
-  };
-
-  const handleUpdateTitle = (newTitle: string) => {
-    setTitle(newTitle);
-  };
-
-  const handleUpdateEndpoint = (newEndpoint: string) => {
-    setEndpoint(newEndpoint);
-  };
-
-  const handleUpdateContent = (newContent: string) => {
-    setContent(newContent);
-  };
-
-  const handleUpdateAdditionalImagesPosition = (newPosition: string) => {
-    setAdditionalImagesPosition(newPosition);
-  };
-
-  const handleUpdateStatus = (newStatus: string) => {
-    setStatus(newStatus);
-  };
-
-  const handleUpdatePageType = (newPageType: string) => {
-    setPageType(newPageType);
-  };
-
-  const handleUpdateVideoPosition = (newPosition: string) => {
-    setVideoPosition(newPosition);
-  };
-
-  const handleUpdateVideoUrl = (newUrl: string) => {
-    setVideoUrl(newUrl);
-  };
-
-  // Generate SEO title and description
-  const seoTitle = title ? generateStrippedHtml(title, 100) : '';
-  const seoContent = content ? generateStrippedHtml(content, 300) : '';
-
-  const handleCopyLink = () => {
-    const link = `https://jenahair.com/${endpoint}`;
-    navigator.clipboard.writeText(link);
-    notifications.show({
-      title: 'Link copied',
-      message: 'Link has been copied to clipboard',
-      color: 'green',
-      position: 'top-right',
-      autoClose: 900,
-    });
-  };
-
-  const handleViewLink = () => {
-    const link = `https://jenahair.com/${endpoint}`;
-    window.open(link, '_blank');
-  };
-
-  const handleSaveAll = async () => {
-    setIsSavingAll(true);
-    try {
-      let finalEndpoint = endpoint;
-      if (title !== currentPageData.title && endpoint === currentPageData.endpoint) {
-        finalEndpoint = await generateUniqueEndpoint(title, 'page', currentPageData.id);
-      } else if (endpoint !== currentPageData.endpoint) {
-        finalEndpoint = await generateUniqueEndpoint(endpoint, 'page', currentPageData.id);
+      // ─── Step 1: resolve the final endpoint ─────
+      // The endpoint is editable here (unlike blog/diary): a manual edit wins over the
+      // title-derived value; either source still goes through the uniqueness check.
+      let finalEndpoint = values.endpoint;
+      if (values.title !== currentPageData.title && values.endpoint === currentPageData.endpoint) {
+        finalEndpoint = await generateUniqueEndpoint(values.title, 'page', currentPageData.id);
+      } else if (values.endpoint !== currentPageData.endpoint) {
+        finalEndpoint = await generateUniqueEndpoint(values.endpoint, 'page', currentPageData.id);
       }
 
+      // ─── Step 2: persist every field in one update ─────
+      // All fields (including image urls) are buffered in the form and saved together.
       await updatePageActionPrivate(currentPageData.id, {
-        title,
+        title: values.title,
         endpoint: finalEndpoint,
-        content,
-        additionalImageUrls,
-        additionalImagesPosition,
-        visibility: status,
-        type: pageType,
-        videoPosition,
-        videoUrl,
-        videoThumbnailUrl,
-        mainImageUrl,
+        content: values.content,
+        additionalImageUrls: values.additionalImageUrls,
+        additionalImagesPosition: values.additionalImagesPosition,
+        visibility: values.visibility,
+        type: values.type,
+        videoPosition: values.videoPosition,
+        videoUrl: values.videoUrl,
+        videoThumbnailUrl: values.videoThumbnailUrl,
+        mainImageUrl: values.mainImageUrl,
       });
 
-      setEndpoint(finalEndpoint);
+      // Reflect the server-resolved endpoint back into the form so the URL display stays live
+      form.setFieldValue('endpoint', finalEndpoint);
 
       notifications.show({
         title: 'Success',
@@ -323,7 +152,7 @@ function AdminPageDetailPageContentInner({
         color: 'red',
       });
     } finally {
-      setIsSavingAll(false);
+      setIsSaving(false);
     }
   };
 
@@ -373,402 +202,56 @@ function AdminPageDetailPageContentInner({
       <Grid>
         <GridCol span={{ base: 12, sm: 12, md: 8, lg: 8, xl: 9 }}>
           <Stack>
-            <Paper p={'sm'} radius={'md'} classNames={{ root: classes.paperBlock }}>
-              <Stack gap={'xs'}>
-                <Text>Title</Text>
-                <TextInput
-                  size="md"
-                  value={title}
-                  placeholder="A title under 100 characters"
-                  maxLength={100}
-                  onChange={(e) => {
-                    handleUpdateTitle(e.target.value);
-                  }}
-                />
-                <Group gap={'xs'} justify="space-between" wrap="nowrap">
-                  <Group gap={0} wrap="nowrap" className={classes.urlGroup}>
-                    <Group gap={4}>
-                      <Text size="md" c="dark.3">
-                        Custom URL:
-                      </Text>
-                      <Text size="md">jenahair.com/</Text>
-                    </Group>
-                    <Group gap={0}>
-                      <TextInput
-                        ref={endpointInputRef}
-                        classNames={{ input: classes.endpointInput }}
-                        variant="unstyled"
-                        value={endpoint}
-                        onChange={(e) => {
-                          const sanitized = generateSanitizedEndpoint(e.target.value);
-                          handleUpdateEndpoint(sanitized);
-                        }}
-                      />
-                      <ActionIcon
-                        size="md"
-                        variant="transparent"
-                        onClick={() => handleFocusAndSelectInput(endpointInputRef)}
-                      >
-                        <PenIcon width={24} height={24} />
-                      </ActionIcon>
-                    </Group>
-                  </Group>
-                  <Group gap={'xs'}>
-                    <Text size="sm" className={classes.linkText} onClick={handleViewLink}>
-                      View
-                    </Text>
-                    <Text size="sm" className={classes.linkText} onClick={handleCopyLink}>
-                      Copy link
-                    </Text>
-                  </Group>
-                </Group>
-              </Stack>
-            </Paper>
-            <Paper p={'sm'} radius={'md'} classNames={{ root: classes.paperBlock }}>
-              <Stack gap={'xs'}>
-                <Text>Content</Text>
-                <TextEditor
-                  content={content}
-                  onChange={(newContent) => {
-                    handleUpdateContent(newContent);
-                  }}
-                />
-              </Stack>
-            </Paper>
-            <Paper p={'sm'} radius={'md'} classNames={{ root: classes.paperBlock }}>
-              <Stack gap={'xs'}>
-                <Group justify="space-between" wrap="nowrap">
-                  <Text>Images Describer</Text>
-                  <Select
-                    w={'6rem'}
-                    size="sm"
-                    comboboxProps={{ withinPortal: false }}
-                    classNames={{
-                      root: classes.selectRoot,
-                      section: classes.selectSection,
-                      input: classes.selectInput,
-                      option: classes.selectOption,
-                    }}
-                    data={[
-                      { value: 'top', label: 'Top' },
-                      { value: 'bottom', label: 'Bottom' },
-                    ]}
-                    value={additionalImagesPosition}
-                    variant="unstyled"
-                    rightSection={<FaCaretDown color="var(--vinaup-blue-link)" size={20} />}
-                    onChange={(value) => {
-                      if (!value) return;
-                      handleUpdateAdditionalImagesPosition(value);
-                    }}
-                  />
-                </Group>
-                <Group>
-                  {additionalImageUrls.map((imgUrl, index) => (
-                    <UploadImageSection
-                      key={index}
-                      size="xl"
-                      imageUrl={imgUrl}
-                      isLoading={loadingImageIndex === index}
-                      onImageSelect={(imageUrl) => handleSelectAdditionalImage(imageUrl, index)}
-                      onRemoveFile={() => handleRemoveAdditionalImage(index)}
-                    />
-                  ))}
-                  {additionalImageUrls.length < MAX_IMAGE_COUNT_ALLOWED && (
-                    <UploadImageSection
-                      size="xl"
-                      isLoading={loadingImageIndex === additionalImageUrls.length}
-                      onImageSelect={(imageUrl) =>
-                        handleSelectAdditionalImage(imageUrl, additionalImageUrls.length)
-                      }
-                    />
-                  )}
-                </Group>
-              </Stack>
-            </Paper>
+            <PageTitleSection form={form} />
+            <PageContentSection form={form} />
+            <AdditionalImagesSection
+              imageUrls={form.getValues().additionalImageUrls}
+              onChange={(imageUrls) => form.setFieldValue('additionalImageUrls', imageUrls)}
+              position={form.getValues().additionalImagesPosition}
+              onPositionChange={(position) =>
+                form.setFieldValue('additionalImagesPosition', position)
+              }
+              maxCount={MAX_IMAGE_COUNT_ALLOWED}
+            />
           </Stack>
         </GridCol>
         <GridCol span={{ base: 12, sm: 12, md: 4, lg: 4, xl: 3 }}>
-          <Paper
-            p={'xs'}
-            radius={'md'}
-            classNames={{
-              root: classes.pageConfiguration,
-            }}
-          >
-            <Stack gap={'0'}>
-              <Group justify="space-between" wrap="nowrap">
-                <Text size="lg">Status</Text>
-                <Select
-                  classNames={{
-                    root: classes.selectRoot,
-                    input: classes.selectInput,
-                    section: classes.selectSection,
-                  }}
-                  size="md"
-                  data={[
-                    { value: 'public', label: 'Public' },
-                    { value: 'private', label: 'Private' },
-                  ]}
-                  value={status}
-                  variant="unstyled"
-                  rightSection={<FaCaretDown color="var(--vinaup-blue-link)" size={24} />}
-                  onChange={(value) => {
-                    if (!value) return;
-                    handleUpdateStatus(value);
-                  }}
-                />
-              </Group>
-              <Group justify="space-between" wrap="nowrap" mt={'0'}>
-                <Text size="lg">Theme</Text>
-                <Select
-                  classNames={{
-                    root: classes.selectRoot,
-                    input: classes.selectInput,
-                    section: classes.selectSection,
-                  }}
-                  size="md"
-                  data={PAGE_TYPES}
-                  value={pageType}
-                  variant="unstyled"
-                  rightSection={<FaCaretDown color="var(--vinaup-blue-link)" size={24} />}
-                  onChange={(value) => {
-                    if (!value) return;
-                    handleUpdatePageType(value);
-                  }}
-                />
-              </Group>
-              <Group justify="space-between" wrap="nowrap" mt={'sm'}>
-                <ActionIcon
-                  size="lg"
-                  variant="subtle"
-                  color="var(--vinaup-blue-link)"
-                  onClick={() => setDeleteModalOpened(true)}
-                >
-                  <GrTrash size={24} color="var(--vinaup-blue-link)" />
-                </ActionIcon>
-                <Group gap={'xs'}>
-                  <Button
-                    onClick={handleSaveAll}
-                    loading={isSavingAll}
-                    variant="filled"
-                    color="teal"
-                    size="sm"
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      router.push('/adminup/page' as Route);
-                    }}
-                    variant="filled"
-                    color="blue"
-                    size="xs"
-                    bg={'#01426e'}
-                  >
-                    Exit
-                  </Button>
-                </Group>
-              </Group>
-            </Stack>
-          </Paper>
-          <Paper
-            p={'xs'}
-            radius={'md'}
-            mt={'sm'}
-            classNames={{ root: classes.paperBlock + ' ' + classes.videoSection }}
-          >
-            <Stack gap={'2px'}>
-              <Group justify="space-between" wrap="nowrap">
-                <Text size="lg">Video:</Text>
-                <Select
-                  w={'6rem'}
-                  size="sm"
-                  comboboxProps={{ withinPortal: false }}
-                  classNames={{
-                    root: classes.selectRoot,
-                    section: classes.selectSection,
-                    input: classes.selectInput,
-                    option: classes.selectOption,
-                  }}
-                  data={[
-                    { value: 'top', label: 'Top' },
-                    { value: 'bottom', label: 'Bottom' },
-                  ]}
-                  value={videoPosition}
-                  variant="unstyled"
-                  rightSection={<FaCaretDown color="var(--vinaup-blue-link)" size={20} />}
-                  onChange={(value) => {
-                    if (!value) return;
-                    handleUpdateVideoPosition(value);
-                  }}
-                />
-              </Group>
-              <Group justify="space-between" wrap="nowrap">
-                <UploadImageSection
-                  size="md"
-                  icon={<UploadIconV2 width={60} height={60} />}
-                  isLoading={videoThumbnailLoading}
-                  onImageSelect={
-                    videoThumbnailUrl.length > 0 ? undefined : handleSelectVideoThumbnail
-                  }
-                  onRemoveFile={
-                    videoThumbnailUrl.length > 0 ? handleRemoveVideoThumbnail : undefined
-                  }
-                  imageUrl={videoThumbnailUrl}
-                />
-                <Stack gap={'0'} w={'75%'}>
-                  <Group justify="space-between" wrap="nowrap">
-                    <TextInput
-                      ref={videoUrlInputRef}
-                      w={'100%'}
-                      classNames={{
-                        input: classes.videoUrlInput,
-                      }}
-                      variant="unstyled"
-                      placeholder="https://www.youtube.com/watch?v=..."
-                      value={videoUrl}
-                      onChange={(e) => {
-                        handleUpdateVideoUrl(e.target.value);
-                      }}
-                    />
-                    <ActionIcon
-                      size="md"
-                      variant="transparent"
-                      onClick={() => handleFocusAndSelectInput(videoUrlInputRef)}
-                    >
-                      <PenIcon width={24} height={24} />
-                    </ActionIcon>
-                  </Group>
-                  <Text size="sm" c="dimmed">
-                    ← Auto or Upload thumbnail
-                  </Text>
-                </Stack>
-              </Group>
-            </Stack>
-          </Paper>
-          <Paper
-            p={'xs'}
-            radius={'md'}
-            mt={'sm'}
-            classNames={{ root: classes.paperBlock + ' ' + classes.videoSection }}
-          >
-            <Stack gap={'0'}>
-              <Text size="xl">Feature Image:</Text>
-              <Group justify="center">
-                <UploadImageSection
-                  size="2xl"
-                  icon={<UploadIconV3 width={200} height={200} />}
-                  isLoading={mainImageLoading}
-                  imageUrl={mainImageUrl}
-                  onImageSelect={mainImageUrl.length > 0 ? undefined : handleSelectMainImage}
-                  onRemoveFile={mainImageUrl.length > 0 ? handleRemoveMainImage : undefined}
-                />
-              </Group>
-              <Group justify="center">
-                <Text size="md" c="dimmed">
-                  (png, jpg; jpeg; Size ≤ 5Mbs)
-                </Text>
-              </Group>
-            </Stack>
-          </Paper>
+          <PageConfigSection
+            form={form}
+            isSaving={isSaving}
+            onSave={handleSave}
+            onExit={() => router.push('/adminup/page' as Route)}
+            onDeleteClick={() => setDeleteModalOpened(true)}
+          />
+          <VideoSection
+            videoUrl={form.getValues().videoUrl}
+            onVideoUrlChange={(videoUrl) => form.setFieldValue('videoUrl', videoUrl)}
+            thumbnailUrl={form.getValues().videoThumbnailUrl}
+            onThumbnailChange={(thumbnailUrl) =>
+              form.setFieldValue('videoThumbnailUrl', thumbnailUrl)
+            }
+            position={form.getValues().videoPosition}
+            onPositionChange={(position) => form.setFieldValue('videoPosition', position)}
+          />
+          <FeatureImageSection
+            imageUrl={form.getValues().mainImageUrl}
+            onChange={(imageUrl) => form.setFieldValue('mainImageUrl', imageUrl)}
+          />
         </GridCol>
       </Grid>
-      <Paper
-        p={'md'}
-        radius={'md'}
+      <SeoPreviewSection
+        title={form.getValues().title}
+        contentHtml={form.getValues().content}
+        url={`${SITE_BASE_URL}/${form.getValues().endpoint}`}
+        updatedAt={currentPageData.updatedAt}
         mt={'md'}
-        withBorder
-        classNames={{ root: classes.paperBlock }}
-        bg={'var(--vinaup-soft-gray)'}
-      >
-        <Stack gap={4}>
-          <div className={classes.seoBlockTitle}>
-            <b>S</b>earch <b>E</b>ngine <b>O</b>ptimization
-          </div>
-          <div className={classes.seoDivider} />
-          <Stack gap={4}>
-            <Text
-              component="a"
-              href={`https://jenahair.com/${endpoint}`}
-              target="_blank"
-              size="lg"
-              fw={500}
-              c={'var(--vinaup-teal)'}
-            >
-              {seoTitle || currentPageData.title}
-            </Text>
-            <Text
-              component="a"
-              href={`https://jenahair.com/${endpoint}`}
-              target="_blank"
-              size="md"
-              c={'var(--vinaup-blue-link)'}
-            >
-              https://jenahair.com/{endpoint}
-            </Text>
-            <Text size="sm">{dayjs(currentPageData.updatedAt).format('MMM DD, YYYY')}</Text>
-            <div
-              dangerouslySetInnerHTML={{ __html: seoContent || '' }}
-              className={classes.htmlContent}
-            ></div>
-          </Stack>
-          <div className={classes.seoDivider} />
-          <Stack gap={4}>
-            <Group justify="space-between" align="center">
-              <Text size="md" fw={500}>
-                Seo title
-              </Text>
-            </Group>
-            <TextInput
-              classNames={{
-                input: classes.seoTextInput,
-              }}
-              size="md"
-              placeholder="Name title (Suggest < 72 characters)"
-              value={seoTitle}
-              readOnly
-              disabled
-            />
-          </Stack>
-          <div className={classes.seoDivider} />
-          <Stack gap={4}>
-            <Text size="md" fw={500}>
-              Seo description
-            </Text>
-            <TextInput
-              classNames={{
-                input: classes.seoTextInput,
-              }}
-              size="md"
-              placeholder="..."
-              value={seoContent}
-              readOnly
-              disabled
-            />
-          </Stack>
-        </Stack>
-      </Paper>
-      <Modal
+      />
+      <DeleteConfirmModal
         opened={deleteModalOpened}
         onClose={() => setDeleteModalOpened(false)}
-        title="Confirm Delete"
-        centered
-      >
-        <Stack>
-          <Group justify="flex-end" mt="sm">
-            <Button
-              variant="default"
-              onClick={() => setDeleteModalOpened(false)}
-              disabled={isDeleting}
-            >
-              Cancel
-            </Button>
-            <Button color="red" onClick={handleDeletePage} loading={isDeleting}>
-              Delete
-            </Button>
-          </Group>
-        </Stack>
-      </Modal>
+        onConfirm={handleDeletePage}
+        isDeleting={isDeleting}
+      />
     </div>
   );
 }

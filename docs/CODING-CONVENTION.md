@@ -86,6 +86,8 @@ src/
 
 Only create a folder an app actually needs (a static landing app has no `apis/`/`actions/`). → [KISS](principle/KISS.md)
 
+- **Scope-shared components:** a component reused by several screens of **one scope** lives in `components/<scope>/shared/` (e.g. `components/admin/shared/seo-preview-section/`). Promote it to `@vinaup/ui` only when a **second app** needs it (§9).
+
 ---
 
 ## 3. Imports
@@ -178,7 +180,7 @@ Owned entirely by Prettier (`.prettierrc` at repo root):
 ## 10. Forms & modals
 
 - Multi-field forms use **`@mantine/form`** (`useForm` + `validate`) — not a `useState` graph or a Zustand store.
-- Modals use **`@mantine/modals`**; toasts use **`@mantine/notifications`**. Split a modal into shell + content when it owns local state or a multi-field form. → [COMPOSITE-PATTERN](pattern/COMPOSITE-PATTERN.md)
+- Modals use the raw **`<Modal>` from `@mantine/core`** + `useState` (not `@mantine/modals`); toasts use **`@mantine/notifications`**. Split a modal into shell + content when it owns local state or a multi-field form. → [COMPOSITE-PATTERN](pattern/COMPOSITE-PATTERN.md)
 
 ## 11. State mechanism
 
@@ -206,6 +208,13 @@ Pick the simplest that works. → [KISS](principle/KISS.md)
 
 Comments answer **WHY**, not WHAT. Structure non-trivial logic as numbered/section steps; don't narrate obvious code.
 
+## 14. Styling
+
+- Each component owns a **co-located CSS module**: `<component-name>.module.scss` next to `<component-name>.tsx`.
+- Class names are **camelCase**; the component's outermost class is `<componentName>Root` (e.g. `.blogTitleSectionRoot`).
+- Colours come from CSS variables (`--vinaup-*`, `--mantine-*`) — no new hard-coded palette values.
+- A dropdown rendered in a **portal** escapes the component DOM: style its option class **top-level** in the module, not nested under the root class (a nested selector never matches).
+
 ---
 
 ## Enforcement map
@@ -219,4 +228,4 @@ Comments answer **WHY**, not WHAT. Structure non-trivial logic as numbered/secti
 | 3.2      | Import order                                                       | `import/order`                                   |
 | 3.1, 3.3 | Path alias, import direction                                       | Review (deep-relative caught in review)          |
 | 4        | Formatting                                                         | Prettier                                         |
-| 5–13     | API, action, provider, store, component, form, date-time, comments | Review                                           |
+| 5–14     | API, action, provider, store, component, form, date-time, comments, styling | Review                                  |

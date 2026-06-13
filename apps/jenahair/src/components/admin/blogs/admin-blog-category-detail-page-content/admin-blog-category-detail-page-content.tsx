@@ -1,41 +1,26 @@
 'use client';
 
-import {
-  ActionIcon,
-  Button,
-  Grid,
-  GridCol,
-  Group,
-  Modal,
-  Paper,
-  Select,
-  Stack,
-  Text,
-  TextInput,
-} from '@mantine/core';
+import { Grid, GridCol, Stack } from '@mantine/core';
+import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
-import { TextEditor } from '@vinaup/ui/admin';
-import {
-  VinaupUploadIconV2 as UploadIconV2,
-  VinaupUploadIconV3 as UploadIconV3,
-  VinaupPenIcon as PenIcon,
-} from '@vinaup/ui/cores';
 import { TreeManager, generateErrorMessage } from '@vinaup/utils';
 import { useRouter } from 'next/navigation';
-import { use, useMemo, useRef, useState } from 'react';
-import { FaCaretDown } from 'react-icons/fa6';
-import { GrTrash } from 'react-icons/gr';
+import { use, useMemo, useState } from 'react';
 
 import {
   deleteBlogCategoryActionPrivate,
   updateBlogCategoryActionPrivate,
 } from '@/actions/blog-category-actions';
-import UploadImageSection from '@/components/admin/media/upload-image-section/upload-image-section';
+import DeleteConfirmModal from '@/components/admin/shared/delete-confirm-modal/delete-confirm-modal';
+import FeatureImageSection from '@/components/admin/shared/feature-image-section/feature-image-section';
+import VideoSection from '@/components/admin/shared/video-section/video-section';
 import { ActionResponse } from '@/interfaces/_base-interfaces';
 import { BlogCategoryResponse } from '@/interfaces/blog-category-interfaces';
 import { generateUniqueEndpoint } from '@/utils/generate-unique-endpoint';
 
-import classes from './admin-blog-category-detail-page-content.module.scss';
+import { BlogCategoryDetailFormValues, toBlogCategoryDetailFormValues } from './_form';
+import BlogCategoryConfigSection from './blog-category-config-section/blog-category-config-section';
+import BlogCategoryInfoSection from './blog-category-info-section/blog-category-info-section';
 
 interface AdminBlogCategoryDetailPageContentProps {
   currentBlogCategoryPromise: Promise<ActionResponse<BlogCategoryResponse>>;
@@ -56,15 +41,11 @@ export default function AdminBlogCategoryDetailPageContent({
     return <div>Blog category not found</div>;
   }
 
-  const currentBlogCategory = currentBlogCategoryResult.data;
-  const blogCategoriesData = blogCategoriesResult.data ?? [];
-  const availableSortOrdersData = availableSortOrdersResult.data ?? [];
-
   return (
     <AdminBlogCategoryDetailPageContentInner
-      currentBlogCategory={currentBlogCategory}
-      blogCategoriesData={blogCategoriesData}
-      availableSortOrdersData={availableSortOrdersData}
+      currentBlogCategory={currentBlogCategoryResult.data}
+      blogCategoriesData={blogCategoriesResult.data ?? []}
+      availableSortOrdersData={availableSortOrdersResult.data ?? []}
     />
   );
 }
@@ -80,27 +61,15 @@ function AdminBlogCategoryDetailPageContentInner({
   blogCategoriesData,
   availableSortOrdersData,
 }: AdminBlogCategoryDetailPageContentInnerProps) {
-  const [title, setTitle] = useState<string>(currentBlogCategory.title);
-  const [description, setDescription] = useState<string>(currentBlogCategory.description || '');
-  const [parentId, setParentId] = useState<string | null>(currentBlogCategory.parent?.id || null);
-  const [videoUrl, setVideoUrl] = useState<string>(currentBlogCategory.videoUrl || '');
-  const [videoThumbnailUrl, setVideoThumbnailUrl] = useState<string>(
-    currentBlogCategory.videoThumbnailUrl || '',
-  );
-  const [videoPosition, setVideoPosition] = useState<string>(
-    currentBlogCategory.videoPosition || 'end',
-  );
-  const [mainImageUrl, setMainImageUrl] = useState<string>(currentBlogCategory.mainImageUrl || '');
-  const [sortOrder, setSortOrder] = useState<number>(currentBlogCategory.sortOrder || 0);
+  const form = useForm<BlogCategoryDetailFormValues>({
+    initialValues: toBlogCategoryDetailFormValues(currentBlogCategory),
+  });
 
-  const [videoThumbnailLoading, setVideoThumbnailLoading] = useState<boolean>(false);
-  const [mainImageLoading, setMainImageLoading] = useState<boolean>(false);
   const [deleteModalOpened, setDeleteModalOpened] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
-  const [isSavingAll, setIsSavingAll] = useState<boolean>(false);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
 
   const router = useRouter();
-  const videoUrlInputRef = useRef<HTMLInputElement>(null);
 
   const treeManager = useMemo(() => {
     if (blogCategoriesData.length === 0) {
@@ -109,7 +78,7 @@ function AdminBlogCategoryDetailPageContentInner({
     return new TreeManager(blogCategoriesData);
   }, [blogCategoriesData]);
 
-  // Filter out current category and its children from parent options
+  // Filter out the current category and its children — a category cannot be its own ancestor
   const excludedIds = treeManager?.toIds(treeManager?.toFlatList(currentBlogCategory.id) ?? []);
   excludedIds?.add(currentBlogCategory.id);
 
@@ -117,123 +86,33 @@ function AdminBlogCategoryDetailPageContentInner({
     .filter((cat) => !excludedIds?.has(cat.id))
     .map((cat) => ({ value: cat.id, label: cat.title }));
 
-  const handleFocusAndSelectInput = (ref: React.RefObject<HTMLInputElement | null>) => {
-    if (ref.current) {
-      ref.current.focus();
-      ref.current.select();
-    }
-  };
-
-  const handleUpdateTitle = (newTitle: string) => {
-    setTitle(newTitle);
-  };
-
-  const handleUpdateDescription = (newDescription: string) => {
-    setDescription(newDescription);
-  };
-
-  const handleUpdateParent = (newParentId: string | null) => {
-    if (!newParentId) return;
-    setParentId(newParentId);
-  };
-
-  const handleUpdateSortOrder = (newSortOrder: string | null) => {
-    if (!newSortOrder) return;
-    setSortOrder(parseInt(newSortOrder));
-  };
-
-  const handleUpdateVideoPosition = (newPosition: string) => {
-    setVideoPosition(newPosition);
-  };
-
-  const handleUpdateVideoUrl = (newUrl: string) => {
-    setVideoUrl(newUrl);
-  };
-
-  const handleSelectVideoThumbnail = async (imageUrl: string) => {
-    setVideoThumbnailLoading(true);
+  const handleSave = async () => {
+    setIsSaving(true);
     try {
-      await updateBlogCategoryActionPrivate(currentBlogCategory.id, {
-        videoThumbnailUrl: imageUrl,
-      });
-      setVideoThumbnailUrl(imageUrl);
-    } catch (error) {
-      notifications.show({
-        title: 'Failed to set image',
-        message: generateErrorMessage(error, ''),
-        color: 'red',
-      });
-    } finally {
-      setVideoThumbnailLoading(false);
-    }
-  };
+      const values = form.getValues();
 
-  const handleRemoveVideoThumbnail = async () => {
-    setVideoThumbnailLoading(true);
-    setVideoThumbnailUrl('');
-    await updateBlogCategoryActionPrivate(currentBlogCategory.id, {
-      videoThumbnailUrl: '',
-    });
-    setVideoThumbnailLoading(false);
-  };
-
-  const handleSelectMainImage = async (imageUrl: string) => {
-    setMainImageLoading(true);
-    try {
-      await updateBlogCategoryActionPrivate(currentBlogCategory.id, {
-        mainImageUrl: imageUrl,
-      });
-      setMainImageUrl(imageUrl);
-    } catch (error) {
-      notifications.show({
-        title: 'Failed to set image',
-        message: generateErrorMessage(error, ''),
-        color: 'red',
-      });
-    } finally {
-      setMainImageLoading(false);
-    }
-  };
-
-  const handleRemoveMainImage = async () => {
-    setMainImageLoading(true);
-    setMainImageUrl('');
-    await updateBlogCategoryActionPrivate(currentBlogCategory.id, {
-      mainImageUrl: '',
-    });
-    setMainImageLoading(false);
-  };
-
-  const handleCopyLink = () => {
-    const link = `https://jenahair.com/${currentBlogCategory.endpoint}`;
-    navigator.clipboard.writeText(link);
-    notifications.show({
-      title: 'Link copied',
-      message: 'Link has been copied to clipboard',
-      color: 'green',
-    });
-  };
-
-  const handleViewLink = () => {
-    const link = `https://jenahair.com/${currentBlogCategory.endpoint}`;
-    window.open(link, '_blank');
-  };
-
-  const handleSaveAll = async () => {
-    setIsSavingAll(true);
-    try {
+      // ─── Step 1: regenerate the endpoint only when the title changed ─────
+      // The endpoint is derived from the title; an unchanged title keeps the published URL stable.
       let newEndpoint = currentBlogCategory.endpoint;
-      if (title !== currentBlogCategory.title) {
-        newEndpoint = await generateUniqueEndpoint(title, 'blog-category', currentBlogCategory.id);
+      if (values.title !== currentBlogCategory.title) {
+        newEndpoint = await generateUniqueEndpoint(
+          values.title,
+          'blog-category',
+          currentBlogCategory.id,
+        );
       }
 
+      // ─── Step 2: persist every field in one update ─────
+      // All fields (including image urls) are buffered in the form and saved together.
       await updateBlogCategoryActionPrivate(currentBlogCategory.id, {
-        title,
-        description,
-        parentId: parentId || undefined,
-        sortOrder,
-        videoUrl,
-        videoPosition,
+        title: values.title,
+        description: values.description,
+        parentId: values.parentId || undefined,
+        sortOrder: values.sortOrder,
+        videoUrl: values.videoUrl,
+        videoPosition: values.videoPosition,
+        videoThumbnailUrl: values.videoThumbnailUrl,
+        mainImageUrl: values.mainImageUrl,
         endpoint: newEndpoint,
       });
 
@@ -250,7 +129,7 @@ function AdminBlogCategoryDetailPageContentInner({
         color: 'red',
       });
     } finally {
-      setIsSavingAll(false);
+      setIsSaving(false);
     }
   };
 
@@ -286,239 +165,55 @@ function AdminBlogCategoryDetailPageContentInner({
   };
 
   return (
-    <div className={classes.categoryDetailRoot}>
+    <div>
       <Grid>
         <GridCol span={{ base: 12, sm: 12, md: 7, lg: 7, xl: 8 }}>
           <Stack>
-            <Paper p={'sm'} radius={'md'} classNames={{ root: classes.paperBlock }}>
-              <Stack gap={'xs'}>
-                <Text>Title</Text>
-                <TextInput
-                  size="md"
-                  value={title}
-                  placeholder="A title under 100 characters"
-                  maxLength={100}
-                  onChange={(e) => {
-                    handleUpdateTitle(e.target.value);
-                  }}
-                />
-                <Group gap={'xs'} justify="space-between">
-                  <Text size="md">URL: jenahair.com/{currentBlogCategory.endpoint}</Text>
-                  <Group>
-                    <Text size="sm" className={classes.linkText} onClick={handleViewLink}>
-                      View
-                    </Text>
-                    <Text size="sm" className={classes.linkText} onClick={handleCopyLink}>
-                      Copy link
-                    </Text>
-                  </Group>
-                </Group>
-              </Stack>
-
-              <Stack gap={'xs'} mt={'md'}>
-                <Text>Parent Blog Category</Text>
-                <Select
-                  size="md"
-                  placeholder="---"
-                  data={parentOptions}
-                  value={parentId}
-                  searchable
-                  nothingFoundMessage="No blog category found"
-                  onChange={(value) => handleUpdateParent(value)}
-                />
-              </Stack>
-
-              <Stack gap={'xs'} mt={'md'}>
-                <Text>Description</Text>
-                <TextEditor
-                  content={description}
-                  onChange={(newDescription) => {
-                    handleUpdateDescription(newDescription);
-                  }}
-                />
-              </Stack>
-            </Paper>
+            <BlogCategoryInfoSection
+              form={form}
+              endpoint={currentBlogCategory.endpoint}
+              parentOptions={parentOptions}
+            />
           </Stack>
         </GridCol>
 
         <GridCol span={{ base: 12, sm: 12, md: 5, lg: 5, xl: 4 }}>
-          <Paper pt={0} p={'xs'} radius={'md'} classNames={{ root: classes.categoryConfiguration }}>
-            <Stack gap={'0'}>
-              <Group justify="space-between" wrap="nowrap">
-                <Text size="lg">Index</Text>
-                <Select
-                  w={'5rem'}
-                  classNames={{
-                    root: classes.selectRoot,
-                    section: classes.selectSection,
-                    input: classes.selectInput,
-                    option: classes.selectOption,
-                  }}
-                  size="md"
-                  data={availableSortOrdersData.map((order) => ({
-                    value: order.toString(),
-                    label: order.toString(),
-                  }))}
-                  value={sortOrder?.toString()}
-                  variant="unstyled"
-                  rightSection={<FaCaretDown color="var(--vinaup-blue-link)" size={24} />}
-                  onChange={handleUpdateSortOrder}
-                />
-              </Group>
-              <Group justify="space-between" wrap="nowrap" mt={'sm'}>
-                <ActionIcon
-                  size="lg"
-                  variant="subtle"
-                  color="var(--vinaup-blue-link)"
-                  onClick={() => setDeleteModalOpened(true)}
-                >
-                  <GrTrash size={24} color="var(--vinaup-blue-link)" />
-                </ActionIcon>
-                <Group gap={'xs'}>
-                  <Button
-                    onClick={handleSaveAll}
-                    loading={isSavingAll}
-                    variant="filled"
-                    color="teal"
-                    size="sm"
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      router.push('/adminup/blog-category');
-                    }}
-                    variant="filled"
-                    color="blue"
-                    size="xs"
-                    bg={'#01426e'}
-                  >
-                    Exit
-                  </Button>
-                </Group>
-              </Group>
-            </Stack>
-          </Paper>
-          <Paper
-            p={'xs'}
-            radius={'md'}
-            mt={'sm'}
-            classNames={{ root: classes.paperBlock + ' ' + classes.videoSection }}
-          >
-            <Stack gap={'2px'}>
-              <Group justify="space-between" wrap="nowrap">
-                <Text size="lg">Video</Text>
-                <Select
-                  w={'6rem'}
-                  size="sm"
-                  comboboxProps={{ withinPortal: false }}
-                  classNames={{
-                    root: classes.selectRoot,
-                    section: classes.selectSection,
-                    input: classes.selectInput,
-                    option: classes.selectOption,
-                  }}
-                  data={[
-                    { value: 'top', label: 'Top' },
-                    { value: 'bottom', label: 'Bottom' },
-                  ]}
-                  value={videoPosition}
-                  variant="unstyled"
-                  rightSection={<FaCaretDown color="var(--vinaup-blue-link)" size={20} />}
-                  onChange={(value) => {
-                    if (!value) return;
-                    handleUpdateVideoPosition(value);
-                  }}
-                />
-              </Group>
-              <Group justify="space-between" wrap="nowrap">
-                <UploadImageSection
-                  size="md"
-                  icon={<UploadIconV2 width={60} height={60} />}
-                  isLoading={videoThumbnailLoading}
-                  onImageSelect={
-                    videoThumbnailUrl.length > 0 ? undefined : handleSelectVideoThumbnail
-                  }
-                  onRemoveFile={
-                    videoThumbnailUrl.length > 0 ? handleRemoveVideoThumbnail : undefined
-                  }
-                  imageUrl={videoThumbnailUrl}
-                />
-                <Stack gap={'0'} w={'75%'}>
-                  <Group justify="space-between" wrap="nowrap">
-                    <TextInput
-                      ref={videoUrlInputRef}
-                      w={'100%'}
-                      classNames={{
-                        input: classes.videoUrlInput,
-                      }}
-                      variant="unstyled"
-                      placeholder="https://www.youtube.com/watch?v=..."
-                      value={videoUrl}
-                      onChange={(e) => {
-                        handleUpdateVideoUrl(e.target.value);
-                      }}
-                    />
-                    <ActionIcon
-                      size="md"
-                      variant="transparent"
-                      onClick={() => handleFocusAndSelectInput(videoUrlInputRef)}
-                    >
-                      <PenIcon width={24} height={24} />
-                    </ActionIcon>
-                  </Group>
-                  <Text size="sm" c="dimmed">
-                    ← Auto or Upload thumbnail
-                  </Text>
-                </Stack>
-              </Group>
-            </Stack>
-          </Paper>
-          <Paper p={'xs'} radius={'md'} mt={'sm'} classNames={{ root: classes.paperBlock }}>
-            <Stack gap={'0'}>
-              <Text size="xl">Featured image</Text>
-              <Group justify="center">
-                <UploadImageSection
-                  size="2xl"
-                  icon={<UploadIconV3 width={200} height={200} />}
-                  isLoading={mainImageLoading}
-                  imageUrl={mainImageUrl}
-                  onImageSelect={mainImageUrl.length > 0 ? undefined : handleSelectMainImage}
-                  onRemoveFile={mainImageUrl.length > 0 ? handleRemoveMainImage : undefined}
-                />
-              </Group>
-              <Group justify="center">
-                <Text size="sm" c="dimmed">
-                  (png, jpg; jpeg; Size &lt; 2M)
-                </Text>
-              </Group>
-            </Stack>
-          </Paper>
+          <BlogCategoryConfigSection
+            form={form}
+            availableSortOrders={availableSortOrdersData}
+            isSaving={isSaving}
+            onSave={handleSave}
+            onExit={() => router.push('/adminup/blog-category')}
+            onDeleteClick={() => setDeleteModalOpened(true)}
+          />
+          <VideoSection
+            label="Video"
+            videoUrl={form.getValues().videoUrl}
+            onVideoUrlChange={(videoUrl) => form.setFieldValue('videoUrl', videoUrl)}
+            thumbnailUrl={form.getValues().videoThumbnailUrl}
+            onThumbnailChange={(thumbnailUrl) =>
+              form.setFieldValue('videoThumbnailUrl', thumbnailUrl)
+            }
+            position={form.getValues().videoPosition}
+            onPositionChange={(position) => form.setFieldValue('videoPosition', position)}
+          />
+          <FeatureImageSection
+            label="Featured image"
+            hint="(png, jpg; jpeg; Size < 2M)"
+            hintSize="sm"
+            imageUrl={form.getValues().mainImageUrl}
+            onChange={(imageUrl) => form.setFieldValue('mainImageUrl', imageUrl)}
+          />
         </GridCol>
       </Grid>
 
-      <Modal
+      <DeleteConfirmModal
         opened={deleteModalOpened}
         onClose={() => setDeleteModalOpened(false)}
-        title="Confirm Delete"
-        centered
-      >
-        <Stack>
-          <Text>Are you sure you want to delete this blog category?</Text>
-          <Group justify="flex-end" mt="sm">
-            <Button
-              variant="default"
-              onClick={() => setDeleteModalOpened(false)}
-              disabled={isDeleting}
-            >
-              Cancel
-            </Button>
-            <Button color="red" onClick={handleDeleteBlogCategory} loading={isDeleting}>
-              Delete
-            </Button>
-          </Group>
-        </Stack>
-      </Modal>
+        onConfirm={handleDeleteBlogCategory}
+        isDeleting={isDeleting}
+        message="Are you sure you want to delete this blog category?"
+      />
     </div>
   );
 }

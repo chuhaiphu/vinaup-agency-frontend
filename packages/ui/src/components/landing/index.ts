@@ -2,7 +2,6 @@
 export * from './layout/header/sticky-header/sticky-header';
 export { default as SidebarControl } from './layout/sidebar/sidebar-control/sidebar-control';
 export * from './layout/sidebar/sidebar';
-export * from './primitives/actions/scroll-to-top/scroll-to-top';
 
 // sections
 export * from './sections/stats-banner/stats-banner';
@@ -20,4 +19,3 @@ export * from './primitives/cards/product-card/product-card';
 export * from './primitives/spotlight-search/spotlight-search';
 export * from './primitives/recaptcha-enterprise/recaptcha-enterprise';
 export * from './primitives/skeleton/skeleton';
-export * from './primitives/actions/copy-to-clipboard/copy-to-clipboard';

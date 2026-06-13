@@ -2,7 +2,7 @@
 
 import classes from './layout.module.scss';
 import { Suspense } from 'react';
-import { ScrollToTop } from '@vinaup/ui/landing';
+import { ScrollToTop } from '@vinaup/ui/actions';
 import { Metadata } from 'next';
 import LandingHeader from '@/components/landing/layout/landing-header/landing-header';
 import { MaintenanceGuard } from '@/components/landing/primitives/maintenance-guard/maintenance-guard';

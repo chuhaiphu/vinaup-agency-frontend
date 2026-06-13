@@ -1,57 +1,42 @@
 'use client';
 
-import {
-  ActionIcon,
-  Button,
-  Grid,
-  GridCol,
-  Group,
-  Modal,
-  MultiSelect,
-  MultiSelectProps,
-  Paper,
-  Select,
-  Stack,
-  Text,
-  TextInput,
-  UnstyledButton,
-} from '@mantine/core';
+import { ActionIcon, Grid, GridCol, Group, Paper, Stack, Text, UnstyledButton } from '@mantine/core';
+import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
-import { TextEditor } from '@vinaup/ui/admin';
-import {
-  VinaupUploadIconV2 as UploadIconV2,
-  VinaupUploadIconV3 as UploadIconV3,
-  VinaupPenIcon as PenIcon,
-  VinaupAddNewIcon as AddNewIcon,
-} from '@vinaup/ui/cores';
-import { generateStrippedHtml, generateErrorMessage } from '@vinaup/utils';
-import { useRouter } from 'next/navigation';
-
-import {
-  createBlogCategoryBlogActionPrivate,
-  deleteBlogCategoryBlogActionPrivate,
-} from '@/actions/blog-category-blog-actions';
-import { TreeManager } from '@vinaup/utils';
+import { VinaupAddNewIcon as AddNewIcon } from '@vinaup/ui/cores';
+import { generateErrorMessage } from '@vinaup/utils';
 import { Route } from 'next';
-import dayjs from 'dayjs';
-import { use, useMemo, useRef, useState } from 'react';
-import { FaCaretDown, FaCheck } from 'react-icons/fa6';
-import { GrTrash } from 'react-icons/gr';
+import { useRouter } from 'next/navigation';
+import { use, useState } from 'react';
 
 import {
   createBlogActionPrivate,
   deleteBlogActionPrivate,
   updateBlogActionPrivate,
 } from '@/actions/blog-actions';
-import UploadImageSection from '@/components/admin/media/upload-image-section/upload-image-section';
-import { MAX_IMAGE_COUNT_ALLOWED, VN_PROVINCES } from '@/constants';
+import {
+  createBlogCategoryBlogActionPrivate,
+  deleteBlogCategoryBlogActionPrivate,
+} from '@/actions/blog-category-blog-actions';
+import AdditionalImagesSection from '@/components/admin/shared/additional-images-section/additional-images-section';
+import CategoryMultiSelect from '@/components/admin/shared/category-multi-select/category-multi-select';
+import DeleteConfirmModal from '@/components/admin/shared/delete-confirm-modal/delete-confirm-modal';
+import FeatureImageSection from '@/components/admin/shared/feature-image-section/feature-image-section';
+import SeoPreviewSection from '@/components/admin/shared/seo-preview-section/seo-preview-section';
+import VideoSection from '@/components/admin/shared/video-section/video-section';
+import { MAX_IMAGE_COUNT_ALLOWED, SITE_BASE_URL } from '@/constants';
 import { ActionResponse } from '@/interfaces/_base-interfaces';
 import { BlogCategoryResponse } from '@/interfaces/blog-category-interfaces';
 import { BlogResponse } from '@/interfaces/blog-interfaces';
 import { useAuthContext } from '@/providers/auth-provider';
 import { generateUniqueEndpoint } from '@/utils/generate-unique-endpoint';
 
+import { BlogDetailFormValues, toBlogDetailFormValues } from './_form';
 import classes from './admin-blog-detail-page-content.module.scss';
+import BlogConfigSection from './blog-config-section/blog-config-section';
+import BlogContentSection from './blog-content-section/blog-content-section';
+import BlogDestinationSection from './blog-destination-section/blog-destination-section';
+import BlogTitleSection from './blog-title-section/blog-title-section';
 
 interface AdminBlogDetailPageContentProps {
   currentBlogPromise: Promise<ActionResponse<BlogResponse>>;
@@ -70,13 +55,10 @@ export default function AdminBlogDetailPageContent({
     return <div>Blog not found</div>;
   }
 
-  const currentBlogData = currentBlogResult.data;
-  const blogCategoriesData = blogCategoriesResult.data ?? [];
-
   return (
     <AdminBlogDetailPageContentInner
-      currentBlogData={currentBlogData}
-      blogCategoriesData={blogCategoriesData}
+      currentBlogData={currentBlogResult.data}
+      blogCategoriesData={blogCategoriesResult.data ?? []}
       userId={getUser()?.id ?? ''}
     />
   );
@@ -93,54 +75,16 @@ function AdminBlogDetailPageContentInner({
   blogCategoriesData,
   userId,
 }: AdminBlogDetailPageContentInnerProps) {
-  const [additionalImageUrls, setAdditionalImageUrls] = useState<string[]>(
-    currentBlogData.additionalImageUrls,
-  );
-  const [additionalImagesPosition, setAdditionalImagesPosition] = useState<string>(
-    currentBlogData.additionalImagesPosition || 'top',
-  );
-  const [videoUrl, setVideoUrl] = useState<string>(currentBlogData.videoUrl || '');
-  const [videoThumbnailUrl, setVideoThumbnailUrl] = useState<string>(
-    currentBlogData.videoThumbnailUrl || '',
-  );
-  const [mainImageUrl, setMainImageUrl] = useState<string>(currentBlogData.mainImageUrl || '');
-  const [videoPosition, setVideoPosition] = useState<string>(
-    currentBlogData.videoPosition || 'bottom',
-  );
-  const [loadingImageIndex, setLoadingImageIndex] = useState<number | null>(null);
-  const [videoThumbnailLoading, setVideoThumbnailLoading] = useState<boolean>(false);
-  const [mainImageLoading, setMainImageLoading] = useState<boolean>(false);
-  const [title, setTitle] = useState<string>(currentBlogData.title);
-  // const [description, setDescription] = useState<string>(currentBlogData.description || '');
-  const [content, setContent] = useState<string>(currentBlogData.content || '');
-  const [destinations, setDestinations] = useState<string[]>(currentBlogData.destinations);
-  const [status, setStatus] = useState<string>(currentBlogData.visibility);
-  const [sortOrder, setSortOrder] = useState<number>(currentBlogData.sortOrder);
-  const [selectedCategoryIds, setSelectedCategoryIds] = useState<string[]>(
-    currentBlogData.blogCategoryBlogs.map((bcb) => bcb.blogCategoryId),
-  );
+  const form = useForm<BlogDetailFormValues>({
+    initialValues: toBlogDetailFormValues(currentBlogData),
+  });
 
   const [deleteModalOpened, setDeleteModalOpened] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [isCreating, setIsCreating] = useState<boolean>(false);
-  const [isSavingAll, setIsSavingAll] = useState<boolean>(false);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
 
   const router = useRouter();
-
-  const treeManager = useMemo(() => {
-    if (blogCategoriesData.length === 0) {
-      return null;
-    }
-    return new TreeManager(blogCategoriesData);
-  }, [blogCategoriesData]);
-
-  const videoUrlInputRef = useRef<HTMLInputElement>(null);
-  const handleFocusAndSelectInput = (ref: React.RefObject<HTMLInputElement | null>) => {
-    if (ref.current) {
-      ref.current.focus();
-      ref.current.select();
-    }
-  };
 
   const handleAddNewBlog = async () => {
     setIsCreating(true);
@@ -173,145 +117,75 @@ function AdminBlogDetailPageContentInner({
     });
   };
 
-  const handleSelectAdditionalImage = async (imageUrl: string, imageIndex: number) => {
-    setLoadingImageIndex(imageIndex);
+  const handleSave = async () => {
+    setIsSaving(true);
     try {
+      const values = form.getValues();
+
+      // ─── Step 1: regenerate the endpoint only when the title changed ─────
+      // The endpoint is derived from the title; an unchanged title keeps the published URL stable.
+      let newEndpoint = currentBlogData.endpoint;
+      if (values.title !== currentBlogData.title) {
+        newEndpoint = await generateUniqueEndpoint(values.title, 'blog', currentBlogData.id);
+      }
+
+      // ─── Step 2: persist every field in one update ─────
+      // All fields (including image urls) are buffered in the form and saved together.
       await updateBlogActionPrivate(currentBlogData.id, {
-        additionalImageUrls: [...additionalImageUrls, imageUrl],
+        title: values.title,
+        endpoint: newEndpoint,
+        content: values.content,
+        additionalImageUrls: values.additionalImageUrls,
+        additionalImagesPosition: values.additionalImagesPosition,
+        videoUrl: values.videoUrl,
+        videoThumbnailUrl: values.videoThumbnailUrl,
+        mainImageUrl: values.mainImageUrl,
+        videoPosition: values.videoPosition,
+        destinations: values.destinations,
+        visibility: values.visibility,
+        sortOrder: values.sortOrder,
       });
-      setAdditionalImageUrls([...additionalImageUrls, imageUrl]);
+
+      // ─── Step 3: diff the category links against the loaded snapshot ─────
+      // The join rows are separate entities, so they are created/deleted individually.
+      const currentBlogCategoryIds = currentBlogData.blogCategoryBlogs.map(
+        (bcb) => bcb.blogCategoryId,
+      );
+      const toAdd = values.categoryIds.filter((id) => !currentBlogCategoryIds.includes(id));
+      const toRemove = currentBlogCategoryIds.filter((id) => !values.categoryIds.includes(id));
+
+      for (const blogCategoryId of toAdd) {
+        await createBlogCategoryBlogActionPrivate({
+          blogId: currentBlogData.id,
+          blogCategoryId: blogCategoryId,
+          sortOrder: 0,
+        });
+      }
+
+      for (const blogCategoryId of toRemove) {
+        const blogCategoryBlog = currentBlogData.blogCategoryBlogs.find(
+          (bcb) => bcb.blogCategoryId === blogCategoryId,
+        );
+        if (blogCategoryBlog) {
+          await deleteBlogCategoryBlogActionPrivate(blogCategoryBlog.id);
+        }
+      }
+
+      notifications.show({
+        title: 'Success',
+        message: 'All changes have been saved successfully',
+        color: 'green',
+        position: 'top-right',
+      });
     } catch (error) {
       notifications.show({
-        title: 'Failed to set image',
-        message: generateErrorMessage(error, ''),
+        title: 'Save failed',
+        message: generateErrorMessage(error, 'Unknown error'),
         color: 'red',
       });
     } finally {
-      setLoadingImageIndex(null);
+      setIsSaving(false);
     }
-  };
-
-  const handleRemoveAdditionalImage = async (imageIndex: number) => {
-    setLoadingImageIndex(imageIndex);
-    const newImages = additionalImageUrls.filter((_, idx) => idx !== imageIndex);
-
-    // Optimistic update UI
-    setAdditionalImageUrls(newImages);
-    // Update database
-    await updateBlogActionPrivate(currentBlogData.id, {
-      additionalImageUrls: newImages,
-    });
-    setLoadingImageIndex(null);
-  };
-
-  const handleSelectVideoThumbnail = async (imageUrl: string) => {
-    setVideoThumbnailLoading(true);
-    try {
-      await updateBlogActionPrivate(currentBlogData.id, {
-        videoThumbnailUrl: imageUrl,
-      });
-      setVideoThumbnailUrl(imageUrl);
-    } catch (error) {
-      notifications.show({
-        title: 'Failed to set image',
-        message: generateErrorMessage(error, ''),
-        color: 'red',
-      });
-    } finally {
-      setVideoThumbnailLoading(false);
-    }
-  };
-
-  const handleRemoveVideoThumbnail = async () => {
-    setVideoThumbnailLoading(true);
-    // Optimistic update UI
-    setVideoThumbnailUrl('');
-    // Update database
-    await updateBlogActionPrivate(currentBlogData.id, {
-      videoThumbnailUrl: '',
-    });
-    setVideoThumbnailLoading(false);
-  };
-
-  const handleSelectMainImage = async (imageUrl: string) => {
-    setMainImageLoading(true);
-    try {
-      await updateBlogActionPrivate(currentBlogData.id, { mainImageUrl: imageUrl });
-      setMainImageUrl(imageUrl);
-    } catch (error) {
-      notifications.show({
-        title: 'Failed to set image',
-        message: generateErrorMessage(error, ''),
-        color: 'red',
-      });
-    } finally {
-      setMainImageLoading(false);
-    }
-  };
-
-  const handleRemoveMainImage = async () => {
-    setMainImageLoading(true);
-    // Optimistic update UI
-    setMainImageUrl('');
-    // Update database
-    await updateBlogActionPrivate(currentBlogData.id, {
-      mainImageUrl: '',
-    });
-    setMainImageLoading(false);
-  };
-
-  const handleUpdateTitle = (newTitle: string) => {
-    setTitle(newTitle);
-  };
-
-  const handleUpdateAdditionalImagesPosition = (newPosition: string) => {
-    setAdditionalImagesPosition(newPosition);
-  };
-
-  const handleUpdateDestinations = (newDestinations: string[]) => {
-    setDestinations(newDestinations);
-  };
-
-  const handleUpdateStatus = (newStatus: string) => {
-    setStatus(newStatus);
-  };
-
-  const handleUpdateContent = (newContent: string) => {
-    setContent(newContent);
-  };
-
-  const handleUpdateSortOrder = (newSortOrder: string) => {
-    const sortOrderNumber = Number(newSortOrder);
-    setSortOrder(sortOrderNumber);
-  };
-
-  const handleUpdateVideoPosition = (newPosition: string) => {
-    setVideoPosition(newPosition);
-  };
-
-  const handleUpdateVideoUrl = (newVideoUrl: string) => {
-    setVideoUrl(newVideoUrl);
-  };
-
-  // Generate SEO title and description
-  const seoTitle = title ? generateStrippedHtml(title, 100) : '';
-  const seoContent = content ? generateStrippedHtml(content, 300) : '';
-
-  const handleCopyLink = () => {
-    const link = `https://jenahair.com/blogs/${currentBlogData.endpoint}`;
-    navigator.clipboard.writeText(link);
-    notifications.show({
-      title: 'Link copied',
-      message: 'Link has been copied to clipboard',
-      color: 'green',
-      position: 'top-right',
-      autoClose: 900,
-    });
-  };
-
-  const handleViewLink = () => {
-    const link = `https://jenahair.com/blogs/${currentBlogData.endpoint}`;
-    window.open(link, '_blank');
   };
 
   const handleDeleteBlog = async () => {
@@ -344,140 +218,6 @@ function AdminBlogDetailPageContentInner({
     }
   };
 
-  const handleSaveAll = async () => {
-    setIsSavingAll(true);
-    try {
-      let newEndpoint = currentBlogData.endpoint;
-      if (title !== currentBlogData.title) {
-        newEndpoint = await generateUniqueEndpoint(title, 'blog', currentBlogData.id);
-      }
-
-      const updatePayload = {
-        title: title,
-        endpoint: newEndpoint,
-        content: content,
-        additionalImageUrls: additionalImageUrls,
-        additionalImagesPosition: additionalImagesPosition,
-        videoUrl: videoUrl,
-        videoThumbnailUrl: videoThumbnailUrl,
-        mainImageUrl: mainImageUrl,
-        videoPosition: videoPosition,
-        destinations: destinations,
-        visibility: status,
-        sortOrder: sortOrder,
-      };
-
-      await updateBlogActionPrivate(currentBlogData.id, updatePayload);
-
-      const currentBlogCategoryIds = currentBlogData.blogCategoryBlogs.map(
-        (bcb) => bcb.blogCategoryId,
-      );
-
-      const toAdd = selectedCategoryIds.filter((id) => !currentBlogCategoryIds.includes(id));
-      const toRemove = currentBlogCategoryIds.filter((id) => !selectedCategoryIds.includes(id));
-
-      for (const blogCategoryId of toAdd) {
-        await createBlogCategoryBlogActionPrivate({
-          blogId: currentBlogData.id,
-          blogCategoryId: blogCategoryId,
-          sortOrder: 0,
-        });
-      }
-
-      for (const blogCategoryId of toRemove) {
-        const blogCategoryBlog = currentBlogData.blogCategoryBlogs.find(
-          (bcb) => bcb.blogCategoryId === blogCategoryId,
-        );
-        if (blogCategoryBlog) {
-          await deleteBlogCategoryBlogActionPrivate(blogCategoryBlog.id);
-        }
-      }
-
-      notifications.show({
-        title: 'Success',
-        message: 'All changes have been saved successfully',
-        color: 'green',
-        position: 'top-right',
-      });
-    } catch (error) {
-      notifications.show({
-        title: 'Save failed',
-        message: generateErrorMessage(error, 'Unknown error'),
-        color: 'red',
-      });
-    } finally {
-      setIsSavingAll(false);
-    }
-  };
-  // blog category options record for renderBlogCategoryOption to reference the id from option value
-  const blogCategoryOptionsData: Record<string, BlogCategoryResponse> = blogCategoriesData.reduce(
-    (acc, blogCategory) => {
-      acc[blogCategory.id] = blogCategory;
-      return acc;
-    },
-    {} as Record<string, BlogCategoryResponse>,
-  );
-
-  // Helper function to get parent chain recursively
-  const getOptionChain = (blogCategoryId: string): BlogCategoryResponse[] => {
-    const blogCategoryChain = blogCategoryOptionsData[blogCategoryId];
-    if (!blogCategoryChain) return [];
-    if (blogCategoryChain.parent) {
-      return [...getOptionChain(blogCategoryChain.parent.id), blogCategoryChain];
-    }
-    return [blogCategoryChain];
-  };
-
-  const getOptionChainWithoutRoot = (blogCategoryId: string): BlogCategoryResponse[] => {
-    const parentChain = getOptionChain(blogCategoryId);
-    return parentChain.slice(1);
-  };
-
-  const renderBlogCategoryOption: MultiSelectProps['renderOption'] = ({ option, checked }) => {
-    const parentChain = getOptionChainWithoutRoot(option.value);
-
-    // If has parent(s), show the full chain
-    if (parentChain.length > 1) {
-      return (
-        <Group gap="xs" wrap="nowrap" justify="space-between">
-          {checked && <FaCheck size={20} color="gray" />}
-          <Group gap="xs" wrap="nowrap">
-            {parentChain.map((category, index) => (
-              <Group key={category.id} gap="xs" wrap="nowrap">
-                <Text
-                  size="sm"
-                  fw={index === parentChain.length - 1 ? 500 : 400}
-                  c={index === parentChain.length - 1 ? undefined : 'dark.3'}
-                >
-                  {category.title}
-                </Text>
-                {index < parentChain.length - 1 && (
-                  <Text size="sm" c="dark.3" fw={300}>
-                    ›
-                  </Text>
-                )}
-              </Group>
-            ))}
-          </Group>
-        </Group>
-      );
-    }
-
-    // Root category (no parent)
-    return (
-      <Group gap="sm" justify="space-between">
-        {checked && <FaCheck size={20} color="gray" />}
-        <Text size="sm" fw={500}>
-          {blogCategoryOptionsData[option.value].title}
-        </Text>
-      </Group>
-    );
-  };
-
-  const handleUpdateBlogCategories = (newBlogCategoryIds: string[]) => {
-    setSelectedCategoryIds(newBlogCategoryIds);
-  };
-
   return (
     <div className={classes.adminBlogDetailPageRoot}>
       <Group className={classes.pageHeader} justify="space-between">
@@ -494,459 +234,68 @@ function AdminBlogDetailPageContentInner({
       <Grid>
         <GridCol span={{ base: 12, sm: 12, md: 8, lg: 8, xl: 9 }}>
           <Stack>
-            <Paper p={'sm'} radius={'md'} classNames={{ root: classes.paperBlock }}>
-              <Stack gap={'xs'}>
-                <Text>Title</Text>
-                <TextInput
-                  size="md"
-                  value={title}
-                  placeholder="A title under 100 characters"
-                  maxLength={100}
-                  onChange={(e) => {
-                    handleUpdateTitle(e.target.value);
-                  }}
-                />
-                <Group gap={'xs'} justify="space-between">
-                  <Text size="md">URL: jenahair.com/blogs/{currentBlogData.endpoint}</Text>
-                  <Group>
-                    <Text size="sm" className={classes.linkText} onClick={handleViewLink}>
-                      View
-                    </Text>
-                    <Text size="sm" className={classes.linkText} onClick={handleCopyLink}>
-                      Copy link
-                    </Text>
-                  </Group>
-                </Group>
-              </Stack>
-            </Paper>
-            <Paper p={'sm'} radius={'md'} classNames={{ root: classes.paperBlock }}>
-              <Stack gap={'xs'}>
-                <Text>Content</Text>
-                <TextEditor
-                  content={content}
-                  onChange={(newContent) => {
-                    handleUpdateContent(newContent);
-                  }}
-                />
-              </Stack>
-            </Paper>
-            <Paper p={'sm'} radius={'md'} classNames={{ root: classes.paperBlock }}>
-              <Stack gap={'xs'}>
-                <Group justify="space-between" wrap="nowrap">
-                  <Text>Images Describer</Text>
-                  <Select
-                    w={'6rem'}
-                    size="sm"
-                    comboboxProps={{ withinPortal: false }}
-                    classNames={{
-                      root: classes.selectRoot,
-                      section: classes.selectSection,
-                      input: classes.selectInput,
-                      option: classes.selectOption,
-                    }}
-                    data={[
-                      { value: 'top', label: 'Top' },
-                      { value: 'bottom', label: 'Bottom' },
-                    ]}
-                    value={additionalImagesPosition}
-                    variant="unstyled"
-                    rightSection={<FaCaretDown color="var(--vinaup-blue-link)" size={20} />}
-                    onChange={(value) => {
-                      if (!value) return;
-                      handleUpdateAdditionalImagesPosition(value);
-                    }}
-                  />
-                </Group>
-                <Group>
-                  {additionalImageUrls.map((imgUrl, index) => (
-                    <UploadImageSection
-                      key={index}
-                      size="xl"
-                      imageUrl={imgUrl}
-                      isLoading={loadingImageIndex === index}
-                      onImageSelect={(imageUrl) => handleSelectAdditionalImage(imageUrl, index)}
-                      onRemoveFile={() => handleRemoveAdditionalImage(index)}
-                    />
-                  ))}
-                  {additionalImageUrls.length < MAX_IMAGE_COUNT_ALLOWED && (
-                    <UploadImageSection
-                      size="xl"
-                      isLoading={loadingImageIndex === additionalImageUrls.length}
-                      onImageSelect={(imageUrl) =>
-                        handleSelectAdditionalImage(imageUrl, additionalImageUrls.length)
-                      }
-                    />
-                  )}
-                </Group>
-              </Stack>
-            </Paper>
-            <Paper p={'sm'} radius={'md'} classNames={{ root: classes.paperBlock }}>
-              <Grid>
-                <GridCol span={6}>
-                  <Stack gap={'xs'}>
-                    <Text>Country</Text>
-                    <TextInput
-                      size="md"
-                      classNames={{
-                        input: classes.countryInput,
-                      }}
-                      value={currentBlogData.country}
-                      disabled
-                    />
-                  </Stack>
-                </GridCol>
-                <GridCol span={6}>
-                  <Stack gap={'xs'}>
-                    <Text>Destination</Text>
-                    <MultiSelect
-                      maxValues={3}
-                      size="md"
-                      hidePickedOptions
-                      data={VN_PROVINCES.map((p) => ({ value: p, label: p }))}
-                      value={destinations}
-                      placeholder={destinations.length < 3 ? 'Select up to 3 destinations' : ''}
-                      searchable
-                      nothingFoundMessage="Not found"
-                      onChange={(value) => handleUpdateDestinations(value)}
-                    />
-                  </Stack>
-                </GridCol>
-              </Grid>
-            </Paper>
-            <Paper
-              p={'md'}
-              radius={'md'}
-              withBorder
-              classNames={{ root: classes.paperBlock }}
-              bg={'var(--vinaup-soft-gray)'}
-            >
-              <Stack gap={4}>
-                <div className={classes.seoBlockTitle}>
-                  <b>S</b>earch <b>E</b>ngine <b>O</b>ptimization
-                </div>
-                <div className={classes.seoDivider} />
-                <Stack gap={4}>
-                  <Text
-                    component="a"
-                    href={`https://jenahair.com/blogs/${currentBlogData.endpoint}`}
-                    target="_blank"
-                    size="lg"
-                    fw={500}
-                    c={'var(--vinaup-teal)'}
-                  >
-                    {seoTitle || currentBlogData.title}
-                  </Text>
-                  <Text
-                    component="a"
-                    href={`https://jenahair.com/blogs/${currentBlogData.endpoint}`}
-                    target="_blank"
-                    size="md"
-                    c={'var(--vinaup-blue-link)'}
-                  >
-                    https://jenahair.com/blogs/{currentBlogData.endpoint}
-                  </Text>
-                  <Text size="sm">{dayjs(currentBlogData.updatedAt).format('MMM DD, YYYY')}</Text>
-                  <div
-                    dangerouslySetInnerHTML={{ __html: seoContent || '' }}
-                    className={classes.htmlDescription}
-                  ></div>
-                </Stack>
-                <div className={classes.seoDivider} />
-                <Stack gap={4}>
-                  <Group justify="space-between" align="center">
-                    <Text size="md" fw={500}>
-                      Seo title
-                    </Text>
-                  </Group>
-                  <TextInput
-                    classNames={{
-                      input: classes.seoTextInput,
-                    }}
-                    size="md"
-                    placeholder="Name title (Suggest < 72 characters)"
-                    value={seoTitle}
-                    readOnly
-                    disabled
-                  />
-                </Stack>
-                <div className={classes.seoDivider} />
-                <Stack gap={4}>
-                  <Text size="md" fw={500}>
-                    Seo description
-                  </Text>
-                  <TextInput
-                    classNames={{
-                      input: classes.seoTextInput,
-                    }}
-                    size="md"
-                    placeholder="..."
-                    value={seoContent}
-                    readOnly
-                    disabled
-                  />
-                </Stack>
-              </Stack>
-            </Paper>
+            <BlogTitleSection form={form} endpoint={currentBlogData.endpoint} />
+            <BlogContentSection form={form} />
+            <AdditionalImagesSection
+              imageUrls={form.getValues().additionalImageUrls}
+              onChange={(imageUrls) => form.setFieldValue('additionalImageUrls', imageUrls)}
+              position={form.getValues().additionalImagesPosition}
+              onPositionChange={(position) =>
+                form.setFieldValue('additionalImagesPosition', position)
+              }
+              maxCount={MAX_IMAGE_COUNT_ALLOWED}
+            />
+            <BlogDestinationSection form={form} country={currentBlogData.country} />
+            <SeoPreviewSection
+              title={form.getValues().title}
+              contentHtml={form.getValues().content}
+              url={`${SITE_BASE_URL}/blogs/${currentBlogData.endpoint}`}
+              updatedAt={currentBlogData.updatedAt}
+            />
           </Stack>
         </GridCol>
         <GridCol span={{ base: 12, sm: 12, md: 4, lg: 4, xl: 3 }}>
-          <Paper
-            p={'xs'}
-            radius={'md'}
-            classNames={{
-              root: classes.blogConfiguration,
-            }}
-          >
-            <Stack gap={'0'}>
-              <Group justify="space-between" wrap="nowrap">
-                <Text size="lg">Updated at</Text>
-                <Group>
-                  <Text size="md" fw={500} lh={'2.5rem'}>
-                    {dayjs(currentBlogData.updatedAt).format('DD/MM/YYYY')}
-                  </Text>
-                  <Text size="md" fw={500} lh={'2.5rem'}>
-                    {dayjs(currentBlogData.updatedAt).format('HH:mm')}
-                  </Text>
-                </Group>
-              </Group>
-              <Group justify="space-between" wrap="nowrap">
-                <Text size="lg">Status</Text>
-                <Select
-                  classNames={{
-                    root: classes.selectRoot,
-                    input: classes.selectInput,
-                    section: classes.selectSection,
-                  }}
-                  size="md"
-                  data={[
-                    { value: 'public', label: 'Public' },
-                    { value: 'private', label: 'Private' },
-                  ]}
-                  value={status}
-                  variant="unstyled"
-                  rightSection={<FaCaretDown color="var(--vinaup-blue-link)" size={24} />}
-                  onChange={(value) => {
-                    if (!value) return;
-                    handleUpdateStatus(value);
-                  }}
-                />
-              </Group>
-              <Group justify="space-between" wrap="nowrap">
-                <Text size="lg">Pin to Home</Text>
-                <Select
-                  scrollAreaProps={{
-                    scrollbarSize: 6,
-                    type: 'always',
-                  }}
-                  w={'5rem'}
-                  classNames={{
-                    root: classes.selectRoot,
-                    section: classes.selectSection,
-                    input: classes.selectInput,
-                    option: classes.selectOption,
-                  }}
-                  size="md"
-                  data={[
-                    { value: '-1', label: 'Off' },
-                    { value: '0', label: '1' },
-                    { value: '1', label: '2' },
-                    { value: '2', label: '3' },
-                    { value: '3', label: '4' },
-                    { value: '4', label: '5' },
-                    { value: '5', label: '6' },
-                    { value: '6', label: '7' },
-                    { value: '7', label: '8' },
-                    { value: '8', label: '9' },
-                    { value: '9', label: '10' },
-                  ]}
-                  value={sortOrder.toString()}
-                  variant="unstyled"
-                  rightSection={<FaCaretDown color="var(--vinaup-blue-link)" size={24} />}
-                  onChange={(value) => {
-                    if (!value) return;
-                    handleUpdateSortOrder(value);
-                  }}
-                />
-              </Group>
-              <Group justify="space-between" wrap="nowrap" mt={'sm'}>
-                <ActionIcon
-                  size="lg"
-                  variant="subtle"
-                  color="var(--vinaup-blue-link)"
-                  onClick={() => setDeleteModalOpened(true)}
-                >
-                  <GrTrash size={24} color="var(--vinaup-blue-link)" />
-                </ActionIcon>
-                <Group gap={'xs'}>
-                  <Button
-                    onClick={handleSaveAll}
-                    loading={isSavingAll}
-                    variant="filled"
-                    color="teal"
-                    size="sm"
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      router.push('/adminup/blog');
-                    }}
-                    variant="filled"
-                    color="blue"
-                    size="sm"
-                    bg={'#01426e'}
-                  >
-                    Exit
-                  </Button>
-                </Group>
-              </Group>
-            </Stack>
-          </Paper>
+          <BlogConfigSection
+            form={form}
+            updatedAt={currentBlogData.updatedAt}
+            isSaving={isSaving}
+            onSave={handleSave}
+            onExit={() => router.push('/adminup/blog')}
+            onDeleteClick={() => setDeleteModalOpened(true)}
+          />
           <Paper p={'xs'} radius={'md'} mt={'sm'} classNames={{ root: classes.paperBlock }}>
             <Group justify="space-between" wrap="nowrap">
-              <MultiSelect
-                placeholder={selectedCategoryIds.length < 3 ? 'Select up to 3 blog categories' : ''}
-                size="md"
+              <CategoryMultiSelect
+                categories={blogCategoriesData}
+                value={form.getValues().categoryIds}
+                onChange={(categoryIds) => form.setFieldValue('categoryIds', categoryIds)}
                 maxValues={3}
-                w={'100%'}
-                searchable
-                nothingFoundMessage="Not found"
-                value={selectedCategoryIds}
-                renderOption={renderBlogCategoryOption}
-                data={treeManager?.toFlatListWithoutRoot().map((blogCategory) => ({
-                  value: blogCategory.id,
-                  label: blogCategory.title,
-                }))}
-                onChange={(blogCategoryIds) => {
-                  if (!blogCategoryIds) return;
-                  handleUpdateBlogCategories(blogCategoryIds);
-                }}
+                placeholder="Select up to 3 blog categories"
               />
             </Group>
           </Paper>
-          <Paper
-            p={'xs'}
-            radius={'md'}
-            mt={'sm'}
-            classNames={{ root: classes.paperBlock + ' ' + classes.videoSection }}
-          >
-            <Stack gap={'2px'}>
-              <Group justify="space-between" wrap="nowrap">
-                <Text size="lg">Video:</Text>
-                <Select
-                  w={'6rem'}
-                  size="sm"
-                  comboboxProps={{ withinPortal: false }}
-                  classNames={{
-                    root: classes.selectRoot,
-                    section: classes.selectSection,
-                    input: classes.selectInput,
-                    option: classes.selectOption,
-                  }}
-                  data={[
-                    { value: 'top', label: 'Top' },
-                    { value: 'bottom', label: 'Bottom' },
-                  ]}
-                  value={videoPosition}
-                  variant="unstyled"
-                  rightSection={<FaCaretDown color="var(--vinaup-blue-link)" size={20} />}
-                  onChange={(value) => {
-                    if (!value) return;
-                    handleUpdateVideoPosition(value);
-                  }}
-                />
-              </Group>
-              <Group justify="space-between" wrap="nowrap">
-                <UploadImageSection
-                  size="md"
-                  icon={<UploadIconV2 width={60} height={60} />}
-                  isLoading={videoThumbnailLoading}
-                  onImageSelect={
-                    videoThumbnailUrl.length > 0 ? undefined : handleSelectVideoThumbnail
-                  }
-                  onRemoveFile={
-                    videoThumbnailUrl.length > 0 ? handleRemoveVideoThumbnail : undefined
-                  }
-                  imageUrl={videoThumbnailUrl}
-                />
-                <Stack gap={'0'} w={'75%'}>
-                  <Group justify="space-between" wrap="nowrap">
-                    <TextInput
-                      ref={videoUrlInputRef}
-                      w={'100%'}
-                      classNames={{
-                        input: classes.videoUrlInput,
-                      }}
-                      variant="unstyled"
-                      placeholder="https://www.youtube.com/watch?v=..."
-                      value={videoUrl}
-                      onChange={(e) => {
-                        handleUpdateVideoUrl(e.target.value);
-                      }}
-                    />
-                    <ActionIcon
-                      size="md"
-                      variant="transparent"
-                      onClick={() => handleFocusAndSelectInput(videoUrlInputRef)}
-                    >
-                      <PenIcon width={24} height={24} />
-                    </ActionIcon>
-                  </Group>
-                  <Text size="sm" c="dimmed">
-                    ← Auto or Upload thumbnail
-                  </Text>
-                </Stack>
-              </Group>
-            </Stack>
-          </Paper>
-          <Paper
-            p={'xs'}
-            radius={'md'}
-            mt={'sm'}
-            classNames={{ root: classes.paperBlock + ' ' + classes.videoSection }}
-          >
-            <Stack gap={'0'}>
-              <Text size="xl">Feature Image:</Text>
-              <Group justify="center">
-                <UploadImageSection
-                  size="2xl"
-                  icon={<UploadIconV3 width={200} height={200} />}
-                  isLoading={mainImageLoading}
-                  imageUrl={mainImageUrl}
-                  onImageSelect={mainImageUrl.length > 0 ? undefined : handleSelectMainImage}
-                  onRemoveFile={mainImageUrl.length > 0 ? handleRemoveMainImage : undefined}
-                />
-              </Group>
-              <Group justify="center">
-                <Text size="md" c="dimmed">
-                  (png, jpg; jpeg; Size ≤ 5Mbs)
-                </Text>
-              </Group>
-            </Stack>
-          </Paper>
+          <VideoSection
+            videoUrl={form.getValues().videoUrl}
+            onVideoUrlChange={(videoUrl) => form.setFieldValue('videoUrl', videoUrl)}
+            thumbnailUrl={form.getValues().videoThumbnailUrl}
+            onThumbnailChange={(thumbnailUrl) =>
+              form.setFieldValue('videoThumbnailUrl', thumbnailUrl)
+            }
+            position={form.getValues().videoPosition}
+            onPositionChange={(position) => form.setFieldValue('videoPosition', position)}
+          />
+          <FeatureImageSection
+            imageUrl={form.getValues().mainImageUrl}
+            onChange={(imageUrl) => form.setFieldValue('mainImageUrl', imageUrl)}
+          />
         </GridCol>
       </Grid>
-      <Modal
+      <DeleteConfirmModal
         opened={deleteModalOpened}
         onClose={() => setDeleteModalOpened(false)}
-        title="Confirm Delete"
-        centered
-      >
-        <Stack>
-          <Group justify="flex-end" mt="sm">
-            <Button
-              variant="default"
-              onClick={() => setDeleteModalOpened(false)}
-              disabled={isDeleting}
-            >
-              Cancel
-            </Button>
-            <Button color="red" onClick={handleDeleteBlog} loading={isDeleting}>
-              Delete
-            </Button>
-          </Group>
-        </Stack>
-      </Modal>
+        onConfirm={handleDeleteBlog}
+        isDeleting={isDeleting}
+      />
     </div>
   );
 }

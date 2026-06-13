@@ -1,7 +1,7 @@
 
 import React from 'react';
 import classes from './layout.module.scss';
-import { ScrollToTop } from '@vinaup/ui/landing';
+import { ScrollToTop } from '@vinaup/ui/actions';
 import { FaFacebookF, FaInstagram, FaWhatsapp, FaYoutube } from 'react-icons/fa6';
 import { HeaderCenteredLogo } from '../../components/landing/layout/header-centered-logo/header-centered-logo';
 import { TravelLandingFooter } from '../../components/landing/layout/travel-landing-footer/travel-landing-footer';

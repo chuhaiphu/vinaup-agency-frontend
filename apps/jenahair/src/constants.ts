@@ -1,3 +1,4 @@
+export const SITE_BASE_URL = 'https://jenahair.com';
 export const MAX_IMAGE_COUNT_ALLOWED = 5;
 export const VN_PROVINCES = [
   'Ha Noi',
@@ -100,6 +101,9 @@ export const PAGE_TYPES = [
   { value: 'landing', label: 'Default' },
   { value: 'contact', label: 'Contact' },
 ];
+
+// Highest section position a Dynamic Section UI can occupy (the position picker runs 1..MAX).
+export const MAX_SECTION_POSITION = 50;
 
 export const PageTypeDisplayMap: Record<string, string> = {
   ['landing']: 'Default Page',
