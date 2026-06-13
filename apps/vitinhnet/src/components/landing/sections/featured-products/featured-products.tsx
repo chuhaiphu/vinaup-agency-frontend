@@ -56,9 +56,9 @@ export function FeaturedProducts({ products }: { products: ProductResponse[] }) 
                         <CategoryScroll
                             items={scrollItems}
                             scrollStep={150}
-                            containerClassName={classes.scrollContainer}
-                            itemClassName={classes.categoryPill}
-                            wrapperClassName={classes.scrollWrapper}
+                            // containerClassName={classes.scrollContainer}
+                            // itemClassName={classes.categoryPill}
+                            // wrapperClassName={classes.scrollWrapper}
                         />
                     </div>
                 </div>
