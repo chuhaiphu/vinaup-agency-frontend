@@ -1,4 +1,4 @@
-# Repository & Server Actions
+# Repository Pattern
 
 ## What
 
