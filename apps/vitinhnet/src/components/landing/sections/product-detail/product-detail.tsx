@@ -13,6 +13,7 @@ import { ProductResponse } from '@/interfaces/product-interfaces';
 
 import classes from './product-detail.module.scss';
 import { ProductGallery } from '../../primitives/product-gallery/product-gallery';
+import { CopyToClipboard } from '@vinaup/ui/shared';
 
 export function ProductDetail({ product }: { product: ProductResponse }) {
     return (
@@ -93,9 +94,21 @@ export function ProductDetail({ product }: { product: ProductResponse }) {
                                 <Group gap={8} className={classes.actionItem}>
                                     <VinaupHeartIcon size={16} stroke="currentColor" fill="none" /> <Text size="md">01</Text>
                                 </Group>
-                                <Group gap={8} className={classes.actionItem}>
-                                    <VinaupCopyIcon size={16} fill="currentColor" /> <Text size="md">Copy</Text>
-                                </Group>
+
+                                <CopyToClipboard
+                                    content={"https://vitinhnet.com/san-pham/" + product.slug}
+                                    notification={{
+                                        title: 'Link copied',
+                                        message: 'Link has been copied to clipboard',
+                                        position: 'top-right',
+                                        autoClose: 900,
+                                    }}
+                                >
+                                    <Group gap={8} className={classes.actionItem}>
+                                        <VinaupCopyIcon size={16} fill="currentColor" /> <Text size="md">Copy</Text>
+                                    </Group>
+                                </CopyToClipboard>
+
                                 <Group gap={8} className={classes.actionItem}>
                                     <VinaupPlusIcon size={18} stroke="currentColor" /> <Text size="md">So sánh</Text>
                                 </Group>
