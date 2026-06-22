@@ -43,7 +43,8 @@
 }
 
 .subtitle {
-  // Solid white (not 0.9) — at 90% the ratio dips to 4.55:1; solid white is 5.21:1.
+  // Solid white (not 0.9 opacity) on --vinaup-amber-dark → 5.38:1. A reduced
+  // opacity here would drop below AA, so keep it fully opaque.
   color: var(--vinaup-white);
   font-size: clamp(1rem, 1.5vw, 1.375rem);
   margin: 0 0 2rem 0;
@@ -85,7 +86,7 @@
 
 .tagOutline {
   background-color: transparent;
-  color: var(--vinaup-white); // 5.21:1 on --vinaup-amber-dark surface
+  color: var(--vinaup-white); // 5.38:1 on --vinaup-amber-dark surface
   border: 1px solid var(--vinaup-white);
 
   &:hover {

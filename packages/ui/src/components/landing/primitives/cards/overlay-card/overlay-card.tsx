@@ -32,7 +32,7 @@ export function OverlayCard({
         src={src}
         alt={title}
         fill
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+        sizes="(max-width: 992px) 80vw, 25vw"
         style={{ objectFit: 'cover' }}
         className={`${classes.image} ${classNames.image || ''}`}
       />
