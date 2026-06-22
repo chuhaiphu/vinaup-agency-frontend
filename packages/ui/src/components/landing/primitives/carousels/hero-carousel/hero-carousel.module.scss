@@ -54,7 +54,7 @@
   top: 50%;
   bottom: auto;
   transform: translateY(-50%);
-  gap: 0.625rem; // 10px
+  gap: 1.25rem;
   z-index: 10;
 }
 
@@ -65,13 +65,30 @@
 }
 
 .indicatorDot {
-  width: 0.5rem; // 8px
-  height: 2.125rem; // 34px
-  background-color: rgba(255, 255, 255, 0.6);
-  transition: all 0.2s ease;
-  border-radius: 6.25rem; // 100px
+  // ─── WCAG 2.5.8 touch target: 24×24px minimum ─────
+  width: 1.5rem; // 24px tap target
+  height: 1.5rem; // 24px tap target
+  min-width: 1.5rem;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  position: relative;
+  cursor: pointer;
 
-  &[data-active] {
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0.5rem; // 8px
+    height: 2.125rem; // 34px
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 6.25rem; // 100px
+    transition: background-color 0.2s ease;
+  }
+
+  &[data-active]::before {
     background-color: #fff;
   }
 }

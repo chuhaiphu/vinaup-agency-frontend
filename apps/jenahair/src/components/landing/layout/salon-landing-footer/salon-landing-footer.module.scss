@@ -9,7 +9,7 @@
 }
 
 .mainFooter {
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: var(--vinaup-white);
   border-radius: 16px;
   padding: 1.5rem 1rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -116,7 +116,13 @@
   font-size: clamp(1.125rem, 2.5vw, 1.375rem);
   color: #ffffff;
 
+  // The VinaUp anchor defaults to Mantine blue on the dark-green page (1.26:1).
+  // Inherit the white copyright color + underline so it passes (8.44:1) and
+  // still reads as a link.
   a {
     font-size: inherit;
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 4px;
   }
 }

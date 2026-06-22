@@ -14,8 +14,9 @@ export function SalonLandingFooter() {
                 <Image
                   src="/images/logo-icon.svg"
                   alt="Jenahair.com Logo"
-                  width={120}
-                  height={120}
+                  // Match the SVG's intrinsic 111×143 ratio
+                  width={111}
+                  height={143}
                   className={classes.logoImage}
                 />
 
