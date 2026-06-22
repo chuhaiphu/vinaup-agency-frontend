@@ -2,7 +2,7 @@
 
 import { generateEmbededUrl, generateVideoThumbnailUrl } from '@vinaup/utils';
 import classes from './video-section.module.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BsPlayBtnFill } from 'react-icons/bs';
 
 interface VideoPlayerProps {
@@ -19,7 +19,11 @@ export function VideoSection({
   thumbnailUrl,
 }: VideoPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
-
+  useEffect(() => {
+    return () => {
+      setIsPlaying(false);
+    };
+  }, []);
   const embedUrl = generateEmbededUrl(url);
 
   if (!embedUrl) {
@@ -28,8 +32,7 @@ export function VideoSection({
 
   const posterUrl = thumbnailUrl ?? generateVideoThumbnailUrl(url) ?? undefined;
 
-  const autoplayEmbedUrl =
-    embedUrl + (embedUrl.includes('?') ? '&autoplay=1' : '?autoplay=1');
+  const autoplayEmbedUrl = embedUrl + (embedUrl.includes('?') ? '&autoplay=1' : '?autoplay=1');
 
   return (
     <div
