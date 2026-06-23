@@ -1,6 +1,7 @@
 export * from './generate-stripped-html';
 export * from './generate-formatted-price';
 export * from './generate-embeded-url';
+export * from './generate-video-thumbnail-url';
 export * from './generate-parsed-endpoint';
 export * from './generate-duration-days';
 export * from './generate-formatted-file-size';

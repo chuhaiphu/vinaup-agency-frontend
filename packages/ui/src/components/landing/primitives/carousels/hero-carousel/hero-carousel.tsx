@@ -79,8 +79,8 @@ export function HeroCarousel({
                 fill
                 priority={index === 0}
                 fetchPriority={index === 0 ? 'high' : 'auto'}
-                loading='eager'
-                sizes="100vw"
+                loading={index === 0 ? 'eager' : 'lazy'}
+                sizes="(max-width: 1232px) 100vw, 1232px"
                 style={{ objectFit: 'cover' }}
                 className={classes.slideImage}
               />

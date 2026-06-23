@@ -26,6 +26,7 @@ export function SpotlightSearch({
       <UnstyledButton
         onClick={() => spotlight.open()}
         className={classes.searchButton}
+        aria-label="Tìm kiếm"
       >
         <IoSearch size={22} />
       </UnstyledButton>

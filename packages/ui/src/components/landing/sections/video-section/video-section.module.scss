@@ -32,6 +32,12 @@
   .thumbnail {
     position: absolute;
     inset: 0;
+    // Reset <button> defaults so the facade fills the container like a plain layer.
+    appearance: none;
+    border: none;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0.35); // fallback tint when no poster image
+    background-position: center;
     background-size: cover;
     cursor: pointer;
     z-index: 2;

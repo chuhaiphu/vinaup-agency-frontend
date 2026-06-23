@@ -17,7 +17,7 @@ export default function BlogItem({ item }: BlogItemProps) {
       <div className={classes.imageWrapper}>
         <Image
           fill
-          sizes="(max-width: 768px) 100vw, 50vw"
+          sizes="(max-width: 992px) 50vw, 25vw"
           src={item.mainImageUrl || '/images/image-placeholder.png'}
           alt={item.title}
           className={classes.image}

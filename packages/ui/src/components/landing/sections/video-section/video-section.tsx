@@ -1,9 +1,8 @@
 'use client';
 
-import { generateEmbededUrl } from '@vinaup/utils';
+import { generateEmbededUrl, generateVideoThumbnailUrl } from '@vinaup/utils';
 import classes from './video-section.module.scss';
-import { ActionIcon } from '@mantine/core';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BsPlayBtnFill } from 'react-icons/bs';
 
 interface VideoPlayerProps {
@@ -20,34 +19,27 @@ export function VideoSection({
   thumbnailUrl,
 }: VideoPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
-
+  useEffect(() => {
+    return () => {
+      setIsPlaying(false);
+    };
+  }, []);
   const embedUrl = generateEmbededUrl(url);
 
   if (!embedUrl) {
     return null;
   }
 
-  const autoplayEmbedUrl = isPlaying
-    ? embedUrl + (embedUrl.includes('?') ? '&autoplay=1' : '?autoplay=1')
-    : embedUrl;
+  const posterUrl = thumbnailUrl ?? generateVideoThumbnailUrl(url) ?? undefined;
+
+  const autoplayEmbedUrl = embedUrl + (embedUrl.includes('?') ? '&autoplay=1' : '?autoplay=1');
 
   return (
-    <div 
-      className={classes.videoContainer} 
+    <div
+      className={classes.videoContainer}
       style={{ height: typeof height === 'number' ? `${height}px` : height }}
     >
-      {!isPlaying && thumbnailUrl && (
-        <div
-          className={classes.thumbnail}
-          style={{ backgroundImage: `url(${thumbnailUrl})` }}
-          onClick={() => setIsPlaying(true)}
-        >
-          <ActionIcon variant="transparent" size={72}>
-            <BsPlayBtnFill size={72} color="red" />
-          </ActionIcon>
-        </div>
-      )}
-      {(isPlaying || !thumbnailUrl) && (
+      {isPlaying ? (
         <iframe
           loading="lazy"
           src={autoplayEmbedUrl}
@@ -56,6 +48,16 @@ export function VideoSection({
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
         />
+      ) : (
+        <button
+          type="button"
+          className={classes.thumbnail}
+          style={posterUrl ? { backgroundImage: `url(${posterUrl})` } : undefined}
+          onClick={() => setIsPlaying(true)}
+          aria-label={`Phát video: ${title}`}
+        >
+          <BsPlayBtnFill size={72} color="red" />
+        </button>
       )}
     </div>
   );
