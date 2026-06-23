@@ -10,13 +10,17 @@ export const metadata = { title: 'Tin Công Nghệ | ViTinhNet' };
 
 const ITEMS_PER_PAGE = 16;
 
-export default async function TechNewsPage(props: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+import { Suspense } from 'react';
+
+async function TechNewsList({
+  searchParamsPromise,
+}: {
+  searchParamsPromise: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const result = await getAllTechNewsActionPublic();
   const allArticles = result.data ?? [];
   
-  const searchParams = await props.searchParams;
+  const searchParams = await searchParamsPromise;
   let currentPage = 1;
   if (typeof searchParams.page === 'string') {
     currentPage = parseInt(searchParams.page, 10);
@@ -29,6 +33,12 @@ export default async function TechNewsPage(props: {
   const start = (currentPage - 1) * ITEMS_PER_PAGE;
   const articles = allArticles.slice(start, start + ITEMS_PER_PAGE);
 
+  return <TinCongNgheGrid blogs={articles} totalPages={totalPages} currentPage={currentPage} />;
+}
+
+export default function TechNewsPage(props: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   return (
     <div className={classes.pageWrapper}>
       <Container size="xl" pt={{ base: '1rem', md: '2rem' }}>
@@ -47,7 +57,9 @@ export default async function TechNewsPage(props: {
 
       {/* 3. BLOGS GRID */}
       <Container size="xl" pb={{ base: '1rem', md: '2rem' }}>
-        <TinCongNgheGrid blogs={articles} totalPages={totalPages} currentPage={currentPage} />
+        <Suspense fallback={<Box p="xl">Đang tải...</Box>}>
+          <TechNewsList searchParamsPromise={props.searchParams} />
+        </Suspense>
       </Container>
     </div>
   );

@@ -28,35 +28,47 @@ export async function generateStaticParams() {
   return [...blogParams, ...categoryParams];
 }
 
+import { Suspense } from 'react';
+
+async function CategoryBlogList({
+  endpoint,
+  searchParamsPromise,
+}: {
+  endpoint: string;
+  searchParamsPromise: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const searchParams = await searchParamsPromise;
+  const categoryResult = await getAllTechNewsActionPublic({
+    categoryEndpoint: endpoint,
+  });
+  const allCategoryBlogs = categoryResult.data ?? [];
+
+  const ITEMS_PER_PAGE = 16;
+  let currentPage = 1;
+  if (typeof searchParams.page === 'string') {
+    currentPage = parseInt(searchParams.page, 10);
+  }
+  if (isNaN(currentPage) || currentPage < 1) currentPage = 1;
+
+  const totalPages = Math.max(1, Math.ceil(allCategoryBlogs.length / ITEMS_PER_PAGE));
+  if (currentPage > totalPages && totalPages > 0) currentPage = totalPages;
+
+  const start = (currentPage - 1) * ITEMS_PER_PAGE;
+  const categoryBlogs = allCategoryBlogs.slice(start, start + ITEMS_PER_PAGE);
+
+  return <TinCongNgheGrid blogs={categoryBlogs} totalPages={totalPages} currentPage={currentPage} />;
+}
+
 export default async function TinCongNgheEndpointPage(props: {
   params: Promise<{ endpoint: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { endpoint } = await props.params;
-  const searchParams = await props.searchParams;
 
   // Check if it's a category
   const category = TECH_NEWS_CATEGORIES.find((c) => c.endpoint === endpoint);
 
   if (category) {
-    const categoryResult = await getAllTechNewsActionPublic({
-      categoryEndpoint: category.endpoint,
-    });
-    const allCategoryBlogs = categoryResult.data ?? [];
-
-    const ITEMS_PER_PAGE = 16;
-    let currentPage = 1;
-    if (typeof searchParams.page === 'string') {
-      currentPage = parseInt(searchParams.page, 10);
-    }
-    if (isNaN(currentPage) || currentPage < 1) currentPage = 1;
-
-    const totalPages = Math.max(1, Math.ceil(allCategoryBlogs.length / ITEMS_PER_PAGE));
-    if (currentPage > totalPages && totalPages > 0) currentPage = totalPages;
-
-    const start = (currentPage - 1) * ITEMS_PER_PAGE;
-    const categoryBlogs = allCategoryBlogs.slice(start, start + ITEMS_PER_PAGE);
-
     return (
       <div className={classes.categoryPageWrapper}>
         <Container size="xl" pt={{ base: '1rem', md: '2rem' }}>
@@ -72,7 +84,9 @@ export default async function TinCongNgheEndpointPage(props: {
         </Container>
 
         <Container size="xl" pb="4rem">
-          <TinCongNgheGrid blogs={categoryBlogs} totalPages={totalPages} currentPage={currentPage} />
+          <Suspense fallback={<Box p="xl">Đang tải...</Box>}>
+            <CategoryBlogList endpoint={category.endpoint} searchParamsPromise={props.searchParams} />
+          </Suspense>
         </Container>
       </div>
     );
