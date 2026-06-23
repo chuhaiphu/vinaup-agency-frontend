@@ -4,39 +4,59 @@ import {
   VinaupHeartIcon,
   VinaupEyeIcon,
   VinaupCopyIcon,
-  VinaupLocationIcon
+  VinaupLocationIcon,
 } from '@vinaup/ui/cores';
 import { HeroCarousel, VideoSection } from '@vinaup/ui/landing';
 import { notFound } from 'next/navigation';
 
-import { getAllTechNewsActionPublic, getTechNewsByEndpointActionPublic } from '@/actions/tech-news-actions';
+import {
+  getAllTechNewsActionPublic,
+  getTechNewsByEndpointActionPublic,
+} from '@/actions/tech-news-actions';
 import TinCongNgheCategoryTags from '@/components/landing/tin-cong-nghe/tin-cong-nghe-category-tags/tin-cong-nghe-category-tags';
 import TinCongNgheGrid from '@/components/landing/tin-cong-nghe/tin-cong-nghe-grid/tin-cong-nghe-grid';
 import { TECH_NEWS_CATEGORIES } from '@/constants/tech-news-constants';
 
 import classes from './page.module.scss';
 
-
 export async function generateStaticParams() {
   const result = await getAllTechNewsActionPublic();
   const blogParams = (result.data ?? []).map((article) => ({ endpoint: article.endpoint }));
-  const categoryParams = TECH_NEWS_CATEGORIES.filter((c) => c.endpoint).map((cat) => ({ endpoint: cat.endpoint }));
+  const categoryParams = TECH_NEWS_CATEGORIES.filter((c) => c.endpoint).map((cat) => ({
+    endpoint: cat.endpoint,
+  }));
   return [...blogParams, ...categoryParams];
 }
 
-export default async function TinCongNgheEndpointPage({
-  params,
-}: {
+export default async function TinCongNgheEndpointPage(props: {
   params: Promise<{ endpoint: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const { endpoint } = await params;
+  const { endpoint } = await props.params;
+  const searchParams = await props.searchParams;
 
   // Check if it's a category
   const category = TECH_NEWS_CATEGORIES.find((c) => c.endpoint === endpoint);
 
   if (category) {
-    const categoryResult = await getAllTechNewsActionPublic({ categoryEndpoint: category.endpoint });
-    const categoryBlogs = categoryResult.data ?? [];
+    const categoryResult = await getAllTechNewsActionPublic({
+      categoryEndpoint: category.endpoint,
+    });
+    const allCategoryBlogs = categoryResult.data ?? [];
+
+    const ITEMS_PER_PAGE = 16;
+    let currentPage = 1;
+    if (typeof searchParams.page === 'string') {
+      currentPage = parseInt(searchParams.page, 10);
+    }
+    if (isNaN(currentPage) || currentPage < 1) currentPage = 1;
+
+    const totalPages = Math.max(1, Math.ceil(allCategoryBlogs.length / ITEMS_PER_PAGE));
+    if (currentPage > totalPages && totalPages > 0) currentPage = totalPages;
+
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    const categoryBlogs = allCategoryBlogs.slice(start, start + ITEMS_PER_PAGE);
+
     return (
       <div className={classes.categoryPageWrapper}>
         <Container size="xl" pt={{ base: '1rem', md: '2rem' }}>
@@ -52,7 +72,7 @@ export default async function TinCongNgheEndpointPage({
         </Container>
 
         <Container size="xl" pb="4rem">
-          <TinCongNgheGrid blogs={categoryBlogs} />
+          <TinCongNgheGrid blogs={categoryBlogs} totalPages={totalPages} currentPage={currentPage} />
         </Container>
       </div>
     );
@@ -63,7 +83,7 @@ export default async function TinCongNgheEndpointPage({
   const blog = blogResult.success ? blogResult.data : undefined;
 
   if (blog) {
-    const defaultCategory = TECH_NEWS_CATEGORIES.find(c => c.endpoint === blog.categoryEndpoint);
+    const defaultCategory = TECH_NEWS_CATEGORIES.find((c) => c.endpoint === blog.categoryEndpoint);
     const categoryName = defaultCategory?.title || 'Tin tức';
 
     return (
@@ -85,7 +105,11 @@ export default async function TinCongNgheEndpointPage({
                 <Text fz="lg">{blog.likes}</Text>
               </Group>
               <Group gap={4}>
-                <VinaupEyeIcon size={18} fill="var(--vinaup-soft-crimson)" stroke="var(--vinaup-soft-crimson)" />
+                <VinaupEyeIcon
+                  size={18}
+                  fill="var(--vinaup-soft-crimson)"
+                  stroke="var(--vinaup-soft-crimson)"
+                />
                 <Text fz="lg">{blog.views}</Text>
               </Group>
               <Group gap={4} style={{ cursor: 'pointer' }}>
@@ -99,14 +123,22 @@ export default async function TinCongNgheEndpointPage({
             <HeroCarousel
               data={
                 blog.galleryImageUrls
-                  ? blog.galleryImageUrls.map((img, idx) => ({ id: `${blog.id}-${idx}`, image: img, alt: `${blog.title} ${idx + 1}` }))
+                  ? blog.galleryImageUrls.map((img, idx) => ({
+                      id: `${blog.id}-${idx}`,
+                      image: img,
+                      alt: `${blog.title} ${idx + 1}`,
+                    }))
                   : [{ id: blog.id, image: blog.mainImageUrl, alt: blog.title }]
               }
               ratio={2 / 1}
             />
           </Box>
 
-          <Box mt={{ base: '1rem', md: '2rem' }} className={classes.detailContent} dangerouslySetInnerHTML={{ __html: blog.content }} />
+          <Box
+            mt={{ base: '1rem', md: '2rem' }}
+            className={classes.detailContent}
+            dangerouslySetInnerHTML={{ __html: blog.content }}
+          />
 
           <Group gap="xs" mt="sm">
             <VinaupLocationIcon size={20} fill="var(--vinaup-soft-crimson)" />
@@ -114,7 +146,11 @@ export default async function TinCongNgheEndpointPage({
           </Group>
 
           <Box mt={{ base: '1rem', md: '2rem' }}>
-            <VideoSection url="https://www.youtube.com/watch?v=dQw4w9WgXcQ" title={blog.title} height={500} />
+            <VideoSection
+              url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+              title={blog.title}
+              height={500}
+            />
           </Box>
         </Container>
       </div>

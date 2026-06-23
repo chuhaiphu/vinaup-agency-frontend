@@ -1,121 +1,123 @@
 .productCard {
-    background-color: white;
-    border-radius: 0.75rem;
-    border: none;
-    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.08);
-    overflow: hidden;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    cursor: pointer;
+  background-color: white;
+  border-radius: 0.75rem;
+  border: none;
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  cursor: pointer;
 
-    &:hover {
-        transform: translateY(-0.25rem);
-        box-shadow: 0 0.625rem 1.25rem rgba(0, 0, 0, 0.12);
-    }
+  &:hover {
+    transform: translateY(-0.25rem);
+    box-shadow: 0 0.625rem 1.25rem rgba(0, 0, 0, 0.12);
+  }
 }
 
 .badge {
-    position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
-    background-color: var(--vinaup-soft-crimson);
-    color: white;
-    border-radius: 99rem;
-    font-size: 0.75rem;
-    padding: 0.25rem 0.5rem;
-    font-weight: 400;
-    z-index: 10;
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background-color: var(--vinaup-soft-crimson);
+  color: white;
+  border-radius: 99rem;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  font-weight: 400;
+  z-index: 10;
 }
 
 .imageWrapper {
-    background-color: white;
-    text-align: center;
+  background-color: white;
+  text-align: center;
 }
 
 .productInfo {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 0.75rem;
 
-    @media (max-width: 48rem) {
-        padding: 0.5rem;
-    }
+  @media (max-width: 48rem) {
+    padding: 0.5rem;
+  }
 }
 
 .productTitle {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--vinaup-black);
-    margin-bottom: 0.5rem;
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--vinaup-black);
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .metaContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: auto;
 }
 
 /* Định dạng cho từng hàng dàn đều 2 bên */
 .priceRow,
 .actionRow {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .newPrice {
-    color: var(--vinaup-soft-crimson);
-    font-weight: 700;
-    font-size: 1.125rem;
-    white-space: nowrap;
+  color: var(--vinaup-soft-crimson);
+  font-weight: 700;
+  font-size: 1.125rem;
+  white-space: nowrap;
 }
 
 .favorited {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
 
-    &:hover {
-        transform: scale(1.1);
-    }
+  &:hover {
+    transform: scale(1.1);
+  }
 }
 
 .oldPrice {
-    text-decoration: line-through;
-    color: #888;
-    font-size: clamp(0.8rem, 2vw, 0.875rem);
-    white-space: nowrap;
+  text-decoration: line-through;
+  color: #888;
+  font-size: clamp(0.8rem, 2vw, 0.875rem);
+  white-space: nowrap;
 }
 
 .compare {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    font-size: clamp(0.8rem, 2vw, 0.875rem);
-    font-weight: 500;
-    color: var(--vinaup-blue-link);
-    cursor: pointer;
-    line-height: 1;
-    white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: clamp(0.8rem, 2vw, 0.875rem);
+  font-weight: 500;
+  color: var(--vinaup-blue-link);
+  cursor: pointer;
+  line-height: 1;
+  white-space: nowrap;
 
-    span {
-        display: block;
-        padding-bottom: 2px;
-    }
+  span {
+    display: block;
+    padding-bottom: 2px;
+  }
 
-    &:hover {
-        text-decoration: underline;
-    }
+  &:hover {
+    text-decoration: underline;
+  }
 }

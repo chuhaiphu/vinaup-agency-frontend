@@ -16,8 +16,7 @@ export const metadata: Metadata = {
     default: 'Vi Tinh Net',
     template: '%s | Vi Tinh Net',
   },
-  description:
-    'Vi Tinh Net',
+  description: 'Vi Tinh Net',
   applicationName: 'Vi Tinh Net',
   openGraph: {
     siteName: 'Vi Tinh Net',
@@ -30,9 +29,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="vi" {...mantineHtmlProps} className={inter.variable}>
       <head>

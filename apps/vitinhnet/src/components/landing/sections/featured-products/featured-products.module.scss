@@ -41,45 +41,45 @@
   }
 }
 
-// .scrollWrapper {
-//   display: flex;
-//   align-items: center;
-//   overflow: hidden;
-//   flex: 1;
-//   justify-content: flex-end;
+.scrollWrapper {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  flex: 1;
+  justify-content: flex-end;
 
-//   @media (max-width: 48rem) {
-//     justify-content: flex-start;
-//   }
-// }
+  @media (max-width: 48rem) {
+    justify-content: flex-start;
+  }
+}
 
-// .scrollContainer {
-//   display: flex;
-//   gap: 0.5rem;
-//   overflow-x: auto;
-//   scrollbar-width: none;
-//   scroll-behavior: smooth;
+.scrollContainer {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
 
-//   &::-webkit-scrollbar {
-//     display: none;
-//   }
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
-//   @media (max-width: 48rem) {
-//     gap: 0.25rem;
-//   }
-// }
+  @media (max-width: 48rem) {
+    gap: 0.25rem;
+  }
+}
 
-// .scrollButton {
-//   flex-shrink: 0;
-//   border: none;
-//   background-color: transparent;
-//   color: #333;
+.scrollButton {
+  flex-shrink: 0;
+  border: none;
+  background-color: transparent;
+  color: #333;
 
-//   &:hover {
-//     background-color: transparent;
-//     color: var(--vinaup-soft-crimson);
-//   }
-// }
+  &:hover {
+    background-color: transparent;
+    color: var(--vinaup-soft-crimson);
+  }
+}
 
 .fixedActionGroup {
   display: flex;
@@ -116,24 +116,24 @@
   }
 }
 
-// .categoryPill {
-//   border-radius: 0.5rem;
-//   border-color: var(--vinaup-light-gray, #E9ECEF);
-//   color: #333;
-//   background-color: white;
-//   flex-shrink: 0;
-//   font-weight: 500;
-//   transition: all 0.2s ease;
+.categoryPill {
+  border-radius: 0.5rem;
+  border-color: var(--vinaup-light-gray, #E9ECEF);
+  color: #333;
+  background-color: white;
+  flex-shrink: 0;
+  font-weight: 500;
+  transition: all 0.2s ease;
 
-//   &[data-active='true'] {
-//     border-color: var(--vinaup-light-gray, #E9ECEF);
-//     color: var(--vinaup-soft-crimson);
-//   }
+  &[data-active='true'] {
+    border-color: var(--vinaup-light-gray, #E9ECEF);
+    color: var(--vinaup-soft-crimson);
+  }
 
-//   &:hover {
-//     background-color: #f1f3f5;
-//   }
-// }
+  &:hover {
+    background-color: #f1f3f5;
+  }
+}
 
 .titleButton {
   display: inline-flex;

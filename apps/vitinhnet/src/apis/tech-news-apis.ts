@@ -13,7 +13,9 @@ export interface TechNewsFilterParams {
 export async function getAllTechNewsApiPublic(filter?: TechNewsFilterParams) {
   // --- MOCK (current) ---
   const data = filter?.categoryEndpoint
-    ? MOCK_TECH_NEWS_ARTICLES.filter((article) => article.categoryEndpoint === filter.categoryEndpoint)
+    ? MOCK_TECH_NEWS_ARTICLES.filter(
+      (article) => article.categoryEndpoint === filter.categoryEndpoint,
+    )
     : MOCK_TECH_NEWS_ARTICLES;
   return mockApiResponse<TechNewsArticleResponse[]>(data);
 

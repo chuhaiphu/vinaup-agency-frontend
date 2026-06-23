@@ -18,13 +18,13 @@
   --vinaup-teal: #005c62;
   --vinaup-mint: #bde5c0;
   --vinaup-moss: #1a202c;
-  --vinaup-amber: #F4701E;
+  --vinaup-amber: #f4701e;
   --vinaup-orange-coral: #f3a270;
 
-  --vinaup-blue-link: #0E54C9;
+  --vinaup-blue-link: #0e54c9;
   --vinaup-blue-dark: #013437;
   --vinaup-navy-dark: #01233a;
-  --vinaup-soft-crimson: #C44C50;
+  --vinaup-soft-crimson: #c44c50;
   --brand-primary: var(--vinaup-soft-crimson);
 }
 
@@ -39,14 +39,14 @@ html {
   font-size: 1rem;
   font-family: var(--font-inter);
 }
+
 @media (max-width: 48em) {
   .vinaup-Container-root {
     padding-inline: 8px !important;
   }
 }
 
-
-html, body {
+html,
+body {
   overflow-x: clip;
 }
-

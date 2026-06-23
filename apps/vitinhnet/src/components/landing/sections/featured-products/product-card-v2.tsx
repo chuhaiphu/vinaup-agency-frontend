@@ -1,4 +1,3 @@
-'use client';
 
 import { Image, Text, AspectRatio } from '@mantine/core';
 import { VinaupHeartIcon } from '@vinaup/ui/cores';
@@ -16,7 +15,9 @@ export function ProductCardV2({ product }: { product: ProductResponse }) {
 
   return (
     <div className={classes.productCard}>
-      {product.discountPercent > 0 && <div className={classes.badge}>-{product.discountPercent}%</div>}
+      {product.discountPercent > 0 && (
+        <div className={classes.badge}>-{product.discountPercent}%</div>
+      )}
 
       <Link href={productUrl} className={classes.imageWrapper} style={{ display: 'block' }}>
         <AspectRatio ratio={1 / 1}>
@@ -45,7 +46,9 @@ export function ProductCardV2({ product }: { product: ProductResponse }) {
           </div>
 
           <div className={classes.actionRow}>
-            <Text className={classes.oldPrice}>{generateFormattedPrice(product.originalPrice)}đ</Text>
+            <Text className={classes.oldPrice}>
+              {generateFormattedPrice(product.originalPrice)}đ
+            </Text>
             <div className={classes.compare}>
               <BsPlusCircle size={16} />
               <span>So sánh</span>

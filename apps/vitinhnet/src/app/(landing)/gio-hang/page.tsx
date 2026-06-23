@@ -7,15 +7,15 @@ import { IconChevronLeft } from '@tabler/icons-react';
 import Link from 'next/link';
 
 import { createOrderActionPublic } from '@/actions/order-actions';
-import { CartItemList } from '@/components/cart/cart-item-list';
-import classes from '@/components/cart/cart.module.scss';
-import { CheckoutForm } from '@/components/cart/checkout-form';
-import { OrderSummary } from '@/components/cart/order-summary';
+import { CartItemList } from '@/components/landing/cart/cart-item-list';
+import classes from '@/components/landing/cart/cart.module.scss';
+import { CheckoutForm } from '@/components/landing/cart/checkout-form';
+import { OrderSummary } from '@/components/landing/cart/order-summary';
 import { CheckoutFormData } from '@/interfaces/cart-interfaces';
-import { useCartStore } from '@/stores/cart-store';
+import { useCartStore } from '@/libs/zustand/cart-store';
 
 export default function CartCheckoutPage() {
-  const { items } = useCartStore();
+  const items = useCartStore((state) => state.items);
 
   const form = useForm<CheckoutFormData>({
     initialValues: {
@@ -41,9 +41,14 @@ export default function CartCheckoutPage() {
         address: (value) => (value.trim().length > 0 ? null : 'Vui lòng nhập địa chỉ'),
       },
       shipping: {
-        fullName: (value, values) => (values.useBillingForShipping || value.trim().length > 0 ? null : 'Vui lòng nhập họ tên'),
-        phone: (value, values) => (values.useBillingForShipping || value.trim().length > 0 ? null : 'Vui lòng nhập số điện thoại'),
-        address: (value, values) => (values.useBillingForShipping || value.trim().length > 0 ? null : 'Vui lòng nhập địa chỉ'),
+        fullName: (value, values) =>
+          values.useBillingForShipping || value.trim().length > 0 ? null : 'Vui lòng nhập họ tên',
+        phone: (value, values) =>
+          values.useBillingForShipping || value.trim().length > 0
+            ? null
+            : 'Vui lòng nhập số điện thoại',
+        address: (value, values) =>
+          values.useBillingForShipping || value.trim().length > 0 ? null : 'Vui lòng nhập địa chỉ',
       },
       agreeToTerms: (value) => (value ? null : 'Bạn cần đồng ý với điều khoản thanh toán'),
     },

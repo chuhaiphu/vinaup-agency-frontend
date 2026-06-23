@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 
 import { CartItem } from '@/interfaces/cart-interfaces';
+import { CART_MOCK_ITEMS } from '@/mocks/cart.mock';
 
 interface CartState {
   items: CartItem[];
@@ -17,41 +18,11 @@ interface CartState {
   getTotal: () => number;
 }
 
-const mockItems: CartItem[] = [
-  {
-    id: 'hp-1',
-    name: 'HP 600/800 G5 SFF i3 9100 8G 256G A1',
-    price: 14900000,
-    originalPrice: 16800000,
-    quantity: 1,
-    image: 'https://placehold.co/100', // Mock image
-    isSelected: true,
-  },
-  {
-    id: 'hp-2',
-    name: 'HP 600/800 G5 SFF i3 9100 8G 256G A1',
-    price: 14900000,
-    originalPrice: 16800000,
-    quantity: 1,
-    image: 'https://placehold.co/100',
-    isSelected: true,
-  },
-  {
-    id: 'hp-3',
-    name: 'HP 600/800 G5 SFF i3 9100 8G 256G A1',
-    price: 14900000,
-    originalPrice: 16800000,
-    quantity: 1,
-    image: 'https://placehold.co/100',
-    isSelected: true,
-  },
-];
-
 export const useCartStore = create<CartState>((set, get) => ({
-  items: mockItems,
+  items: CART_MOCK_ITEMS,
   discount: 600000,
   shippingFee: 600000,
-  
+
   updateQuantity: (id, quantity) =>
     set((state) => ({
       items: state.items.map((item) => (item.id === id ? { ...item, quantity } : item)),

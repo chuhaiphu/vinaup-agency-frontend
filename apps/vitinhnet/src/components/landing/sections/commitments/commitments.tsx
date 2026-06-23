@@ -1,6 +1,4 @@
-'use client';
-
-import { Container, Grid, Title, Text, Box, Timeline, GridCol } from '@mantine/core';
+import { Container, Grid, Title, Text, Box, Timeline, GridCol, TimelineItem } from '@mantine/core';
 import { VideoSection } from '@vinaup/ui/landing';
 import { FaHandshake, FaShieldAlt, FaTruck } from 'react-icons/fa';
 
@@ -22,35 +20,36 @@ export function Commitments() {
                 lineWidth={4}
                 classNames={{
                   itemBullet: classes.itemBullet,
-                  item: classes.item
+                  item: classes.item,
                 }}
               >
-                <Timeline.Item
+                <TimelineItem
                   bullet={<FaHandshake size={20} />}
                   title={<Text className={classes.itemTitle}>Đối Tác Tin Cậy</Text>}
                 >
                   <Text className={classes.itemDesc}>
                     Chế độ chính sách tốt nhất cho đại lý 34 tỉnh thành
                   </Text>
-                </Timeline.Item>
+                </TimelineItem>
 
-                <Timeline.Item
+                <TimelineItem
                   bullet={<FaShieldAlt size={20} />}
                   title={<Text className={classes.itemTitle}>Cam Kết Chính Hãng</Text>}
                 >
                   <Text className={classes.itemDesc}>
-                    Chúng tôi cam kết hoàn tiền 110% nếu phát hiện không phải hàng chính hãng Dell, Hp.
+                    Chúng tôi cam kết hoàn tiền 110% nếu phát hiện không phải hàng chính hãng Dell,
+                    Hp.
                   </Text>
-                </Timeline.Item>
+                </TimelineItem>
 
-                <Timeline.Item
+                <TimelineItem
                   bullet={<FaTruck size={20} />}
                   title={<Text className={classes.itemTitle}>Dịch Vụ Tận Tâm</Text>}
                 >
                   <Text className={classes.itemDesc}>
                     Nhiệt tình giao hàng và nhận hàng bảo hành từ tỉnh xa
                   </Text>
-                </Timeline.Item>
+                </TimelineItem>
               </Timeline>
             </div>
           </GridCol>
@@ -58,10 +57,7 @@ export function Commitments() {
           {/* Right Column: Video */}
           <GridCol span={{ base: 12, md: 6 }}>
             <div className={classes.videoWrapper}>
-              <VideoSection
-                url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-                height="100%"
-              />
+              <VideoSection url="https://www.youtube.com/watch?v=dQw4w9WgXcQ" height="100%" />
             </div>
           </GridCol>
         </Grid>

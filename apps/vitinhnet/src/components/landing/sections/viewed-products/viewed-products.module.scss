@@ -1,17 +1,17 @@
 .section {
-    background-color: transparent;
+  background-color: transparent;
 }
 
 .header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
-    width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  width: 100%;
 }
 
 .title {
-    color: var(--vinaup-soft-crimson);
-    font-weight: 700;
-    font-size: clamp(1.5rem, 5vw, 2.25rem);
-    margin: 0;
+  color: var(--vinaup-soft-crimson);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 5vw, 2.25rem);
+  margin: 0;
 }

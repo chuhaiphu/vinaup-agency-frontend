@@ -1,50 +1,50 @@
 .mainTitle {
-    color: var(--vinaup-blue-link);
-    font-size: 1.75rem;
-    font-weight: 700;
+  color: var(--vinaup-blue-link);
+  font-size: 1.75rem;
+  font-weight: 700;
 }
 
 .card {
-    background-color: var(--mantine-color-white);
-    border-radius: 8px;
-    padding: 1rem;
-    border: 1px solid #ebebeb;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+  background-color: var(--mantine-color-white);
+  border-radius: 8px;
+  padding: 1rem;
+  border: 1px solid #ebebeb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .productName {
-    font-size: 1.125rem;
-    color: var(--mantine-color-dark-6);
+  font-size: 1.125rem;
+  color: var(--mantine-color-dark-6);
 }
 
 .productPrice {
-    color: var(--vinaup-soft-crimson);
-    font-size: 1.25rem;
-    line-height: 1;
+  color: var(--vinaup-soft-crimson);
+  font-size: 1.25rem;
+  line-height: 1;
 }
 
 .originalPrice {
-    color: var(--mantine-color-gray-5);
-    font-size: 0.875rem;
-    line-height: 1;
+  color: var(--mantine-color-gray-5);
+  font-size: 0.875rem;
+  line-height: 1;
 }
 
 .sectionTitle {
-    color: var(--vinaup-blue-link);
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin: 0;
-    line-height: 1;
+  color: var(--vinaup-blue-link);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1;
 }
 
 .specList {
-    font-size: 1.125rem;
-    color: var(--mantine-color-dark-4);
+  font-size: 1.125rem;
+  color: var(--mantine-color-dark-4);
 
-    b {
-        color: var(--mantine-color-dark-6);
-    }
+  b {
+    color: var(--mantine-color-dark-6);
+  }
 }

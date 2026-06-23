@@ -1,26 +1,20 @@
 'use client';
 
-import {
-  Box,
-  Checkbox,
-  Flex,
-  Text,
-  ActionIcon,
-  Divider,
-  NumberInput
-} from '@mantine/core';
+import { Box, Checkbox, Flex, Text, ActionIcon, Divider, NumberInput } from '@mantine/core';
 import { IconTrash, IconMinus, IconPlus } from '@tabler/icons-react';
 import { VinaupCartIcon } from '@vinaup/ui/cores';
 import Image from 'next/image';
-import { useState } from 'react';
 
-import { useCartStore } from '@/stores/cart-store';
+import { useCartStore } from '@/libs/zustand/cart-store';
 
 import classes from './cart-item-list.module.scss';
 
 export const CartItemList = () => {
-  const { items, toggleAllSelection, toggleItemSelection, updateQuantity, removeItem } = useCartStore();
-  const [manualInputIds, setManualInputIds] = useState<string[]>([]);
+  const items = useCartStore((s) => s.items);
+  const toggleAllSelection = useCartStore((s) => s.toggleAllSelection);
+  const toggleItemSelection = useCartStore((s) => s.toggleItemSelection);
+  const updateQuantity = useCartStore((s) => s.updateQuantity);
+  const removeItem = useCartStore((s) => s.removeItem);
 
   const allSelected = items.length > 0 && items.every((item) => item.isSelected);
   const someSelected = items.some((item) => item.isSelected) && !allSelected;
@@ -37,7 +31,7 @@ export const CartItemList = () => {
           <Checkbox
             classNames={{
               body: classes.checkboxBody,
-              label: classes.checkboxLabel
+              label: classes.checkboxLabel,
             }}
             label={<Text className={classes.cartTitle}>Giỏ hàng</Text>}
             checked={allSelected}
@@ -49,7 +43,11 @@ export const CartItemList = () => {
           <ActionIcon
             variant="transparent"
             color="dark"
-            onClick={() => items.forEach(item => { if (item.isSelected) removeItem(item.id); })}
+            onClick={() =>
+              items.forEach((item) => {
+                if (item.isSelected) removeItem(item.id);
+              })
+            }
           >
             <IconTrash size={20} stroke={1.5} />
           </ActionIcon>
@@ -60,8 +58,11 @@ export const CartItemList = () => {
           {items.map((item, index) => (
             <Box key={item.id}>
               {/* ĐỔI align THÀNH RESPONSIVE ĐỂ Ở MOBILE NÓ CĂN LÊN TRÊN */}
-              <Flex className={classes.cartItemRow} align={{ base: 'flex-start', md: 'center' }} gap="md">
-
+              <Flex
+                className={classes.cartItemRow}
+                align={{ base: 'flex-start', md: 'center' }}
+                gap="md"
+              >
                 <Checkbox
                   mt={{ base: 4, md: 0 }} // Đẩy checkbox xuống 1 xíu ở mobile cho bằng với chữ
                   checked={item.isSelected}
@@ -92,9 +93,7 @@ export const CartItemList = () => {
                     </Text>
                   </Box>
 
-                  <Text className={classes.priceText}>
-                    {item.price.toLocaleString('vi-VN')} đ
-                  </Text>
+                  <Text className={classes.priceText}>{item.price.toLocaleString('vi-VN')} đ</Text>
 
                   <Flex align="center" gap="xs" className={classes.quantityControl}>
                     <VinaupCartIcon size={16} fill="#6D6E72" />
@@ -109,10 +108,13 @@ export const CartItemList = () => {
                       min={1}
                       max={999}
                       hideControls
-                      variant="unstyled" 
+                      variant="unstyled"
                       classNames={{ input: classes.quantityInputText }}
                     />
-                    <ActionIcon size="sm" variant="transparent" c="var(--vinaup-blue-link)"
+                    <ActionIcon
+                      size="sm"
+                      variant="transparent"
+                      c="var(--vinaup-blue-link)"
                       onClick={() => {
                         if (item.quantity <= 1) {
                           removeItem(item.id);
@@ -124,7 +126,12 @@ export const CartItemList = () => {
                       <IconMinus size={16} stroke={3} />
                     </ActionIcon>
                     <Divider orientation="vertical" />
-                    <ActionIcon size="sm" variant="transparent" c="var(--vinaup-blue-link)" onClick={() => updateQuantity(item.id, item.quantity + 1)}>
+                    <ActionIcon
+                      size="sm"
+                      variant="transparent"
+                      c="var(--vinaup-blue-link)"
+                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                    >
                       <IconPlus size={16} stroke={3} />
                     </ActionIcon>
                   </Flex>
@@ -138,7 +145,6 @@ export const CartItemList = () => {
                 >
                   <IconTrash size={20} stroke={1.5} />
                 </ActionIcon>
-
               </Flex>
               {index < items.length - 1 && <Divider color="gray.2" />}
             </Box>

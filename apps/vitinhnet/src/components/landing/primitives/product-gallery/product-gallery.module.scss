@@ -1,111 +1,111 @@
 .gallery {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .mainImageWrapper {
-    position: relative;
-    width: 100%;
-    border: 1px solid #ebebeb;
-    border-radius: 8px;
-    overflow: hidden;
-    background: #fff;
+  position: relative;
+  width: 100%;
+  border: 1px solid #ebebeb;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
 }
 
 .mainImageContainer {
-    position: relative;
-    width: 100%;
+  position: relative;
+  width: 100%;
 }
 
 .carouselControl {
-    background-color: white;
-    border: 1px solid #ebebeb;
-    color: #333;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  border: 1px solid #ebebeb;
+  color: #333;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-    &:hover {
-        background-color: #f8f9fa;
-    }
+  &:hover {
+    background-color: #f8f9fa;
+  }
 }
 
 .imageCounter {
-    position: absolute;
-    bottom: 1rem;
-    left: 1rem;
-    background: rgba(0, 0, 0, 0.4);
-    color: white;
-    z-index: 10;
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+  z-index: 10;
 }
 
 .thumbnails {
-    display: flex;
-    gap: 0.75rem;
-    overflow-x: auto;
-    padding-bottom: 0.5rem;
-    justify-content: center;
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  justify-content: center;
 
-    &::-webkit-scrollbar {
-        display: none;
-    }
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
-    @media (max-width: 48rem) {
-        justify-content: flex-start;
-    }
+  @media (max-width: 48rem) {
+    justify-content: flex-start;
+  }
 }
 
 .thumbnail {
-    position: relative;
-    flex-shrink: 0;
-    width: 70px;
-    height: 70px;
-    border: 2px solid #ebebeb;
-    border-radius: 4px;
-    cursor: pointer;
-    overflow: hidden;
-    transition: all 0.2s ease;
+  position: relative;
+  flex-shrink: 0;
+  width: 70px;
+  height: 70px;
+  border: 2px solid #ebebeb;
+  border-radius: 4px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.2s ease;
 
-    &:hover {
-        border-color: #ccc;
-    }
+  &:hover {
+    border-color: #ccc;
+  }
 }
 
 .activeThumbnail {
-    border-color: var(--vinaup-soft-crimson);
+  border-color: var(--vinaup-soft-crimson);
 }
 
 .thumbnailsWrapper {
-    width: 100%;
+  width: 100%;
 }
 
 .thumbnailCarousel {
-    width: max-content;
-    max-width: 100%;
-    margin: 0 auto;
+  width: max-content;
+  max-width: 100%;
+  margin: 0 auto;
 
-    @media (max-width: 48rem) {
-        margin: 0;
-    }
+  @media (max-width: 48rem) {
+    margin: 0;
+  }
 }
 
 .thumbnailControl {
-    background-color: white;
-    border: 1px solid #ebebeb;
-    color: #333;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  border: 1px solid #ebebeb;
+  color: #333;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-    &:hover {
-        background-color: #f8f9fa;
-    }
+  &:hover {
+    background-color: #f8f9fa;
+  }
 
-    &[data-inactive] {
-        opacity: 0;
-        cursor: default;
-    }
+  &[data-inactive] {
+    opacity: 0;
+    cursor: default;
+  }
 }

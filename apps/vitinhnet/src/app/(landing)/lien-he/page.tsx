@@ -1,4 +1,15 @@
-import { Paper, Text, Title, Flex, Box, Container, Grid, Image, GridCol, AspectRatio } from '@mantine/core';
+import {
+  Paper,
+  Text,
+  Title,
+  Flex,
+  Box,
+  Container,
+  Grid,
+  Image,
+  GridCol,
+  AspectRatio,
+} from '@mantine/core';
 
 import { ContactForm } from './contact-form';
 import classes from './page.module.scss';

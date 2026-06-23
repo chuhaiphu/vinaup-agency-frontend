@@ -1,1 +1,3 @@
-export function MaintenanceGuard() { return null; }
+export function MaintenanceGuard() {
+  return null;
+}

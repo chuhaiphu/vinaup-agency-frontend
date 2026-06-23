@@ -14,7 +14,6 @@ export function PromoBanners() {
               style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.25)', cursor: 'pointer' }}
             />
           </AspectRatio>
-
         </GridCol>
         <GridCol span={{ base: 12, sm: 6 }}>
           <AspectRatio ratio={3 / 1}>

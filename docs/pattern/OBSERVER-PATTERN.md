@@ -61,7 +61,7 @@ export const useExampleStore = create<ExampleState>()(
 When an action needs to read the current value of multiple fields (derived values, cross-field computation), use `(set, get) => ({})`. Multi-field **forms** are not stores — those use `@mantine/form`.
 
 ```ts
-// apps/vitinhnet/src/stores/cart-store.ts
+// apps/vitinhnet/src/libs/zustand/cart-store.ts
 getSubtotal: () =>
   get()
     .items.filter((item) => item.isSelected)

@@ -43,16 +43,16 @@ export function CategoryScroll({
     }
   };
 
-  // useEffect(() => {
-  //     updateArrows();
-  //     window.addEventListener('resize', updateArrows);
-  //     return () => window.removeEventListener('resize', updateArrows);
-  // }, []);
+  useEffect(() => {
+    updateArrows();
+    window.addEventListener('resize', updateArrows);
+    return () => window.removeEventListener('resize', updateArrows);
+  }, []);
 
-  // useEffect(() => {
-  //     const timeout = setTimeout(updateArrows, 100);
-  //     return () => clearTimeout(timeout);
-  // }, [items]);
+  useEffect(() => {
+    const timeout = setTimeout(updateArrows, 100);
+    return () => clearTimeout(timeout);
+  }, [items]);
 
   const handleScrollLeft = () => {
     if (scrollRef.current) {

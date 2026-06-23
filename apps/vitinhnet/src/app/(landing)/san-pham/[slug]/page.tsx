@@ -1,6 +1,9 @@
 import { notFound } from 'next/navigation';
 
-import { getAllProductsActionPublic, getProductBySlugActionPublic } from '@/actions/product-actions';
+import {
+  getAllProductsActionPublic,
+  getProductBySlugActionPublic,
+} from '@/actions/product-actions';
 import { ProductDescription } from '@/components/landing/sections/product-description/product-description';
 import { ProductDetail } from '@/components/landing/sections/product-detail/product-detail';
 import { ViewedProducts } from '@/components/landing/sections/viewed-products/viewed-products';

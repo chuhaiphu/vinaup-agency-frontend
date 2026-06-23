@@ -6,7 +6,7 @@ const PRODUCT_IMAGE = '/1751241600_Dell5490(1).jpg';
 // 90 grid products spread across the 6 categories (≈15 each) so `[category]` filtering
 // returns a non-trivial, paginatable set. Shape mirrors the future API exactly:
 // prices are `number`, formatting happens at the display tier (generateFormattedPrice).
-export const MOCK_PRODUCTS: ProductResponse[] = Array.from({ length: 90 }, (_, index) => {
+export const MOCK_PRODUCTS: ProductResponse[] = Array.from({ length: 1200 }, (_, index) => {
   const category = CATEGORY_SLUGS[index % CATEGORY_SLUGS.length];
   return {
     id: String(index + 1),

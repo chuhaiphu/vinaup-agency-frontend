@@ -1,4 +1,3 @@
-'use client';
 
 import { Container, Grid, Title, Text, Button, Group, Box, GridCol } from '@mantine/core';
 import { DellLogoIcon, HpLogoIcon } from '@vinaup/ui/cores';
@@ -9,35 +8,40 @@ import classes from './hero-section.module.scss';
 const slides = [
   {
     id: '1',
-    imageUrl: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    imageUrl:
+      'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     title: 'Máy tính bộ văn phòng',
     subTitle: 'Hiệu năng ổn định, giá cả phải chăng cho doanh nghiệp',
     href: '#',
   },
   {
     id: '2',
-    imageUrl: 'https://images.unsplash.com/photo-1587620962725-abab7fe55159?q=80&w=1600&auto=format&fit=crop',
+    imageUrl:
+      'https://images.unsplash.com/photo-1587620962725-abab7fe55159?q=80&w=1600&auto=format&fit=crop',
     title: 'Laptop Gaming Cũ',
     subTitle: 'Chiến game siêu mượt, ngoại hình như mới',
     href: '#',
   },
   {
     id: '3',
-    imageUrl: 'https://images.unsplash.com/photo-1593640408182-31c70c8268f5?q=80&w=1142&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    imageUrl:
+      'https://images.unsplash.com/photo-1593640408182-31c70c8268f5?q=80&w=1142&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     title: 'Linh Kiện Chính Hãng',
     subTitle: 'Nâng cấp dễ dàng, bảo hành dài hạn',
     href: '#',
   },
   {
     id: '4',
-    imageUrl: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    imageUrl:
+      'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     title: 'Máy tính bộ văn phòng',
     subTitle: 'Hiệu năng ổn định, giá cả phải chăng cho doanh nghiệp',
     href: '#',
   },
   {
     id: '5',
-    imageUrl: 'https://images.unsplash.com/photo-1587620962725-abab7fe55159?q=80&w=1600&auto=format&fit=crop',
+    imageUrl:
+      'https://images.unsplash.com/photo-1587620962725-abab7fe55159?q=80&w=1600&auto=format&fit=crop',
     title: 'Laptop Gaming Cũ',
     subTitle: 'Chiến game siêu mượt, ngoại hình như mới',
     href: '#',
@@ -53,7 +57,11 @@ export function HeroSection() {
           <GridCol span={{ base: 12, md: 4 }} order={{ base: 2, md: 1 }}>
             <div className={classes.contentWrapper}>
               <div>
-                <Title className={classes.title}>Máy tính cũ<br />giá rẻ</Title>
+                <Title className={classes.title}>
+                  Máy tính cũ
+                  <br />
+                  giá rẻ
+                </Title>
                 <Text className={classes.description}>
                   Chuyên bán máy tính bàn, máy laptop đã qua sử dụng uy tín và còn rất mới
                 </Text>

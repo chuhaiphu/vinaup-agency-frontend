@@ -1,104 +1,104 @@
 .footer {
-    background-color: var(--vinaup-navy-dark);
-    color: white;
-    padding-top: 2rem;
+  background-color: var(--vinaup-navy-dark);
+  color: white;
+  padding-top: 2rem;
 
-    @media (max-width: 48rem) {
-        padding-top: 1rem;
-    }
+  @media (max-width: 48rem) {
+    padding-top: 1rem;
+  }
 }
 
 .tagsWrapper {
-    background-color: #5A707F;
-    border-radius: 12px;
-    padding: 1rem;
-    margin-bottom: 2rem;
+  background-color: #5a707f;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 2rem;
 
-    @media (max-width: 48rem) {
-        padding: 0.75rem;
-    }
+  @media (max-width: 48rem) {
+    padding: 0.75rem;
+  }
 }
 
 .tagGroup {
-    gap: 1rem;
-    justify-content: center;
+  gap: 1rem;
+  justify-content: center;
 }
 
 .tagButton {
-    background-color: var(--vinaup-navy-dark);
-    color: white;
-    border-radius: 8px;
-    font-weight: normal;
-    font-size: clamp(0.875rem, 2vw, 1rem);
-    padding: 0 1.125rem;
+  background-color: var(--vinaup-navy-dark);
+  color: white;
+  border-radius: 8px;
+  font-weight: normal;
+  font-size: clamp(0.875rem, 2vw, 1rem);
+  padding: 0 1.125rem;
 
-    @media (max-width: 48rem) {
-        padding: 0 0.75rem;
-    }
+  @media (max-width: 48rem) {
+    padding: 0 0.75rem;
+  }
 
-    &:hover {
-        background-color: var(--brand-primary);
-    }
+  &:hover {
+    background-color: var(--brand-primary);
+  }
 }
 
 .infoSection {
-    padding-bottom: 2rem;
+  padding-bottom: 2rem;
 
-    @media (max-width: 48rem) {
-        padding-bottom: 1rem;
-    }
+  @media (max-width: 48rem) {
+    padding-bottom: 1rem;
+  }
 }
 
 .logoWrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .subLinks {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
 
-    a {
-        font-size: 1.125rem;
-        color: white;
-        text-decoration: none;
-        transition: color 0.2s ease;
+  a {
+    font-size: 1.125rem;
+    color: white;
+    text-decoration: none;
+    transition: color 0.2s ease;
 
-        &:hover {
-            color: var(--vinaup-soft-crimson);
-        }
+    &:hover {
+      color: var(--vinaup-soft-crimson);
     }
+  }
 }
 
 .contactItem {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: clamp(1rem, 2vw, 1.125rem);
-    color: white;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  color: white;
 }
 
 .contactIcon {
-    margin-top: 0.2rem;
-    flex-shrink: 0;
+  margin-top: 0.2rem;
+  flex-shrink: 0;
 }
 
 .bottomBar {
-    background-color: #f5f5f5;
-    color: var(--vinaup-black);
-    height: 80px;
+  background-color: #f5f5f5;
+  color: var(--vinaup-black);
+  height: 80px;
 }
 
 .socialIcon {
-    color: var(--vinaup-soft-crimson);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s ease;
+  color: var(--vinaup-soft-crimson);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
 
-    &:hover {
-        transform: translateY(-2px);
-    }
+  &:hover {
+    transform: translateY(-2px);
+  }
 }

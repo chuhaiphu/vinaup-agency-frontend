@@ -3,9 +3,9 @@ import { VinaupHeartIcon, VinaupEyeIcon } from '@vinaup/ui/cores';
 import Image from 'next/image';
 
 import { TechNewsArticleResponse } from '@/interfaces/tech-news-interfaces';
+import { formatTwoDigits } from '@/utils/format-two-digits';
 
 import classes from './tin-cong-nghe-item.module.scss';
-
 
 export default function TinCongNgheItem({ item }: { item: TechNewsArticleResponse }) {
   return (
@@ -28,11 +28,18 @@ export default function TinCongNgheItem({ item }: { item: TechNewsArticleRespons
         <Group gap="1rem" mt="auto">
           <Group gap="0.5rem" align="center">
             <VinaupHeartIcon fill="var(--vinaup-soft-crimson, #C44C50)" />
-            <span className={classes.metaText}>{item.likes < 10 ? `0${item.likes}` : item.likes}</span>
+            <span className={classes.metaText}>
+              {formatTwoDigits(item.likes)}
+            </span>
           </Group>
           <Group gap="0.5rem" align="center">
-            <VinaupEyeIcon stroke="var(--vinaup-soft-crimson, #C44C50)" fill='var(--vinaup-soft-crimson, #C44C50)' />
-            <span className={classes.metaText}>{item.views < 10 ? `0${item.views}` : item.views}</span>
+            <VinaupEyeIcon
+              stroke="var(--vinaup-soft-crimson, #C44C50)"
+              fill="var(--vinaup-soft-crimson, #C44C50)"
+            />
+            <span className={classes.metaText}>
+              {formatTwoDigits(item.views)}
+            </span>
           </Group>
         </Group>
       </div>

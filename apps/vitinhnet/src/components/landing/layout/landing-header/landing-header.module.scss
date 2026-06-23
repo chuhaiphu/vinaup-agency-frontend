@@ -1,191 +1,202 @@
 .header {
-    background-color: var(--vinaup-soft-gray);
-    position: sticky;
-    top: 0;
-    z-index: 100;
+  background-color: var(--vinaup-soft-gray);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.vitinhnetScrolled {
+  background-color: var(--vinaup-soft-gray) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
 }
 
 .topSection {
-    transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .scrolled {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-    .searchBarWrapper {
-        @media (max-width: 48rem) {
-            max-height: 0;
-            opacity: 0;
-            transform: scaleY(0);
-            margin-top: -0.5rem;
-            pointer-events: none;
-        }
+  .searchBarWrapper {
+    @media (max-width: 48rem) {
+      display: none !important;
     }
+  }
 
-    .topContainer {
-        gap: 0;
-        padding: 0.75rem 0;
+  .topContainer {
+    gap: 0;
+    padding: 0.75rem 0;
 
-        @media (max-width: 30.3125rem) {
-            padding: 0;
-        }
+    @media (max-width: 30.3125rem) {
+      padding: 0;
     }
+  }
 }
 
 .topContainer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    min-height: 5rem;
-    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 5rem;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
-    @media (max-width: 48rem) {
-        flex-wrap: wrap;
-        padding: 0.5rem 0;
-        gap: 0.5rem;
-        min-height: auto;
-    }
+  @media (max-width: 48rem) {
+    flex-wrap: wrap;
+    padding: 0.5rem 0;
+    gap: 0.5rem;
+  }
 }
 
 .logoSection {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
 
-    @media (max-width: 26.5625rem) {
-        order: 1;
-    }
+  @media (max-width: 26.5625rem) {
+    order: 1;
+  }
 }
 
 .logoDesktop {
-    display: block;
+  display: block;
 
-    @media (max-width: 32.8125rem) {
-        width: 11.25rem;
-        height: 2.5rem;
-    }
+  @media (max-width: 35rem) {
+    width: 11.25rem;
+    height: 2.5rem;
+  }
 
-    @media (max-width: 30.3125rem) {
-        display: none !important;
-    }
+  @media (max-width: 33rem) {
+    display: none !important;
+  }
 }
 
 .logoMobile {
-    display: none;
+  display: none;
 
-    @media (max-width: 30.3125rem) {
-        display: block !important;
-    }
+  @media (max-width: 33rem) {
+    display: block !important;
+  }
 }
 
 .iconGroup {
-    flex-shrink: 0;
+  flex-shrink: 0;
 
-    @media (max-width: 26.5625rem) {
-        order: 2;
-        gap: 0.5rem;
-    }
+  @media (max-width: 26.5625rem) {
+    order: 2;
+    gap: 0.5rem;
+  }
 }
 
 .actionIcon {
-    @media (max-width: 26.5625rem) {
-        transform: scale(0.85);
-    }
+  @media (max-width: 26.5625rem) {
+    transform: scale(0.85);
+  }
 }
 
 .searchBarWrapper {
-    flex: 1;
-    max-width: 37.5rem;
-    margin: 0 1.5rem;
+  flex: 1;
+  max-width: 37.5rem;
+  margin: 0 1.5rem;
 
-    @media (max-width: 48rem) {
-        order: 3;
-        flex: 1 1 100%;
-        max-width: 100%;
-        margin: 0;
-        opacity: 1;
-        transform: scaleY(1);
-        transform-origin: top;
-        max-height: 3.5rem;
-        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  @media (max-width: 48rem) {
+    display: none !important;
+  }
+
+  .searchInput {
+    background-color: #ffffff;
+    border: 2px solid var(--vinaup-blue-link);
+    color: var(--vinaup-navy-dark);
+    height: 2.5rem;
+    padding-left: 1.25rem;
+    padding-right: 3.125rem;
+    transition: border-color 0.2s ease;
+    outline: none;
+
+    &::placeholder {
+      color: var(--vinaup-navy-dark);
+      opacity: 0.7;
     }
+  }
 
-    .searchInput {
-        background-color: #FFFFFF;
-        border: 2px solid var(--vinaup-blue-link);
-        color: var(--vinaup-navy-dark);
-        height: 2.5rem;
-        padding-left: 1.25rem;
-        padding-right: 3.125rem;
-        transition: border-color 0.2s ease;
-        outline: none;
+  .searchSection {
+    justify-content: flex-end;
+    right: -1.5px;
+  }
 
-        &::placeholder {
-            color: var(--vinaup-navy-dark);
-            opacity: 0.7;
-        }
+  .searchButton {
+    background-color: var(--vinaup-blue-link);
+    color: #ffffff;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    margin: 0;
+
+    &:hover {
+      background-color: var(--vinaup-blue-dark);
     }
+  }
+}
 
-    .searchSection {
-        justify-content: flex-end;
-        right: -1.5px;
-    }
+.mobileSearchIcon {
+  display: none;
 
-    .searchButton {
-        background-color: var(--vinaup-blue-link);
-        color: #ffffff;
-        width: 2.5rem;
-        height: 2.5rem;
-        border-radius: 50%;
-        margin: 0;
+  @media (max-width: 48rem) {
+    display: flex;
+  }
+}
 
-        &:hover {
-            background-color: var(--vinaup-blue-dark);
-        }
-    }
+.modalSearchButton {
+  background-color: var(--vinaup-blue-link);
+  color: #ffffff;
+  width: 2rem;
+  height: 2rem;
+
+  &:hover {
+    background-color: var(--vinaup-blue-dark);
+  }
 }
 
 .navSection {
-    background-color: var(--vinaup-soft-gray);
-    transition: all 0.3s ease;
-    transform-origin: top;
-    overflow: hidden;
-    position: relative;
-    z-index: 10;
+  background-color: var(--vinaup-soft-gray);
+  transition: all 0.3s ease;
+  transform-origin: top;
+  overflow: hidden;
+  position: relative;
+  z-index: 10;
 
-    @media (max-width: 48rem) {
-        display: none !important;
-    }
+  @media (max-width: 48rem) {
+    display: none !important;
+  }
 }
 
 .navLinks {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    padding-bottom: 0.5rem;
-    overflow-x: auto;
-    white-space: nowrap;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding-bottom: 0.5rem;
+  overflow-x: auto;
+  white-space: nowrap;
 
-    &::-webkit-scrollbar {
-        display: none;
-    }
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
-    scrollbar-width: none;
+  scrollbar-width: none;
 
-    @media (max-width: 56.25rem) {
-        gap: 1.5rem;
-    }
+  @media (max-width: 56.25rem) {
+    gap: 1.5rem;
+  }
 }
 
 .navLink {
-    font-weight: 400;
-    font-size: clamp(0.8rem, 1.25vw, 1.125rem);
-    color: var(--vinaup-blue-link);
-    text-decoration: none;
-    transition: color 0.2s ease;
+  font-weight: 400;
+  font-size: clamp(0.8rem, 1.25vw, 1.125rem);
+  color: var(--vinaup-blue-link);
+  text-decoration: none;
+  transition: color 0.2s ease;
 
-    &:hover {
-        color: var(--vinaup-soft-crimson);
-    }
+  &:hover {
+    color: var(--vinaup-soft-crimson);
+  }
 }
