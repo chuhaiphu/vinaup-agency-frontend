@@ -118,7 +118,7 @@
 
 .categoryPill {
   border-radius: 0.5rem;
-  border-color: var(--vinaup-light-gray, #E9ECEF);
+  border-color: var(--vinaup-light-gray, #e9ecef);
   color: #333;
   background-color: white;
   flex-shrink: 0;
@@ -126,7 +126,7 @@
   transition: all 0.2s ease;
 
   &[data-active='true'] {
-    border-color: var(--vinaup-light-gray, #E9ECEF);
+    border-color: var(--vinaup-light-gray, #e9ecef);
     color: var(--vinaup-soft-crimson);
   }
 

@@ -1,4 +1,3 @@
-
 import { Container, Grid, Title, Text, Button, Group, Box, GridCol } from '@mantine/core';
 import { DellLogoIcon, HpLogoIcon } from '@vinaup/ui/cores';
 import { HeroCarousel } from '@vinaup/ui/landing';

@@ -28,18 +28,14 @@ export default function TinCongNgheItem({ item }: { item: TechNewsArticleRespons
         <Group gap="1rem" mt="auto">
           <Group gap="0.5rem" align="center">
             <VinaupHeartIcon fill="var(--vinaup-soft-crimson, #C44C50)" />
-            <span className={classes.metaText}>
-              {formatTwoDigits(item.likes)}
-            </span>
+            <span className={classes.metaText}>{formatTwoDigits(item.likes)}</span>
           </Group>
           <Group gap="0.5rem" align="center">
             <VinaupEyeIcon
               stroke="var(--vinaup-soft-crimson, #C44C50)"
               fill="var(--vinaup-soft-crimson, #C44C50)"
             />
-            <span className={classes.metaText}>
-              {formatTwoDigits(item.views)}
-            </span>
+            <span className={classes.metaText}>{formatTwoDigits(item.views)}</span>
           </Group>
         </Group>
       </div>

@@ -22,7 +22,6 @@ export function ServerPagination({ totalPages, currentPage }: ServerPaginationPr
     router.push(`${pathname}?${params.toString()}` as Route, { scroll: true });
   };
 
-
   return (
     <Pagination
       total={totalPages}

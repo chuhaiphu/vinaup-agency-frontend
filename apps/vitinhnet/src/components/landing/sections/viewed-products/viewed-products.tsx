@@ -1,4 +1,3 @@
-
 import { Container, Title, Box } from '@mantine/core';
 import { GridCarousel } from '@vinaup/ui/landing';
 

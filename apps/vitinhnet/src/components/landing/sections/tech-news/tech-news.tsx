@@ -1,4 +1,3 @@
-
 import { Container, Title, Group, Button, Box } from '@mantine/core';
 import { VinaupGlobalIcon } from '@vinaup/ui/cores';
 import { Route } from 'next';
@@ -19,11 +18,7 @@ export function TechNews({ articles }: { articles: TechNewsArticleResponse[] }) 
 
           <Group gap={'0.5rem'}>
             <Link href={'/tin-cong-nghe' as Route} style={{ textDecoration: 'none' }}>
-              <Button
-                variant="default"
-                size="sm"
-                className={classes.categoryPill}
-              >
+              <Button variant="default" size="sm" className={classes.categoryPill}>
                 Tất cả
               </Button>
             </Link>

@@ -19,7 +19,6 @@ export default function TinCongNgheGrid({
   totalPages: number;
   currentPage: number;
 }) {
-
   if (!blogs || blogs.length === 0) {
     return (
       <Text c="dimmed" fz="xl" ta="center" mt="xl">
@@ -27,8 +26,6 @@ export default function TinCongNgheGrid({
       </Text>
     );
   }
-
-
 
   return (
     <div>

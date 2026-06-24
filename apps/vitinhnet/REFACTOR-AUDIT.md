@@ -10,7 +10,7 @@
 
 | Convention | Trạng thái | Ghi chú |
 | --- | :---: | --- |
-| §4 Prettier | ❌ | 36 file sai format (indent 4-space) |
+| §4 Prettier | ✅ | Đã chạy xong prettier |
 | §3.2 Import order | ⚠️ | 6 warning còn lại (side-effect CSS import + 1 unused var) |
 | §2 Folder by layer | ❌ | `stores/` sai chỗ; `components/cart/` lệch scope |
 | §8 Zustand (vị trí + selector) | ❌ | sai folder + không selector + seed mock trong store |

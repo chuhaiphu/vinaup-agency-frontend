@@ -1,15 +1,6 @@
 'use client';
 
-import {
-  Container,
-  Avatar,
-  Button,
-  Text,
-  Modal,
-  Box,
-  LoadingOverlay,
-  Grid,
-} from '@mantine/core';
+import { Container, Avatar, Button, Text, Modal, Box, LoadingOverlay, Grid } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { IconUser, IconReceipt, IconLogout, IconShieldCheck } from '@tabler/icons-react';

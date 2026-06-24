@@ -56,7 +56,9 @@ async function CategoryBlogList({
   const start = (currentPage - 1) * ITEMS_PER_PAGE;
   const categoryBlogs = allCategoryBlogs.slice(start, start + ITEMS_PER_PAGE);
 
-  return <TinCongNgheGrid blogs={categoryBlogs} totalPages={totalPages} currentPage={currentPage} />;
+  return (
+    <TinCongNgheGrid blogs={categoryBlogs} totalPages={totalPages} currentPage={currentPage} />
+  );
 }
 
 export default async function TinCongNgheEndpointPage(props: {
@@ -85,7 +87,10 @@ export default async function TinCongNgheEndpointPage(props: {
 
         <Container size="xl" pb="4rem">
           <Suspense fallback={<Box p="xl">Đang tải...</Box>}>
-            <CategoryBlogList endpoint={category.endpoint} searchParamsPromise={props.searchParams} />
+            <CategoryBlogList
+              endpoint={category.endpoint}
+              searchParamsPromise={props.searchParams}
+            />
           </Suspense>
         </Container>
       </div>

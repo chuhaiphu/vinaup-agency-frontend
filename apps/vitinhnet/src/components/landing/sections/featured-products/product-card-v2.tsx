@@ -1,4 +1,3 @@
-
 import { Image, Text, AspectRatio } from '@mantine/core';
 import { VinaupHeartIcon } from '@vinaup/ui/cores';
 import { generateFormattedPrice } from '@vinaup/utils';

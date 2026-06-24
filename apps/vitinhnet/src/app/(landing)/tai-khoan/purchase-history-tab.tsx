@@ -58,13 +58,35 @@ const getStatusBadge = (status: OrderHistory['status']) => {
   const badgeStyle = { textTransform: 'none' as const, fontWeight: 500, fontSize: '14px' };
   switch (status) {
     case 'pending':
-      return <Badge color="yellow" variant="light" size="lg" style={badgeStyle}>Chờ xử lý</Badge>;
+      return (
+        <Badge color="yellow" variant="light" size="lg" style={badgeStyle}>
+          Chờ xử lý
+        </Badge>
+      );
     case 'shipping':
-      return <Badge color="blue" variant="light" size="lg" style={badgeStyle}>Đang giao hàng</Badge>;
+      return (
+        <Badge color="blue" variant="light" size="lg" style={badgeStyle}>
+          Đang giao hàng
+        </Badge>
+      );
     case 'completed':
-      return <Badge color="teal" variant="light" size="lg" className={classes.badgeSuccess} style={badgeStyle}>Đã giao hàng</Badge>;
+      return (
+        <Badge
+          color="teal"
+          variant="light"
+          size="lg"
+          className={classes.badgeSuccess}
+          style={badgeStyle}
+        >
+          Đã giao hàng
+        </Badge>
+      );
     case 'cancelled':
-      return <Badge color="red" variant="light" size="lg" style={badgeStyle}>Đã hủy</Badge>;
+      return (
+        <Badge color="red" variant="light" size="lg" style={badgeStyle}>
+          Đã hủy
+        </Badge>
+      );
     default:
       return null;
   }
@@ -77,7 +99,11 @@ export function PurchaseHistoryTab() {
 
       {/* Date Filter */}
       <Group mb="md" gap="md">
-        <Button variant="subtle" leftSection={<IconCalendar size={18} />} className={classes.dateFilterBtn}>
+        <Button
+          variant="subtle"
+          leftSection={<IconCalendar size={18} />}
+          className={classes.dateFilterBtn}
+        >
           22/06/2026
         </Button>
       </Group>
@@ -107,7 +133,9 @@ export function PurchaseHistoryTab() {
                       {order.items.map((item, iIdx) => (
                         <Table.Tr key={iIdx}>
                           <Table.Td>
-                            <Text fw={600} size="md">{item.name}</Text>
+                            <Text fw={600} size="md">
+                              {item.name}
+                            </Text>
                           </Table.Td>
                           <Table.Td ta="right">
                             <Text size="md">{item.price.toLocaleString('vi-VN')}đ</Text>
@@ -116,7 +144,9 @@ export function PurchaseHistoryTab() {
                             <Text size="md">{item.quantity}</Text>
                           </Table.Td>
                           <Table.Td ta="right">
-                            <Text size="md" fw={500}>{item.total.toLocaleString('vi-VN')} đ</Text>
+                            <Text size="md" fw={500}>
+                              {item.total.toLocaleString('vi-VN')} đ
+                            </Text>
                           </Table.Td>
                         </Table.Tr>
                       ))}
@@ -151,7 +181,9 @@ export function PurchaseHistoryTab() {
                     </Group>
                     <Group justify="space-between" wrap="nowrap">
                       <Text fw={600}>Tổng thanh toán</Text>
-                      <Text ta="right" className={classes.totalPriceText}>{order.total.toLocaleString('vi-VN')} đ</Text>
+                      <Text ta="right" className={classes.totalPriceText}>
+                        {order.total.toLocaleString('vi-VN')} đ
+                      </Text>
                     </Group>
                   </Box>
                 </Box>
@@ -160,15 +192,28 @@ export function PurchaseHistoryTab() {
               {/* MOBILE VIEW */}
               <Box hiddenFrom="sm">
                 <Box p="md" pb="xs">
-                  <Text fw={700} size="xl">Đơn hàng {order.orderId}</Text>
+                  <Text fw={700} size="xl">
+                    Đơn hàng {order.orderId}
+                  </Text>
                 </Box>
 
                 <Box px="md">
                   {order.items.map((item, iIdx) => (
-                    <Group key={iIdx} justify="space-between" align="flex-start" py="sm" style={{ borderBottom: '1px solid #e0e0e0' }} wrap="nowrap">
-                      <Text fw={600} size="md" style={{ flex: 1 }}>{item.name}</Text>
+                    <Group
+                      key={iIdx}
+                      justify="space-between"
+                      align="flex-start"
+                      py="sm"
+                      style={{ borderBottom: '1px solid #e0e0e0' }}
+                      wrap="nowrap"
+                    >
+                      <Text fw={600} size="md" style={{ flex: 1 }}>
+                        {item.name}
+                      </Text>
                       <Box ta="right" style={{ minWidth: 110 }}>
-                        <Text size="md" c="dimmed">SL: {item.quantity}</Text>
+                        <Text size="md" c="dimmed">
+                          SL: {item.quantity}
+                        </Text>
                         <Text size="md">{item.price.toLocaleString('vi-VN')}đ</Text>
                       </Box>
                     </Group>
@@ -182,21 +227,29 @@ export function PurchaseHistoryTab() {
                   </Group>
                   <Group justify="space-between" mb="xs">
                     <Text size="md">Ngày mua:</Text>
-                    <Text size="md" fw={500}>{order.date}</Text>
+                    <Text size="md" fw={500}>
+                      {order.date}
+                    </Text>
                   </Group>
                   <Group justify="space-between" mb="xs">
                     <Text size="md">Tổng cộng:</Text>
-                    <Text size="md" fw={500}>{order.subtotal.toLocaleString('vi-VN')}đ</Text>
+                    <Text size="md" fw={500}>
+                      {order.subtotal.toLocaleString('vi-VN')}đ
+                    </Text>
                   </Group>
                   <Group justify="space-between">
                     <Text size="md">Giảm giá:</Text>
-                    <Text size="md" fw={500}>{order.discount.toLocaleString('vi-VN')}đ</Text>
+                    <Text size="md" fw={500}>
+                      {order.discount.toLocaleString('vi-VN')}đ
+                    </Text>
                   </Group>
                 </Box>
 
                 <Box p="md" bg="#f8f9fa">
                   <Group justify="space-between" wrap="nowrap">
-                    <Text fw={700} size="xl">Tổng thanh toán:</Text>
+                    <Text fw={700} size="xl">
+                      Tổng thanh toán:
+                    </Text>
                     <Text fw={700} size="xl" className={classes.totalPriceText}>
                       {order.total.toLocaleString('vi-VN')}đ
                     </Text>

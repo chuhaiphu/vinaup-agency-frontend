@@ -19,7 +19,7 @@ async function TechNewsList({
 }) {
   const result = await getAllTechNewsActionPublic();
   const allArticles = result.data ?? [];
-  
+
   const searchParams = await searchParamsPromise;
   let currentPage = 1;
   if (typeof searchParams.page === 'string') {
