@@ -61,19 +61,25 @@ export function WarrantyTab() {
               <Table.Tbody>
                 {MOCK_WARRANTY_ITEMS.map((item, idx) => (
                   <Table.Tr key={idx}>
-                    <Table.Td data-label="Mã đơn hàng" fw={500}>{item.orderId}</Table.Td>
-                    <Table.Td data-label="Tên hàng">
-                      <Text fw={600} size="sm">{item.name}</Text>
+                    <Table.Td data-label="Mã đơn hàng">
+                      <Text fw={500} size="md">{item.orderId}</Text>
                     </Table.Td>
-                    <Table.Td data-label="Ngày mua">{item.purchaseDate}</Table.Td>
-                    <Table.Td data-label="Hạn bảo hành">{item.expiryDate}</Table.Td>
+                    <Table.Td data-label="Tên hàng">
+                      <Text fw={600} size="md">{item.name}</Text>
+                    </Table.Td>
+                    <Table.Td data-label="Ngày mua">
+                      <Text size="md">{item.purchaseDate}</Text>
+                    </Table.Td>
+                    <Table.Td data-label="Hạn bảo hành">
+                      <Text size="md">{item.expiryDate}</Text>
+                    </Table.Td>
                     <Table.Td data-label="Tình trạng" ta="center">
                       {item.status === 'active' ? (
-                        <Badge className={classes.badgeSuccess} variant="light" size="lg" style={{ textTransform: 'none', fontWeight: 400, fontSize: '14px' }}>
+                        <Badge className={classes.badgeSuccess} variant="light" size="lg" style={{ textTransform: 'none', fontWeight: 600, fontSize: '14px' }}>
                           Còn bảo hành
                         </Badge>
                       ) : (
-                        <Badge className={classes.badgeExpired} variant="filled" size="lg" style={{ textTransform: 'none', fontWeight: 400, fontSize: '14px' }}>
+                        <Badge className={classes.badgeExpired} variant="light" size="lg" style={{ textTransform: 'none', fontWeight: 600, fontSize: '14px' }}>
                           Hết bảo hành
                         </Badge>
                       )}

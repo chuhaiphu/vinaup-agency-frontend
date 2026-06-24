@@ -91,59 +91,115 @@ export function PurchaseHistoryTab() {
         <Box className={classes.ordersList}>
           {MOCK_ORDERS.map((order, idx) => (
             <Box key={idx} className={classes.orderCard}>
-              <Box className={classes.tableWrapper}>
-                <Table className={classes.orderTable} horizontalSpacing="md" verticalSpacing="sm">
-                  <Table.Thead className={classes.tableHead}>
-                    <Table.Tr>
-                      <Table.Th>Tên hàng</Table.Th>
-                      <Table.Th ta="right">Đơn giá</Table.Th>
-                      <Table.Th ta="center">Số lượng</Table.Th>
-                      <Table.Th ta="right">Thành tiền</Table.Th>
-                    </Table.Tr>
-                  </Table.Thead>
-                  <Table.Tbody>
-                    {order.items.map((item, iIdx) => (
-                      <Table.Tr key={iIdx}>
-                        <Table.Td data-label="Tên hàng">
-                          <Text fw={600} size="sm">{item.name}</Text>
-                        </Table.Td>
-                        <Table.Td data-label="Đơn giá" ta="right">{item.price.toLocaleString('vi-VN')}đ</Table.Td>
-                        <Table.Td data-label="Số lượng" ta="center">{item.quantity}</Table.Td>
-                        <Table.Td data-label="Thành tiền" ta="right">{item.total.toLocaleString('vi-VN')} đ</Table.Td>
+              {/* DESKTOP VIEW */}
+              <Box visibleFrom="sm">
+                <Box className={classes.tableWrapper}>
+                  <Table className={classes.orderTable} horizontalSpacing="md" verticalSpacing="sm">
+                    <Table.Thead className={classes.tableHead}>
+                      <Table.Tr>
+                        <Table.Th>Tên hàng</Table.Th>
+                        <Table.Th ta="right">Đơn giá</Table.Th>
+                        <Table.Th ta="center">Số lượng</Table.Th>
+                        <Table.Th ta="right">Thành tiền</Table.Th>
                       </Table.Tr>
-                    ))}
-                  </Table.Tbody>
-                </Table>
+                    </Table.Thead>
+                    <Table.Tbody>
+                      {order.items.map((item, iIdx) => (
+                        <Table.Tr key={iIdx}>
+                          <Table.Td>
+                            <Text fw={600} size="md">{item.name}</Text>
+                          </Table.Td>
+                          <Table.Td ta="right">
+                            <Text size="md">{item.price.toLocaleString('vi-VN')}đ</Text>
+                          </Table.Td>
+                          <Table.Td ta="center">
+                            <Text size="md">{item.quantity}</Text>
+                          </Table.Td>
+                          <Table.Td ta="right">
+                            <Text size="md" fw={500}>{item.total.toLocaleString('vi-VN')} đ</Text>
+                          </Table.Td>
+                        </Table.Tr>
+                      ))}
+                    </Table.Tbody>
+                  </Table>
+                </Box>
+
+                <Box className={classes.orderFooter}>
+                  <Box className={classes.footerLeftInfo}>
+                    <Group justify="space-between" mb="xs" wrap="nowrap">
+                      <Text>Ngày mua:</Text>
+                      <Text ta="right">{order.date}</Text>
+                    </Group>
+                    <Group justify="space-between" mb="sm" wrap="nowrap">
+                      <Text>Mã đơn hàng:</Text>
+                      <Text ta="right">{order.orderId}</Text>
+                    </Group>
+                    <Group justify="space-between" wrap="nowrap">
+                      <Text>Tình trạng: </Text>
+                      <Box>{getStatusBadge(order.status)}</Box>
+                    </Group>
+                  </Box>
+
+                  <Box className={classes.footerRightSummary}>
+                    <Group justify="space-between" mb="xs" wrap="nowrap">
+                      <Text fw={500}>Tổng cộng</Text>
+                      <Text ta="right">{order.subtotal.toLocaleString('vi-VN')} đ</Text>
+                    </Group>
+                    <Group justify="space-between" mb="xs" wrap="nowrap">
+                      <Text fw={500}>Giảm giá</Text>
+                      <Text ta="right">{order.discount.toLocaleString('vi-VN')} đ</Text>
+                    </Group>
+                    <Group justify="space-between" wrap="nowrap">
+                      <Text fw={600}>Tổng thanh toán</Text>
+                      <Text ta="right" className={classes.totalPriceText}>{order.total.toLocaleString('vi-VN')} đ</Text>
+                    </Group>
+                  </Box>
+                </Box>
               </Box>
 
-              <Box className={classes.orderFooter}>
-                <Box className={classes.footerLeftInfo}>
-                  <Group justify="space-between" mb="xs" wrap="nowrap">
-                    <Text>Ngày mua:</Text>
-                    <Text ta="right">{order.date}</Text>
+              {/* MOBILE VIEW */}
+              <Box hiddenFrom="sm">
+                <Box p="md" pb="xs">
+                  <Text fw={700} size="xl">Đơn hàng {order.orderId}</Text>
+                </Box>
+
+                <Box px="md">
+                  {order.items.map((item, iIdx) => (
+                    <Group key={iIdx} justify="space-between" align="flex-start" py="sm" style={{ borderBottom: '1px solid #e0e0e0' }} wrap="nowrap">
+                      <Text fw={600} size="md" style={{ flex: 1 }}>{item.name}</Text>
+                      <Box ta="right" style={{ minWidth: 110 }}>
+                        <Text size="md" c="dimmed">SL: {item.quantity}</Text>
+                        <Text size="md">{item.price.toLocaleString('vi-VN')}đ</Text>
+                      </Box>
+                    </Group>
+                  ))}
+                </Box>
+
+                <Box px="md" py="md">
+                  <Group justify="space-between" mb="sm">
+                    <Text size="md">Tình trạng:</Text>
+                    {getStatusBadge(order.status)}
                   </Group>
-                  <Group justify="space-between" mb="sm" wrap="nowrap">
-                    <Text>Mã đơn hàng:</Text>
-                    <Text ta="right">{order.orderId}</Text>
+                  <Group justify="space-between" mb="xs">
+                    <Text size="md">Ngày mua:</Text>
+                    <Text size="md" fw={500}>{order.date}</Text>
                   </Group>
-                  <Group justify="space-between" wrap="nowrap">
-                    <Text>Tình trạng: </Text>
-                    <Box>{getStatusBadge(order.status)}</Box>
+                  <Group justify="space-between" mb="xs">
+                    <Text size="md">Tổng cộng:</Text>
+                    <Text size="md" fw={500}>{order.subtotal.toLocaleString('vi-VN')}đ</Text>
+                  </Group>
+                  <Group justify="space-between">
+                    <Text size="md">Giảm giá:</Text>
+                    <Text size="md" fw={500}>{order.discount.toLocaleString('vi-VN')}đ</Text>
                   </Group>
                 </Box>
 
-                <Box className={classes.footerRightSummary}>
-                  <Group justify="space-between" mb="xs" wrap="nowrap">
-                    <Text fw={500}>Tổng cộng</Text>
-                    <Text ta="right">{order.subtotal.toLocaleString('vi-VN')} đ</Text>
-                  </Group>
-                  <Group justify="space-between" mb="xs" wrap="nowrap">
-                    <Text fw={500}>Giảm giá</Text>
-                    <Text ta="right">{order.discount.toLocaleString('vi-VN')} đ</Text>
-                  </Group>
+                <Box p="md" bg="#f8f9fa">
                   <Group justify="space-between" wrap="nowrap">
-                    <Text fw={600}>Tổng thanh toán</Text>
-                    <Text ta="right" className={classes.totalPriceText}>{order.total.toLocaleString('vi-VN')} đ</Text>
+                    <Text fw={700} size="xl">Tổng thanh toán:</Text>
+                    <Text fw={700} size="xl" className={classes.totalPriceText}>
+                      {order.total.toLocaleString('vi-VN')}đ
+                    </Text>
                   </Group>
                 </Box>
               </Box>
