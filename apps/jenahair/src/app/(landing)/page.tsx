@@ -23,7 +23,7 @@ export default function Home() {
 
         <SalonServicesBanner
           imageSrc="/images/IntroImage.png"
-          imageAlt="Jena Hair Certificate"
+          imageAlt="Jenahair Certificate"
           services={MOCK_SALON_SERVICES}
         />
 

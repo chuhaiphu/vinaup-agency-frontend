@@ -38,7 +38,7 @@ export function StickyHeaderContent({
           <Link
             href="/"
             className={classes.logoSection}
-            aria-label="Jena Hair - Trang chủ"
+            aria-label="Jenahair - Trang chủ"
             title="Về trang chủ"
           >
             {logo}
