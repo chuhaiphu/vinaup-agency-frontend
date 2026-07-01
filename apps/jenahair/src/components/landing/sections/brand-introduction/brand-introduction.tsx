@@ -10,7 +10,7 @@ export function BrandIntroduction() {
         </h1>
         <p className={classes.description}>
           Jenahair là salon tóc nữ xuất thân từ nhà tạo mẫu tóc được cấp bằng chứng nhận bởi thầy
-          Iwata nhà tạo mẫu tóc Nhật Bản & với tình yêu đam mê tóc & sắc đẹp, Jena Hair sẽ làm bạn
+          Iwata nhà tạo mẫu tóc Nhật Bản & với tình yêu đam mê tóc & sắc đẹp, Jenahair sẽ làm bạn
           lộng lẫy là sứ mệnh từng thành viên của salon
         </p>
       </div>

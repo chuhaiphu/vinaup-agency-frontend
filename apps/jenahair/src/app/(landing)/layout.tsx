@@ -15,8 +15,8 @@ export async function generateMetadata(): Promise<Metadata> {
   const configResponse = await getAppConfigActionPublic();
   const config = configResponse.data;
 
-  const siteName = config?.siteName || 'Jena Hair';
-  const websiteTitle = config?.websiteTitle || 'Jena Hair';
+  const siteName = config?.siteName || 'Jenahair';
+  const websiteTitle = config?.websiteTitle || 'Jenahair';
   const description = config?.websiteDescription || 'Salon tóc cao cấp tại Việt Nam.';
 
   return {
@@ -48,12 +48,13 @@ export default async function LandingLayout({ children }: { children: React.Reac
   // JSON-LD `name` and og:site_name always agree (getAppConfigActionPublic is cached, so
   // this does not cause a second network round-trip).
   const configResponse = await getAppConfigActionPublic();
-  const siteName = configResponse.data?.siteName || 'Jena Hair';
+  const siteName = configResponse.data?.siteName || 'Jenahair';
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: siteName,
+    alternateName: 'Jena Hair',
     url: 'https://jenahair.com/',
   };
 
