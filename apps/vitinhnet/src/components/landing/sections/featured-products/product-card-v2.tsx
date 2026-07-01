@@ -1,5 +1,5 @@
 import { Image, Text, AspectRatio } from '@mantine/core';
-import { VinaupHeartIcon } from '@vinaup/ui/cores';
+import { VinaupCartPlusIcon } from '@vinaup/ui/cores';
 import { generateFormattedPrice } from '@vinaup/utils';
 import { Route } from 'next';
 import Link from 'next/link';
@@ -39,8 +39,8 @@ export function ProductCardV2({ product }: { product: ProductResponse }) {
         <div className={classes.metaContainer}>
           <div className={classes.priceRow}>
             <Text className={classes.newPrice}>{generateFormattedPrice(product.price)}đ</Text>
-            <span className={classes.favorited}>
-              <VinaupHeartIcon fill="var(--vinaup-soft-crimson)" size={18} />
+            <span className={classes.addToCartIcon}>
+              <VinaupCartPlusIcon fill="var(--vinaup-soft-crimson)" size={24} />
             </span>
           </div>
 

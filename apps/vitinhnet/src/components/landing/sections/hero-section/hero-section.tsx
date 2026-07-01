@@ -1,4 +1,4 @@
-import { Container, Grid, Title, Text, Button, Group, Box, GridCol } from '@mantine/core';
+import { Container, Grid, Title, Text, Button, Group, Box, GridCol, List, ListItem } from '@mantine/core';
 import { DellLogoIcon, HpLogoIcon } from '@vinaup/ui/cores';
 import { HeroCarousel } from '@vinaup/ui/landing';
 
@@ -61,9 +61,14 @@ export function HeroSection() {
                   <br />
                   giá rẻ
                 </Title>
-                <Text className={classes.description}>
-                  Chuyên bán máy tính bàn, máy laptop đã qua sử dụng uy tín và còn rất mới
+                <Text className={classes.description} mt="md">
+                  Bán buôn bán lẻ máy vi tính đã qua sử dụng hoặc cho thuê:
                 </Text>
+                <List withPadding className={classes.description} spacing="md" mt="xs">
+                  <ListItem>Máy tính để bàn - Laptop - Màn hình vi tính - Máy ráp linh kiện</ListItem>
+                  <ListItem>Linh kiện máy tính mới 100%</ListItem>
+                  <ListItem>Sửa chữa máy bàn - laptop</ListItem>
+                </List>
               </div>
 
               <div>
