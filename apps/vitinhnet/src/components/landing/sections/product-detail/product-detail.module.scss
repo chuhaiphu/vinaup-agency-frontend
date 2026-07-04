@@ -114,7 +114,7 @@
 }
 
 .consultBtn {
-  background-color: #1a56bc;
+  background-color: var(--vinaup-blue-link);
 
   &:hover {
     background-color: #15459e;
@@ -130,13 +130,12 @@
 }
 
 .bottomActions {
-  border-top: 1px solid #eee;
   padding-top: 0.75rem;
 }
 
 .actionItem {
   cursor: pointer;
-  color: #2161b2;
+  color: var(--vinaup-blue-link);
   transition: opacity 0.2s;
 
   &:hover {

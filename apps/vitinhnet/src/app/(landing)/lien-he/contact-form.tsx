@@ -1,10 +1,10 @@
 'use client';
 
-import { Paper, Text, TextInput, Textarea, Title, Flex, Box, Button } from '@mantine/core';
+import { Paper, Text, TextInput, Textarea, Flex, Box, Button } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { IconMessageDots } from '@tabler/icons-react';
-import { VinaupUserIcon, VinaupPhoneIcon, VinaupEmailIcon } from '@vinaup/ui/cores';
+import { VinaupUserIcon, VinaupPhoneIcon, VinaupEmailIcon, VinaupSendIcon } from '@vinaup/ui/cores';
 import { useState } from 'react';
 
 import { createCustomerContactActionPublic } from '@/actions/customer-contact-actions';
@@ -46,14 +46,9 @@ export function ContactForm() {
 
   return (
     <Paper radius="md" withBorder p={0} className={classes.formSection}>
-      <Flex align="center" className={classes.formSectionHeader}>
-        <Title order={4} className={classes.sectionTitle}>
-          Nhập thông tin
-        </Title>
-      </Flex>
 
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <Flex direction="column" p={{ base: 8, md: 'md' }} gap="xl">
+        <Flex direction="column" p={{ base: 8, md: 'md' }} gap="md">
           <Flex gap="md" align="center">
             <Box>
               <VinaupUserIcon size={24} fill="var(--vinaup-black)" />
@@ -120,13 +115,15 @@ export function ContactForm() {
             <Button
               type="submit"
               loading={isSubmitting}
-              color="var(--vinaup-soft-crimson)"
+              variant="transparent"
+              color="var(--vinaup-blue-link)"
+              rightSection={<VinaupSendIcon size={24} fill="var(--vinaup-blue-link)" />}
               size="md"
-              radius="md"
-              px="xl"
               className={classes.submitButton}
+              fz="lg"
+              fw={600}
             >
-              Gửi liên hệ
+              Gửi
             </Button>
           </Flex>
         </Flex>
