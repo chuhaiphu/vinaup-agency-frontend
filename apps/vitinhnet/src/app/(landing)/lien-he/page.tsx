@@ -16,7 +16,7 @@ import classes from './page.module.scss';
 
 export default function ContactPage() {
   return (
-    <Container size="xl" py={{ base: 'md', md: 'xl' }}>
+    <Container size="xl" pb={{ base: 'md', md: 'xl' }}>
       <Flex direction="column" gap="md">
         <Paper radius="md" p={{ base: 8, md: 'md' }} bg="white" shadow="sm" withBorder>
           <Title order={2} className={classes.pageTitle} mb={0}>
@@ -28,23 +28,23 @@ export default function ContactPage() {
           <Grid gap="20px" align="stretch">
             <GridCol span={{ base: 12, md: 8 }}>
               <Flex direction="column" gap="lg">
-                  <Flex direction="column" gap="xs">
-                    <Text fw={600} className={classes.contactDetailText} fz="1.375rem">
-                      Thông tin liên hệ
-                    </Text>
+                <Flex direction="column" gap="xs">
+                  <Text fw={600} className={classes.contactDetailText} fz="1.375rem">
+                    Thông tin liên hệ
+                  </Text>
 
-                    <Text className={classes.contactDetailText}>
-                      • <strong>Địa chỉ:</strong> 123 Đường ABC, Quận XYZ, TP. Hồ Chí Minh
-                    </Text>
+                  <Text className={classes.contactDetailText}>
+                    • <strong>Địa chỉ:</strong> 123 Đường ABC, Quận XYZ, TP. Hồ Chí Minh
+                  </Text>
 
-                    <Text className={classes.contactDetailText}>
-                      • <strong>Điện thoại:</strong> 0123 456 789
-                    </Text>
+                  <Text className={classes.contactDetailText}>
+                    • <strong>Điện thoại:</strong> 0123 456 789
+                  </Text>
 
-                    <Text className={classes.contactDetailText}>
-                      • <strong>Email:</strong> contact@vinaup.com
-                    </Text>
-                  </Flex>
+                  <Text className={classes.contactDetailText}>
+                    • <strong>Email:</strong> contact@vinaup.com
+                  </Text>
+                </Flex>
 
                 <ContactForm />
               </Flex>
