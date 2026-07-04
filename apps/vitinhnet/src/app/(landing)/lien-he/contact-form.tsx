@@ -48,65 +48,63 @@ export function ContactForm() {
     <Paper radius="md" withBorder p={0} className={classes.formSection}>
 
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <Flex direction="column" p={{ base: 8, md: 'md' }} gap="md">
+        <Flex direction="column" p={{ base: 8, md: 'md' }} gap={4}>
           <Flex gap="md" align="center">
-            <Box>
-              <VinaupUserIcon size={24} fill="var(--vinaup-black)" />
-            </Box>
+            <VinaupUserIcon size={24} fill="var(--vinaup-blue-link)" />
             <Box flex={1}>
-              <Text className={classes.inputLabel}>Họ và tên</Text>
+              <Text className={classes.inputLabel} c={form.errors.fullName ? 'red' : undefined}>Họ tên</Text>
               <TextInput
                 variant="unstyled"
-                placeholder="Nhập họ và tên"
+                placeholder="---"
                 classNames={{ input: classes.contactInput }}
                 {...form.getInputProps('fullName')}
+                error={form.errors.fullName ? true : undefined}
               />
             </Box>
           </Flex>
 
           <Flex gap="md" align="center">
-            <Box>
-              <VinaupPhoneIcon size={24} fill="var(--vinaup-black)" />
-            </Box>
+            <VinaupPhoneIcon size={24} fill="var(--vinaup-blue-link)" />
             <Box flex={1}>
-              <Text className={classes.inputLabel}>Số điện thoại</Text>
+              <Text className={classes.inputLabel} c={form.errors.phone ? 'red' : undefined}>Số điện thoại</Text>
               <TextInput
                 variant="unstyled"
-                placeholder="Nhập số điện thoại"
+                placeholder="---"
                 classNames={{ input: classes.contactInput }}
                 {...form.getInputProps('phone')}
+                error={form.errors.phone ? true : undefined}
               />
             </Box>
           </Flex>
 
           <Flex gap="md" align="center">
-            <Box>
-              <VinaupEmailIcon size={24} fill="var(--vinaup-black)" />
-            </Box>
+            <VinaupEmailIcon size={24} fill="var(--vinaup-blue-link)" />
             <Box flex={1}>
-              <Text className={classes.inputLabel}>Email</Text>
+              <Text className={classes.inputLabel} c={form.errors.email ? 'red' : undefined}>Email</Text>
               <TextInput
                 variant="unstyled"
-                placeholder="Nhập địa chỉ email"
+                placeholder="---"
                 classNames={{ input: classes.contactInput }}
                 {...form.getInputProps('email')}
+                error={form.errors.email ? true : undefined}
               />
             </Box>
           </Flex>
 
           <Flex gap="md" align="flex-start">
-            <Box>
-              <IconMessageDots size={30} color="var(--vinaup-black)" stroke={2} />
+            <Box pt={"1rem"}>
+              <IconMessageDots size={30} color="var(--vinaup-blue-link)" stroke={2} />
             </Box>
             <Box flex={1}>
-              <Text className={classes.inputLabel}>Nội dung</Text>
+              <Text className={classes.inputLabel} c={form.errors.message ? 'red' : undefined}>Nội dung</Text>
               <Textarea
                 variant="unstyled"
-                placeholder="Nhập nội dung bạn cần liên hệ..."
+                placeholder="---"
                 classNames={{ input: classes.contactInput }}
                 minRows={2}
                 autosize
                 {...form.getInputProps('message')}
+                error={form.errors.message ? true : undefined}
               />
             </Box>
           </Flex>
@@ -128,6 +126,6 @@ export function ContactForm() {
           </Flex>
         </Flex>
       </form>
-    </Paper>
+    </Paper >
   );
 }

@@ -28,7 +28,6 @@ export default function ContactPage() {
           <Grid gap="20px" align="stretch">
             <GridCol span={{ base: 12, md: 8 }}>
               <Flex direction="column" gap="lg">
-                <Box>
                   <Flex direction="column" gap="xs">
                     <Text fw={600} className={classes.contactDetailText} fz="1.375rem">
                       Thông tin liên hệ
@@ -46,7 +45,6 @@ export default function ContactPage() {
                       • <strong>Email:</strong> contact@vinaup.com
                     </Text>
                   </Flex>
-                </Box>
 
                 <ContactForm />
               </Flex>

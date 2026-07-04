@@ -33,24 +33,30 @@
   min-height: unset;
   font-weight: 400;
   font-size: 1rem;
-  color: var(--mantine-color-dark-4);
+  color: var(--vinaup-blue-link);
   transition: border-color 0.2s ease;
+
+  &::placeholder {
+    color: var(--vinaup-blue-link);
+    font-weight: 600;
+  }
 
   &:focus {
     outline: none;
     border-bottom-color: var(--vinaup-blue-link);
   }
-}
 
-textarea.contactInput {
-  padding-bottom: 8px;
+  &[data-error],
+  &[aria-invalid="true"] {
+    border-bottom-color: red;
+  }
 }
 
 
 .inputLabel {
   font-weight: 600;
   font-size: 1rem;
-  color: var(--vinaup-blue-link);
+  color: var(--vinaup-black);
 }
 
 .submitButton {
