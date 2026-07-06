@@ -1,0 +1,25 @@
+.headerContainer {
+  width: 100%;
+}
+
+.title {
+  font-weight: 700;
+  font-size: clamp(1.5rem, 4vw, 2.25rem); // Tự động co giãn: Min 1.5rem, Max 2.25rem
+  line-height: 1.2;
+  color: var(--vinaup-green);
+  text-shadow: var(--vinaup-text-shadow);
+  margin: 0;
+}
+
+.subtitle {
+  font-weight: 400;
+  font-size: clamp(1.1rem, 2vw, 1.25rem);
+  line-height: 1.5;
+  color: var(--vinaup-black, #333);
+  // max-width: 600px; // Giới hạn độ rộng để đọc text không bị mỏi mắt
+  margin-top: 0.5rem;
+}
+
+.rightSection {
+  white-space: nowrap; // Không cho chữ bị nhảy dòng
+}

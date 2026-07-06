@@ -1,0 +1,24 @@
+.card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--vinaup-green);
+  border-radius: 12px;
+
+  .title {
+    color: var(--vinaup-purple);
+    font-size: 1.375rem;
+    font-weight: 500;
+  }
+
+  .name {
+    color: var(--vinaup-green);
+    font-size: 1.125rem;
+  }
+
+  .icon {
+    color: var(--vinaup-green);
+  }
+
+  .textValue {
+    color: var(--vinaup-green);
+  }
+}

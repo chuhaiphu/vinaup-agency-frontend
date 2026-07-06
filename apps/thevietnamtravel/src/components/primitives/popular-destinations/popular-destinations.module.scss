@@ -1,0 +1,97 @@
+@use '@/app/mixins' as *;
+
+.wrapper {
+  background-color: var(--vinaup-green);
+  padding: 2rem 0;
+}
+
+.inner {
+  @include landing-container;
+  padding: 0 8px;
+
+  @media (min-width: 576px) {
+    padding: 0 1rem;
+  }
+}
+
+.headerBar {
+  background-color: var(--vinaup-soft-gray, #f8f9fa);
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+}
+
+.headerTitle {
+  font-size: clamp(1.4rem, 4vw, 1.8rem);
+  font-weight: 500;
+  color: var(--vinaup-green);
+  line-height: 1.3;
+}
+
+.filterGroup {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+
+    .filterText {
+      color: var(--vinaup-purple);
+      opacity: 0.8;
+    }
+  }
+}
+
+.filterText {
+  font-size: clamp(1.1rem, 3vw, 1.3rem);
+  font-weight: 400;
+  color: var(--vinaup-purple);
+}
+
+.filterIcon {
+  color: var(--vinaup-purple);
+  width: 24px;
+  height: 24px;
+
+  @media (min-width: 768px) {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.destinationGrid {
+  display: grid;
+  gap: 1rem 0.5rem;
+  grid-template-columns: repeat(2, 1fr);
+
+  @media (min-width: 768px) {
+    gap: 1.2rem 1rem;
+  }
+
+  @media (min-width: 992px) {
+    grid-template-columns: 1.5fr 1.5fr 1.5fr 1fr;
+  }
+}
+
+.destinationItem {
+  font-size: clamp(1.1rem, 2.5vw, 1.15rem);
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &:hover {
+    color: var(--vinaup-soft-gray);
+    text-decoration: underline;
+    transform: translateX(5px);
+  }
+
+  @media (min-width: 992px) {
+    &:nth-child(4n) {
+      text-align: right;
+    }
+  }
+}

@@ -1,0 +1,36 @@
+.serviceTitle {
+  color: var(--vinaup-green-light);
+  font-weight: 700;
+  font-size: clamp(1.3rem, 4vw, 1.8rem);
+}
+
+.serviceDesc {
+  color: var(--vinaup-white);
+  line-height: 2.0;
+  font-size: clamp(1.1rem, 2vw, 1.25rem);
+}
+
+.logoWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 450px;
+  margin: 0 auto;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+}
+
+.logoImage {
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100%;
+  display: block;
+}

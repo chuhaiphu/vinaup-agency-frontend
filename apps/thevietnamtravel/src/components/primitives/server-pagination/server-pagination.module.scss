@@ -1,0 +1,27 @@
+.root {
+  justify-content: center;
+  gap: 8px;
+
+  @media (max-width: 48rem) {
+    gap: 4px;
+  }
+}
+
+.control {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 40px;
+  width: 40px;
+
+  @media (max-width: 48rem) {
+    height: 32px;
+    width: 32px;
+    font-size: 14px;
+  }
+
+  @media (max-width: 30rem) {
+    height: 28px;
+    width: 28px;
+    font-size: 12px;
+    padding: 0;
+  }
+}

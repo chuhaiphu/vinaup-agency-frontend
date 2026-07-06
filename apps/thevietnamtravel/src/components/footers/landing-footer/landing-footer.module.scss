@@ -1,0 +1,79 @@
+@use '@/app/mixins' as *;
+
+.landingFooter {
+  .footerContainer {
+    @include landing-container;
+  }
+
+  .top {
+    background-color: var(--vinaup-soft-gray);
+    padding: 1.5rem 0;
+
+    .topTitle {
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--vinaup-black);
+    }
+
+    .socials {
+      a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        transition: transform 0.2s ease;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+
+  .middle {
+    background-color: transparent;
+    padding: clamp(0rem, 1vw, 10rem) 0;
+    text-align: center;
+    overflow: hidden;
+
+    .brandText {
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      line-height: 1.2;
+      font-size: clamp(2rem, 7.5vw, 8rem);
+    }
+
+    .brandThe {
+      color: var(--vinaup-green-light);
+    }
+
+    .brandVietnamTravel {
+      color: var(--vinaup-green);
+    }
+  }
+
+  .bottom {
+    background-color: var(--vinaup-soft-gray);
+    padding: 1rem 0;
+
+    .bottomText {
+      font-size: 1.1rem;
+      color: var(--vinaup-black);
+    }
+
+    .bottomLink {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: var(--vinaup-purple);
+      transition: opacity 0.2s ease;
+
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+}

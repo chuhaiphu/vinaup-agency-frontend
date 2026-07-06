@@ -13,6 +13,9 @@
     "dev:vitinhnet": "npm run dev --workspace=apps/vitinhnet",
     "build:vitinhnet": "npm run build --workspace=apps/vitinhnet",
     "start:vitinhnet": "npm run start --workspace=apps/vitinhnet",
+    "dev:tvt": "npm run dev --workspace=apps/thevietnamtravel",
+    "build:tvt": "npm run build --workspace=apps/thevietnamtravel",
+    "start:tvt": "npm run start --workspace=apps/thevietnamtravel",
     "typecheck": "npm run typecheck --workspaces --if-present"
   },
   "engines": {

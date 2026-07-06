@@ -1,0 +1,25 @@
+.headerContainer {
+    width: 100%;
+    text-align: center;
+}
+
+.mainTitle {
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3rem);
+    line-height: 1.2;
+    color: var(--vinaup-green);
+    text-shadow: var(--vinaup-text-shadow);
+    margin: 0;
+}
+
+.mainSubtitle {
+    font-weight: 400;
+    font-size: clamp(1.1rem, 2vw, 1.25rem);
+    line-height: 1.5;
+    color: var(--vinaup-black, #333);
+    margin-top: 0.5rem;
+
+    @media screen and (min-width: 768px) {
+        max-width: 800px;
+    }
+}

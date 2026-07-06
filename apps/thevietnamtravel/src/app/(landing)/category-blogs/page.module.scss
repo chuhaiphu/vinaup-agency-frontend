@@ -1,0 +1,56 @@
+.pageRoot {
+  @media screen and (min-width: 576px) {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media screen and (min-width: 768px) {
+    margin-left: 36px;
+    margin-right: 36px;
+  }
+
+  @media screen and (min-width: 992px) {
+    margin-left: 48px;
+    margin-right: 48px;
+  }
+
+  @media screen and (min-width: 1200px) {
+    margin-left: 64px;
+    margin-right: 64px;
+  }
+
+  @media screen and (min-width: 1440px) {
+    max-width: 1360px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media screen and (min-width: 1600px) {
+    max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.banner {
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #eaeaea;
+
+  .bannerTitle {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--vinaup-purple);
+
+    @media screen and (max-width: 768px) {
+      font-size: 1.5rem;
+    }
+  }
+
+  .bannerDesc {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: var(--vinaup-black);
+    opacity: 0.9;
+  }
+}

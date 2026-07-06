@@ -1,0 +1,85 @@
+.cardWrapper {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4;
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  // border: 2px solid var(--vinaup-white);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+}
+
+.cardImage {
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.cardWrapper:hover .cardImage {
+  transform: scale(1.05);
+}
+
+.glassLabel {
+  position: absolute;
+  bottom: 20px;
+  left: 16px;
+  right: 16px;
+  padding: 8px 12px;
+  z-index: 10;
+  border-radius: 8px;
+
+  background-color: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(4px);
+
+  transition: all 0.3s ease;
+
+  >* {
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s ease;
+  }
+
+  .title {
+    font-size: 1.25rem;
+    color: white;
+
+    @media (min-width: 992px) and (max-width: 1297px) {
+      font-size: 1rem;
+    }
+
+    @media (max-width: 502px) {
+      font-size: 1rem;
+    }
+
+    @media (max-width: 436px) {
+      font-size: 0.875rem;
+    }
+
+    @media (max-width: 402px) {
+      font-size: 0.75rem;
+    }
+  }
+}
+
+.cardWrapper:hover .glassLabel {
+  background-color: rgba(255, 255, 255, 0.6);
+  border-color: rgba(255, 255, 255, 0.6);
+
+  >* {
+    transform: scale(1.02);
+  }
+}
+
+.cardIcon {
+  display: block;
+  flex-shrink: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+
+  @media (min-width: 992px) and (max-width: 1290px) {
+    display: none;
+  }
+
+  @media (max-width: 582px) {
+    display: none;
+  }
+}

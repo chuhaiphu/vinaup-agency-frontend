@@ -1,0 +1,40 @@
+$ads-height-desktop: 250px;
+$ads-height-mobile: 120px;
+
+.adsContainer {
+  width: 100%;
+  position: relative;
+  background: #f0f0f0;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+
+  // Responsive: Mặc định cho Mobile
+  height: $ads-height-mobile;
+
+  // Responsive: Cho Desktop
+  @media (min-width: 992px) {
+    height: $ads-height-desktop;
+  }
+}
+
+.adsImage {
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.adsLabel {
+  position: absolute;
+  bottom: 12px;
+  right: 16px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 6px;
+  z-index: 2;
+  letter-spacing: 0.5px;
+  pointer-events: none;
+  font-size: 11px;
+  text-transform: uppercase;
+}

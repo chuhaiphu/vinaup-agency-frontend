@@ -12,8 +12,9 @@ export default function VinaupEmailIcon({
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            width={26}
-            height={21}
+            width={size}
+            height={size}
+            viewBox="0 0 26 21"
             fill="none"
             className={className}
         >

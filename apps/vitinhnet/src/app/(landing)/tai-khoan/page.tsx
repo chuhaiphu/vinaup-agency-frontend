@@ -1,6 +1,6 @@
 'use client';
 
-import { Container, Avatar, Button, Text, Modal, Box, LoadingOverlay, Grid } from '@mantine/core';
+import { Container, Avatar, Button, Text, Modal, Box, LoadingOverlay, Grid, GridCol } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { IconUser, IconReceipt, IconLogout, IconShieldCheck } from '@tabler/icons-react';
@@ -126,7 +126,7 @@ export default function UserAccountPage() {
     <Box className={classes.profileRoot}>
       <Container size="xl" className={classes.profileContainer}>
         <Grid gap="lg" align="flex-start">
-          <Grid.Col span={{ base: 12, md: 4, lg: 3 }}>
+          <GridCol span={{ base: 12, md: 4, lg: 3 }}>
             <Box className={classes.sidebarCard}>
               <Box className={classes.userInfoSection}>
                 <Avatar
@@ -144,9 +144,8 @@ export default function UserAccountPage() {
               <Box className={classes.sidebarMenu}>
                 <button
                   type="button"
-                  className={`${classes.menuItem} ${
-                    activeTab === 'profile' ? classes.menuItemActive : ''
-                  }`}
+                  className={`${classes.menuItem} ${activeTab === 'profile' ? classes.menuItemActive : ''
+                    }`}
                   onClick={() => setActiveTab('profile')}
                 >
                   <IconUser size={18} />
@@ -155,9 +154,8 @@ export default function UserAccountPage() {
 
                 <button
                   type="button"
-                  className={`${classes.menuItem} ${
-                    activeTab === 'history' ? classes.menuItemActive : ''
-                  }`}
+                  className={`${classes.menuItem} ${activeTab === 'history' ? classes.menuItemActive : ''
+                    }`}
                   onClick={() => setActiveTab('history')}
                 >
                   <IconReceipt size={18} />
@@ -166,9 +164,8 @@ export default function UserAccountPage() {
 
                 <button
                   type="button"
-                  className={`${classes.menuItem} ${
-                    activeTab === 'warranty' ? classes.menuItemActive : ''
-                  }`}
+                  className={`${classes.menuItem} ${activeTab === 'warranty' ? classes.menuItemActive : ''
+                    }`}
                   onClick={() => setActiveTab('warranty')}
                 >
                   <IconShieldCheck size={18} />
@@ -185,9 +182,9 @@ export default function UserAccountPage() {
                 </button>
               </Box>
             </Box>
-          </Grid.Col>
+          </GridCol>
 
-          <Grid.Col span={{ base: 12, md: 8, lg: 9 }}>
+          <GridCol span={{ base: 12, md: 8, lg: 9 }}>
             <Box className={classes.contentCard} style={{ position: 'relative' }}>
               <LoadingOverlay
                 visible={isLoading}
@@ -201,7 +198,7 @@ export default function UserAccountPage() {
               {activeTab === 'history' && <PurchaseHistoryTab />}
               {activeTab === 'warranty' && <WarrantyTab />}
             </Box>
-          </Grid.Col>
+          </GridCol>
         </Grid>
       </Container>
 

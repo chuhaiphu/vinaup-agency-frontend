@@ -1,0 +1,96 @@
+// Tắt nền đen khi hover/focus vào ActionIcon
+.actionIcon {
+  background: transparent;
+  box-shadow: none;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background: transparent;
+    box-shadow: none;
+  }
+}
+
+.wrapper {
+  position: relative;
+}
+
+.popoverDropdown {
+  position: fixed;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  background-color: #f8f9fa;
+  z-index: 9999;
+
+  @media screen and (min-width: 768px) {
+    width: 600px !important;
+  }
+
+  @media screen and (min-width: 1280px) {
+    width: 1200px !important;
+  }
+
+  @media screen and (min-width: 1440px) {
+    width: 1400px !important;
+  }
+
+  // MOBILE
+  @media screen and (max-width: 767px) {
+    width: calc(100vw - 32px) !important;
+    max-width: calc(100vw - 32px) !important;
+  }
+}
+
+.dropdownTitle {
+  margin: 0.25rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.dropdownContainer {
+  background: #f0f0f0;
+  padding: 8px 4px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px 12px;
+  align-items: start;
+  justify-items: center;
+}
+
+.provinceButton {
+  min-width: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 1.05rem;
+  padding: 6px 0;
+  border-radius: 4px;
+  transition: background 0.15s;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  margin: 0;
+
+  &.selected {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--vinaup-blue-link);
+    text-decoration: underline;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  // font small width < 400px
+  @media screen and (max-width: 400px) {
+    padding: 3px 0;
+  }
+}

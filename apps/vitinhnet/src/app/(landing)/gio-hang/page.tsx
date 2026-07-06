@@ -1,6 +1,6 @@
 'use client';
 
-import { Container, Grid, Anchor } from '@mantine/core';
+import { Container, Grid, Anchor, GridCol } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { IconChevronLeft } from '@tabler/icons-react';
@@ -91,18 +91,18 @@ export default function CartCheckoutPage() {
 
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Grid gap="lg">
-          <Grid.Col span={{ base: 12, md: 8 }}>
+          <GridCol span={{ base: 12, md: 8 }}>
             {/* Cart Items */}
             <CartItemList />
 
             {/* Customer Forms */}
             <CheckoutForm form={form} />
-          </Grid.Col>
+          </GridCol>
 
-          <Grid.Col span={{ base: 12, md: 4 }}>
+          <GridCol span={{ base: 12, md: 4 }}>
             {/* Order Summary & Submit action */}
             <OrderSummary form={form} />
-          </Grid.Col>
+          </GridCol>
         </Grid>
       </form>
     </Container>

@@ -1,0 +1,31 @@
+.sectionWrapper {
+  overflow: hidden;
+}
+
+.logoItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  // Khoảng cách giữa các logo nhỏ lại trên điện thoại
+  margin: 0 16px;
+
+  // Mở rộng khoảng cách trên Tablet/Desktop
+  @media (min-width: 768px) {
+    margin: 0 32px;
+  }
+}
+
+.partnerImage {
+  object-fit: contain; // Đưa objectFit từ inline style vào đây
+
+  // 1. KÍCH THƯỚC MẶC ĐỊNH CHO MOBILE
+  width: 140px;
+  height: 60px;
+
+  // 2. KÍCH THƯỚC CHO TABLET & DESKTOP
+  @media (min-width: 768px) {
+    width: 250px;
+    height: 100px;
+  }
+}

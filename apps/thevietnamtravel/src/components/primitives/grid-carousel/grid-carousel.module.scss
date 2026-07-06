@@ -1,0 +1,80 @@
+.section {
+    margin-bottom: 3rem;
+    margin: -10px -10px;
+    padding: 10px 10px;
+    overflow: hidden;
+}
+
+.pageTitle {
+    font-weight: 700;
+    font-size: 2.5rem;
+    line-height: 2.5rem;
+    color: var(--vinaup-green);
+    text-shadow: var(--vinaup-text-shadow);
+}
+
+.pageSubtitle {
+    font-weight: 400;
+    font-size: 1.1rem;
+    line-height: 1.5rem;
+    color: var(--vinaup-black);
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 600px) {
+    .pageTitle {
+        font-size: 1.5rem;
+        line-height: 1.5rem;
+    }
+
+    .pageSubtitle {
+        font-size: 0.2rem;
+        line-height: 1.2rem;
+    }
+}
+
+.carouselViewport {
+    overflow: visible !important;
+}
+
+.sectionHeader {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+
+    .headerLeft {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+}
+
+.navButtons {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    padding-top: 0.25rem;
+    flex-shrink: 0;
+
+
+    .navBtn {
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 50%;
+        border: 1.5px solid black;
+        background: transparent;
+        color: black;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s ease, border-color 0.2s ease;
+        font-size: 1rem;
+
+        &:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+    }
+}

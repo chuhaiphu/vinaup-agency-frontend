@@ -1,0 +1,144 @@
+.pageRoot {
+  @media screen and (min-width: 576px) {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media screen and (min-width: 768px) {
+    margin-left: 36px;
+    margin-right: 36px;
+  }
+
+  @media screen and (min-width: 992px) {
+    margin-left: 48px;
+    margin-right: 48px;
+  }
+
+  @media screen and (min-width: 1200px) {
+    margin-left: 64px;
+    margin-right: 64px;
+  }
+
+  @media screen and (min-width: 1440px) {
+    max-width: 1360px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media screen and (min-width: 1600px) {
+    max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.fullWidthBanner {
+  background-color: var(--vinaup-green-light);
+  width: 100%;
+}
+
+.bannerCard {
+  background-color: var(--vinaup-white, #fff);
+  color: var(--vinaup-black, #333);
+
+  .bannerTitle {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--vinaup-green);
+
+    @media screen and (max-width: 768px) {
+      font-size: 1.5rem;
+    }
+  }
+
+  .priceInfo {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .currentPrice {
+    font-weight: 700;
+    font-size: 1.25rem;
+  }
+
+  .originalPrice {
+    text-decoration: line-through;
+    color: var(--vinaup-gray);
+    font-size: 0.9rem;
+  }
+
+  .duration {
+    font-weight: 500;
+    color: var(--vinaup-gray);
+  }
+}
+
+.iconRow {
+  color: var(--vinaup-green);
+  font-weight: 500;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.mainContent {
+  margin-top: 1rem;
+}
+
+.mapWrapper {
+  margin-top: 1.25rem;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  img {
+    object-fit: cover;
+  }
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.sectionContent {
+  background-color: var(--vinaup-white, #fff);
+  color: var(--vinaup-black, #333);
+  padding: 1.25rem;
+  border-radius: 8px;
+}
+
+.imageWrapper,
+.videoWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+.relatedSectionTitle {
+  color: var(--vinaup-purple);
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}

@@ -1,0 +1,16 @@
+.allLink {
+  text-decoration: none;
+  color: var(--vinaup-green);
+  font-size: 1.2rem;
+
+  @media (max-width: 400px) {
+    display: none;
+  }
+}
+
+.actionGroup {
+  text-decoration: none;
+  cursor: pointer;
+  border-bottom: 1px solid transparent;
+  display: inline-block;
+}
