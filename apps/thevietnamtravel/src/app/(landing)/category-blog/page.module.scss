@@ -1,0 +1,21 @@
+.pageRoot {
+  padding-top: 2rem;
+}
+
+.banner {
+  background-color: var(--vinaup-gray-0, #f8f9fa);
+  border: 1px solid var(--vinaup-gray-3, #dee2e6);
+  margin-bottom: 1rem;
+}
+
+.bannerTitle {
+  color: var(--vinaup-purple, #5c2b90);
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.bannerDesc {
+  color: var(--vinaup-black, #333333);
+  font-size: 1rem;
+  line-height: 1.5;
+}
