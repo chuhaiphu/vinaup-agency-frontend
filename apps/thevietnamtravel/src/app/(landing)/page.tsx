@@ -21,7 +21,7 @@ export default async function LandingPage() {
         <LandingCarousel slides={MOCK_SLIDES} />
 
         <SupplierGrid
-          title="Vietnam travel supplier information"
+          title="Vietnam travel suppliers"
           subtitle="Providing information about local tourism services in Vietnam: Tours, restaurants, attractions... recommended directly by sales staff from the providers."
           data={MOCK_SUPPLIER_GRID_ITEMS}
         />
