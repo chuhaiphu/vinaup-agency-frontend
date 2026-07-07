@@ -1,0 +1,148 @@
+.pageRoot {
+  @media screen and (min-width: 576px) {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media screen and (min-width: 768px) {
+    margin-left: 36px;
+    margin-right: 36px;
+  }
+
+  @media screen and (min-width: 992px) {
+    margin-left: 48px;
+    margin-right: 48px;
+  }
+
+  @media screen and (min-width: 1200px) {
+    margin-left: 64px;
+    margin-right: 64px;
+  }
+
+  @media screen and (min-width: 1440px) {
+    max-width: 1360px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media screen and (min-width: 1600px) {
+    max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.fullWidthBanner {
+  background-color: #0b5935;
+  /* dark green from image */
+  width: 100%;
+}
+
+.bannerCard {
+  background-color: #cddbcc;
+  /* light grey-green background of the title card */
+  padding: 1.25rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+
+  .bannerTitle {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--vinaup-green);
+    margin: 0;
+
+    @media screen and (max-width: 768px) {
+      font-size: 1.5rem;
+    }
+  }
+}
+
+.iconRow {
+  color: var(--vinaup-white, #fff);
+  font-weight: 400;
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+.mainContent {
+  width: 100%;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 1;
+  /* The image in the mockup is very wide */
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  @media screen and (max-width: 768px) {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+.authorRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.authorInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .authorName {
+    color: var(--vinaup-green);
+    font-weight: 600;
+    font-size: 18px;
+  }
+}
+
+.statsRow {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+
+  .statItem {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--vinaup-black);
+    cursor: pointer;
+
+    /* Make text slightly smaller */
+    p {
+      line-height: 1;
+    }
+  }
+}
+
+.sectionContent {
+  background-color: var(--vinaup-white, #fff);
+  color: var(--vinaup-black, #333);
+  padding: 1.25rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+.videoWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}

@@ -71,7 +71,7 @@ export default function TourDetailPage() {
               />
             </div>
 
-            <Group justify="space-between" align="center" mt="xl" mb="md">
+            <Group justify="space-between" align="center" my="md">
               <Title order={2} className={classes.sectionTitle} mt={0} mb={0}>
                 Overview
               </Title>
