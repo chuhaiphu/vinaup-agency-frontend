@@ -1,10 +1,19 @@
-import { Container, Grid, Paper, Title, Text, Group, Button, GridCol, SimpleGrid, Divider, Progress, Avatar } from '@mantine/core';
-import { VinaupLocationIcon, VinaupPriceTagIcon, VinaupCopyIcon, VinaupEyeIcon, VinaupHeartIcon, VinaupShareIcon } from '@vinaup/ui/cores';
+import { Container, Grid, Paper, Title, Text, Group, GridCol, SimpleGrid, Divider } from '@mantine/core';
+import {
+  VinaupLocationIcon,
+  VinaupPriceTagIcon,
+  VinaupCopyIcon,
+  VinaupEyeIcon,
+  VinaupHeartIcon,
+  VinaupShareIcon
+} from '@vinaup/ui/cores';
 import { VideoSection } from '@vinaup/ui/landing';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import ContactSellerCard from '@/components/primitives/contact-seller-card/contact-seller-card';
+import OrderRequestAction from '@/components/primitives/order-inquire-modal/order-request-action';
+import ReviewsSection from '@/components/primitives/reviews-section/reviews-section';
 import TourCard from '@/components/primitives/tour-card/tour-card';
 import classes from './page.module.scss';
 
@@ -14,13 +23,13 @@ const MOCK_RELATED_TOURS = Array.from({ length: 4 }).map((_, index) => ({
   title: 'Tour Pickleball noi bat 2345 Dalat',
   imageUrl: '/mock-images/z6005041616453_ab9be89ca94e5e8d8caff5c6cbd85233-1.jpg',
   price: 'đ 12.000.000',
+  originalPrice: '13.000.000',
   href: '#',
 }));
 
 export default function TourDetailPage() {
   return (
-    <>
-      {/* Full-width Banner Section */}
+    <>      {/* Full-width Banner Section */}
       <div className={classes.fullWidthBanner}>
         <Container size="xl" classNames={{ root: classes.pageRoot }} py="lg">
           <Paper radius="md" p="lg" className={classes.bannerCard}>
@@ -28,14 +37,12 @@ export default function TourDetailPage() {
               <Title order={1} className={classes.bannerTitle}>
                 Title tên chương trình du lịch [h1]
               </Title>
-              <Button color="var(--vinaup-green)" radius="xl" size="sm">
-                Order Request
-              </Button>
+              <OrderRequestAction />
             </Group>
 
             <Group justify="space-between">
               <Group className={classes.priceInfo}>
-                <Text size="20px">Price from:</Text>
+                <Text size="20px">Price:</Text>
                 <Text className={classes.currentPrice}>đ 12.000.000</Text>
                 <Text className={classes.originalPrice}>13.000.000</Text>
               </Group>
@@ -59,8 +66,8 @@ export default function TourDetailPage() {
       </div>
 
       <Container size="xl" classNames={{ root: classes.pageRoot }} pb="xl" pt="md">
-        <Grid gutter={20} className={classes.mainContent}>
-          {/* Main Left Content */}
+        <Grid gutter={20} className={classes.mainContent} align="stretch">
+          {/* Main Left Content: Image */}
           <GridCol span={{ base: 12, lg: 9 }}>
             <div className={classes.imageWrapper}>
               <Image
@@ -70,6 +77,24 @@ export default function TourDetailPage() {
                 style={{ objectFit: 'cover' }}
               />
             </div>
+          </GridCol>
+
+          {/* Right Sidebar: Contact Seller */}
+          <GridCol span={{ base: 12, lg: 3 }}>
+            <ContactSellerCard
+              name="Nguyễn Văn Tèo Em"
+              avatarUrl="/mock-images/z6005041616453_ab9be89ca94e5e8d8caff5c6cbd85233-1.jpg"
+              email="Davidlam.VILtours@gmail.com"
+              phone="+84 912 711 789"
+              location="Vietnam"
+              workingHours="Online 24/7"
+            />
+          </GridCol>
+        </Grid>
+
+        {/* Bottom Section */}
+        <Grid gutter={20} mt="md">
+          <GridCol span={{ base: 12, lg: 9 }}>
 
             <Group justify="space-between" align="center" my="md">
               <Title order={2} className={classes.sectionTitle} mt={0} mb={0}>
@@ -117,17 +142,7 @@ export default function TourDetailPage() {
             </div>
           </GridCol>
 
-          {/* Right Sidebar */}
           <GridCol span={{ base: 12, lg: 3 }}>
-            <ContactSellerCard
-              name="Nguyễn Văn Tèo Em"
-              avatarUrl="/mock-images/z6005041616453_ab9be89ca94e5e8d8caff5c6cbd85233-1.jpg"
-              email="Davidlam.VILtours@gmail.com"
-              phone="+84 912 711 789"
-              location="Vietnam"
-              workingHours="Online 24/7"
-            />
-
             <div className={classes.mapWrapper}>
               <Image
                 src="/mock-images/z6005041616453_ab9be89ca94e5e8d8caff5c6cbd85233-1.jpg"
@@ -158,44 +173,7 @@ export default function TourDetailPage() {
         {/* Reviews Section */}
         <Divider my="xl" color="var(--vinaup-green)" />
 
-        <Group justify="space-between" mb="xl" align="center">
-          <Title order={3} c="var(--vinaup-green)" fw={700}>
-            Reviews in Thevietnamtravel
-          </Title>
-          <Button color="var(--vinaup-green)" radius="md">
-            Reviews
-          </Button>
-        </Group>
-
-        <div style={{ maxWidth: '550px' }}>
-          <Group justify="space-between" mb={4}>
-            <Text size="md" fw={500}>Satisfaction</Text>
-            <Text size="md" c="var(--vinaup-green)" fw={700}>87%</Text>
-          </Group>
-          <Progress value={87} color="#F5B21A" size="md" radius={2} mb="xl" />
-
-          <Group align="flex-start" wrap="nowrap" mt="lg">
-            <Avatar radius="xl" size="md" />
-            <div style={{ flex: 1 }}>
-              <Group gap="xs" mb={4}>
-                <Text fw={700} size="18px" c="var(--vinaup-green)">Nguyen Van Teo</Text>
-                <Text size="sm" c="dimmed" fs="italic">(22/12/26)</Text>
-              </Group>
-              <Text size="16px" mb="xs" lh="1.6">
-                This Pokémon likes to lick its palms that are sweetened by being soaked in honey. Teddiursa concocts its own honey by blending fruits and pollen collected by Beedrill. Blastoise has water spouts that protrude from its shell. The water
-              </Text>
-
-              <Group justify="flex-end" mb={4}>
-                <Text size="sm" c="var(--vinaup-green)" fw={700}>75%</Text>
-              </Group>
-              <Progress value={75} color="#F5B21A" size="sm" radius={2} />
-
-              <Text size="md" fs="italic" c="var(--vinaup-green)" mt="md" style={{ cursor: 'pointer' }}>
-                View more
-              </Text>
-            </div>
-          </Group>
-        </div>
+        <ReviewsSection />
       </Container>
     </>
   );

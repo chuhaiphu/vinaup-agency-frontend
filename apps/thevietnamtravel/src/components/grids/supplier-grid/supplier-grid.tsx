@@ -3,12 +3,12 @@
 import { Grid, GridCol } from '@mantine/core';
 import CentricHeader from '@/components/primitives/centric-header/centric-header';
 import GridImageCard from './grid-image-card/grid-image-card';
-import { IGenericGridItem } from '@/interfaces/grid-interface';
+import { GenericGridItem } from '@/interfaces/grid-interfaces';
 
 interface SupplierGridProps {
   title: string;
   subtitle?: string;
-  data: IGenericGridItem[];
+  data: GenericGridItem[];
 }
 
 export default function SupplierGrid({ title, subtitle, data }: SupplierGridProps) {

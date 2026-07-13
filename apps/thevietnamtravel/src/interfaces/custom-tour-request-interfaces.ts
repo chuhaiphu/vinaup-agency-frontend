@@ -1,6 +1,6 @@
-import { ITourCategoryCustomTourRequestResponse } from './tour-category-custom-tour-request-interface';
+import { TourCategoryCustomTourRequestResponse } from './tour-category-custom-tour-request-interfaces';
 
-export interface ICreateCustomTourRequest {
+export interface CreateCustomTourRequest {
   startDate: Date;
   endDate: Date;
   adultCount: number;
@@ -15,9 +15,9 @@ export interface ICreateCustomTourRequest {
   recaptchaToken?: string;
 }
 
-export type IUpdateCustomTourRequest = Partial<ICreateCustomTourRequest>;
+export type IUpdateCustomTourRequest = Partial<CreateCustomTourRequest>;
 
-export interface ICustomTourRequestResponse {
+export interface CustomTourRequestResponse {
   id: string;
   startDate: Date;
   endDate: Date;
@@ -30,7 +30,7 @@ export interface ICustomTourRequestResponse {
   customerEmail: string;
   customerPhone: string;
   customerNotes: string | null;
-  tourCategoryCustomTourRequests?: ITourCategoryCustomTourRequestResponse[];
+  tourCategoryCustomTourRequests?: TourCategoryCustomTourRequestResponse[];
   createdAt: Date;
   updatedAt: Date;
 }

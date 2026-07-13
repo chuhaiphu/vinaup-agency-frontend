@@ -1,7 +1,7 @@
 'use client'
 
 import React from "react";
-import classes from "./Ads.module.scss";
+import classes from "./ads.module.scss";
 import Image from "next/image";
 
 interface AdsProps {
@@ -15,7 +15,7 @@ const Ads: React.FC<AdsProps> = ({
   alt = "Advertisement"
 }) => {
   return (
-    <section className={classes.adsContainer}>
+    <section className={classes.adsRoot}>
       <span className={classes.adsLabel}>Ads</span>
       <Image
         src={imageUrl}

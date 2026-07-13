@@ -1,0 +1,58 @@
+.banner {
+  background-color: var(--vinaup-green, #005230);
+  color: white;
+  text-align: center;
+  padding: 32px 0;
+
+  h1 {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 700;
+  }
+}
+
+.contentWrapper {
+  max-width: 600px;
+  margin: 40px auto;
+  color: var(--vinaup-black, #333);
+}
+
+.instructionText {
+  margin-bottom: 24px;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 24px;
+
+  li {
+    margin-bottom: 8px;
+  }
+
+  ul {
+    list-style: none;
+    padding-left: 20px;
+    margin-top: 8px;
+
+    li {
+      margin-bottom: 4px;
+      color: #555;
+    }
+  }
+}
+
+.noteText {
+  margin-bottom: 24px;
+}
+
+.thankYouText {
+  text-align: center;
+  margin-top: 48px;
+  font-style: italic;
+
+  a {
+    color: var(--vinaup-blue, #1971c2);
+    text-decoration: none;
+  }
+}

@@ -21,7 +21,7 @@ export default function ContactSellerCard({
   workingHours,
 }: ContactSellerCardProps) {
   return (
-    <Card withBorder radius="md" p="md" className={classes.card}>
+    <Card withBorder radius="md" p="md" className={classes.contactSellerCardRoot}>
       <Text className={classes.title} mb="md">
         Contact seller
       </Text>

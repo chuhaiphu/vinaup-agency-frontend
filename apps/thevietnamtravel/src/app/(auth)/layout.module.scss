@@ -1,0 +1,61 @@
+.authLayoutRoot {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  height: 80px;
+  background-color: var(--vinaup-white, #fff);
+
+  @media (max-width: 768px) {
+    height: 60px;
+  }
+}
+
+.headerInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.headerLeft,
+.headerRight {
+  flex: 1;
+  display: flex;
+}
+
+.headerLeft {
+  svg {
+    width: 32px;
+    height: 32px;
+
+    @media (max-width: 768px) {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
+
+.headerRight {
+  justify-content: flex-end;
+}
+
+.authLink {
+  font-size: 16px;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+}
+
+.headerTitle {
+  flex-shrink: 0;
+  font-size: clamp(1.2rem, 2vw, 2rem);
+}
+
+.mainContent {
+  flex: 1;
+}

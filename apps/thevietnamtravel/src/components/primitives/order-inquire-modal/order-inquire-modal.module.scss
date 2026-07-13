@@ -1,0 +1,62 @@
+.orderInquireModalRoot {
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  &[data-error="true"] {
+    border-color: #fa5252;
+  }
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.nativeInput {
+  border: none;
+  outline: none;
+  width: 100%;
+  color: var(--vinaup-green);
+  background: transparent;
+  font-size: 14px;
+  padding: 0;
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+}
+
+.recaptchaContainer {
+  border: 1px solid #d3d3d3;
+  border-radius: 3px;
+  padding: 10px 12px;
+  background-color: #f9f9f9;
+  width: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.checkboxMock {
+  width: 24px;
+  height: 24px;
+  border: 2px solid #c1c1c1;
+  border-radius: 2px;
+  background-color: #fff;
+}
+
+.takeActionText {
+  text-decoration: underline;
+}
+
+.sendButton {
+  cursor: pointer;
+}

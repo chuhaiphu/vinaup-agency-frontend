@@ -12,7 +12,7 @@ export async function LandingHeader() {
       <Group
         justify="space-between"
         align="center"
-        className={classes.landingHeader}
+        className={classes.landingHeaderRoot}
       >
         <Link href="/" className={classes.logoLink}>
           <h1 className={classes.logoTitle}>The Vietnam Travel</h1>

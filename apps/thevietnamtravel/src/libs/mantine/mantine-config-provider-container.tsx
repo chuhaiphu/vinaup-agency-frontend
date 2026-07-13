@@ -15,6 +15,11 @@ interface MantineConfigProviderContainerProps {
   children: ReactNode;
 }
 
+const CONTAINER_SIZES: Record<string, number> = {
+  lg: 992,
+  xl: 1360,
+};
+
 export default function MantineConfigProviderContainer({
   children,
 }: Readonly<MantineConfigProviderContainerProps>) {
@@ -25,13 +30,14 @@ export default function MantineConfigProviderContainer({
           px: { base: 8, xs: 16 },
         },
         vars: (_, { size }) => {
-          if (size === 'xl') {
+          if (size && CONTAINER_SIZES[size]) {
             return {
               root: {
-                '--container-size': '1440px',
+                '--container-size': `${CONTAINER_SIZES[size]}px`,
               },
-            }
+            };
           }
+
           return { root: {} }
         },
       }),

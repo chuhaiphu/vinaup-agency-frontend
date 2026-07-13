@@ -13,7 +13,7 @@ export interface BlogCardProps {
 
 export default function BlogCard({ title, imageUrl, href }: BlogCardProps) {
   return (
-    <Card radius="16px" className={classes.blogCard} shadow="sm" withBorder p={0}>
+    <Card radius="16px" className={classes.blogCardRoot} shadow="sm" withBorder p={0}>
       <Link href={href as Route} className={classes.linkWrapper}>
         <div className={classes.imageWrapper}>
           <Image

@@ -1,11 +1,11 @@
 "use client";
 import { useState } from "react";
 import { ActionIcon, UnstyledButton, Popover, Text } from "@mantine/core";
-import LocationIcon from "@/components/icons/vinaup-location-icon";
 import { VN_PROVINCES } from "@/constants";
 import { useRouter } from "next/navigation";
 import { Route } from "next";
 import classes from "./location-selector.module.scss";
+import { VinaupLocationIcon } from '@vinaup/ui/cores';
 
 export default function LocationSelector() {
   const [selected, setSelected] = useState<string[]>([]);
@@ -43,10 +43,10 @@ export default function LocationSelector() {
           color="light"
           size="xl"
           radius="xl"
-          className={classes.actionIcon}
+          className={classes.locationSelectorRoot}
           aria-label="Select destinations"
         >
-          <LocationIcon size={24} fill="var(--vinaup-green)" />
+          <VinaupLocationIcon size={26} fill="var(--vinaup-green)" />
         </ActionIcon>
       </Popover.Target>
 

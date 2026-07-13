@@ -8,7 +8,7 @@ import classes from "./agencies-section.module.scss";
 
 export default function AgenciesSection() {
   return (
-    <Stack gap="xl" className={classes.sectionWrapper}>
+    <Stack gap="xl" className={classes.agenciesSectionRoot}>
       {/* Hàng 1 */}
       <Marquee
         direction="right"

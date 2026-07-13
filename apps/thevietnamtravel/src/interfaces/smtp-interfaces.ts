@@ -1,4 +1,4 @@
-export interface ISmtpResponse {
+export interface SmtpResponse {
   id: string;
   host: string;
   port: number;
@@ -10,11 +10,11 @@ export interface ISmtpResponse {
   updatedAt: Date;
 }
 
-export interface ISmtpInternalResponse extends ISmtpResponse {
+export interface SmtpInternalResponse extends SmtpResponse {
   password: string;
 }
 
-export interface ICreateSmtp {
+export interface CreateSmtp {
   host: string;
   port: number;
   secure: boolean;
@@ -25,4 +25,4 @@ export interface ICreateSmtp {
   receiveEmail?: string | null;
 }
 
-export type IUpdateSmtp = Partial<ICreateSmtp>;
+export type IUpdateSmtp = Partial<CreateSmtp>;

@@ -1,17 +1,17 @@
 "use client";
 
 import GridCarousel from "@/components/primitives/grid-carousel/grid-carousel";
-import { IGenericGridItem } from "@/interfaces/grid-interface";
+import { GenericGridItem } from "@/interfaces/grid-interfaces";
 import GridItem from "@/components/grids/items-grid/grid-item/grid-item";
 
-interface ItemsGridProps<T extends IGenericGridItem> {
+interface ItemsGridProps<T extends GenericGridItem> {
   title: string;
   subtitle?: string;
   data: T[];
   rows?: number;
 }
 
-export default function ItemGrid<T extends IGenericGridItem>({
+export default function ItemGrid<T extends GenericGridItem>({
   title,
   subtitle,
   data,

@@ -50,7 +50,7 @@ export function LandingCarousel({
   const showTextBox =
     showText && (currentSlide?.titleMain || currentSlide?.subTitle);
   return (
-    <div className={classes.landingCarouselWrapper}>
+    <div className={classes.landingCarouselRoot}>
       <Carousel
         height={height}
         withIndicators={true}

@@ -23,7 +23,7 @@ const createSlug = (text: string) => {
 export default function PopularDestinationsSection() {
 
   return (
-    <Box component="section" className={classes.wrapper}>
+    <Box component="section" className={classes.popularDestinationsRoot}>
       <Box className={classes.inner}>
         {/* Header bar: Thanh trắng chứa tiêu đề và filter */}
         <Group className={classes.headerBar} justify="space-between" align="center" gap="md">

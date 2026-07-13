@@ -11,7 +11,7 @@ interface SectionHeaderProps {
 
 export function SectionHeader({ title, titleColor, subtitle, subTitleColor, rightSection }: SectionHeaderProps) {
   return (
-    <Stack gap={4} mb="1.5rem" className={classes.headerContainer}>
+    <Stack gap={4} mb="1.5rem" className={classes.sectionHeaderRoot}>
       {/* Title and Right Section */}
       <Group justify="space-between" align="center">
         <Title order={2} className={classes.title} style={{ color: titleColor || 'var(--vinaup-green)' }}>

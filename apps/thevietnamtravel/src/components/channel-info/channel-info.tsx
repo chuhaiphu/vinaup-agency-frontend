@@ -31,7 +31,7 @@ export default function ChannelInfoSection() {
             <Stack gap={40}>
               {SERVICES.map((service, index) => (
                 <Box key={index}>
-                  <Title order={3} className={classes.serviceTitle} mb={8}>
+                  <Title order={3} className={classes.channelInfoRoot} mb={8}>
                     {service.title}
                   </Title>
                   <Text className={classes.serviceDesc}>

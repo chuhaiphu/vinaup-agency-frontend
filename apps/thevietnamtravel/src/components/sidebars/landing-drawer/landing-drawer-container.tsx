@@ -7,7 +7,7 @@ import { Drawer } from "@mantine/core";
 import Link from "next/link";
 import { Route } from "next";
 import classes from "./landing-drawer.module.scss";
-import { IMenuResponse } from "@/interfaces/menu-interface";
+import { MenuResponse } from "@/interfaces/menu-interfaces";
 import HomeIcon from "@/components/icons/vinaup-home-icon";
 import React, { useMemo } from "react";
 
@@ -15,7 +15,7 @@ export default function LandingDrawerContainer() {
   const [opened, { open, close }] = useDisclosure(false);
 
   // Get URL for a menu item
-  const getMenuUrl = (menu: IMenuResponse): string => {
+  const getMenuUrl = (menu: MenuResponse): string => {
     if (menu.targetType === "custom-url" && menu.customUrl) {
       if (menu.customUrl === "") {
         return "/";
@@ -29,7 +29,7 @@ export default function LandingDrawerContainer() {
     return "/";
   };
 
-  const renderMenuItem = (menu: IMenuResponse, depth: number = 0, isRootChildren: boolean): React.ReactNode => {
+  const renderMenuItem = (menu: MenuResponse, depth: number = 0, isRootChildren: boolean): React.ReactNode => {
     const url = getMenuUrl(menu);
     const hasChildren = menu.children && menu.children.length > 0;
     const isCustomUrl = menu.targetType === "custom-url" && menu.customUrl && menu.customUrl !== "";

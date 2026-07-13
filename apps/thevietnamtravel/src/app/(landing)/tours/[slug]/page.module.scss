@@ -120,7 +120,20 @@
   border-radius: 8px;
 }
 
-.imageWrapper,
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  aspect-ratio: 16 / 9;
+
+  @media screen and (min-width: 992px) {
+    aspect-ratio: auto;
+    height: 100%;
+  }
+}
+
 .videoWrapper {
   position: relative;
   width: 100%;
@@ -129,10 +142,6 @@
   overflow: hidden;
   margin-top: 2rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-
-  &:first-child {
-    margin-top: 0;
-  }
 }
 
 .relatedSectionTitle {

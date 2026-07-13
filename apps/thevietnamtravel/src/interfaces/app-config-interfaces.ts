@@ -1,4 +1,4 @@
-export interface IAppConfigResponse {
+export interface AppConfigResponse {
   id: string;
   maintenanceMode: boolean;
   faviconUrl: string | null;
@@ -11,7 +11,7 @@ export interface IAppConfigResponse {
   websiteDescription: string | null;
 }
 
-export interface IUpdateAppConfig {
+export interface UpdateAppConfig {
   maintenanceMode?: boolean;
   faviconUrl?: string;
   logoUrl?: string;

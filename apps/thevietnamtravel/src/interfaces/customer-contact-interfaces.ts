@@ -1,4 +1,4 @@
-export interface ICreateCustomerContact {
+export interface CreateCustomerContact {
   name: string;
   email: string;
   phone: string;
@@ -6,7 +6,7 @@ export interface ICreateCustomerContact {
   recaptchaToken?: string;
 }
 
-export interface ICustomerContactResponse {
+export interface CustomerContactResponse {
   id: string;
   name: string;
   email: string;

@@ -1,8 +1,8 @@
 import React from 'react';
 
-export default function LocationIcon({
-  fill = '#00E1FF',
-  size = 22,
+export default function VinaupLocationIcon({
+  fill = '#007042',
+  size = 28,
   className,
 }: {
   fill?: string;
@@ -13,44 +13,46 @@ export default function LocationIcon({
     <svg
       width={size}
       height={size}
-      viewBox="0 0 21 22"
+      viewBox="0 0 30 30"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
     >
       <mask
-        id="mask0_16_952"
+        id="mask0_1624_10"
         style={{ maskType: 'luminance' }}
         maskUnits="userSpaceOnUse"
         x="0"
         y="0"
-        width="21"
-        height="22"
+        width="30"
+        height="30"
       >
-        <path
-          d="M3.78255 15.3785C2.06305 15.9215 1 16.6715 1 17.5C1 19.157 5.25315 20.5 10.5 20.5C15.7468 20.5 20 19.157 20 17.5C20 16.6715 18.9365 15.9215 17.2174 15.3785"
-          stroke="white"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M10.5002 16.5C10.5002 16.5 16.6752 12.252 16.6752 7.341C16.6752 3.839 13.9107 1 10.5002 1C7.0897 1 4.3252 3.839 4.3252 7.341C4.3252 12.252 10.5002 16.5 10.5002 16.5Z"
-          fill="white"
-          stroke="white"
-          strokeWidth="2"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M10.5 10C11.1299 10 11.734 9.73661 12.1794 9.26777C12.6248 8.79893 12.875 8.16304 12.875 7.5C12.875 6.83696 12.6248 6.20107 12.1794 5.73223C11.734 5.26339 11.1299 5 10.5 5C9.87011 5 9.26602 5.26339 8.82062 5.73223C8.37522 6.20107 8.125 6.83696 8.125 7.5C8.125 8.16304 8.37522 8.79893 8.82062 9.26777C9.26602 9.73661 9.87011 10 10.5 10Z"
-          fill="black"
-          stroke="black"
-          strokeWidth="2"
-          strokeLinejoin="round"
-        />
+        <g transform="translate(2.2272, 1)">
+          <path
+            d="M4.09471 20.4086C1.87333 21.1605 0.5 22.199 0.5 23.3461C0.5 25.6404 5.99455 27.5 12.7728 27.5C19.5511 27.5 25.0457 25.6404 25.0457 23.3461C25.0457 22.199 23.6717 21.1605 21.451 20.4086"
+            stroke="white"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M12.7728 21.9619C12.7728 21.9619 20.7501 16.0799 20.7501 9.27996C20.7501 4.43098 17.1787 0.5 12.7728 0.5C8.36681 0.5 4.79541 4.43098 4.79541 9.27996C4.79541 16.0799 12.7728 21.9619 12.7728 21.9619Z"
+            fill="white"
+            stroke="white"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M12.7728 12.9615C13.5865 12.9615 14.3669 12.5969 14.9424 11.9477C15.5177 11.2985 15.841 10.418 15.841 9.49997C15.841 8.5819 15.5177 7.70143 14.9424 7.05226C14.3669 6.40309 13.5865 6.03839 12.7728 6.03839C11.9591 6.03839 11.1786 6.40309 10.6032 7.05226C10.0278 7.70143 9.70459 8.5819 9.70459 9.49997C9.70459 10.418 10.0278 11.2985 10.6032 11.9477C11.1786 12.5969 11.9591 12.9615 12.7728 12.9615Z"
+            fill="black"
+            stroke="black"
+            strokeLinejoin="round"
+          />
+        </g>
       </mask>
-      <g mask="url(#mask0_16_952)">
-        <path d="M-0.899902 -1H21.9001V23H-0.899902V-1Z" fill={fill} />
+      <g mask="url(#mask0_1624_10)">
+        <path
+          d="M-2 -3H32V32H-2V-3Z"
+          fill={fill}
+        />
       </g>
     </svg>
   );

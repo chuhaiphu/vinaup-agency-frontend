@@ -18,7 +18,7 @@ export function SeeAllLink({
   color = "var(--vinaup-green)",
 }: SeeAllLinkProps) {
   return (
-    <Link href={href as Route} className={classes.actionGroup}>
+    <Link href={href as Route} className={classes.seeAllLinkRoot}>
       <Group gap={8} align="center">
         <Text component="span" className={classes.allLink} style={{ color: color }}>
           {label}

@@ -1,6 +1,6 @@
-import { IGenericGridItem } from "@/interfaces/grid-interface";
+import { GenericGridItem } from "@/interfaces/grid-interfaces";
 
-export const MOCK_SUPPLIER_GRID_ITEMS: IGenericGridItem[] = [
+export const MOCK_SUPPLIER_GRID_ITEMS: GenericGridItem[] = [
   {
     id: "supplier-1",
     title: "Tour Sellers",

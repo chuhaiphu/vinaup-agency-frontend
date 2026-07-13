@@ -1,9 +1,9 @@
-export interface ICreateMenu {
+export interface CreateMenu {
   title: string;
   customUrl?: string;
 }
 
-export interface IUpdateMenu extends Partial<ICreateMenu> {
+export interface UpdateMenu extends Partial<CreateMenu> {
   title?: string;
   description?: string;
   parentId?: string;
@@ -13,12 +13,12 @@ export interface IUpdateMenu extends Partial<ICreateMenu> {
   sortOrder?: number;
 }
 
-export interface IMenuResponse {
+export interface MenuResponse {
   id: string;
   title: string;
   description: string | null;
-  parent?: IMenuResponse | null;
-  children?: IMenuResponse[];
+  parent?: MenuResponse | null;
+  children?: MenuResponse[];
   targetType: string;
   targetId: string | null;
   customUrl: string | null;

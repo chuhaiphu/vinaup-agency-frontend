@@ -1,4 +1,4 @@
-export interface ICreateMedia {
+export interface CreateMedia {
   name: string;
   title?: string | null;
   description?: string | null;
@@ -7,14 +7,14 @@ export interface ICreateMedia {
   folder: string;
 }
 
-export interface IUpdateMedia {
+export interface UpdateMedia {
   name?: string;
   title?: string | null;
   description?: string | null;
   folder?: string;
 }
 
-export interface IMediaResponse {
+export interface MediaResponse {
   id: string;
   name: string;
   title: string | null;

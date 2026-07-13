@@ -1,9 +1,9 @@
-export interface ICreateBlogCategory {
+export interface CreateTourCategory {
   title: string;
   endpoint: string;
 }
 
-export interface IUpdateBlogCategory extends Partial<ICreateBlogCategory> {
+export interface UpdateTourCategory extends Partial<CreateTourCategory> {
   title?: string;
   description?: string;
   parentId?: string;
@@ -15,12 +15,12 @@ export interface IUpdateBlogCategory extends Partial<ICreateBlogCategory> {
   sortOrder?: number;
 }
 
-export interface IBlogCategoryResponse {
+export interface TourCategoryResponse {
   id: string;
   title: string;
   description: string | null;
-  parent?: IBlogCategoryResponse | null;
-  children?: IBlogCategoryResponse[];
+  parent?: TourCategoryResponse | null;
+  children?: TourCategoryResponse[];
   videoUrl: string | null;
   videoThumbnailUrl: string | null;
   videoPosition: string;
@@ -30,4 +30,3 @@ export interface IBlogCategoryResponse {
   createdAt: Date;
   updatedAt: Date;
 }
-

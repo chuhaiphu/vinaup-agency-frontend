@@ -1,14 +1,14 @@
-import { IUserResponse } from "./user-interface";
-import { IBlogCategoryBlogResponse } from "./blog-category-blog-interface";
+import { UserResponse } from "./user-interfaces";
+import { BlogCategoryBlogResponse } from "./blog-category-blog-interfaces";
 
-export interface ICreateBlog {
+export interface CreateBlog {
   title: string;
   destinations: string[];
   endpoint: string;
   userId: string;
 }
 
-export interface IUpdateBlog extends Partial<ICreateBlog> {
+export interface UpdateBlog extends Partial<CreateBlog> {
   endpoint?: string;
   country?: string;
   description?: string;
@@ -24,7 +24,7 @@ export interface IUpdateBlog extends Partial<ICreateBlog> {
   categoryId?: string;
 }
 
-export interface IBlogResponse {
+export interface BlogResponse {
   id: string;
   title: string;
   description: string | null;
@@ -42,9 +42,9 @@ export interface IBlogResponse {
   additionalImagesPosition: string | null;
   likes: number;
   views: number;
-  createdBy: IUserResponse | null;
+  createdBy: UserResponse | null;
   createdAt: Date;
   updatedAt: Date;
-  blogCategoryBlogs: IBlogCategoryBlogResponse[];
+  blogCategoryBlogs: BlogCategoryBlogResponse[];
 }
 

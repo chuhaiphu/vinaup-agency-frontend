@@ -57,7 +57,7 @@ export default function ImageCard({
 
   if (href) {
     return (
-      <Link href={href as Route} className={classes.linkWrapper}>
+      <Link href={href as Route} className={classes.imageCardRoot}>
         {content}
       </Link>
     );

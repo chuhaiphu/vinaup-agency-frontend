@@ -1,6 +1,6 @@
-import { ITourResponse } from './tour-interface';
+import { TourResponse } from './tour-interfaces';
 
-export interface ICreateBooking {
+export interface CreateBooking {
   tourId: string;
   adultCount: number;
   childCount: number;
@@ -14,14 +14,14 @@ export interface ICreateBooking {
   recaptchaToken?: string;
 }
 
-export interface IUpdateBooking extends Partial<ICreateBooking> {
+export interface UpdateBooking extends Partial<CreateBooking> {
   status?: string;
 }
 
-export interface IBookingResponse {
+export interface BookingResponse {
   id: string;
   tourId: string;
-  tour: ITourResponse;
+  tour: TourResponse;
   status: string;
   adultCount: number;
   childCount: number;

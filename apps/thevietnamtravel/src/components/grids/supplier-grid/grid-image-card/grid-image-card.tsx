@@ -16,7 +16,7 @@ export default function GridImageCard({ title, imageUrl, href }: GridImageCardPr
     <Box
       component={Link}
       href={href as Route}
-      className={classes.cardWrapper}
+      className={classes.gridImageCardRoot}
     >
       <Image
         src={imageUrl}

@@ -1,0 +1,68 @@
+.fullWidthBanner {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  background-color: var(--vinaup-green);
+  padding: 24px 0;
+}
+
+.agencyCard {
+  background-color: #BACEC5;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px;
+
+  @media (max-width: 768px) {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
+}
+
+.avatarWrapper {
+  @media (max-width: 768px) {
+    align-self: center;
+    margin-bottom: 24px;
+  }
+}
+
+.nameWrapper {
+  @media (max-width: 768px) {
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+.agencyInfo {
+  flex: 1;
+}
+
+.avatarSquare {
+  width: 120px;
+  height: 120px;
+  background-color: #dcdcdc;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--vinaup-green);
+  font-size: 20px;
+}
+
+.sellerAvatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.sectionTitle {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--vinaup-black);
+}

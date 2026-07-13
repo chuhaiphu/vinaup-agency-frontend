@@ -1,6 +1,6 @@
-import { ITourResponse } from '@/interfaces/tour-interface';
+import { TourResponse } from '@/interfaces/tour-interfaces';
 
-export const MOCK_TOURS: ITourResponse[] = [
+export const MOCK_TOURS: TourResponse[] = [
   {
     id: 'mock-1',
     title: 'Hội An Coconut Village Basket Boat Tour',
@@ -15,7 +15,8 @@ export const MOCK_TOURS: ITourResponse[] = [
     visibility: 'public',
     sortOrder: 1,
     type: 'day-tour',
-    price: 35,
+    price: 12000000,
+    originalPrice: 13000000,
     discountPrice: 28,
     childPrice: 18,
     videoUrl: null,

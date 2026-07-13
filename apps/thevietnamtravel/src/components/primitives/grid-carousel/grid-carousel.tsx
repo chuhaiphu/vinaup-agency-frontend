@@ -67,7 +67,7 @@ export default function GridCarousel<T extends { id: string | number }>({
   )
 
   return (
-    <div className={classes.section}>
+    <div className={classes.gridCarouselRoot}>
       <SectionHeader
         title={title}
         subtitle={subtitle}

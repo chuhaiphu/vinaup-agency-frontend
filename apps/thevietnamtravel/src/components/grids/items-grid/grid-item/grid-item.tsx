@@ -1,9 +1,9 @@
 import ImageCard from "@/components/primitives/image-card/image-card";
-import { IGenericGridItem } from "@/interfaces/grid-interface";
+import { GenericGridItem } from "@/interfaces/grid-interfaces";
 import { Route } from "next";
 
 interface GridItemProps {
-  item: IGenericGridItem;
+  item: GenericGridItem;
 }
 
 export default function GridItem({ item }: GridItemProps) {

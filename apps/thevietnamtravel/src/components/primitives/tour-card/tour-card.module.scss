@@ -1,4 +1,4 @@
-.tourCard {
+.tourCardRoot {
   overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   background-color: var(--vinaup-white, #fff);
@@ -48,10 +48,22 @@
 
     .footer {
 
+      .priceWrapper {
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+      }
+
       .price {
-        font-weight: 500;
+        font-weight: 700;
         color: var(--vinaup-black, #333);
         font-size: 1.125rem;
+      }
+
+      .originalPrice {
+        font-size: 0.875rem;
+        color: var(--vinaup-gray, #888);
+        text-decoration: line-through;
       }
     }
   }

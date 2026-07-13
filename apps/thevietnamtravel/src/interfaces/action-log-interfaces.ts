@@ -1,6 +1,6 @@
 export type ActionType = 'CREATE' | 'UPDATE' | 'DELETE';
 
-export interface IActionLog {
+export interface ActionLog {
   id: string;
   userId: string | null;
   action: ActionType;
@@ -10,7 +10,7 @@ export interface IActionLog {
   createdAt: Date;
 }
 
-export interface ICreateActionLog {
+export interface CreateActionLog {
   userId?: string | null;
   action: ActionType;
   entityType: string;

@@ -1,10 +1,10 @@
-export interface ICreateUser {
+export interface CreateUser {
   email: string;
   password: string;
   name?: string;
 };
 
-export interface IUserResponse {
+export interface UserResponse {
   id: string;
   email: string;
   name: string | null;
@@ -12,7 +12,7 @@ export interface IUserResponse {
   createdAt?: string;
 }
 
-export interface IUpdatePassword {
+export interface UpdatePassword {
   userId: string;
   newPassword: string;
 }

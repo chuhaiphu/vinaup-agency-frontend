@@ -44,3 +44,6 @@ export { default as VinaupSendIcon } from './vinaup-send-icon';
 export { default as VinaupSupplierIcon } from './vinaup-supplier-icon';
 export { default as VinaupDirectoryIcon } from './vinaup-directory-icon';
 export { default as VinaupShareIcon } from './vinaup-share-icon';
+export { default as VinaupVerifiedIcon } from './vinaup-verified-icon';
+export { default as VinaupHomeIconV2 } from './vinaup-home-icon-v2';
+export { default as VinaupKeyIcon } from './vinaup-key-icon';

@@ -25,7 +25,7 @@ export default function ParallaxSection({
 }: ParallaxSectionProps) {
     return (
         <Box
-            className={classes.parallaxWrapper}
+            className={classes.parallaxSectionRoot}
             style={{
                 '--bg-image': `url(${backgroundImage})`,
                 minHeight: minHeight,
