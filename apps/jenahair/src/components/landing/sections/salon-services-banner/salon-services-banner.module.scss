@@ -43,8 +43,8 @@
 }
 
 .subtitle {
-  // Solid white (not 0.9 opacity) on --vinaup-amber-dark → 5.38:1. A reduced
-  // opacity here would drop below AA, so keep it fully opaque.
+  // Solid white (not 0.9 opacity) on --vinaup-amber-dark → 5.38:1.
+  // A reduced opacity here would drop below AA, so keep it fully opaque.
   color: var(--vinaup-white);
   font-size: clamp(1rem, 1.5vw, 1.375rem);
   margin: 0 0 2rem 0;
